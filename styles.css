@@ -1,0 +1,11 @@
+@charset "UTF-8";
+/* v1.0.61 stylesheet manifest */
+@import url("css/common.css?v=1.0.61");
+@import url("css/editor.css?v=1.0.61");
+@import url("css/post-detail.css?v=1.0.61");
+@import url("css/account.css?v=1.0.61");
+@import url("css/responsive.css?v=1.0.61");
+
+/* v1.0.47 人格詳細・投稿詳細でのイサン画像 */
+.detail-identity-card.has-identity-image,.detail-party-card.has-identity-image{background-size:cover!important;background-position:center!important;color:#fff!important}
+.detail-identity-card.has-identity-image>*,.detail-party-card.has-identity-image>*{position:relative;z-index:1;color:#fff!important;text-shadow:0 1px 3px #000}

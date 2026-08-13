@@ -1,0 +1,946 @@
+/* Posting editor and selection workspace. */
+.filter-chip,.tag,.post-pack-list span,.tag-row button{border:1px solid var(--line);background:#fff;padding:6px 9px;font-size:11px}.mini-identities,.post-pack-list{display:flex;gap:6px;flex-wrap:wrap;margin:18px 0}.modal::backdrop,.post-workspace::backdrop{background:rgba(25,20,14,.68);backdrop-filter:blur(4px)}
+/* 投稿ワークスペース */
+.post-workspace{width:100vw;height:100vh;max-width:none;max-height:none;border:0;padding:0;background:var(--bg)}.post-workspace[open]{display:block}.post-workspace-shell{height:100vh;display:flex;flex-direction:column}.workspace-header{height:76px;padding:0 26px;border-bottom:1px solid var(--line);background:#fff;display:flex;justify-content:space-between;align-items:center}.workspace-brand,.workspace-header-actions{display:flex;align-items:center;gap:12px}.workspace-brand strong,.workspace-brand small{display:block}.workspace-brand small{font-size:9px;color:var(--gold);letter-spacing:.18em;margin-top:4px}.workspace-body{display:grid;grid-template-columns:280px 1fr;min-height:0;flex:1}.post-steps{background:#fff;border-right:1px solid var(--line);padding:26px 20px;overflow:auto}.step-intro{padding:0 10px 20px;border-bottom:1px solid var(--line)}.step-intro small{color:var(--gold);letter-spacing:.18em}.step-intro strong{display:block;font:26px Georgia,"Yu Mincho",serif;margin:8px 0}.step-intro p,.post-guide-note p{color:var(--muted);font-size:12px;line-height:1.7}.step-link{width:100%;display:flex;gap:14px;align-items:center;text-align:left;padding:16px 10px;border:0;border-bottom:1px solid var(--line);background:#fff;cursor:pointer}.step-link>span{font:18px Georgia;color:#b9ae9e}.step-link strong,.step-link small{display:block}.step-link small{color:var(--muted);margin-top:4px}.step-link.active{color:var(--gold);border-left:3px solid var(--gold);background:var(--paper2)}.step-link.active>span{color:var(--gold)}.post-stage{min-width:0;display:flex;flex-direction:column;padding:28px 36px 0;overflow:auto}.stage-heading{display:flex;justify-content:space-between;align-items:end;padding-bottom:18px;border-bottom:1px solid var(--line)}.stage-heading small{color:var(--gold);font-weight:800;letter-spacing:.15em}.stage-heading h2{font:34px Georgia,"Yu Mincho",serif;margin:6px 0}.stage-heading p{margin:0;color:var(--muted)}.selection-counter{text-align:right}.selection-counter span,.selection-counter strong{display:block}.selection-counter span{font-size:11px;color:var(--muted)}.selection-counter strong{font:24px Georgia}.post-step{display:none;padding:22px 0;flex:1}.post-step.active{display:block}.party-name-bar{min-height:72px;background:linear-gradient(90deg,#2a241c,#1d1914);border:2px solid #8e6725;box-shadow:inset 0 0 0 2px #3e3324;color:#fff;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:14px;padding:12px 20px}.party-name-bar label{font-size:12px;color:#d4b97b}.party-name-bar input{border:0;border-bottom:1px solid #82652f;background:transparent;color:#fff;font-size:23px;font-weight:800;outline:0;padding:8px}.party-name-bar input::placeholder{color:#e5ddcf}.party-name-bar.compact{grid-template-columns:1fr auto auto}.identity-workbench{display:grid;grid-template-columns:190px 1fr;gap:18px;margin-top:18px}.identity-filters{border-right:1px solid var(--line);padding-right:18px}.identity-filters label{display:block;font-size:11px;color:var(--muted);margin-top:18px}.identity-filters select,.identity-filters input{width:100%;margin-top:7px;padding:11px;border:1px solid var(--line);background:#fff}.identity-filters p{font-size:11px;color:var(--muted);line-height:1.7;margin-top:24px}.identity-toolbar{display:flex;justify-content:space-between;margin-bottom:12px}.identity-toolbar strong{font:22px Georgia}.identity-card-grid{display:grid;grid-template-columns:repeat(6,minmax(110px,1fr));gap:10px}.identity-card{position:relative;min-height:190px;border:2px solid #b98a32;background:linear-gradient(145deg,var(--card-a),var(--card-b));color:#fff;padding:12px;display:flex;flex-direction:column;justify-content:space-between;text-align:left;cursor:pointer;overflow:hidden}.identity-card:before{content:"";position:absolute;inset:0;background:linear-gradient(transparent 35%,rgba(0,0,0,.82));}.identity-card>*{position:relative}.identity-card .identity-number{font:11px Georgia;color:#ffe2a0}.identity-card .identity-monogram{font:64px Georgia;align-self:center;opacity:.72;text-shadow:0 4px 18px rgba(0,0,0,.4)}.identity-card strong{font-size:13px;line-height:1.35}.identity-card small{display:block;color:#e7d8bb;margin-top:4px}.identity-card.selected{outline:4px solid var(--gold2);outline-offset:-4px;box-shadow:0 0 0 2px #fff,0 0 22px rgba(207,148,31,.6)}.identity-card.selected:after{content:"✓";position:absolute;right:7px;top:7px;width:26px;height:26px;border-radius:50%;background:var(--gold);display:grid;place-items:center;font-weight:900}.workspace-footer{position:sticky;bottom:0;background:rgba(251,250,246,.96);border-top:1px solid var(--line);padding:16px 0;display:flex;justify-content:space-between;gap:12px}.workspace-footer>div{display:flex;gap:10px}
+
+/* 囚人 → 人格の二段階選択 */
+.sinner-select-view,.identity-select-view{margin-top:18px}
+.identity-toolbar>div strong,.identity-toolbar>div small{display:block}
+.identity-toolbar>div small{margin-top:5px;color:var(--muted);font-size:12px}
+.identity-select-header{display:grid;grid-template-columns:auto 1fr minmax(220px,auto);align-items:center;gap:20px;padding:16px 0;border-bottom:1px solid var(--line);margin-bottom:18px}
+.identity-select-header small{color:var(--gold);letter-spacing:.14em}
+.identity-select-header h3{font:28px Georgia,"Yu Mincho",serif;margin:4px 0 0}
+.identity-option-grid{display:grid;grid-template-columns:repeat(6,minmax(125px,1fr));gap:12px}
+.identity-option-card{position:relative;min-height:230px;padding:12px;border:2px solid #a97725;background:linear-gradient(150deg,var(--card-a),var(--card-b));color:#fff;display:flex;flex-direction:column;text-align:left;cursor:pointer;overflow:hidden}
+.identity-option-card:before{content:"";position:absolute;inset:0;background:linear-gradient(transparent 32%,rgba(0,0,0,.92))}
+.identity-option-card>*{position:relative;z-index:1}
+.identity-rarity{font:18px Georgia,serif;color:#f1bd37;letter-spacing:-.12em}
+.identity-placeholder{font:64px Georgia,serif;align-self:center;margin:auto;opacity:.38;text-shadow:0 5px 20px #000}
+.identity-option-card strong{font-size:13px;line-height:1.4}
+.identity-option-card small{color:#dacfb9;margin-top:5px}
+.identity-option-card.selected{outline:4px solid #f0b928;outline-offset:-5px;box-shadow:0 0 0 2px #fff,0 0 20px rgba(207,148,31,.55)}
+.identity-option-card.selected:after{content:"SELECTED";position:absolute;left:0;right:0;top:46px;z-index:2;padding:8px;background:rgba(190,55,12,.92);text-align:center;font-weight:900;color:#fff}
+.identity-data-note{font-size:11px;color:var(--muted);margin:16px 0 0}
+
+/* E.G.O selection */
+.ego-sinner-grid{display:grid;grid-template-columns:repeat(4,minmax(180px,1fr));gap:12px;margin-top:14px}
+.ego-sinner-card{min-height:150px;padding:16px;border:2px solid #a97725;background:linear-gradient(150deg,var(--card-a),var(--card-b));color:#fff;text-align:left;display:flex;flex-direction:column;gap:7px;cursor:pointer;position:relative;overflow:hidden}
+.ego-sinner-card:before{content:"";position:absolute;inset:0;background:linear-gradient(transparent,rgba(0,0,0,.82))}.ego-sinner-card>*{position:relative;z-index:1}.ego-sinner-card strong{font-size:20px}.ego-sinner-card small{color:#e8dcc2}.ego-sinner-card em{font-style:normal;font-size:11px;line-height:1.55;color:#f4d993;margin-top:auto}.ego-sinner-card.selected{outline:3px solid #efb72a;outline-offset:-5px}
+.ego-option-grid{display:grid;grid-template-columns:repeat(5,minmax(140px,1fr));gap:14px;margin-top:18px}
+.ego-option-card{min-height:220px;border:2px solid #8c6a34;background:#211c16;color:#fff;padding:14px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:8px;text-align:center;cursor:pointer;position:relative;overflow:hidden}
+.ego-option-card:before{content:"";position:absolute;width:126px;height:126px;border-radius:50%;top:18px;background:radial-gradient(circle at 35% 30%,rgba(255,255,255,.35),transparent 26%),radial-gradient(circle at center,var(--ego-glow),#15120f 72%);border:3px solid #b88a3c;box-shadow:0 0 22px var(--ego-glow)}
+.ego-option-card>*{position:relative;z-index:1}.ego-orb{position:absolute;top:67px;font:700 16px Georgia;color:rgba(255,255,255,.78);letter-spacing:.08em}.ego-rank{padding:4px 10px;background:#d29b22;color:#1d160d;font-weight:900;letter-spacing:.08em}.ego-option-card strong{font-size:14px;line-height:1.35}.ego-option-card small{color:#d6c8af}.ego-option-card.selected{outline:4px solid #f0b928;outline-offset:-5px;box-shadow:0 0 22px rgba(207,148,31,.5)}.ego-option-card.selected:after{content:"SELECTED";position:absolute;left:0;right:0;top:82px;padding:7px;background:rgba(190,55,12,.92);font-weight:900;z-index:2}
+.identity-option-card .identity-rarity{letter-spacing:.14em}
+.identity-filter-panel{margin:0 0 18px;padding:16px;border:1px solid var(--line);background:#fff}
+.identity-filter-top{display:grid;grid-template-columns:minmax(190px,1.5fr) 130px minmax(190px,1fr) auto auto;gap:10px;align-items:end}
+.identity-filter-top label>span{display:block;margin-bottom:6px;font-size:11px;color:var(--muted)}
+.identity-filter-top input[type=search],.identity-filter-top select{width:100%;min-height:42px;border:1px solid var(--line);background:var(--paper2);padding:9px 11px}
+.identity-filter-reset{min-height:42px;padding-inline:12px}
+.identity-keyword-filter-list{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}
+.identity-filter-result{display:flex;justify-content:space-between;gap:12px;margin-top:12px;color:var(--muted);font-size:12px}.identity-filter-result strong{color:var(--ink)}
+.identity-keywords{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px}.identity-keywords span{display:inline-block;padding:3px 6px;border:1px solid rgba(255,226,160,.5);background:rgba(0,0,0,.26);color:#ffe7ad;font-size:10px;font-weight:800}.identity-keywords .keyword-none{opacity:.7}
+.identity-filter-empty{text-align:center;padding:30px;border:1px dashed var(--line);color:var(--muted);background:#fff}.identity-note{margin:7px 0 0;padding:6px 8px;background:rgba(0,0,0,.24);color:#ffe9b6;font-size:9px;line-height:1.5;text-align:left}.identity-confidence{display:block;margin-top:8px}
+
+/* game-style identity switching */
+.game-style-identity-select{margin-top:18px}
+.identity-roster-heading{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;margin-bottom:12px;padding:4px 0 10px;border-bottom:1px solid var(--line)}
+.identity-roster-heading small{color:var(--gold);font-weight:800;letter-spacing:.14em}
+.identity-roster-heading h3{margin:4px 0;font:26px Georgia,"Yu Mincho",serif}
+.identity-roster-heading p{margin:0;color:var(--muted);font-size:12px}
+.identity-roster-heading>strong{white-space:nowrap;font-size:13px}
+.identity-roster-heading>strong b{font-size:24px;color:var(--gold)}
+.identity-sinner-roster{display:grid;grid-template-columns:repeat(6,minmax(95px,1fr));gap:9px;margin-bottom:18px;padding:10px;border:1px solid #7b5a25;background:linear-gradient(180deg,#18130d,#080705);box-shadow:inset 0 0 0 2px #2f2415,inset 0 0 18px #000}
+.identity-sinner-button{position:relative;min-height:118px;padding:9px 7px 8px;border:1px solid #79623d;background:linear-gradient(150deg,var(--card-a),var(--card-b));color:#fff;cursor:pointer;overflow:hidden;display:flex;flex-direction:column;align-items:flex-start;text-align:left;transition:transform .15s,border-color .15s,box-shadow .15s}
+.identity-sinner-button:before{content:"";position:absolute;inset:0;background:linear-gradient(transparent 25%,rgba(0,0,0,.88))}
+.identity-sinner-button>*{position:relative;z-index:1}
+.identity-sinner-button:hover{transform:translateY(-2px);border-color:#d9a43d}
+.identity-sinner-button.active{border:2px solid #f2b526;box-shadow:0 0 0 2px #3f2910,0 0 16px rgba(242,181,38,.48)}
+.identity-sinner-button.selected:after{content:none}
+.identity-sinner-number{font:10px Georgia,serif;color:#f5cb70;letter-spacing:.08em}
+.identity-sinner-mark{align-self:center;margin:auto;font:36px Georgia,"Yu Mincho",serif;color:#fff;opacity:.7;text-shadow:0 3px 10px #000}
+.identity-sinner-button strong{width:100%;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.identity-sinner-button small{margin-top:2px;color:#d9c8a7;font-size:10px}
+.identity-sinner-selection{width:100%;min-height:2.7em;line-height:1.35;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;overflow-wrap:anywhere}
+
+
+/* 自由枠 */
+.identity-free-slot{
+  --card-a:#76613d;
+  --card-b:#211b12;
+  border-style:dashed;
+}
+.identity-free-slot .identity-sinner-number{letter-spacing:.08em;}
+.identity-free-slot .identity-sinner-mark{font-size:1.4rem;}
+.identity-free-slot.selected{
+  border-style:solid;
+  box-shadow:0 0 0 2px rgba(190,143,61,.28),0 8px 24px rgba(0,0,0,.18);
+}
+.identity-free-slot.selected::after{content:"✓";}
+
+
+/* 各囚人の人格一覧に置く自由枠 */
+.identity-option-free{border-style:dashed;background:linear-gradient(150deg,var(--card-a),var(--card-b));}
+.identity-option-free .identity-placeholder{font-size:3rem;line-height:1;margin:auto 0 18px;opacity:.88;}
+.identity-option-free strong{font-size:1.05rem;}
+.identity-option-free.selected:after{content:"FREE SLOT";}
+
+
+/* 自由枠E.G.Oとモバイル下部バー */
+.ego-free-sinner-card{cursor:default;}
+.ego-free-sinner-card.locked{filter:saturate(.72);opacity:.92;}
+.ego-free-sinner-card.enabled{border-color:var(--gold);}
+.ego-free-actions{position:relative;z-index:2;display:grid;gap:7px;margin-top:10px;}
+.ego-free-toggle,.ego-free-select{width:100%;min-height:36px;border:1px solid rgba(255,226,160,.65);padding:7px 8px;font:inherit;font-size:11px;font-weight:800;cursor:pointer;}
+.ego-free-toggle{background:rgba(0,0,0,.34);color:#ffe6a8;}
+.ego-free-select{background:#d09a2f;color:#fff;}
+.ego-free-toggle:hover,.ego-free-select:hover{filter:brightness(1.08);}
+
+
+/* desktop navigation and persistent strategy type */
+.strategy-type-badge{display:inline-flex;align-items:center;justify-content:center;max-width:190px;min-height:30px;padding:6px 11px;border:1px solid #cda24e;background:rgba(205,162,78,.14);color:#f0cf84;border-radius:999px;font-size:11px;font-weight:800;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.party-name-bar{grid-template-columns:auto minmax(0,1fr) auto auto}
+.party-name-bar.compact{grid-template-columns:minmax(0,1fr) auto auto auto}
+
+
+/* identity actions in persistent footer + mobile back fix */
+.identity-filter-panel[hidden]{display:none!important}
+.workspace-footer{align-items:center}
+.workspace-context-actions{display:flex;gap:8px;margin-left:auto}
+.workspace-main-actions{display:flex;gap:10px}
+.workspace-footer button:disabled{opacity:.45;cursor:not-allowed;filter:none}
+
+/* footer search sheet, persistent filter summary, and clear all */
+.identity-filter-panel{
+  position:fixed;
+  z-index:45;
+  left:316px;
+  right:36px;
+  bottom:82px;
+  margin:0;
+  max-height:min(68vh,620px);
+  overflow:auto;
+  box-shadow:0 -12px 38px rgba(53,38,17,.18);
+  border-color:#cdbb98;
+  animation:identity-filter-sheet-in .18s ease-out;
+}
+.identity-filter-apply{min-height:42px;padding-inline:24px}
+.workspace-context-actions{min-width:0;align-items:center;flex:1}
+.identity-active-filter-summary{min-width:0;display:flex;align-items:center;gap:8px;flex:1;overflow:hidden}
+.identity-filter-summary-label{flex:0 0 auto;color:var(--muted);font-size:10px;font-weight:800;letter-spacing:.08em}
+.identity-filter-summary-chips{display:flex;gap:5px;min-width:0;overflow-x:auto;scrollbar-width:none;padding:2px 0}
+.identity-filter-summary-chips::-webkit-scrollbar{display:none}
+.identity-footer-buttons{display:flex;gap:7px;flex:0 0 auto}
+
+/* live party keyword counts + mobile footer row separation */
+.party-keyword-summary{min-width:0;display:flex;align-items:center;gap:8px;flex:1.2;overflow:hidden}
+.party-keyword-summary-label{flex:0 0 auto;color:var(--gold);font-size:10px;font-weight:900;letter-spacing:.08em}
+.party-keyword-summary-chips{display:flex;gap:5px;min-width:0;overflow-x:auto;scrollbar-width:none;padding:2px 0}
+.party-keyword-summary-chips::-webkit-scrollbar{display:none}
+.party-keyword-chip{flex:0 0 auto;display:inline-flex;align-items:center;gap:5px;min-height:27px;padding:4px 8px;border:1px solid #cda24e;border-radius:999px;background:#fff9ec;color:#60420d;font-size:10px;white-space:nowrap}
+.party-keyword-chip b{font-weight:800}
+.party-keyword-chip strong{display:grid;place-items:center;min-width:18px;height:18px;padding:0 4px;border-radius:999px;background:#c88c1d;color:#fff;font-size:10px}
+.party-keyword-chip small{color:#8a6750;font-size:9px}
+.party-keyword-chip.free-slot-count{border-style:dashed;background:#fff}
+
+/* show every summary tag, sort high counts first, and fix mobile row overlap */
+.workspace-footer.identity-mode{
+  display:grid;
+  grid-template-columns:auto minmax(0,1fr) auto;
+  grid-template-areas:
+    "keywords keywords keywords"
+    "filters filters filters"
+    "back buttons main";
+  align-items:center;
+  row-gap:7px;
+  column-gap:10px;
+}
+.workspace-footer.identity-mode .footer-back-button{grid-area:back}
+.workspace-footer.identity-mode .workspace-context-actions{display:contents}
+.workspace-footer.identity-mode .party-keyword-summary{grid-area:keywords}
+.workspace-footer.identity-mode .identity-active-filter-summary{grid-area:filters}
+.workspace-footer.identity-mode .identity-footer-buttons{grid-area:buttons;justify-self:start}
+.workspace-footer.identity-mode .workspace-main-actions{grid-area:main;justify-self:end}
+.workspace-footer.identity-mode .party-keyword-summary,
+.workspace-footer.identity-mode .identity-active-filter-summary{
+  width:100%;
+  overflow:visible;
+  align-items:flex-start;
+}
+.workspace-footer.identity-mode .party-keyword-summary-chips,
+.workspace-footer.identity-mode .identity-filter-summary-chips{
+  flex:1;
+  flex-wrap:wrap;
+  overflow:visible;
+  justify-content:flex-start;
+  align-content:flex-start;
+  padding-right:0;
+}
+.workspace-footer.identity-mode .party-keyword-chip,
+.workspace-footer.identity-mode .filter-summary-chip,
+.workspace-footer.identity-mode .filter-summary-empty{flex:0 0 auto}
+.identity-keywords span.keyword-ammo{
+  border-color:rgba(174,202,236,.8);
+  background:rgba(38,58,83,.72);
+  color:#dcecff;
+}
+.party-keyword-chip.keyword-ammo{
+  border-color:#71829a;
+  background:#edf2f8;
+  color:#30435d;
+}
+.party-keyword-chip.keyword-ammo strong{
+  background:#586d89;
+  color:#fff;
+}
+.identity-select-header,
+.identity-sinner-roster{scroll-margin-top:96px}
+
+/* deterministic desktop scrolling and persistent E.G.O confirmation */
+.post-stage{
+  width:auto;
+  max-width:none;
+  margin:0;
+  min-height:0;
+  overscroll-behavior:contain;
+  scroll-behavior:smooth;
+}
+.ego-confirm-button{
+  flex:0 0 auto;
+  white-space:nowrap;
+}
+
+
+/* distinguish the local E.G.O confirm action from step navigation */
+.ego-confirm-button{
+  border-color:#9a7222;
+  background:#fffdf8;
+  color:#8b6519;
+  box-shadow:none;
+}
+.ego-confirm-button:hover{
+  background:#f8f1e2;
+  border-color:#b78322;
+}
+.ego-confirm-button:focus-visible{
+  outline:3px solid rgba(183,131,34,.25);
+  outline-offset:2px;
+}
+.workspace-main-actions [data-next-step]{
+  font-weight:700;
+}
+
+/* persistent editable title bar and E.G.O controls */
+.workspace-titlebar{
+  flex:0 0 auto;
+  min-height:70px;
+  padding:10px 26px;
+  display:grid;
+  grid-template-columns:minmax(280px,1fr) auto auto;
+  align-items:center;
+  gap:14px;
+  background:rgba(255,255,255,.97);
+  border-bottom:1px solid var(--line);
+  box-shadow:0 8px 22px rgba(57,40,17,.05);
+  z-index:35;
+}
+.workspace-title-field{
+  min-width:0;
+  display:grid;
+  grid-template-columns:auto minmax(0,1fr) auto;
+  align-items:center;
+  gap:10px;
+}
+.workspace-title-field>span:first-child{
+  color:var(--muted);
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:.08em;
+  white-space:nowrap;
+}
+.workspace-title-field input{
+  min-width:0;
+  width:100%;
+  border:0;
+  border-bottom:1px solid transparent;
+  background:transparent;
+  padding:7px 4px;
+  color:var(--ink);
+  font:600 20px Georgia,"Yu Mincho",serif;
+  outline:0;
+}
+.workspace-title-field input:hover{border-bottom-color:var(--line)}
+.workspace-title-field input:focus{border-bottom-color:var(--gold)}
+.workspace-step-status{
+  min-width:135px;
+  padding-left:16px;
+  border-left:1px solid var(--line);
+  display:grid;
+  grid-template-columns:1fr auto;
+  align-items:center;
+  gap:2px 12px;
+}
+.workspace-step-status small{grid-column:1/-1;color:var(--gold);font-size:9px;letter-spacing:.12em}
+.workspace-step-status strong{font-size:12px;white-space:nowrap}
+.workspace-step-status span{font:18px Georgia;color:var(--muted)}
+
+.ego-select-header{grid-template-columns:minmax(220px,auto) minmax(0,1fr);gap:24px}
+.ego-current-selection{min-width:0;text-align:left}
+.ego-summary-tags{display:flex;justify-content:flex-end;gap:7px;flex-wrap:wrap;margin-top:6px}
+.ego-summary-tag{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  min-height:30px;
+  padding:4px 9px 4px 5px;
+  border:1px solid currentColor;
+  background:#fff;
+  font-size:11px;
+  line-height:1.25;
+  white-space:nowrap;
+}
+.ego-summary-tag b{padding:4px 6px;font-size:9px;letter-spacing:.08em;background:currentColor;color:#fff}
+.ego-summary-tag.rank-zayin{color:#a87808;background:#fffaf0}
+.ego-summary-tag.rank-teth{color:#70449b;background:#fbf7ff}
+.ego-summary-tag.rank-he{color:#257395;background:#f4fbfe}
+.ego-summary-tag.rank-waw{color:#a63a2c;background:#fff7f5}
+.ego-summary-tag.rank-aleph{color:#28231f;background:#f6f4f2}
+.ego-summary-empty{color:var(--muted);font-size:12px}
+
+.ego-footer-actions{display:flex;gap:8px;align-items:center}
+.workspace-footer.ego-mode{display:grid;grid-template-columns:auto auto minmax(0,1fr) auto;align-items:center}
+.workspace-footer.ego-mode .footer-back-button{grid-column:1}
+.workspace-footer.ego-mode .ego-footer-actions{grid-column:2}
+.workspace-footer.ego-mode .ego-confirm-button{grid-column:3;justify-self:end}
+.workspace-footer.ego-mode .workspace-main-actions{grid-column:4}
+
+/* title bar contrast, readable E.G.O tags and consistent E.G.O actions */
+.workspace-titlebar{
+  background:linear-gradient(135deg,#241f1a 0%,#171411 100%);
+  border-bottom-color:#b98727;
+  box-shadow:0 8px 24px rgba(31,22,13,.24);
+  color:#fff8e8;
+}
+.workspace-title-field>span:first-child{color:#d8c7a8}
+.workspace-title-field input{color:#fff8e8}
+.workspace-title-field input::placeholder{color:#c8baa4;opacity:.82}
+.workspace-title-field input:hover{border-bottom-color:#8f7754}
+.workspace-title-field input:focus{border-bottom-color:#e0aa3b}
+.workspace-titlebar>.strategy-type-badge{
+  color:#f2c55e;
+  border-color:#c79532;
+  background:rgba(201,149,50,.12);
+}
+.workspace-step-status{border-left-color:#5b4c39}
+.workspace-step-status small{color:#e0aa3b}
+.workspace-step-status strong{color:#fff8e8}
+.workspace-step-status span{color:#d8c7a8}
+
+/* currentColor was turning the rank block white; use explicit rank variables instead. */
+.ego-summary-tag{--rank-color:#7a6b5c;color:var(--rank-color);background:#fff}
+.ego-summary-tag b{background:var(--rank-color);color:#fff!important}
+.ego-summary-tag.rank-zayin{--rank-color:#a87808;color:#7d5900;background:#fffaf0}
+.ego-summary-tag.rank-teth{--rank-color:#70449b;color:#5e3289;background:#fbf7ff}
+.ego-summary-tag.rank-he{--rank-color:#257395;color:#155d7b;background:#f4fbfe}
+.ego-summary-tag.rank-waw{--rank-color:#a63a2c;color:#8d281d;background:#fff7f5}
+.ego-summary-tag.rank-aleph{--rank-color:#28231f;color:#28231f;background:#f6f4f2}
+
+/* Confirm is a local, potentially easy-to-confuse action: make it unmistakably red. */
+.ego-confirm-button,
+.ego-confirm-button:hover{
+  border-color:#9f2b1e;
+  background:#b93320;
+  color:#fff;
+  box-shadow:0 5px 14px rgba(185,51,32,.22);
+}
+.ego-confirm-button:hover{background:#a72c1c;border-color:#8f2116}
+.ego-confirm-button:focus-visible{outline:3px solid rgba(185,51,32,.28)}
+
+/* On the sinner list, keep the global E.G.O clear action available without reserving space for local confirm. */
+.workspace-footer.ego-mode{grid-template-columns:auto auto minmax(0,1fr) auto}
+
+
+/* show each sinner's selected E.G.O with the same ranked tags used in the detail view. */
+.ego-card-summary{
+  justify-content:flex-start;
+  align-content:flex-start;
+  gap:5px;
+  margin-top:auto;
+}
+.ego-card-summary .ego-summary-tag{
+  min-height:24px;
+  padding:2px 6px 2px 3px;
+  gap:5px;
+  font-size:9px;
+  max-width:100%;
+}
+.ego-card-summary .ego-summary-tag b{
+  padding:3px 4px;
+  font-size:7px;
+  flex:0 0 auto;
+}
+.ego-card-summary .ego-summary-tag span:last-child{
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.ego-card-summary .ego-summary-empty{
+  color:#f4d993;
+  font-size:11px;
+}
+.ego-free-sinner-card .ego-card-summary{margin-top:6px}
+.ego-footer-actions [data-clear-all-egos]{
+  max-width:100%;
+  white-space:normal;
+  overflow-wrap:anywhere;
+  line-height:1.35;
+  text-align:center;
+}
+
+/* mobile search affordances and visual action hierarchy */
+.identity-filter-section-title{
+  margin:2px 0 8px;
+  color:var(--gold);
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+}
+.identity-filter-section-title-wide{grid-column:1/-1;margin-top:6px}
+.identity-filter-scroll-hint{
+  position:sticky;
+  top:0;
+  z-index:4;
+  margin:-6px -4px 10px;
+  padding:7px 10px;
+  border-radius:6px;
+  background:rgba(28,24,20,.88);
+  color:#fff;
+  text-align:center;
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:.08em;
+  pointer-events:none;
+}
+.identity-filter-panel.is-closing{animation:identity-filter-sheet-out .18s ease-in forwards}
+.identity-footer-buttons [data-toggle-identity-search]{
+  position:relative;
+  border-color:#326f9f;
+  background:#327fb8;
+  color:#fff;
+}
+.identity-footer-buttons [data-toggle-identity-search]:hover{filter:brightness(1.05)}
+.identity-footer-buttons [data-toggle-identity-search].has-active-filters::after{
+  content:"";
+  position:absolute;
+  top:5px;
+  right:6px;
+  width:7px;
+  height:7px;
+  border:2px solid #fff;
+  border-radius:50%;
+  background:#e9a91b;
+  box-shadow:0 0 0 1px rgba(0,0,0,.12);
+}
+
+/* visually complete mobile identity search sheet */
+.identity-filter-sheet-footer{display:none}
+
+/* mandatory Normal/Hard selection and synchronized strategy symbols */
+.workspace-badges{display:flex;align-items:center;gap:8px;min-width:0;flex-wrap:wrap}
+
+/* 編成順 */
+.formation-order-badge{position:absolute;right:6px;top:6px;z-index:4;min-width:28px;height:28px;padding:0 7px;border-radius:999px;display:grid;place-items:center;background:#e6a81d;color:#171006;border:2px solid #ffe29a;box-shadow:0 2px 8px rgba(0,0,0,.45);font-weight:900;font-size:14px;line-height:1}
+.identity-card-order{right:8px;top:8px}
+.ego-sinner-card{position:relative}
+.ego-order-badge{right:8px;top:8px}
+
+
+/* formation step and tag details */
+.formation-order-panel{display:grid;gap:18px}
+.formation-order-heading{display:flex;justify-content:space-between;gap:20px;align-items:flex-start;padding:18px;border:1px solid rgba(224,184,105,.3);background:rgba(15,13,11,.75)}
+.formation-order-heading h3{margin:3px 0 6px}.formation-order-heading p{margin:0;color:var(--muted);max-width:680px}.formation-order-heading>strong{white-space:nowrap;color:#f2d49a}
+.formation-selected-strip{display:flex;gap:8px;flex-wrap:wrap;min-height:54px;padding:12px;border:1px dashed rgba(224,184,105,.35);align-items:center}
+.formation-selected-chip{display:grid;grid-template-columns:28px auto;column-gap:8px;align-items:center;padding:8px 10px;background:#231c14;border:1px solid #8a6738}.formation-selected-chip b{grid-row:1/3;display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:#e6a81d;color:#171006}.formation-selected-chip small{color:var(--muted);max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.formation-empty,.tag-empty{color:var(--muted)}
+.formation-choice-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:12px}
+.formation-choice-card{position:relative;min-height:116px;padding:16px;text-align:left;border:1px solid rgba(224,184,105,.28);background:linear-gradient(145deg,#28231d,#12100e);color:inherit}.formation-choice-card:hover,.formation-choice-card.selected{border-color:#e6a81d}.formation-choice-card strong,.formation-choice-card small{display:block}.formation-choice-card small{margin-top:5px;color:var(--muted)}.formation-choice-number{display:block;margin-bottom:16px;color:#c6a66f;font-size:12px}.formation-choice-plus{position:absolute;right:10px;top:10px;font-size:22px;color:#c6a66f}.formation-reset{justify-self:start}
+
+
+/* readability pass */
+.formation-order-panel{gap:14px;color:#211a12}
+.formation-order-heading{padding:18px 20px;border:1px solid #d9c39d;background:#fff;color:#211a12}
+.formation-order-heading p{color:#746958}.formation-order-heading>strong{color:#9b6500}
+.formation-selected-strip{min-height:46px;padding:9px 12px;border-color:#d8c29a;background:#fff}
+.formation-selected-chip{display:inline-flex;align-items:center;gap:8px;padding:6px 10px;background:#fff;border:1px solid #d6c5aa;color:#211a12}
+.formation-selected-chip b{width:26px;height:26px;flex:0 0 26px}
+.formation-selected-chip.order-yellow b{background:#f4b51d;color:#211600;border:1px solid #d49000}
+.formation-selected-chip.order-blue b{background:#2879c7;color:#fff;border:1px solid #155899}
+.formation-choice-grid{grid-template-columns:repeat(6,minmax(0,1fr));gap:10px}
+.formation-choice-card{min-width:0;min-height:108px;padding:14px;background:#fff;color:#211a12;border:1px solid #d6c5aa}
+.formation-choice-card:hover{border-color:#d49316;background:#fffaf0}.formation-choice-card.selected{border-width:2px;background:#fffdf8}
+.formation-choice-card small{color:#746958;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.formation-choice-number{margin-bottom:14px;color:#946300}
+.formation-choice-plus{color:#b67b0d}.formation-order-badge{background:#f4b51d;color:#211600;border-color:#ffe59c;box-shadow:none}
+.formation-choice-card.order-blue .formation-order-badge{background:#2879c7;color:#fff;border-color:#9fd0ff}
+
+/* mobile grid consistency, simplified formation cards, keyword colors */
+.formation-selected-strip{
+  display:grid;
+  grid-template-columns:repeat(6,minmax(0,1fr));
+  gap:10px;
+  align-items:stretch;
+}
+.formation-selected-chip{
+  width:100%;
+  min-width:0;
+  box-sizing:border-box;
+}
+.formation-selected-chip>span{
+  min-width:0;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.formation-choice-card{
+  position:relative;
+  display:grid;
+  grid-template-columns:auto 1fr;
+  grid-template-areas:
+    "badge label"
+    "name name"
+    "identity identity";
+  align-content:start;
+  gap:8px 10px;
+}
+.formation-choice-card .formation-order-badge,
+.formation-choice-card .formation-choice-plus{grid-area:badge}
+.formation-card-label{grid-area:label;align-self:center;color:#8a6a35;font-size:12px;font-weight:800}
+.formation-choice-card>strong{grid-area:name}
+.formation-choice-card>small{grid-area:identity}
+.formation-choice-number{display:none!important}
+
+.button,.step-link,.identity-option-card,.formation-choice-card,.selectable-tag,.keyword-filter-chip,.automatic-keyword-tag{
+  transition:transform var(--motion-fast) ease,border-color var(--motion-fast) ease,background-color var(--motion-fast) ease,box-shadow var(--motion-fast) ease,opacity var(--motion-fast) ease;
+}
+.button:active,.identity-option-card:active,.formation-choice-card:active,.selectable-tag:active,.keyword-filter-chip:active{transform:translateY(1px) scale(.99)}
+.post-step.active{animation:stage-in var(--motion-normal) ease both}
+
+/* デスクトップで編成番号がカード外へはみ出さないよう、通常フロー内に固定 */
+.formation-choice-card{overflow:hidden;isolation:isolate;min-width:0}
+.formation-choice-card .formation-order-badge,
+.formation-choice-card .formation-choice-plus{
+  position:static!important;inset:auto!important;justify-self:start;align-self:start;
+  width:30px;min-width:30px;max-width:30px;height:30px;padding:0;box-sizing:border-box;
+  overflow:hidden;white-space:nowrap;
+}
+.formation-choice-card .formation-card-label{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.formation-choice-card>strong,.formation-choice-card>small{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+:is(.identity-keywords span,.conditional-keyword i,.keyword-loss-condition i,.party-keyword-chip,.keyword-filter-chip,.automatic-keyword-tag)[data-keyword="火傷"]{background:var(--keyword-burn-bg);border-color:var(--keyword-burn-border);color:var(--keyword-burn-text)}
+:is(.identity-keywords span,.conditional-keyword i,.keyword-loss-condition i,.party-keyword-chip,.keyword-filter-chip,.automatic-keyword-tag)[data-keyword="出血"]{background:var(--keyword-bleed-bg);border-color:var(--keyword-bleed-border);color:var(--keyword-bleed-text)}
+:is(.identity-keywords span,.conditional-keyword i,.keyword-loss-condition i,.party-keyword-chip,.keyword-filter-chip,.automatic-keyword-tag)[data-keyword="振動"]{background:var(--keyword-tremor-bg);border-color:var(--keyword-tremor-border);color:var(--keyword-tremor-text)}
+:is(.identity-keywords span,.conditional-keyword i,.keyword-loss-condition i,.party-keyword-chip,.keyword-filter-chip,.automatic-keyword-tag)[data-keyword="破裂"]{background:var(--keyword-rupture-bg);border-color:var(--keyword-rupture-border);color:var(--keyword-rupture-text)}
+:is(.identity-keywords span,.conditional-keyword i,.keyword-loss-condition i,.party-keyword-chip,.keyword-filter-chip,.automatic-keyword-tag)[data-keyword="沈潜"]{background:var(--keyword-sinking-bg);border-color:var(--keyword-sinking-border);color:var(--keyword-sinking-text)}
+:is(.identity-keywords span,.conditional-keyword i,.keyword-loss-condition i,.party-keyword-chip,.keyword-filter-chip,.automatic-keyword-tag)[data-keyword="呼吸"]{background:var(--keyword-poise-bg);border-color:var(--keyword-poise-border);color:var(--keyword-poise-text)}
+:is(.identity-keywords span,.conditional-keyword i,.keyword-loss-condition i,.party-keyword-chip,.keyword-filter-chip,.automatic-keyword-tag)[data-keyword="充電"]{background:var(--keyword-charge-bg);border-color:var(--keyword-charge-border);color:var(--keyword-charge-text)}
+:is(.identity-keywords span,.conditional-keyword i,.keyword-loss-condition i,.party-keyword-chip,.keyword-filter-chip,.automatic-keyword-tag)[data-keyword="弾丸"]{background:#171717;border-color:#171717;color:#fff}
+.identity-keywords span,.conditional-keyword i,.keyword-loss-condition i{border:1px solid currentColor;border-radius:999px;padding:3px 7px;font-style:normal}
+.party-keyword-chip[data-keyword] strong{background:currentColor;color:#fff}
+
+/* reported desktop fixes */
+/* 空状態の文言を白背景でも確実に読める色へ固定 */
+.workspace-footer .filter-summary-empty,
+.workspace-footer .party-keyword-summary .filter-summary-empty{
+  color:#5f5548;
+  background:#fff;
+  border-color:#d8cfc1;
+  opacity:1;
+}
+
+/* visible keyword counts + true viewport-centered desktop identity search */
+/* Count bubbles stay readable on every light keyword chip. */
+.party-keyword-chip[data-keyword] strong{
+  background:#fff!important;
+  color:#171717!important;
+  border:1px solid rgba(23,23,23,.34);
+  box-shadow:0 1px 2px rgba(0,0,0,.08);
+}
+.party-keyword-chip[data-keyword="弾丸"] strong{
+  background:#fff!important;
+  color:#171717!important;
+  border-color:#fff;
+}
+
+/* mobile identity-search viewport anchoring fix */
+/* The active-step entrance transform also creates a containing block on mobile.
+   Remove it for the identity step so the fixed search sheet is always measured
+   from the actual viewport, not from the scrolling post-stage. */
+.post-step[data-post-step="2"].active{
+  animation:none!important;
+  transform:none!important;
+}
+html[data-theme="dark"] .site-header,
+html[data-theme="dark"] .workspace-header,
+html[data-theme="dark"] .post-steps{
+  background:var(--header-bg);
+}
+html[data-theme="dark"] .hero-description,
+html[data-theme="dark"] .post-card p,
+html[data-theme="dark"] .manager-note p,
+html[data-theme="dark"] .stage-heading p,
+html[data-theme="dark"] .step-intro p,
+html[data-theme="dark"] .post-guide-note p,
+html[data-theme="dark"] .selection-counter span,
+html[data-theme="dark"] .step-link small,
+html[data-theme="dark"] .selector-copy small,
+html[data-theme="dark"] .selector-copy em,
+html[data-theme="dark"] .card-meta,
+html[data-theme="dark"] .card-footer,
+html[data-theme="dark"] .post-card-head,
+html[data-theme="dark"] .post-bottom{
+  color:var(--muted)!important;
+}
+html[data-theme="dark"] .home-hero h1,
+html[data-theme="dark"] .section-heading h2,
+html[data-theme="dark"] .category-heading h2,
+html[data-theme="dark"] .post-card h3,
+html[data-theme="dark"] .featured-content h3,
+html[data-theme="dark"] .stage-heading h2,
+html[data-theme="dark"] .step-intro strong,
+html[data-theme="dark"] .workspace-brand strong,
+html[data-theme="dark"] .step-link strong{
+  color:var(--ink);
+}
+html[data-theme="dark"] .post-workspace,
+html[data-theme="dark"] .post-stage,
+html[data-theme="dark"] .workspace-body{
+  background:var(--bg)!important;
+  color:var(--ink)!important;
+}
+html[data-theme="dark"] .step-link{
+  background:transparent;
+  color:var(--ink);
+  border-color:var(--line);
+}
+html[data-theme="dark"] .step-link:hover,
+html[data-theme="dark"] .step-link.active{
+  background:var(--paper2);
+}
+html[data-theme="dark"] .tag,
+html[data-theme="dark"] .filter-chip,
+html[data-theme="dark"] .post-pack-list span,
+html[data-theme="dark"] .tag-row button,
+html[data-theme="dark"] .strategy-tag-button,
+html[data-theme="dark"] .affiliation-tag-button{
+  background:#20262e!important;
+  color:#e4e7eb!important;
+  border-color:#4a5562!important;
+}
+html[data-theme="dark"] .workspace-footer{
+  background:linear-gradient(to top,var(--bg) 76%,rgba(20,23,28,.92))!important;
+  box-shadow:0 -10px 24px rgba(0,0,0,.24)!important;
+}
+html[data-theme="dark"] .button-primary,
+html[data-theme="dark"] .next-step-button{
+  color:#fff!important;
+}
+html[data-theme="dark"] .brand-copy strong,
+html[data-theme="dark"] .workspace-brand strong{color:#f2efe8!important}
+html[data-theme="dark"] .brand-copy small,
+html[data-theme="dark"] .workspace-brand small{color:#d0a64b!important}
+
+/* Step 3: formation order surfaces */
+html[data-theme="dark"] .formation-order-panel{color:#e8e8e8!important}
+html[data-theme="dark"] .formation-order-heading,
+html[data-theme="dark"] .formation-selected-strip,
+html[data-theme="dark"] .formation-choice-card{
+  background:#1d2128!important;
+  color:#e8e8e8!important;
+  border-color:#3c4652!important;
+}
+html[data-theme="dark"] .formation-order-heading p,
+html[data-theme="dark"] .formation-choice-card small,
+html[data-theme="dark"] .formation-empty{color:#b7b7b7!important}
+html[data-theme="dark"] .formation-order-heading>strong,
+html[data-theme="dark"] .formation-card-label,
+html[data-theme="dark"] .formation-choice-plus{color:#d0a64b!important}
+html[data-theme="dark"] .formation-choice-card:hover,
+html[data-theme="dark"] .formation-choice-card.selected{background:#242a32!important;border-color:#d0a64b!important}
+
+/* Other white editor cards that appear across steps */
+html[data-theme="dark"] .identity-toolbar,
+html[data-theme="dark"] .identity-roster-heading,
+html[data-theme="dark"] .identity-select-header,
+html[data-theme="dark"] .ego-select-header,
+html[data-theme="dark"] .ego-sinner-card,
+html[data-theme="dark"] .ego-option-card,
+html[data-theme="dark"] .review-card{
+  background:#1d2128!important;
+  color:#e8e8e8!important;
+  border-color:#3c4652!important;
+}
+
+/* Restore the action hierarchy in the fixed mobile footer. */
+html[data-theme="dark"] .identity-footer-buttons [data-toggle-identity-search]{
+  background:#327fb8!important;
+  border-color:#4b9bd2!important;
+  color:#fff!important;
+}
+html[data-theme="dark"] .identity-footer-buttons [data-clear-current-identity]{
+  background:#20262e!important;
+  border-color:#71829a!important;
+  color:#dcecff!important;
+}
+html[data-theme="dark"] .identity-footer-buttons [data-clear-all-identities]{
+  background:#382126!important;
+  border-color:#b65a63!important;
+  color:#ffd9dc!important;
+}
+.review-party-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.review-party-card{min-width:0;border:1px solid var(--line);background:var(--paper2)}
+.review-party-card-visual{position:relative;min-height:190px;padding:14px;color:#fff;background:linear-gradient(145deg,var(--card-a),var(--card-b));display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden}
+.review-party-card-visual:before{content:"";position:absolute;inset:0;background:linear-gradient(transparent 25%,rgba(0,0,0,.86))}
+.review-party-card-visual>*{position:relative}
+.review-formation-number{position:absolute;right:10px;top:10px;min-width:34px;height:34px;padding:0 8px;display:grid;place-items:center;border:2px solid #e4aa2b;background:rgba(20,16,11,.86);color:#ffd66b;font-weight:900}
+.review-party-card-visual strong{display:block;font-size:17px}
+.review-party-card-visual p{min-height:2.7em;margin:5px 0 0;font-size:13px;line-height:1.35}
+.review-party-card-visual small{display:block;margin-top:5px;color:#e8d8ba}
+.review-card-ego-list{display:grid;gap:6px;min-width:0}
+.review-ego-tag{--rank-color:#7a6b5c;display:flex;align-items:stretch;min-width:0;max-width:100%;height:30px;border:1px solid var(--rank-color);background:#fff;color:#332d27;overflow:hidden}
+.review-ego-tag>b{flex:0 0 auto;display:grid;place-items:center;min-width:48px;padding:0 7px;background:var(--rank-color);color:#fff;font-size:9px;letter-spacing:.06em}
+.review-ego-tag.rank-zayin{--rank-color:#a87808}.review-ego-tag.rank-teth{--rank-color:#70449b}.review-ego-tag.rank-he{--rank-color:#257395}.review-ego-tag.rank-waw{--rank-color:#a63a2c}.review-ego-tag.rank-aleph{--rank-color:#28231f}
+.review-ego-name{display:block;min-width:0;overflow:hidden;white-space:nowrap;padding:6px 9px;font-size:12px}
+.review-ego-marquee{display:flex;width:max-content;min-width:100%;gap:28px}
+.review-ego-marquee.is-overflowing{animation:review-ego-marquee var(--marquee-duration,8s) linear infinite}
+.review-ego-marquee.is-overflowing:hover{animation-play-state:paused}
+.review-ego-marquee-text{flex:0 0 auto}
+.review-ego-empty{padding:5px 0;color:var(--muted);font-size:12px}
+html[data-theme="dark"] .review-card-egos,html[data-theme="dark"] .review-ego-tag{background:#20262e;color:#eef1f4}.identity-preview{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}.identity-preview span,.identity-preview b{border:1px solid var(--line);background:var(--paper2);padding:6px 8px;font-size:10px;font-weight:700}.identity-preview b{color:var(--gold)}.post-card-rich .post-pack-list{margin:0 0 18px}html[data-theme="dark"] .result-condition-bar,html[data-theme="dark"] .identity-preview span,html[data-theme="dark"] .identity-preview b{background:var(--paper)}
+.browse-identity-scroll{display:flex;gap:7px;overflow-x:auto;scrollbar-width:thin;padding:2px 1px 8px;scroll-snap-type:x proximity}
+.browse-identity-card{position:relative;flex:0 0 116px;min-height:92px;padding:12px 9px 9px;border:1px solid #caa45b;background:linear-gradient(150deg,#fffdf8,#f2e8d5);color:#281f16;overflow:hidden;scroll-snap-align:start}
+.browse-identity-card:after{content:"";position:absolute;right:-26px;bottom:-32px;width:74px;height:74px;border:1px solid rgba(174,126,37,.24);transform:rotate(45deg)}
+.browse-identity-card strong,.browse-identity-card small{position:relative;z-index:1;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.browse-identity-card strong{font-size:11px;margin-bottom:5px}
+.browse-identity-card small{font-size:9px;line-height:1.35;color:#6e6253}
+html[data-theme="dark"] .browse-identity-card{background:linear-gradient(150deg,#29261f,#171512);color:#f2eadc;border-color:#785d2c}
+html[data-theme="dark"] .browse-identity-card small{color:#bdb3a3}
+.browse-identity-scroll{gap:6px;padding:1px 1px 5px;overflow-x:auto}
+.browse-identity-card{flex:1 1 0;min-width:82px;max-width:112px;min-height:58px;padding:7px 7px 6px}
+.browse-identity-card strong{display:inline;font-size:9px;margin:0}
+.browse-identity-card small{margin-top:4px;font-size:8px}
+.browse-identity-card:after{width:52px;height:52px;right:-22px;bottom:-28px}
+.browse-identity-scroll{gap:4px;padding:0 0 3px}
+.browse-identity-card{flex:1 1 0;min-width:66px;max-width:92px;min-height:43px;padding:5px 6px 4px}
+.browse-identity-card strong{font-size:8px}
+.browse-identity-card small{margin-top:2px;font-size:7px;line-height:1.15}
+.browse-identity-card:after{width:40px;height:40px;right:-19px;bottom:-23px}
+
+/* 攻略タイプ統一・人気検索タグ・ソロキーワード */
+:is(.identity-keywords span,.conditional-keyword i,.keyword-loss-condition i,.party-keyword-chip,.keyword-filter-chip,.automatic-keyword-tag)[data-keyword="ソロ"]{background:#e7fbf5;border-color:#138f76;color:#08705d}
+html[data-theme="dark"] :is(.identity-keywords span,.conditional-keyword i,.keyword-loss-condition i,.party-keyword-chip,.keyword-filter-chip,.automatic-keyword-tag)[data-keyword="ソロ"]{background:#123f37;border-color:#32c4a5;color:#a5f3df}
+.popular-searches .popular-search-tag.strategy-type-badge{border:0;color:#fff;padding:7px 12px}
+.popular-searches .popular-search-tag.party-keyword-chip{display:inline-flex;align-items:center;justify-content:center;min-height:28px;padding:5px 11px;border-radius:999px;font-weight:800}
+.popular-searches .popular-search-tag.party-keyword-chip b{font-size:10px;line-height:1}
+
+
+/* 人格検索、人気検索、管理者おすすめ */
+/* PCでも人格検索の確定操作を常に表示する */
+.identity-filter-sheet-footer{
+  position:sticky;
+  z-index:9;
+  bottom:-16px;
+  display:flex;
+  justify-content:flex-end;
+  margin:18px -16px -16px;
+  padding:12px 16px;
+  border-top:1px solid var(--line);
+  background:rgba(255,255,255,.96);
+  backdrop-filter:blur(10px);
+}
+.identity-filter-sheet-footer .identity-filter-apply{min-width:220px}
+html[data-theme="dark"] .identity-filter-sheet-footer{background:rgba(29,33,40,.96);border-color:var(--line)}
+
+
+/* 人格名整列／自動おすすめ4条件／おすすめ欄のデスクトップ再設計 */
+.browse-identity-card{display:grid!important;grid-template-columns:auto minmax(0,1fr);grid-template-rows:auto auto;align-content:center;column-gap:4px;box-sizing:border-box}
+.browse-identity-card .browse-order{grid-column:1;grid-row:1;align-self:center;margin:0!important}
+.browse-identity-card strong{grid-column:2;grid-row:1;display:block!important;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap!important;align-self:center}
+.browse-identity-card small{grid-column:1/-1;grid-row:2;display:block!important;min-width:0;width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap!important;margin-top:3px!important}
+.featured-post-copy .browse-identity-scroll{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:8px!important;overflow:visible!important;padding:0!important}
+.featured-post-copy .browse-identity-card{width:100%!important;min-width:0!important;max-width:none!important;min-height:58px!important;padding:8px 9px!important}
+.featured-post-copy .browse-identity-card strong{font-size:11px!important;line-height:1.25!important}
+.featured-post-copy .browse-identity-card small{font-size:10px!important;line-height:1.25!important}
+.featured-post-copy .browse-identity-card{
+  cursor:pointer;
+  transform-origin:center;
+  transition:transform .16s ease,box-shadow .16s ease,border-color .16s ease;
+}
+.featured-post-copy .browse-identity-card{transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease}
+
+/* fixed search input selector collision after featured-card cloning */
+
+
+/* mobile post button, dark category picker, optional E.G.O and gift placeholder */
+.optional-step-notice{
+  margin:0 0 18px;
+  padding:13px 15px;
+  border:1px solid rgba(202,164,91,.62);
+  border-left:4px solid var(--gold);
+  background:rgba(202,164,91,.09);
+  color:var(--ink);
+  font-size:13px;
+  line-height:1.75;
+}
+.optional-step-notice strong{color:var(--gold)}
+.required-gift-field{opacity:.82}
+.required-gift-placeholder{
+  display:grid;
+  gap:7px;
+  min-height:104px;
+  padding:16px;
+  border:1px dashed var(--line);
+  background:var(--paper2);
+  align-content:center;
+}
+.required-gift-placeholder strong{font-size:13px;line-height:1.65}
+.required-gift-placeholder small{color:var(--muted);font-size:11px;line-height:1.65}
+html[data-theme="dark"] .optional-step-notice{background:rgba(202,164,91,.12);color:#eee9df}
+html[data-theme="dark"] .required-gift-placeholder{background:#20252c;border-color:#596471}
+html[data-theme="dark"] .required-gift-placeholder strong{color:#eee9df}
+html[data-theme="dark"] .required-gift-placeholder small{color:#bfc6ce}
+
+/* 進行テーマパック選択 */
+.theme-pack-panel{display:grid;gap:18px}.theme-pack-heading{display:flex;justify-content:space-between;gap:20px;align-items:flex-start;padding:20px;border:1px solid var(--line,#d8d3ca);border-radius:18px;background:var(--panel,#fff)}.theme-pack-heading small,.theme-pack-select-header small{letter-spacing:.12em;font-weight:800;color:#9b1c22}.theme-pack-heading h3,.theme-pack-select-header h3{margin:4px 0 8px}.theme-pack-heading p{margin:0;color:var(--muted,#68645f)}.theme-pack-heading>strong{white-space:nowrap}.theme-floor-card,.theme-pack-option-card{appearance:none;text-align:left;border:1px solid var(--line,#d8d3ca);border-radius:16px;background:var(--panel,#fff);color:inherit;padding:16px;cursor:pointer;transition:border-color .18s ease,transform .18s ease,background .18s ease}.theme-floor-card:hover,.theme-pack-option-card:not(:disabled):hover{transform:translateY(-2px);border-color:#a42a30}.theme-floor-card.selected,.theme-pack-option-card.selected{border:2px solid #a51f28;background:rgba(165,31,40,.07)}.theme-floor-card small,.theme-pack-option-card small{margin-top:auto;color:var(--muted,#68645f)}.theme-pack-select-view{display:grid;gap:16px}.theme-pack-select-header{display:flex;justify-content:space-between;gap:16px;align-items:center}.theme-pack-search{display:grid;gap:7px}.theme-pack-search span{font-weight:800}.theme-pack-search input{width:100%;border:1px solid var(--line,#d8d3ca);border-radius:12px;padding:12px 14px;background:var(--panel,#fff);color:inherit}.theme-pack-option-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.theme-pack-option-card{min-height:92px;display:flex;flex-direction:column;gap:8px}.theme-pack-option-card.disabled,.theme-pack-option-card:disabled{opacity:.45;cursor:not-allowed;transform:none}.theme-pack-option-card.clear-option{border-style:dashed}.theme-pack-empty{grid-column:1/-1;padding:24px;text-align:center;border:1px dashed var(--line,#d8d3ca);border-radius:14px;color:var(--muted,#68645f)}.review-theme-pack-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.review-theme-pack-item{display:flex;gap:12px;align-items:center;padding:12px 14px;border:1px solid var(--line,#d8d3ca);border-radius:12px}.review-theme-pack-item b{flex:0 0 auto;color:#a51f28}.review-theme-pack-item span{min-width:0;overflow-wrap:anywhere}
+[data-theme-floor-grid][hidden],[data-theme-pack-select-view][hidden]{display:none!important}
+body.dark-mode .theme-pack-heading,body.dark-mode .theme-floor-card,body.dark-mode .theme-pack-option-card,body.dark-mode .theme-pack-search input{background:#202730;border-color:#46505d;color:#f4f1eb}body.dark-mode .theme-floor-card.selected,body.dark-mode .theme-pack-option-card.selected{background:rgba(201,63,72,.18);border-color:#d45b63}
+
+
+/* ダークモード配色・必須ステップ検証・スマホ表示修正 */
+html[data-theme="dark"] .theme-pack-heading,
+html[data-theme="dark"] .theme-floor-card,
+html[data-theme="dark"] .theme-pack-option-card,
+html[data-theme="dark"] .theme-pack-search input,
+body.dark-mode .theme-pack-heading,
+body.dark-mode .theme-floor-card,
+body.dark-mode .theme-pack-option-card,
+body.dark-mode .theme-pack-search input{
+  background:#1a1e24!important;
+  border-color:#39414c!important;
+  color:#e7e2d8!important;
+}
+html[data-theme="dark"] .theme-floor-card:hover,
+html[data-theme="dark"] .theme-pack-option-card:not(:disabled):hover,
+body.dark-mode .theme-floor-card:hover,
+body.dark-mode .theme-pack-option-card:not(:disabled):hover{background:#20252d!important;border-color:#c69a3a!important}
+html[data-theme="dark"] .theme-floor-card.selected,
+html[data-theme="dark"] .theme-pack-option-card.selected,
+body.dark-mode .theme-floor-card.selected,
+body.dark-mode .theme-pack-option-card.selected{background:#2b1a1d!important;border-color:#cf4751!important;color:#fff!important}
+html[data-theme="dark"] .theme-pack-option-card:disabled,
+body.dark-mode .theme-pack-option-card:disabled{background:#14171b!important;border-color:#2a2f36!important;color:#747b84!important;opacity:.72}
+html[data-theme="dark"] .theme-pack-heading p,
+html[data-theme="dark"] .theme-floor-card small,
+html[data-theme="dark"] .theme-pack-option-card small,
+body.dark-mode .theme-pack-heading p,
+body.dark-mode .theme-floor-card small,
+body.dark-mode .theme-pack-option-card small{color:#aeb4bc!important}
+
+.step-link.validation-error{border-color:#d64049!important;background:rgba(214,64,73,.12)!important;box-shadow:inset 3px 0 0 #d64049}
+.step-link.validation-error span,.step-link.validation-error strong{color:#ff666e!important}
+.post-step.validation-error::before{content:"必須項目が未入力です";display:block;margin-bottom:14px;padding:10px 13px;border:1px solid #d64049;background:rgba(214,64,73,.1);color:#d64049;font-weight:800}
+.strategy-type-badge.is-unset{opacity:.72;border-style:dashed}
+
+
+/* ライトモード配色同期・攻略タイトル必須化・自動スクロール */
+.workspace-titlebar.validation-error{border-bottom-color:#d64049!important;box-shadow:inset 0 -3px 0 rgba(214,64,73,.75)}
+.workspace-titlebar.validation-error .workspace-title-field>span:first-child,.workspace-titlebar.validation-error .workspace-title-field input{color:#d64049!important}
+.workspace-titlebar.validation-error .workspace-title-field input{border-bottom-color:#d64049!important}
+
+
+/* reliable mobile title mirror and responsive free-slot action */
+.step-one-title-preview{
+  display:grid;
+  gap:5px;
+  margin:0 0 18px;
+  padding:14px 16px;
+  border:1px solid var(--line);
+  border-left:4px solid var(--gold);
+  background:var(--paper2);
+}
+.step-one-title-preview small{color:var(--muted);font-size:11px;font-weight:800;letter-spacing:.08em}
+.step-one-title-preview strong{min-width:0;overflow-wrap:anywhere;color:var(--ink);font:700 clamp(18px,2.2vw,25px) Georgia,"Yu Mincho",serif;line-height:1.4}
+.workspace-title-field input{-webkit-text-fill-color:currentColor;opacity:1}
+
+
+/* use the native title input on mobile.
+   The former transparent-input/live-mirror layering prevented reliable iOS IME input. */
+.workspace-title-live{display:none!important}
+
+/* 代用人格・キーワード配色 */
+.identity-alternative-controls{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px;margin:10px 0;border:1px solid rgba(196,146,48,.45);background:rgba(196,146,48,.08)}
+.identity-alternative-controls div{display:grid;gap:3px}.identity-alternative-controls small{color:var(--muted,#8d8375)}
+.identity-alternative-controls button{border:1px solid #b88a3c;background:#2b2217;color:#fff;padding:9px 12px;font-weight:800;cursor:pointer}
+.identity-option-card.alternative-mode:not(.selected){outline:1px dashed rgba(255,255,255,.35);outline-offset:-5px}
+.identity-option-card.alternative-selected{box-shadow:inset 0 0 0 4px #4aa3df,0 0 18px rgba(74,163,223,.45)}
+.identity-option-card.alternative-selected:after{content:"代用";position:absolute;right:8px;top:8px;background:#286ca8;color:#fff;padding:4px 8px;font-weight:900;z-index:3}
+
+.ego-option-card{background:linear-gradient(160deg,var(--ego-card-a,#3a3024),var(--ego-card-b,#15120f))}
+.post-close-confirm-shell{width:min(560px,calc(100vw - 30px));padding:28px}
+.post-close-confirm-shell p{margin:18px 0 24px;color:var(--muted);line-height:1.8}
+.post-close-confirm-actions{display:grid;grid-template-columns:1fr;gap:10px}
+.post-close-confirm-actions .button{width:100%}
+/* 人格カード名はカード状態に左右されず同じ視認性で表示する */
+.identity-option-card strong,.identity-card strong{color:#fff!important;opacity:1!important;font-weight:900;-webkit-text-fill-color:#fff}
+
+/* v1.0.43: 人格カードの高さ統一 + イサン画像先行対応 */
+.identity-option-card{height:292px;min-height:292px;max-height:292px}
+.identity-option-card.has-identity-image{background-image:var(--identity-image),linear-gradient(150deg,var(--card-a),var(--card-b));background-size:cover,cover;background-position:center top,center;background-repeat:no-repeat}
+.identity-option-card.has-identity-image:before{background:linear-gradient(180deg,rgba(0,0,0,0) 0%,rgba(0,0,0,0) 52%,rgba(0,0,0,.08) 62%,rgba(0,0,0,.40) 78%,rgba(0,0,0,.78) 100%)}
+.identity-option-card.has-identity-image .identity-placeholder{visibility:hidden}
+.identity-sinner-button.has-identity-image{background-image:var(--identity-image),linear-gradient(150deg,var(--card-a),var(--card-b));background-size:cover,cover;background-position:center 22%,center;background-repeat:no-repeat}
+.identity-sinner-button.has-identity-image:before{background:linear-gradient(180deg,rgba(0,0,0,0) 0%,rgba(0,0,0,.03) 40%,rgba(0,0,0,.28) 62%,rgba(0,0,0,.74) 84%,rgba(0,0,0,.88) 100%)}
+.identity-sinner-button.has-identity-image .identity-sinner-mark{visibility:hidden}
+@media(max-width:900px){.identity-option-card{height:278px;min-height:278px;max-height:278px}}
+
+/* v1.0.47 イサン人格画像: 投稿画面の小型カードにも反映 */
+.formation-choice-card.has-identity-image,.review-party-card.has-identity-image{background-size:cover!important;background-position:center!important;color:#fff!important}
+.formation-choice-card.has-identity-image>*,.review-party-card.has-identity-image>*{position:relative;z-index:1}
+.formation-choice-card.has-identity-image .formation-card-label,.formation-choice-card.has-identity-image>small{color:#f2eadc!important}
+
+/* v1.0.47: substitute identity stability and compact card summary */
+.identity-alternative-summary{display:flex;flex-wrap:wrap;gap:7px;margin-top:7px}
+.identity-alternative-chip{display:inline-flex;align-items:flex-end;min-width:118px;min-height:44px;padding:7px 9px;border:1px solid rgba(196,146,48,.55);background:#161719;color:#fff;font-size:11px;font-weight:800;line-height:1.35;background-size:cover;background-position:center;text-shadow:0 1px 3px #000}
+.identity-alternative-chip.has-identity-image{
+  min-height:56px;
+  /* 横長の代用人格カードでも人格画像を過度に拡大しない */
+  background-size:100% 100%,contain!important;
+  background-position:center,center!important;
+  background-repeat:no-repeat,no-repeat!important;
+  background-color:#111;
+}
+html[data-theme="light"] .identity-alternative-chip{background-color:#2b241b;color:#fff}
+.post-close-confirm-dialog{width:100vw;max-width:100vw;max-height:100dvh;margin:auto;padding:12px;overflow:hidden}
+.post-close-confirm-shell{width:min(560px,100%);max-width:100%;max-height:calc(100dvh - 24px);overflow:auto;overscroll-behavior:contain;margin:auto}
+.post-close-confirm-shell p{overflow-wrap:anywhere;word-break:normal}
+@media(max-width:720px){
+  .post-close-confirm-dialog{padding:max(12px,env(safe-area-inset-top)) 12px max(12px,env(safe-area-inset-bottom))}
+  .post-close-confirm-shell{width:100%!important;max-height:calc(100dvh - 24px - env(safe-area-inset-top) - env(safe-area-inset-bottom))!important;padding:22px 18px!important}
+  .post-close-confirm-shell .modal-header h2{font-size:clamp(24px,7vw,34px);line-height:1.3}
+  .post-close-confirm-shell p{font-size:14px;line-height:1.75;margin:14px 0 18px}
+  .post-close-confirm-actions .button{min-height:50px;padding:11px 10px;white-space:normal;line-height:1.35}
+  .identity-alternative-controls{gap:10px}
+  .identity-alternative-summary{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));width:100%}
+  .identity-alternative-chip{min-width:0;width:100%}
+}
+
+/* v1.0.61: substitute identity image framing */
+.identity-alternative-chip.has-identity-image{
+  background-size:100% 100%,contain!important;
+  background-position:center,center!important;
+  background-repeat:no-repeat,no-repeat!important;
+  background-color:#111!important;
+}
+html[data-theme="dark"] .identity-alternative-chip.has-identity-image{
+  background-size:100% 100%,contain!important;
+  background-position:center,center!important;
+  background-repeat:no-repeat,no-repeat!important;
+}

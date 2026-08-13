@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+
+<html data-theme="light" lang="ja">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="Limbus Companyの鏡ダンジョン・鏡屈折鉄道・射影戦闘攻略を投稿・共有できる非公式攻略サイトです。" name="description"/>
+<title>Limbus Company 攻略投稿サイト（非公式）</title>
+<link href="logo-mark.svg" rel="icon" type="image/svg+xml"/>
+<link href="styles.css?v=1.0.45" rel="stylesheet"/>
+<link href="css/browse-cards.css?v=1.0.45" rel="stylesheet"/>
+</head>
+<body id="top">
+<div class="site-shell">
+<header class="site-header">
+<button aria-label="ダークモードに切り替える" aria-pressed="false" class="theme-toggle mobile-theme-toggle" data-theme-toggle="" type="button">
+<span aria-hidden="true" class="theme-toggle-sun">☼</span>
+<span aria-hidden="true" class="theme-toggle-track"><span class="theme-toggle-knob"></span></span>
+<span aria-hidden="true" class="theme-toggle-moon">☾</span>
+</button>
+<a aria-label="Limbus Company 攻略投稿サイトのトップページへ" class="brand" href="#top">
+<span aria-hidden="true" class="brand-mark"><img alt="" class="logo-light" src="logo-mark.svg"/><img alt="" class="logo-dark" src="logo-mark-dark.svg"/></span>
+<span class="brand-copy">
+<strong>Limbus Company</strong>
+<small>攻略投稿サイト <em>非公式</em></small>
+</span>
+</a>
+<nav aria-label="メインナビゲーション" class="header-nav">
+<a href="#top">トップ</a>
+<a href="news.html">お知らせ</a>
+<a href="#featured">管理者おすすめ</a>
+<a href="#search">攻略を探す</a>
+<a href="#community">みんなの攻略</a>
+<button aria-label="ダークモードに切り替える" aria-pressed="false" class="theme-toggle" data-theme-toggle="" type="button">
+<span aria-hidden="true" class="theme-toggle-sun">☼</span>
+<span aria-hidden="true" class="theme-toggle-track"><span class="theme-toggle-knob"></span></span>
+<span aria-hidden="true" class="theme-toggle-moon">☾</span>
+</button>
+<button class="header-login-button" type="button" data-open-auth data-auth-guest>ログイン</button>
+<div class="account-menu-wrap" data-account-wrap data-auth-user hidden>
+<button class="header-account-button" type="button" data-account-button aria-expanded="false" aria-haspopup="menu">
+  <img class="header-account-avatar" data-auth-user-avatar src="logo-mark.svg" alt="" referrerpolicy="no-referrer">
+  <span data-auth-user-name>ユーザー</span><span class="account-menu-chevron" aria-hidden="true">⌄</span>
+</button>
+<div class="account-menu" data-account-menu role="menu" hidden>
+  <button class="account-menu-user account-menu-user-link" type="button" data-account-action="account" aria-label="アカウントホームを開く">
+    <img class="account-menu-avatar" data-auth-user-avatar src="logo-mark.svg" alt="" referrerpolicy="no-referrer">
+    <div><strong data-auth-user-name>ユーザー</strong><small data-auth-user-email></small></div>
+  </button>
+  <button type="button" role="menuitem" data-account-action="account">アカウントホーム</button>
+  <button type="button" role="menuitem" data-account-action="profile">プロフィール</button>
+  <button type="button" role="menuitem" data-account-action="posts">自分の投稿</button>
+  <button type="button" role="menuitem" data-account-action="bookmarks">ブックマーク</button>
+  <button type="button" role="menuitem" data-account-action="settings">設定</button>
+  <button class="account-menu-logout" type="button" role="menuitem" data-auth-logout>ログアウト</button>
+</div>
+</div>
+<button class="button button-primary button-compact" data-open-post="" type="button">
+          ＋ 攻略を投稿
+        </button>
+</nav>
+<button class="mobile-header-post" data-open-post="" type="button">＋ 攻略投稿</button>
+<div class="mobile-auth-slot">
+  <button class="mobile-login-button" type="button" data-open-auth data-auth-guest>ログイン</button>
+  <div class="account-menu-wrap mobile-account-wrap" data-account-wrap data-auth-user hidden>
+    <button class="mobile-account-button" type="button" data-account-button aria-expanded="false" aria-haspopup="menu" aria-label="アカウントメニューを開く">
+      <img class="header-account-avatar" data-auth-user-avatar src="logo-mark.svg" alt="" referrerpolicy="no-referrer">
+    </button>
+    <div class="account-menu mobile-account-menu" data-account-menu role="menu" hidden>
+      <button class="account-menu-user account-menu-user-link" type="button" data-account-action="account" aria-label="アカウントホームを開く">
+        <img class="account-menu-avatar" data-auth-user-avatar src="logo-mark.svg" alt="" referrerpolicy="no-referrer">
+        <div><strong data-auth-user-name>ユーザー</strong><small data-auth-user-email></small></div>
+      </button>
+      <button type="button" role="menuitem" data-account-action="account">アカウントホーム</button>
+      <button type="button" role="menuitem" data-account-action="profile">プロフィール</button>
+      <button type="button" role="menuitem" data-account-action="posts">自分の投稿</button>
+      <button type="button" role="menuitem" data-account-action="bookmarks">ブックマーク</button>
+      <button type="button" role="menuitem" data-account-action="settings">設定</button>
+      <button class="account-menu-logout" type="button" role="menuitem" data-auth-logout>ログアウト</button>
+    </div>
+  </div>
+</div>
+
+<button aria-expanded="false" aria-label="メニューを開く" class="mobile-menu-button" type="button">
+        ☰
+      </button>
+</header>
+<main>
+<section class="hero home-hero">
+<div class="hero-copy">
+<p class="eyebrow">LIMBUS COMPANY STRATEGY COMMUNITY</p>
+<p class="hero-lead">あなたの攻略が、誰かの次の一手になる。</p>
+<h1><span class="hero-title-line hero-title-accent">編成の可能性を、</span><span class="hero-title-line">みんなで見つけよう</span></h1>
+<p class="hero-description hero-description-desktop">
+<span>条件に合う人格や編成を選び、みんなが投稿した攻略から自分に合う攻略を探せます。</span>
+<span>攻略で迷ったとき、すぐ答えへたどり着ける場所を目指します。</span>
+</p>
+<p class="hero-description hero-description-mobile">条件を選んで、自分に合う攻略をすぐ探せます。</p>
+<div class="hero-actions">
+<button class="button button-secondary" data-scroll-search="" type="button">⌕ 攻略を探す</button>
+<button class="button button-primary" data-open-post="" type="button">✎ 攻略を投稿する</button>
+</div>
+</div>
+<aside aria-label="管理者おすすめ" class="hero-panel home-featured-carousel" id="featured">
+<div class="home-featured-heading">
+<div><p class="section-kicker">EDITOR’S PICK</p><h2>管理者おすすめ</h2></div>
+<a class="home-featured-list-link" href="#community">一覧を見る</a>
+</div>
+<div class="featured-carousel-viewport" data-featured-carousel-viewport tabindex="0" aria-roledescription="カルーセル">
+<div class="featured-carousel-track" data-featured-list>
+<p class="featured-post-fallback">おすすめ投稿を選定しています。</p>
+</div>
+</div>
+<div class="featured-carousel-controls" aria-label="管理者おすすめの切り替え">
+<button class="featured-carousel-arrow" type="button" data-featured-prev aria-label="前のおすすめを見る">‹</button>
+<div class="featured-carousel-dots" data-featured-dots aria-label="おすすめ投稿のページ"></div>
+<button class="featured-carousel-arrow" type="button" data-featured-next aria-label="次のおすすめを見る">›</button>
+</div>
+</aside>
+</section>
+
+<section aria-labelledby="category-title" class="category-section">
+<div class="category-heading">
+<div>
+<p class="section-kicker">CATEGORIES</p>
+<h2 id="category-title">攻略カテゴリから探す</h2>
+</div>
+<p>目的のコンテンツを選んで、投稿された攻略を確認できます。</p>
+</div>
+<div class="category-grid" data-home-category-grid="">
+<button class="category-card category-mirror" data-browse-category="mirror_dungeon" type="button">
+<span aria-hidden="true" class="category-icon"><img src="assets/category-icons/mirror-dungeon.png" alt=""></span>
+<span><strong>鏡ダンジョン</strong><small>各階層の攻略や編成例を探す</small></span>
+<em>投稿を見る →</em>
+</button>
+<button aria-disabled="true" class="category-card category-railway is-planned" data-browse-category="mirror_railway" type="button">
+<span aria-hidden="true" class="category-icon"><img src="assets/category-icons/mirror-railway.png" alt=""></span>
+<span><strong>鏡屈折鉄道</strong><small>鉄道イベントの攻略を探す</small><i>※実装予定</i></span>
+<em>準備中</em>
+</button>
+<button aria-disabled="true" class="category-card category-projection is-planned" data-browse-category="projection_combat" type="button">
+<span aria-hidden="true" class="category-icon"><img src="assets/category-icons/projection-combat.png" alt=""></span>
+<span><strong>射影戦闘</strong><small>射影戦闘の攻略や編成例を探す</small><i>※実装予定</i></span>
+<em>準備中</em>
+</button>
+</div>
+</section>
+
+<section class="search-section" id="search">
+<div class="section-heading">
+<div><p class="section-kicker">SEARCH</p><h2>投稿検索</h2></div>
+<p>よく使う条件だけ先に表示し、必要なときだけ詳細条件を開けます。</p>
+</div>
+<div class="post-search-panel">
+<div class="post-search-basic">
+<div class="search-condition-block search-category-block">
+<div class="search-condition-heading"><span>攻略カテゴリ</span><small>1つ選択</small></div>
+<div class="search-category-grid" data-search-categories=""></div>
+</div>
+<button class="search-condition-card" data-open-selector="identity" type="button">
+<span class="search-condition-icon">人格</span><span><small>使用人格</small><strong data-identity-label="">人格を選択</strong><em>複数選択可能</em></span><b>›</b>
+</button>
+<div class="search-condition-block">
+<div class="search-condition-heading"><span>キーワード</span><small>複数選択可能</small></div>
+<div class="search-chip-grid" data-search-keywords=""></div>
+</div>
+<div class="search-condition-block">
+<div class="search-condition-heading"><span>攻略タイプ</span><small>1つ選択</small></div>
+<div class="search-chip-grid" data-search-types=""></div>
+</div>
+<label class="search-freeword"><span>フリーワード</span><input data-keyword="" placeholder="タイトル・説明・注意点などから検索" type="search"/></label>
+</div>
+<button aria-expanded="false" class="advanced-search-toggle" data-toggle-advanced="" type="button"><span>＋</span> 詳細条件を表示</button>
+<div class="post-search-advanced" data-advanced-search="" hidden="">
+<div class="search-condition-block"><div class="search-condition-heading"><span>攻略タグ</span><small>複数選択可能</small></div><div class="search-chip-grid" data-search-strategy-tags=""></div></div>
+<div class="search-condition-block"><div class="search-condition-heading"><span>難易度</span><small>1つ選択</small></div><div class="search-chip-grid" data-search-difficulties=""></div></div>
+<div class="search-condition-block"><div class="search-condition-heading"><span>所属・特殊タグ</span><small>複数選択可能</small></div><div class="search-chip-grid search-chip-grid-scroll" data-search-affiliations=""></div></div>
+<div class="search-date-grid">
+<label><span>日付の基準</span><select data-date-kind=""><option value="posted">投稿日</option><option value="updated">更新日</option></select></label>
+<label><span>期間</span><select data-date-range=""><option value="all">指定なし</option><option value="today">今日</option><option value="week">1週間以内</option><option value="month">1か月以内</option><option value="year">1年以内</option></select></label>
+<label><span>並び順</span><select data-sort=""><option value="recommended">おすすめ順</option><option value="newest">新着順</option><option value="updated">更新順</option><option value="views">閲覧数順</option><option value="popular">いいね順</option></select></label>
+</div>
+</div>
+<div class="search-selected-summary"><div><strong>選択中の条件</strong><small>タグの×で個別に解除できます</small></div><div aria-live="polite" class="active-filters" data-active-filters=""><span class="filter-empty">現在、検索条件は指定されていません。</span></div></div>
+<div class="post-search-actions"><button class="button button-secondary" data-clear-search="" type="button">条件をクリア</button><button class="button button-primary search-button" data-search="" type="button">この条件で検索</button></div>
+</div>
+</section>
+<section class="content-section community-browser" id="community">
+<div class="community-result-head">
+<div>
+<p class="section-kicker">SEARCH RESULTS</p>
+<h2>攻略検索結果</h2>
+<p class="community-result-note">指定した条件に近い攻略投稿を表示します。</p>
+</div>
+<div class="community-result-tools">
+<span class="current-browse-category" data-current-browse-category="">鏡ダンジョン</span>
+<div class="result-count"><strong data-result-count="">0</strong> 件を表示</div>
+<label class="result-sort"><span>並び順</span><select data-result-sort=""><option value="recommended">おすすめ順</option><option value="newest">新着順</option><option value="views">閲覧数順</option><option value="popular">いいね順</option></select></label>
+</div>
+</div>
+<div aria-label="攻略カテゴリを切り替える" class="browse-category-tabs" data-browse-category-tabs=""></div>
+<div class="result-condition-bar">
+<div><strong>現在の検索条件</strong><small>検索画面で選んだ条件がここにも表示されます。</small></div>
+<div class="active-filters result-active-filters" data-result-active-filters=""><span class="filter-empty">すべての攻略を表示しています。</span></div>
+</div>
+<div aria-label="人気検索" class="popular-searches">
+<span>人気検索</span>
+<div aria-live="polite" class="tag-row popular-tag-row" data-popular-search-list=""></div>
+</div>
+<div class="post-grid" data-post-grid="" aria-live="polite"></div>
+<div class="empty-state" data-empty-state="" hidden=""><strong>まだ公開された攻略はありません。</strong><p>最初の攻略投稿をお待ちしています。</p></div>
+<div class="load-more-wrap"><button class="button button-secondary" data-load-more="" type="button">さらに読み込む</button></div>
+</section>
+<section class="submit-banner">
+<div>
+<p class="section-kicker">SHARE YOUR ROUTE</p>
+<h2>あなたの攻略が、誰かの次の一手になる。</h2>
+<p>あなたの攻略法を自由に投稿・解説するだけ。投稿画面も迷わず使える形を目指しています。</p>
+</div>
+<button class="button button-primary" data-open-post="" type="button">攻略を投稿する</button>
+</section>
+</main>
+<footer class="site-footer">
+<div class="footer-main">
+<div class="footer-about">
+<strong>Limbus Company 攻略投稿サイト（非公式）</strong>
+<p>本サイトはファンが運営する非公式攻略サイトであり、Project MoonおよびLimbus Company公式とは関係ありません。</p>
+<p>現在、許諾確認前のため公式ゲーム素材は使用していません。作品・名称等の権利は各権利者に帰属します。</p>
+</div>
+<nav aria-label="Limbus Company公式リンク" class="footer-official-links">
+<strong>OFFICIAL GAME</strong>
+<a href="https://limbuscompany.jp/" rel="noopener noreferrer" target="_blank">公式サイト</a>
+<a href="https://apps.apple.com/jp/app/limbus-company/id6444112366" rel="noopener noreferrer" target="_blank">App Store</a>
+<a href="https://play.google.com/store/apps/details?hl=ja&amp;id=com.ProjectMoon.LimbusCompany" rel="noopener noreferrer" target="_blank">Google Play</a>
+<a href="https://store.steampowered.com/app/1973530/Limbus_Company/?l=japanese" rel="noopener noreferrer" target="_blank">Steam</a>
+</nav>
+<nav aria-label="サイト運営情報" class="footer-official-links test-information-links"><strong>TEST INFORMATION</strong><a href="terms.html">利用規約</a><a href="privacy.html">プライバシーポリシー</a></nav>
+</div>
+<div class="footer-meta">
+<span>© 非公式ファンサイト</span>
+<span>Version 1.0.45 α</span>
+<time datetime="2026-08-09">Last Updated: 2026.08.09</time>
+</div>
+</footer>
+</div>
+<dialog class="auth-dialog" data-auth-dialog>
+  <div class="auth-dialog-shell">
+    <button class="auth-dialog-close" type="button" data-close-auth aria-label="ログイン画面を閉じる">×</button>
+    <div class="auth-dialog-brand"><span class="brand-mark"><img class="logo-light" src="logo-mark.svg" alt=""><img class="logo-dark" src="logo-mark-dark.svg" alt=""></span><div><strong>アカウント</strong><small>Limbus Company 攻略投稿サイト</small></div></div>
+    <h2>ログイン・新規登録</h2>
+    <p>投稿やブックマークを利用するにはログインしてください。</p>
+    <button class="auth-provider auth-google" type="button" data-auth-google><span>G</span>Googleでログイン</button>
+    <div class="auth-divider"><span>または</span></div>
+    <form class="auth-email-form" data-auth-email-form data-mode="login">
+      <label><span>メールアドレス</span><input name="email" type="email" autocomplete="email" required></label>
+      <label><span>パスワード</span><input name="password" type="password" autocomplete="current-password" minlength="6" required></label>
+      <button class="button button-primary" type="submit" data-auth-submit>メールでログイン</button>
+    </form>
+    <div class="auth-sub-actions"><button type="button" data-auth-mode>メールで新規登録する</button><button type="button" data-auth-reset>パスワードを忘れた場合</button></div>
+    <p class="auth-status" data-auth-status hidden></p>
+    <div class="auth-coming-soon"><span>Discord・Xログインは次段階で追加予定です。</span></div>
+  </div>
+</dialog>
+
+<dialog class="modal" data-selector-modal="">
+<div class="modal-shell">
+<div class="modal-header">
+<div>
+<p class="section-kicker" data-modal-kicker="">SELECT</p>
+<h2 data-modal-title="">項目を選択</h2>
+</div>
+<button aria-label="閉じる" class="modal-close" data-close-modal="" type="button">×</button>
+</div>
+<label class="modal-search">
+<span>名前で検索</span>
+<input data-modal-search="" placeholder="候補を絞り込む" type="search"/>
+</label>
+<div class="selection-grid" data-selection-grid=""></div>
+<div class="modal-actions">
+<span aria-live="polite" class="modal-selection-status" data-modal-selection-status="">0件選択中</span>
+<div class="modal-action-buttons">
+<button class="button button-secondary" data-clear-selection="" type="button">すべて解除</button>
+<button class="button button-primary" data-apply-selection="" type="button">0件選択して決定</button>
+</div>
+</div>
+</div>
+</dialog>
+<dialog class="category-picker" data-category-picker="">
+<div class="category-picker-shell">
+<header class="category-picker-header">
+<div><p class="section-kicker">SELECT CATEGORY</p><h2>投稿する攻略カテゴリを選択</h2><p>投稿内容に合うカテゴリを選んでから、攻略投稿エディターへ進みます。</p></div>
+<button aria-label="閉じる" class="modal-close" data-close-category-picker="" type="button">×</button>
+</header>
+<div class="category-picker-grid" data-category-picker-list=""></div>
+<p class="category-picker-note">※鏡屈折鉄道・射影戦闘は今後のアップデートで実装予定です。</p>
+<footer class="category-picker-actions">
+<span data-category-picker-status="">カテゴリを選択してください</span>
+<div class="category-picker-action-buttons">
+<button class="button button-secondary" data-open-draft-from-category="" type="button">下書きから投稿</button>
+<button class="button button-primary" data-start-category-post="" disabled="" type="button">このカテゴリで投稿を始める</button>
+</div>
+</footer>
+</div>
+</dialog>
+<dialog class="post-workspace" data-post-modal="">
+<div class="post-workspace-shell">
+<header class="workspace-header">
+<div class="workspace-brand">
+<span aria-hidden="true" class="brand-mark"><img alt="" class="logo-light" src="logo-mark.svg"/><img alt="" class="logo-dark" src="logo-mark-dark.svg"/></span>
+<div><strong>攻略投稿エディター</strong><small>LIMBUS COMPANY 攻略投稿サイト</small></div>
+</div>
+<div class="workspace-header-actions">
+<span class="draft-status">● 下書き</span>
+<button aria-label="閉じる" class="modal-close" data-close-post="" type="button">×</button>
+</div>
+</header>
+<div class="workspace-titlebar" data-workspace-titlebar="">
+<button aria-label="前の画面へ戻る" class="mobile-titlebar-back" data-mobile-prev-step="" hidden="" type="button">←</button>
+<label class="workspace-title-field" for="post-title">
+<span>攻略タイトル</span>
+<input data-post-title="" id="post-title" placeholder="攻略タイトルを入力してください" type="text"/>
+<span aria-hidden="true" class="title-edit-mark">✎</span>
+</label>
+<div class="workspace-badges"><span class="post-category-badge" data-post-category-badge="">鏡ダンジョン</span><span class="difficulty-badge is-unset" data-difficulty-badge="">難易度未選択</span><span class="strategy-type-badge is-unset" data-type-badge="">攻略タイプ未選択</span></div>
+<div aria-live="polite" class="workspace-step-status">
+<small>現在のステップ</small>
+<strong data-workspace-step-name="">攻略タイプ</strong>
+<span data-workspace-step-counter="">1 / 7</span>
+</div>
+</div>
+<div class="workspace-body">
+<aside aria-label="投稿手順" class="post-steps">
+<div class="step-intro"><small>POST GUIDE</small><strong>攻略を投稿する</strong><p>必須項目を満たしながら、7つの手順で攻略情報をまとめます。</p></div>
+<button class="step-link active" data-step-link="1" type="button"><span>01</span><div><strong>攻略タイプ</strong><small>投稿の目的を選択</small></div></button>
+<button class="step-link" data-step-link="2" type="button"><span>02</span><div><strong>使用人格</strong><small>編成に入れる人格を選択</small></div></button>
+<button class="step-link" data-step-link="3" type="button"><span>03</span><div><strong>編成順</strong><small>出撃する順番を選択</small></div></button>
+<button class="step-link" data-step-link="4" type="button"><span>04</span><div><strong>使用E.G.O</strong><small>任意・使用するE.G.Oを選択</small></div></button>
+<button class="step-link" data-step-link="5" type="button"><span>05</span><div><strong>進行テーマパック</strong><small>任意・階層ごとに選択</small></div></button>
+<button class="step-link" data-step-link="6" type="button"><span>06</span><div><strong>詳細情報</strong><small>タグ・解説を入力</small></div></button>
+<button class="step-link" data-step-link="7" type="button"><span>07</span><div><strong>確認して投稿</strong><small>入力内容を最終確認</small></div></button>
+<div class="post-guide-note"><strong>投稿ガイド</strong><p>公式画像は使用せず、現在は文字と仮カードで構成しています。</p></div>
+</aside>
+<main class="post-stage">
+<div class="stage-heading">
+<div><small data-step-kicker="">STEP 1</small><h2 data-step-title="">攻略タイプを選択</h2><p data-step-description="">この攻略がどんなプレイヤー向けか選んでください。</p></div>
+<div class="selection-counter"><span>進行状況</span><strong data-step-counter="">1 / 7</strong></div>
+</div>
+<section class="post-step active" data-post-step="1">
+<div class="step-one-title-preview" aria-live="polite"><small>攻略タイトル</small><strong data-title-preview="">攻略タイトルを入力してください</strong></div>
+<fieldset class="difficulty-selector" data-difficulty-selector="">
+<legend>鏡ダンジョンの難易度 <span>必須</span></legend>
+<p>この攻略が対象とするモードを選択してください。</p>
+<div class="difficulty-options">
+<button class="difficulty-option" data-post-difficulty="NORMAL" type="button">
+<span class="difficulty-option-mark">N</span>
+<span><strong>ノーマル</strong><small>初心者・育成途中の編成向け</small></span>
+</button>
+<button class="difficulty-option" data-post-difficulty="HARD" type="button">
+<span class="difficulty-option-mark">H</span>
+<span><strong>ハード</strong><small>高難度の鏡ダンジョン向け</small></span>
+</button>
+</div>
+<small class="difficulty-error" data-difficulty-error="" hidden="">次へ進むには、ノーマルまたはハードを選択してください。</small>
+</fieldset>
+<div class="type-layout">
+<nav aria-label="攻略タイプ" class="type-list">
+<button class="type-option" data-post-type="安定周回" type="button"><span>◫</span><div><strong>安定周回</strong><small>安定してクリアを目指す</small></div></button>
+<button class="type-option" data-post-type="速攻周回" type="button"><span>⌁</span><div><strong>速攻周回</strong><small>短いターンでの攻略を狙う</small></div></button>
+<button class="type-option" data-post-type="高難易度向け" type="button"><span>◇</span><div><strong>高難易度向け</strong><small>強敵や深層を想定した構成</small></div></button>
+<button class="type-option" data-post-type="縛り・テーマ攻略" type="button"><span>⬡</span><div><strong>縛り・テーマ攻略</strong><small>特定条件やテーマで挑戦</small></div></button>
+<button class="type-option" data-post-type="ネタ・ロマン" type="button"><span>◉</span><div><strong>ネタ・ロマン</strong><small>個性的な編成や遊び方</small></div></button>
+<button class="type-option" data-post-type="ソロ" type="button"><span>◆</span><div><strong>ソロ</strong><small>1人格だけで挑む攻略</small></div></button>
+</nav>
+<div class="type-preview"><small>SELECTED TYPE</small><div aria-hidden="true" class="type-preview-icon" data-type-preview-icon="">◇</div><h3 data-type-preview="">攻略タイプ未選択</h3><p data-type-copy="">攻略タイプを選択してください。</p><span class="type-preview-difficulty" data-type-preview-difficulty="">難易度を選択してください</span></div>
+</div>
+</section>
+<section class="post-step" data-post-step="2">
+<div class="identity-select-view game-style-identity-select" data-identity-select-view="">
+<div class="identity-roster-heading">
+<div>
+<small>SELECT SINNER</small>
+<h3>囚人を切り替えて人格を選択</h3>
+<p>一覧へ戻らず、上の囚人ボタンから続けて切り替えられます。「自由枠」は誰を採用してもよい枠です。</p>
+</div>
+<strong><b data-post-identity-count="">0</b> 枠選択中</strong>
+</div>
+<div aria-label="人格を選択する囚人" class="identity-sinner-roster" data-identity-sinner-roster=""></div>
+<div class="identity-select-header game-style-header">
+<div><small>IDENTITY SELECT</small><h3>人格：<span data-current-sinner-name=""></span></h3></div>
+<div class="current-selection"><small>現在選択中</small><strong data-current-identity-name="">未選択</strong></div>
+</div>
+<div aria-label="人格の絞り込み" class="identity-filter-panel" data-identity-filter-panel="" hidden="">
+<div aria-hidden="true" class="identity-filter-scroll-hint" data-identity-filter-scroll-hint="">↓ 下へスクロールできます</div>
+<div class="identity-filter-section-title">基本検索</div>
+<div class="identity-filter-top">
+<label><span>人格名</span><input data-identity-name-filter="" placeholder="人格名で検索" type="search"/></label>
+<label><span>レアリティ</span><select data-identity-rarity-filter=""><option value="all">すべて</option><option value="000">000</option><option value="00">00</option><option value="0">0</option></select></label>
+<div class="identity-filter-section-title identity-filter-section-title-wide">詳細検索</div>
+<label><span>キーワード条件</span><select data-identity-filter-mode=""><option value="or">いずれかを含む（OR）</option><option value="and">すべて含む（AND）</option></select></label>
+<label class="multi-keyword-check"><input data-identity-multi-only="" type="checkbox"/><span>複数キーワード人格のみ</span></label>
+<label class="multi-keyword-check"><input checked="" data-identity-include-conditional="" type="checkbox"/><span>条件付きキーワードも含める</span></label>
+<button class="button button-secondary identity-filter-reset" data-reset-identity-filters="" type="button">絞り込みをリセット</button>
+</div>
+<div class="identity-filter-section-title">キーワード</div>
+<div class="identity-keyword-filter-list" data-identity-keyword-filters=""></div>
+<div class="identity-filter-result"><span>表示件数 <strong data-identity-filter-count="">0 / 0</strong></span><small>星3→星2→星1の順。同レアリティ内は五十音順です。</small></div>
+<div class="identity-filter-sheet-footer"><button class="button button-primary identity-filter-apply" data-apply-identity-filters="" type="button">決定して閉じる</button></div>
+</div>
+<div class="identity-option-grid" data-post-identity-grid=""></div>
+<p class="identity-filter-empty" data-identity-filter-empty="" hidden="">条件に一致する人格がありません。</p>
+<p class="identity-data-note">この手順では使用する人格だけを選びます。次の「編成順」で、ゲームと同じように出撃順を決めます。編成の一部を指定しない場合は、人格一覧の先頭にある「自由枠」を選択してください。</p>
+</div>
+</section>
+<section class="post-step" data-post-step="3">
+<div class="formation-order-panel">
+<div class="formation-order-heading">
+<div><small>DEPLOYMENT ORDER</small><h3>編成する順番に人格を選択</h3><p>ゲームと同じように、最初に選んだ人格が①、次が②になります。選び直す場合は、番号付きの人格を押して解除してください。</p></div>
+<strong><b data-formation-count="">0</b> / <span data-formation-total="">0</span> 選択済み</strong>
+</div>
+<div class="formation-selected-strip" data-formation-selected-strip=""><span class="formation-empty">まだ順番を選択していません。</span></div>
+<div class="formation-choice-grid" data-formation-choice-grid=""></div>
+<p class="identity-data-note" data-formation-empty-note="" hidden="">先に「使用人格」で人格を1人以上選択してください。</p>
+<button class="button button-secondary formation-reset" data-reset-formation="" type="button">編成順をすべて解除</button>
+</div>
+</section>
+<section class="post-step" data-post-step="4">
+<p class="optional-step-notice"><strong>※任意のステップです。</strong> 使用するE.G.Oがある場合のみ設定してください。未選択のまま次へ進めます。</p>
+<div class="ego-sinner-view" data-ego-sinner-view="">
+<div class="identity-toolbar">
+<div><strong>E.G.Oを設定する囚人を選択</strong><small>使用人格を設定した囚人を表示します。自由枠は、必要な場合だけE.G.O選択を有効にできます。各ランクにつき1つ選択できます。</small></div>
+<strong><b data-post-ego-count="">0</b> 件</strong>
+</div>
+<div class="ego-sinner-grid" data-post-ego-sinner-grid=""></div>
+<p class="identity-data-note" data-ego-empty-note="" hidden="">先に「使用人格」で人格を1人以上選択してください。</p>
+</div>
+<div class="ego-select-view" data-ego-select-view="" hidden="">
+<div class="identity-select-header ego-select-header">
+<div><small>E.G.O SELECT</small><h3>E.G.O：<span data-current-ego-sinner-name=""></span></h3></div>
+<div class="current-selection ego-current-selection"><small>現在選択中</small><div class="ego-summary-tags" data-current-ego-summary=""><span class="ego-summary-empty">未選択</span></div></div>
+</div>
+<div class="ego-option-grid" data-post-ego-grid=""></div>
+<p class="identity-data-note">E.G.OはZAYIN・TETH・HE・WAW・ALEPHのランク別に、各1つまで選択できます。</p>
+</div>
+</section>
+<section class="post-step" data-post-step="5">
+<p class="optional-step-notice"><strong>※任意のステップです。</strong> 攻略中に通過したテーマパックを階層ごとに選択してください。未選択のまま次へ進めます。</p>
+<div class="theme-pack-panel">
+<div class="theme-pack-heading">
+<div><small>THEME PACK ROUTE</small><h3>進行テーマパックを選択</h3><p>1Fから順にカードを押して、その階層で通過したパックを選択してください。同じパックは一度しか選択できません。</p></div>
+<strong><b data-theme-pack-count="">0</b> 件選択</strong>
+</div>
+<div class="theme-floor-grid" data-theme-floor-grid=""></div>
+<div class="theme-pack-select-view" data-theme-pack-select-view="" hidden="">
+<div class="theme-pack-select-header">
+<div><small>PACK SELECT</small><h3><span data-theme-pack-floor-label="">1F</span>のテーマパック</h3></div>
+<button class="button button-secondary" data-close-theme-pack-select="" type="button">階層一覧へ戻る</button>
+</div>
+<label class="theme-pack-search"><span>パック名を検索</span><input data-theme-pack-search="" placeholder="パック名を入力してください" type="search"/></label>
+<div class="theme-pack-option-grid" data-theme-pack-option-grid=""></div>
+<p class="identity-data-note">他の階層で選択済みのパックは選択できません。</p>
+</div>
+</div>
+</section>
+<section class="post-step" data-post-step="6">
+<div class="detail-form detail-form-tags">
+<div class="detail-column">
+<div class="tag-field">
+<div class="tag-field-heading"><span>攻略タグ <em>（最大5個まで）</em></span><small><b data-strategy-tag-count="">0</b> / 5</small></div>
+<p>攻略の特徴やプレイスタイルを選択してください。</p>
+<div class="selectable-tag-grid" data-strategy-tag-grid=""></div>
+</div>
+<label><span>攻略説明</span><textarea data-post-points="" maxlength="2000" placeholder="編成の強み、基本的な立ち回り、意識するポイントを書いてください" rows="6"></textarea></label>
+<label class="post-summary-field"><span>一言紹介 <em>（必須・一覧表示用・60文字まで）</em></span><textarea data-post-summary="" maxlength="60" placeholder="この編成の強みや魅力を一言で紹介してください" rows="2"></textarea><small class="post-summary-counter"><b data-post-summary-count="">0</b> / 60</small></label>
+</div>
+<div class="detail-column">
+<div class="tag-field keyword-tag-field">
+<div class="tag-field-heading"><span>キーワードタグ <em>（自動付与）</em></span><small>編成人格から判定</small></div>
+<p>同じ主要キーワードを持つ人格が5人以上いる場合に自動で付きます。</p>
+<div class="automatic-keyword-tags" data-automatic-keyword-tags=""><span class="tag-empty">該当するキーワードはありません。</span></div>
+<p class="ammo-keyword-note" data-ammo-keyword-note="" hidden="">※ 弾丸キーワードを持つ人格が1人以上編成されている場合に選択できます。</p>
+</div>
+<div class="tag-field affiliation-tag-field">
+<div class="tag-field-heading"><span>所属・特殊タグ <em>（最大3個まで）</em></span><small><b data-affiliation-tag-count="">0</b> / 3</small></div>
+<p>編成のテーマや所属などを選択してください。</p>
+<div class="selectable-tag-grid affiliation-tag-grid" data-affiliation-tag-grid=""></div>
+</div>
+<div aria-disabled="true" class="tag-field required-gift-field">
+<div class="tag-field-heading"><span>必須ギフト <em>（実装予定）</em></span><small>現在は設定できません</small></div>
+<p>この攻略に必要なE.G.Oギフトを設定する欄です。</p>
+<div class="required-gift-placeholder">
+<strong>ギフト関連機能は今後のアップデートで実装予定です。</strong>
+<small>ギフトデータの追加後に、検索・選択機能を利用できるようにします。</small>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="post-step" data-post-step="7">
+<div class="review-card review-card-redesign">
+<header class="review-header">
+<small>POST PREVIEW</small>
+<h3 data-review-title="">無題の攻略</h3>
+<div class="review-meta"><span class="review-category" data-review-category="">鏡ダンジョン</span><span data-review-difficulty="">難易度未選択</span><span data-review-type="">攻略タイプ未選択</span><span data-review-count="">使用枠 0枠</span></div>
+</header>
+<section class="review-section">
+<div class="review-section-heading"><div><small>PARTY</small><h4>編成内容・使用E.G.O</h4></div><span>編成順</span></div>
+<div class="review-party-grid" data-review-party=""><p class="review-empty">人格が選択されていません。</p></div>
+</section>
+<section class="review-section review-theme-pack-section">
+<div class="review-section-heading"><div><small>THEME PACK ROUTE</small><h4>進行テーマパック</h4></div><span>任意</span></div>
+<div class="review-theme-pack-list" data-review-theme-packs=""><span class="tag-empty">未選択</span></div>
+</section>
+<section class="review-section review-tag-section">
+<div class="review-tag-group"><h4>攻略タグ</h4><div class="review-tag-list strategy-review-tags" data-review-tags=""><span class="tag-empty">未選択</span></div></div>
+<div class="review-tag-group"><h4>キーワードタグ</h4><div class="review-tag-list keyword-review-tags" data-review-keywords=""><span class="tag-empty">該当なし</span></div></div>
+<div class="review-tag-group" data-review-affiliation-section=""><h4>所属・特殊タグ</h4><div class="review-tag-list affiliation-review-tags" data-review-affiliations=""><span class="tag-empty">未選択</span></div></div>
+</section>
+<section class="review-summary-section">
+<small>INTRODUCTION</small>
+<h4>一言紹介</h4>
+<p data-review-summary="">未入力</p>
+</section>
+<section class="review-text-grid review-text-grid-single">
+<article class="review-text-card"><small>STRATEGY</small><h4>攻略説明</h4><p data-review-points="">未入力</p></article>
+</section>
+<div class="prototype-notice">公開すると投稿者アカウントに紐づいて保存されます。下書き保存も利用できます。</div>
+</div>
+</section>
+<footer class="workspace-footer">
+<button aria-label="前の画面へ戻る" class="button button-secondary footer-back-button" data-prev-step="" type="button"><span aria-hidden="true">←</span><span class="footer-back-label">戻る</span></button>
+<div class="workspace-context-actions" data-identity-footer-actions="" hidden="">
+<div aria-live="polite" class="party-keyword-summary" data-party-keyword-summary="">
+<span class="party-keyword-summary-label">編成キーワード</span>
+<div class="party-keyword-summary-chips" data-party-keyword-summary-chips=""><span class="filter-summary-empty">人格未選択</span></div>
+</div>
+<div aria-live="polite" class="identity-active-filter-summary" data-identity-active-filter-summary="">
+<span class="identity-filter-summary-label">絞り込み</span>
+<div class="identity-filter-summary-chips" data-identity-filter-summary-chips=""><span class="filter-summary-empty">指定なし</span></div>
+</div>
+<div class="identity-footer-buttons">
+<button aria-expanded="false" class="button button-secondary" data-toggle-identity-search="" type="button">人格検索</button>
+<button class="button button-secondary" data-fill-empty-identities="" type="button">空いている人格を自由枠にする</button>
+<button class="button button-secondary" data-clear-current-identity="" type="button">選択解除</button>
+<button class="button button-secondary danger-outline" data-clear-all-identities="" type="button">全選択解除</button>
+</div>
+</div>
+<div class="ego-footer-actions" data-ego-footer-actions="" hidden="">
+<button class="button button-secondary" data-clear-current-egos="" type="button">選択解除</button>
+<button class="button button-secondary danger-outline" data-clear-all-egos="" type="button">現在選択中のE.G.Oを全選択解除</button>
+</div>
+<button class="button button-secondary ego-confirm-button" data-confirm-ego-selection="" hidden="" type="button"><span aria-hidden="true">✓</span> 決定</button>
+<div class="workspace-main-actions"><button class="button button-secondary" data-save-draft="" type="button">下書きを保存する</button><button class="button button-primary" data-next-step="" type="button">次のステップへ →</button></div>
+</footer>
+</main>
+</div>
+</div>
+</dialog>
+
+<dialog class="modal post-close-confirm-dialog" data-post-close-confirm>
+  <div class="modal-shell post-close-confirm-shell">
+    <div class="modal-header"><div><small>BEFORE CLOSING</small><h2>投稿内容を閉じますか？</h2></div></div>
+    <p>入力中の内容は自動保存されません。続きから編集する場合は、下書きとして保存してください。</p>
+    <div class="post-close-confirm-actions">
+      <button class="button button-primary" type="button" data-save-and-close-post>下書き保存して閉じる</button>
+      <button class="button button-secondary post-close-discard" type="button" data-discard-and-close-post>保存せず閉じる</button>
+      <button class="button button-secondary" type="button" data-cancel-close-post>編集を続ける</button>
+    </div>
+  </div>
+</dialog>
+<dialog class="modal draft-manager-dialog" data-draft-manager>
+  <div class="modal-shell draft-manager-shell">
+    <div class="modal-header"><div><small>SAVE DATA</small><h2>下書きセーブデータ</h2></div><button class="modal-close" type="button" data-close-draft-manager aria-label="閉じる">×</button></div>
+    <p class="draft-manager-help">投稿途中の内容をこのブラウザに最大5件保存できます。別の端末・ブラウザには同期されません。</p>
+    <div class="draft-slot-list" data-draft-slot-list></div>
+    <div class="modal-actions"><span data-draft-slot-count>0 / 5件</span><button class="button button-primary" type="button" data-create-draft-slot>現在の内容を新規保存</button></div>
+  </div>
+</dialog>
+<div aria-live="polite" class="toast" data-toast="" role="status"></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/supabase-config.js?v=1.0.45"></script>
+<script src="js/auth.js?v=1.0.45"></script>
+<script src="js/community-data.js?v=1.0.45"></script>
+<script src="js/categories.js?v=1.0.45"></script>
+<script src="js/popular-search.js?v=1.0.45"></script>
+<script src="js/identity-images.js?v=1.0.45"></script>
+<script src="app.js?v=1.0.45"></script>
+<script src="js/browse-cards.js?v=1.0.45"></script>
+<script src="js/community-browse.js?v=1.0.45"></script>
+<script src="js/public-alpha.js?v=1.0.45"></script></body>
+</html>

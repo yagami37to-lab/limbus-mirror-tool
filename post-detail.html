@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="ja" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>攻略詳細｜Limbus Company 攻略投稿サイト</title>
+  <link rel="icon" href="logo-mark.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css?v=1.0.61">
+  <link rel="stylesheet" href="css/browse-cards.css?v=1.0.61">
+
+<script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script defer src="js/supabase-config.js?v=1.0.61"></script>
+<script defer src="js/auth.js?v=1.0.61"></script>
+<script defer src="js/community-data.js?v=1.0.61"></script>
+<script defer src="js/identity-images.js?v=1.0.61"></script>
+<script defer src="post-detail.js?v=1.0.61"></script>
+<script defer src="js/public-alpha.js?v=1.0.61"></script>
+</head>
+<body class="post-detail-page">
+  <header class="site-header detail-site-header">
+    <button aria-label="ダークモードに切り替える" aria-pressed="false" class="theme-toggle mobile-theme-toggle" data-theme-toggle type="button">
+      <span aria-hidden="true" class="theme-toggle-sun">☼</span>
+      <span aria-hidden="true" class="theme-toggle-track"><span class="theme-toggle-knob"></span></span>
+      <span aria-hidden="true" class="theme-toggle-moon">☾</span>
+    </button>
+    <a aria-label="Limbus Company 攻略投稿サイトのトップページへ" class="brand" href="index.html#top">
+      <span aria-hidden="true" class="brand-mark"><img alt="" class="logo-light" src="logo-mark.svg"><img alt="" class="logo-dark" src="logo-mark-dark.svg"></span>
+      <span class="brand-copy"><strong>Limbus Company</strong><small>攻略投稿サイト <em>非公式</em></small></span>
+    </a>
+    <nav aria-label="詳細画面ナビゲーション" class="header-nav detail-header-nav">
+      <a href="index.html#community">投稿一覧</a>
+      <button aria-label="ダークモードに切り替える" aria-pressed="false" class="theme-toggle" data-theme-toggle type="button">
+        <span aria-hidden="true" class="theme-toggle-sun">☼</span>
+        <span aria-hidden="true" class="theme-toggle-track"><span class="theme-toggle-knob"></span></span>
+        <span aria-hidden="true" class="theme-toggle-moon">☾</span>
+      </button>
+    <button class="header-login-button" type="button" data-open-auth data-auth-guest>ログイン</button>
+      <div class="account-menu-wrap" data-account-wrap data-auth-user hidden>
+<button class="header-account-button" type="button" data-account-button aria-expanded="false" aria-haspopup="menu">
+  <img class="header-account-avatar" data-auth-user-avatar src="logo-mark.svg" alt="" referrerpolicy="no-referrer">
+  <span data-auth-user-name>ユーザー</span><span class="account-menu-chevron" aria-hidden="true">⌄</span>
+</button>
+<div class="account-menu" data-account-menu role="menu" hidden>
+  <button class="account-menu-user account-menu-user-link" type="button" data-account-action="account" aria-label="アカウントホームを開く">
+    <img class="account-menu-avatar" data-auth-user-avatar src="logo-mark.svg" alt="" referrerpolicy="no-referrer">
+    <div><strong data-auth-user-name>ユーザー</strong><small data-auth-user-email></small></div>
+  </button>
+  <button type="button" role="menuitem" data-account-action="account">アカウントホーム</button>
+  <button type="button" role="menuitem" data-account-action="profile">プロフィール</button>
+  <button type="button" role="menuitem" data-account-action="posts">自分の投稿</button>
+  <button type="button" role="menuitem" data-account-action="bookmarks">ブックマーク</button>
+  <button type="button" role="menuitem" data-account-action="settings">設定</button>
+  <button class="account-menu-logout" type="button" role="menuitem" data-auth-logout>ログアウト</button>
+</div>
+</div>
+    </nav>
+    <a class="mobile-header-post detail-mobile-back" href="index.html#community">← 投稿一覧</a>
+  </header>
+  <main class="post-detail-main" data-post-detail-root>
+    <p class="detail-loading">投稿を読み込んでいます。</p>
+  </main>
+  <div class="detail-persistent-actions" aria-label="投稿詳細の操作">
+    <a class="button button-secondary detail-back-action" href="index.html#community">← 投稿一覧に戻る</a>
+    <button type="button" class="button button-primary detail-save-footer" data-save-post>🔖 ブックマーク</button>
+    <button type="button" class="button button-secondary detail-share-button" data-open-share>↗ 共有する</button>
+    <button type="button" class="button button-secondary detail-report-button" data-open-report>⚑ 通報する</button>
+  </div>
+  <div class="report-dialog-backdrop" data-report-dialog hidden>
+    <section class="report-dialog" role="dialog" aria-modal="true" aria-labelledby="report-dialog-title">
+      <div class="share-dialog-header"><h2 id="report-dialog-title">この攻略を通報</h2><button type="button" class="share-dialog-close" data-close-report aria-label="通報画面を閉じる">×</button></div>
+      <p class="report-dialog-copy">問題の内容を選択してください。通報内容は管理者だけが確認します。</p>
+      <form data-report-form>
+        <label class="report-field"><span>通報理由</span><select name="reason" required><option value="">選択してください</option><option value="spam">スパム・宣伝</option><option value="harassment">荒らし・嫌がらせ</option><option value="inappropriate">不適切な内容</option><option value="misinformation">著しく誤解を招く内容</option><option value="other">その他</option></select></label>
+        <label class="report-field"><span>詳細 <small>任意・1000文字まで</small></span><textarea name="details" maxlength="1000" rows="5" placeholder="管理者に伝えたい内容があれば入力してください。"></textarea></label>
+        <p class="report-status" data-report-status hidden></p>
+        <div class="report-actions"><button class="button button-secondary" type="button" data-close-report>キャンセル</button><button class="button button-primary" type="submit" data-submit-report>通報を送信</button></div>
+      </form>
+    </section>
+  </div>
+
+  <div class="share-dialog-backdrop" data-share-dialog hidden>
+    <section class="share-dialog" role="dialog" aria-modal="true" aria-labelledby="share-dialog-title">
+      <div class="share-dialog-header"><h2 id="share-dialog-title">この攻略を共有</h2><button type="button" class="share-dialog-close" data-close-share aria-label="共有メニューを閉じる">×</button></div>
+      <div class="share-dialog-options">
+        <button type="button" class="share-option" data-share-copy>🔗<span><strong>URLをコピー</strong><small>この詳細画面のURLをコピーします</small></span></button>
+        <button type="button" class="share-option" data-share-x>𝕏<span><strong>Xでツイート</strong><small>投稿タイトルとURLを共有します</small></span></button>
+        <button type="button" class="share-option" data-share-bluesky>🦋<span><strong>Blueskyで投稿</strong><small>投稿タイトルとURLを共有します</small></span></button>
+      </div>
+    </section>
+  </div>
+
+<dialog class="auth-dialog" data-auth-dialog>
+  <div class="auth-dialog-shell">
+    <button class="auth-dialog-close" type="button" data-close-auth aria-label="ログイン画面を閉じる">×</button>
+    <div class="auth-dialog-brand"><span class="brand-mark"><img class="logo-light" src="logo-mark.svg" alt=""><img class="logo-dark" src="logo-mark-dark.svg" alt=""></span><div><strong>アカウント</strong><small>Limbus Company 攻略投稿サイト</small></div></div>
+    <h2>ログイン・新規登録</h2>
+    <p>投稿やブックマークを利用するにはログインしてください。</p>
+    <button class="auth-provider auth-google" type="button" data-auth-google><span>G</span>Googleでログイン</button>
+    <div class="auth-divider"><span>または</span></div>
+    <form class="auth-email-form" data-auth-email-form data-mode="login">
+      <label><span>メールアドレス</span><input name="email" type="email" autocomplete="email" required></label>
+      <label><span>パスワード</span><input name="password" type="password" autocomplete="current-password" minlength="6" required></label>
+      <button class="button button-primary" type="submit" data-auth-submit>メールでログイン</button>
+    </form>
+    <div class="auth-sub-actions"><button type="button" data-auth-mode>メールで新規登録する</button><button type="button" data-auth-reset>パスワードを忘れた場合</button></div>
+    <p class="auth-status" data-auth-status hidden></p>
+    <div class="auth-coming-soon"><span>Discord・Xログインは次段階で追加予定です。</span></div>
+  </div>
+</dialog>
+
+  <div class="toast" role="status" aria-live="polite" data-toast></div>
+  
+  
+  
+  
+  
+
+</body>
+</html>
