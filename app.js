@@ -1202,6 +1202,23 @@ startCategoryPost?.addEventListener('click',()=>{if(!pendingPostCategory)return;
 $$('[data-step-link]').forEach(b=>b.onclick=()=>navigateToStep(+b.dataset.stepLink));
 const typePreviewIcon=$('[data-type-preview-icon]');
 const typePreviewDifficulty=$('[data-type-preview-difficulty]');
+function renderTypePreviewIcon(button){
+  if(!typePreviewIcon)return;
+  const logo=button?.querySelector(':scope > .type-option-logo > img');
+  typePreviewIcon.classList.toggle('has-type-logo',Boolean(logo));
+  typePreviewIcon.replaceChildren();
+  if(logo){
+    const image=logo.cloneNode(true);
+    image.removeAttribute('width');
+    image.removeAttribute('height');
+    image.setAttribute('aria-hidden','true');
+    image.alt='';
+    typePreviewIcon.appendChild(image);
+    return;
+  }
+  const fallback=button?.querySelector(':scope > span')?.textContent?.trim()||'◇';
+  typePreviewIcon.textContent=fallback;
+}
 const difficultyError=$('[data-difficulty-error]');
 function updateDifficultyDisplay(){
   const label=postState.difficulty==='HARD'?'ハード':postState.difficulty==='NORMAL'?'ノーマル':'難易度未選択';
@@ -1212,7 +1229,7 @@ function updateDifficultyDisplay(){
 $$('[data-post-difficulty]').forEach(b=>b.onclick=()=>{const nextDifficulty=b.dataset.postDifficulty;if(postState.difficulty&&postState.difficulty!==nextDifficulty&&postState.themePacks.size&&!window.confirm('難易度を変更すると、選択済みのテーマパックが解除されます。変更しますか？'))return;if(postState.difficulty!==nextDifficulty){postState.themePacks.clear();closeThemePackSelect({scroll:false});}postState.difficulty=nextDifficulty;$$('[data-post-difficulty]').forEach(x=>x.classList.toggle('active',x===b));clearStepValidation(1);updateDifficultyDisplay();});
 function updatePostSummaryCount(){if(postSummaryCount)postSummaryCount.textContent=String(postSummary?.value.length||0);}
 if(postSummary){postSummary.addEventListener('input',()=>{updatePostSummaryCount();if(postSummary.value.trim())clearStepValidation(6);});updatePostSummaryCount();}
-$$('[data-post-type]').forEach(b=>b.onclick=()=>{$$('[data-post-type]').forEach(x=>x.classList.remove('active'));b.classList.add('active');postState.type=b.dataset.postType;clearStepValidation(1);if(isSoloPost()&&postState.identityOrder.length>1)postState.identityOrder=postState.identityOrder.slice(0,1);if(isSoloPost()){const soloId=postState.identityOrder[0];for(const id of [...postState.egos.keys()])if(id!==soloId)postState.egos.delete(id);}renderFormationOrder();renderEgoSinners();renderDetailTags();$('[data-type-preview]').textContent=postState.type;$('[data-type-copy]').textContent=b.querySelector('small').textContent+'攻略として投稿します。';if(typePreviewIcon)typePreviewIcon.textContent=b.querySelector(':scope > span')?.textContent||'◇';$$('[data-type-badge]').forEach(x=>{x.textContent=postState.type;x.classList.remove('is-unset');});});updateDifficultyDisplay();const handlePostTitleSync=()=>{
+$$('[data-post-type]').forEach(b=>b.onclick=()=>{$$('[data-post-type]').forEach(x=>x.classList.remove('active'));b.classList.add('active');postState.type=b.dataset.postType;clearStepValidation(1);if(isSoloPost()&&postState.identityOrder.length>1)postState.identityOrder=postState.identityOrder.slice(0,1);if(isSoloPost()){const soloId=postState.identityOrder[0];for(const id of [...postState.egos.keys()])if(id!==soloId)postState.egos.delete(id);}renderFormationOrder();renderEgoSinners();renderDetailTags();$('[data-type-preview]').textContent=postState.type;$('[data-type-copy]').textContent=b.querySelector('small').textContent+'攻略として投稿します。';renderTypePreviewIcon(b);$$('[data-type-badge]').forEach(x=>{x.textContent=postState.type;x.classList.remove('is-unset');});});updateDifficultyDisplay();const handlePostTitleSync=()=>{
   syncTitle();
   document.querySelector('[data-workspace-titlebar]')?.classList.remove('validation-error');
   if(stepValidation(1).valid)clearStepValidation(1);

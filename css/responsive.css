@@ -2284,3 +2284,106 @@ body.news-page .site-shell{
   .type-option>span.type-option-logo{flex:0 0 42px!important;width:42px!important;height:42px!important;min-width:42px!important;min-height:42px!important;max-width:42px!important;max-height:42px!important;overflow:hidden!important}
   .type-option>span.type-option-logo>img{display:block!important;width:100%!important;height:100%!important;min-width:0!important;min-height:0!important;max-width:100%!important;max-height:100%!important;object-fit:contain!important;object-position:center!important}
 }
+
+
+/* v1.0.71: 投稿画面の攻略タイプ画像と下書き保存ダイアログをスマホ幅へ固定 */
+@media(max-width:720px){
+  .type-option > .type-option-logo{
+    flex-basis:48px!important;
+    width:48px!important;
+    height:48px!important;
+    min-width:48px!important;
+    min-height:48px!important;
+    max-width:48px!important;
+    max-height:48px!important;
+  }
+  .type-preview-icon.has-type-logo{
+    width:min(156px,38vw)!important;
+    height:min(156px,38vw)!important;
+    margin:18px auto 22px!important;
+  }
+
+  .draft-manager-dialog{
+    width:calc(100vw - 20px)!important;
+    max-width:calc(100vw - 20px)!important;
+    max-height:calc(100dvh - 24px)!important;
+    margin:auto!important;
+    padding:0!important;
+    overflow:hidden!important;
+  }
+  .draft-manager-dialog .draft-manager-shell{
+    width:100%!important;
+    max-width:100%!important;
+    max-height:calc(100dvh - 24px)!important;
+    margin:0!important;
+    padding:18px 16px calc(16px + env(safe-area-inset-bottom))!important;
+    overflow-x:hidden!important;
+    overflow-y:auto!important;
+    border-radius:16px!important;
+  }
+  .draft-manager-dialog .modal-header{
+    width:100%;
+    min-width:0;
+    align-items:flex-start;
+    gap:12px;
+  }
+  .draft-manager-dialog .modal-header > div{
+    min-width:0;
+  }
+  .draft-manager-dialog .modal-header h2{
+    margin:8px 0 0;
+    font-size:clamp(28px,8.5vw,38px);
+    line-height:1.2;
+    overflow-wrap:anywhere;
+  }
+  .draft-manager-dialog .modal-close{
+    flex:0 0 44px;
+    width:44px;
+    height:44px;
+  }
+  .draft-manager-dialog .draft-manager-help{
+    margin:22px 0 16px;
+    font-size:15px;
+    line-height:1.75;
+  }
+  .draft-manager-dialog .draft-slot-list{
+    width:100%;
+    min-width:0;
+    margin:14px 0 18px;
+  }
+  .draft-manager-dialog .draft-slot-empty{
+    width:100%;
+    min-width:0;
+    padding:24px 16px;
+    overflow-wrap:anywhere;
+  }
+  .draft-manager-dialog .modal-actions{
+    display:grid!important;
+    grid-template-columns:auto minmax(0,1fr);
+    align-items:center;
+    gap:12px;
+    width:100%;
+    min-width:0;
+    margin-top:14px;
+    padding-top:14px;
+  }
+  .draft-manager-dialog .modal-actions > span{
+    white-space:nowrap;
+  }
+  .draft-manager-dialog .modal-actions .button{
+    width:100%!important;
+    min-width:0!important;
+    max-width:100%!important;
+    padding:13px 12px!important;
+    white-space:normal!important;
+    line-height:1.35!important;
+  }
+}
+@media(max-width:430px){
+  .draft-manager-dialog .modal-actions{
+    grid-template-columns:1fr;
+  }
+  .draft-manager-dialog .modal-actions > span{
+    text-align:left;
+  }
+}

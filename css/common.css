@@ -1648,3 +1648,54 @@ html[data-theme="dark"] .modal[data-selector-modal] .selection-item.has-identity
 .type-option>span.type-option-logo{flex:0 0 38px;width:38px;height:38px;overflow:hidden}
 .type-option-logo img{display:block;width:100%;height:100%;max-width:100%;max-height:100%;object-fit:contain;object-position:center}
 .type-preview-icon img{display:block;width:min(132px,32vw);height:min(132px,32vw);max-width:132px;max-height:132px;object-fit:contain;object-position:center}
+
+
+/* v1.0.71: 攻略タイプロゴをPC/スマホ共通でカード内に固定し、選択プレビューにも実画像を表示 */
+.type-option > .type-option-logo{
+  position:relative!important;
+  display:block!important;
+  flex:0 0 46px!important;
+  width:46px!important;
+  height:46px!important;
+  min-width:46px!important;
+  min-height:46px!important;
+  max-width:46px!important;
+  max-height:46px!important;
+  padding:0!important;
+  overflow:hidden!important;
+  contain:layout paint;
+}
+.type-option > .type-option-logo > img{
+  position:absolute!important;
+  inset:0!important;
+  display:block!important;
+  width:100%!important;
+  height:100%!important;
+  min-width:0!important;
+  min-height:0!important;
+  max-width:100%!important;
+  max-height:100%!important;
+  margin:0!important;
+  padding:0!important;
+  object-fit:contain!important;
+  object-position:center!important;
+  transform:none!important;
+}
+.type-preview-icon.has-type-logo{
+  width:144px;
+  height:144px;
+  margin:18px auto 22px;
+  display:grid;
+  place-items:center;
+  font-size:0;
+  overflow:hidden;
+}
+.type-preview-icon.has-type-logo > img{
+  display:block!important;
+  width:100%!important;
+  height:100%!important;
+  max-width:100%!important;
+  max-height:100%!important;
+  object-fit:contain!important;
+  object-position:center!important;
+}
