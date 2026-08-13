@@ -911,10 +911,10 @@ body.dark-mode .theme-pack-option-card small{color:#aeb4bc!important}
 .identity-alternative-chip{display:inline-flex;align-items:flex-end;min-width:118px;min-height:44px;padding:7px 9px;border:1px solid rgba(196,146,48,.55);background:#161719;color:#fff;font-size:11px;font-weight:800;line-height:1.35;background-size:cover;background-position:center;text-shadow:0 1px 3px #000}
 .identity-alternative-chip.has-identity-image{
   min-height:56px;
-  /* 横長の代用人格カードでも人格画像を過度に拡大しない */
-  background-size:100% 100%,contain!important;
-  background-position:center,center!important;
-  background-repeat:no-repeat,no-repeat!important;
+  /* 編成順カードと同じ cover / center で画像の見え方を統一 */
+  background-size:cover!important;
+  background-position:center!important;
+  background-repeat:no-repeat!important;
   background-color:#111;
 }
 html[data-theme="light"] .identity-alternative-chip{background-color:#2b241b;color:#fff}
@@ -932,15 +932,11 @@ html[data-theme="light"] .identity-alternative-chip{background-color:#2b241b;col
   .identity-alternative-chip{min-width:0;width:100%}
 }
 
-/* v1.0.61: substitute identity image framing */
-.identity-alternative-chip.has-identity-image{
-  background-size:100% 100%,contain!important;
-  background-position:center,center!important;
-  background-repeat:no-repeat,no-repeat!important;
-  background-color:#111!important;
-}
+/* v1.0.62: substitute portraits use the same crop rule as formation cards */
+.identity-alternative-chip.has-identity-image,
 html[data-theme="dark"] .identity-alternative-chip.has-identity-image{
-  background-size:100% 100%,contain!important;
-  background-position:center,center!important;
-  background-repeat:no-repeat,no-repeat!important;
+  background-size:cover!important;
+  background-position:center!important;
+  background-repeat:no-repeat!important;
+  background-color:#111!important;
 }

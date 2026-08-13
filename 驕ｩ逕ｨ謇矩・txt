@@ -1,0 +1,8 @@
+v1.0.62 適用手順
+
+1. このZIPを展開します。
+2. 中身をローカルの limbus-mirror-tool フォルダ直下へ、そのまま上書きコピーします。
+3. GitHub Desktop の Changes で変更内容を確認します。
+4. Commit → Push origin を実行します。
+
+追加の .cmd / PowerShell 実行は不要です。
