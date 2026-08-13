@@ -75,3 +75,51 @@ html[data-theme="dark"] .profile-brand small span{color:#ef6a5d!important}
 
 /* v1.0.43 profile header palette alignment */
 .profile-header{border-bottom-color:var(--account-line,var(--line))!important}.profile-brand small{color:var(--account-muted,var(--muted))}.profile-brand small span{color:#b93d32}.profile-theme-button,.profile-back-link{background:var(--account-card,#fffdf8);border-color:var(--account-line,var(--line))}
+
+
+/* v1.0.66: use the shared account-subpage header layout on phones. */
+@media(max-width:760px){
+  .profile-shared-header{
+    height:auto!important;
+    min-height:0!important;
+    overflow:visible!important;
+    align-items:center!important;
+    flex-wrap:wrap!important;
+    gap:8px 10px!important;
+    padding:9px 12px!important;
+  }
+  .profile-shared-header .account-brand{
+    flex:1 1 100%!important;
+    min-width:0!important;
+    gap:12px!important;
+  }
+  .profile-shared-header .account-brand img{width:48px!important;height:48px!important}
+  .profile-shared-header .account-brand strong{font-size:20px!important}
+  .profile-shared-header .account-brand small{display:block!important;font-size:12px!important}
+  .profile-shared-header .account-header-actions{
+    width:100%!important;
+    display:flex!important;
+    align-items:center!important;
+    gap:6px!important;
+    flex:0 0 100%!important;
+  }
+  .profile-shared-header .account-theme-toggle{flex:0 0 auto!important;min-width:auto!important}
+  .profile-shared-header .account-back-link{
+    display:grid!important;
+    flex:1 1 0!important;
+    min-width:0!important;
+    min-height:38px!important;
+    padding:8px 7px!important;
+    border-radius:8px!important;
+    font-size:11px!important;
+    line-height:1.25!important;
+    text-align:center!important;
+    white-space:nowrap!important;
+    overflow:hidden!important;
+    text-overflow:ellipsis!important;
+  }
+  .profile-main{padding-top:34px!important}
+}
+@media(max-width:390px){
+  .profile-shared-header .account-back-link{font-size:10px!important;padding-inline:5px!important}
+}

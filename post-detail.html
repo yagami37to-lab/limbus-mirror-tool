@@ -6,16 +6,16 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>攻略詳細｜Limbus Company 攻略投稿サイト</title>
   <link rel="icon" href="logo-mark.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="styles.css?v=1.0.65">
-  <link rel="stylesheet" href="css/browse-cards.css?v=1.0.65">
+  <link rel="stylesheet" href="styles.css?v=1.0.66">
+  <link rel="stylesheet" href="css/browse-cards.css?v=1.0.66">
 
 <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script defer src="js/supabase-config.js?v=1.0.65"></script>
-<script defer src="js/auth.js?v=1.0.65"></script>
-<script defer src="js/community-data.js?v=1.0.65"></script>
-<script defer src="js/identity-images.js?v=1.0.65"></script>
-<script defer src="post-detail.js?v=1.0.65"></script>
-<script defer src="js/public-alpha.js?v=1.0.65"></script>
+<script defer src="js/supabase-config.js?v=1.0.66"></script>
+<script defer src="js/auth.js?v=1.0.66"></script>
+<script defer src="js/community-data.js?v=1.0.66"></script>
+<script defer src="js/identity-images.js?v=1.0.66"></script>
+<script defer src="post-detail.js?v=1.0.66"></script>
+<script defer src="js/public-alpha.js?v=1.0.66"></script>
 </head>
 <body class="post-detail-page">
   <header class="site-header detail-site-header">
@@ -64,8 +64,9 @@
     <a class="button button-secondary detail-back-action" href="index.html#community">← 投稿一覧に戻る</a>
     <button type="button" class="button button-primary detail-save-footer" data-save-post>🔖 ブックマーク</button>
     <button type="button" class="button button-secondary detail-share-button" data-open-share>↗ 共有する</button>
-    <button type="button" class="button button-secondary detail-report-button" data-open-report>⚑ 通報する</button>
+    <button type="button" class="button button-secondary detail-report-button detail-report-desktop" data-open-report>⚑ 通報する</button>
   </div>
+  <button type="button" class="detail-mobile-report-button" data-open-report aria-label="この攻略を通報する">⚑ 通報</button>
   <div class="report-dialog-backdrop" data-report-dialog hidden>
     <section class="report-dialog" role="dialog" aria-modal="true" aria-labelledby="report-dialog-title">
       <div class="share-dialog-header"><h2 id="report-dialog-title">この攻略を通報</h2><button type="button" class="share-dialog-close" data-close-report aria-label="通報画面を閉じる">×</button></div>

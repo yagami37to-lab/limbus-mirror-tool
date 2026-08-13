@@ -186,3 +186,7 @@ html[data-theme="dark"] .detail-substitute-card.has-identity-image{
   html[data-theme="dark"] .detail-report-button{color:#ffb4b4!important;border-color:#70464d!important}
   .post-detail-page{padding-bottom:158px}
 }
+
+
+/* v1.0.66: mobile report action is separated from the primary bottom toolbar. */
+.detail-mobile-report-button{display:none}

@@ -2145,3 +2145,103 @@ body.news-page .site-shell{
   .header-nav .button[data-open-post]{display:none!important;}
   .mobile-header-post{writing-mode:horizontal-tb!important;white-space:nowrap!important;}
 }
+
+
+/* v1.0.66: shared mobile header parity for profile/news and collision-free detail controls. */
+@media(max-width:720px){
+  /* News uses the same two-row shell as account subpages, but only needs Top. */
+  body.news-page .news-shell-header{
+    display:flex!important;
+    align-items:center!important;
+    flex-wrap:wrap!important;
+    gap:8px 10px!important;
+    padding:9px 12px!important;
+  }
+  body.news-page .news-shell-header .account-brand{
+    display:flex!important;
+    flex:1 1 100%!important;
+    width:auto!important;
+    max-width:none!important;
+    min-width:0!important;
+    gap:12px!important;
+  }
+  body.news-page .news-shell-header .account-brand img{width:48px!important;height:48px!important}
+  body.news-page .news-shell-header .account-brand strong{font-size:20px!important}
+  body.news-page .news-shell-header .account-brand small{display:block!important;font-size:12px!important}
+  body.news-page .news-shell-header .account-header-actions{
+    width:100%!important;
+    display:flex!important;
+    align-items:center!important;
+    gap:6px!important;
+    flex:0 0 100%!important;
+  }
+  body.news-page .news-shell-header .account-theme-toggle{flex:0 0 auto!important}
+  body.news-page .news-shell-header .account-back-link{
+    display:grid!important;
+    place-items:center!important;
+    flex:1 1 0!important;
+    min-width:0!important;
+    min-height:38px!important;
+    margin:0!important;
+    padding:8px 7px!important;
+    border:1px solid var(--account-line,var(--line))!important;
+    border-radius:8px!important;
+    background:var(--account-card,var(--paper))!important;
+    color:var(--account-text,var(--ink))!important;
+    font-size:11px!important;
+    line-height:1.25!important;
+    font-weight:700!important;
+    text-align:center!important;
+    white-space:nowrap!important;
+    overflow:hidden!important;
+    text-overflow:ellipsis!important;
+  }
+  body.news-page .news-shell-header .account-back-link::after{content:none!important}
+
+  /* Detail bottom bar remains the three primary actions. */
+  .post-detail-page .detail-persistent-actions{
+    grid-template-columns:1fr 1fr 1fr!important;
+    grid-template-areas:"back save share"!important;
+  }
+  .post-detail-page .detail-report-desktop{display:none!important}
+
+  /* Report becomes a smaller independent shortcut directly above News. */
+  .post-detail-page .detail-mobile-report-button{
+    position:fixed;
+    right:max(14px,env(safe-area-inset-right));
+    bottom:calc(150px + env(safe-area-inset-bottom));
+    z-index:92;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    min-height:36px;
+    padding:0 13px;
+    border:1px solid #b85a50;
+    border-radius:999px;
+    background:color-mix(in srgb,var(--paper) 94%,transparent);
+    color:#9b3c35;
+    box-shadow:0 8px 22px rgba(0,0,0,.16);
+    backdrop-filter:blur(12px);
+    font-size:11px;
+    font-weight:800;
+    cursor:pointer;
+  }
+  html[data-theme="dark"] .post-detail-page .detail-mobile-report-button{
+    background:rgba(48,35,38,.96);
+    border-color:#86545b;
+    color:#ffb4b4;
+  }
+  .post-detail-page .detail-mobile-report-button:disabled{opacity:.62;cursor:not-allowed}
+
+  /* Like/bookmark/share/report toasts always clear the action bar + News + Report stack. */
+  .post-detail-page .toast{
+    left:12px!important;
+    right:12px!important;
+    bottom:calc(204px + env(safe-area-inset-bottom))!important;
+    max-width:none!important;
+  }
+  .post-detail-page{padding-bottom:calc(176px + env(safe-area-inset-bottom))!important}
+}
+@media(max-width:390px){
+  body.news-page .news-shell-header .account-back-link{font-size:10px!important;padding-inline:5px!important}
+}
