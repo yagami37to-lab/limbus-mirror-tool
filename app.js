@@ -273,7 +273,46 @@ function closeDialog(dialog){
 function showToast(m){toast.textContent=m;toast.classList.add("show");clearTimeout(showToast.t);showToast.t=setTimeout(()=>toast.classList.remove("show"),2200)}
 function openSelector(type){activeSelector=type;modalTitle.textContent='使用人格を選択';modalKicker.textContent='SELECT IDENTITIES';modalSearch.value='';renderSelectionOptions();openDialog(selectorModal)}
 function updateModalSelectionStatus(){const count=selected.identity.size;if(modalSelectionStatus)modalSelectionStatus.textContent=`${count}件選択中`;if(modalApplySelection)modalApplySelection.textContent=count?`${count}件選択して決定`:'0件選択して決定';if(modalClearSelection)modalClearSelection.disabled=count===0}
-function renderSelectionOptions(filter=''){selectionGrid.innerHTML='';identityOptions.filter(x=>x.toLowerCase().includes(filter.trim().toLowerCase())).forEach((item,i)=>{const b=document.createElement('button');b.type='button';b.className='selection-item'+(selected.identity.has(item)?' active':'');const parts=item.split('｜');b.innerHTML=`<small>${parts[0]}</small><strong>${parts[1]}</strong>`;b.onclick=()=>{selected.identity.has(item)?selected.identity.delete(item):selected.identity.add(item);b.classList.toggle('active');updateModalSelectionStatus()};selectionGrid.appendChild(b)});updateModalSelectionStatus()}
+function renderSelectionOptions(filter=''){
+  selectionGrid.innerHTML='';
+  identityOptions.filter(x=>x.toLowerCase().includes(filter.trim().toLowerCase())).forEach((item,i)=>{
+    const b=document.createElement('button');
+    b.type='button';
+    b.className='selection-item'+(selected.identity.has(item)?' active':'');
+    const parts=item.split('｜');
+    const sinnerName=parts[0]||'';
+    const identityName=parts[1]||'';
+    const imagePath=window.LimbusIdentityImages?.forIdentity?.(sinnerName,identityName)||'';
+    if(imagePath){
+      b.classList.add('has-identity-image');
+      const img=document.createElement('img');
+      img.className='selection-item-image';
+      img.src=imagePath;
+      img.alt='';
+      img.loading='lazy';
+      img.decoding='async';
+      b.appendChild(img);
+    }
+    const shade=document.createElement('span');
+    shade.className='selection-item-shade';
+    shade.setAttribute('aria-hidden','true');
+    const copy=document.createElement('span');
+    copy.className='selection-item-copy';
+    const sinner=document.createElement('small');
+    sinner.textContent=sinnerName;
+    const identity=document.createElement('strong');
+    identity.textContent=identityName;
+    copy.append(sinner,identity);
+    b.append(shade,copy);
+    b.onclick=()=>{
+      selected.identity.has(item)?selected.identity.delete(item):selected.identity.add(item);
+      b.classList.toggle('active');
+      updateModalSelectionStatus();
+    };
+    selectionGrid.appendChild(b);
+  });
+  updateModalSelectionStatus();
+}
 function updateSelectionLabels(){identityLabel.textContent=selected.identity.size?`${selected.identity.size}件選択中`:'人格を選択';renderActiveFilters()}
 function addChipGroup(rootSelector,key,items,single=false){const root=$(rootSelector);if(!root)return;root.innerHTML='';items.forEach(item=>{const button=document.createElement('button');button.type='button';button.className='search-filter-chip';button.textContent=item;button.addEventListener('click',()=>{if(single){const was=selected[key].has(item);selected[key].clear();root.querySelectorAll('.search-filter-chip').forEach(x=>x.classList.remove('active'));if(!was){selected[key].add(item);button.classList.add('active')}}else{selected[key].has(item)?selected[key].delete(item):selected[key].add(item);button.classList.toggle('active')}renderActiveFilters()});root.appendChild(button)})}
 function renderSearchCategories(){const root=$('[data-search-categories]');if(!root)return;root.innerHTML='';categoryDefinitions.forEach(category=>{const button=document.createElement('button');button.type='button';button.className='search-category-option';button.dataset.categoryId=category.id;button.disabled=!category.available;button.innerHTML=`<span class="search-category-icon">${categoryIconMarkup(category)}</span><span><strong>${category.label}</strong><small>${category.available?category.searchCopy:'※実装予定'}</small></span>`;button.addEventListener('click',()=>{if(!category.available)return;const was=selected.category.has(category.id);selected.category.clear();root.querySelectorAll('.search-category-option').forEach(x=>x.classList.remove('active'));if(!was){selected.category.add(category.id);button.classList.add('active')}renderActiveFilters()});root.appendChild(button)})}
