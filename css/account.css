@@ -162,3 +162,9 @@ html[data-theme="dark"] .moderation-card,html[data-theme="dark"] .moderation-sum
   .account-shell-header .account-header-actions .account-back-link{font-size:10px;padding-inline:5px}
   .news-shell-header .account-brand small{display:none}
 }
+
+
+/* v1.0.65: keep the floating news shortcut readable on account subpages. */
+.account-page .mobile-news-button,
+.account-page .mobile-news-button:visited{color:#fff2d4!important}
+.account-page .mobile-news-button>span:first-child{color:var(--gold)!important}

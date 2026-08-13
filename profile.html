@@ -7,15 +7,27 @@
   <meta name="description" content="Limbus Company 攻略投稿サイトのプロフィール設定ページです。">
   <title>プロフィール設定 | Limbus Company 攻略投稿サイト</title>
   <link rel="icon" href="logo-mark.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="styles.css?v=1.0.64">
-  <link rel="stylesheet" href="css/profile.css?v=1.0.64">
+  <link rel="stylesheet" href="styles.css?v=1.0.65">
+  <link rel="stylesheet" href="css/profile.css?v=1.0.65">
+  <style>
+    /* v1.0.65: mobile profile header matches the shared account subpage header. */
+    @media(max-width:760px){
+      .profile-header{height:auto!important;min-height:0!important;overflow:visible!important;align-items:center!important;flex-wrap:wrap!important;gap:8px 10px!important;padding:9px 12px!important}
+      .profile-header .profile-brand{flex:1 1 100%!important;min-width:0!important}
+      .profile-header .profile-header-actions{width:100%!important;display:flex!important;align-items:center!important;gap:6px!important;flex:0 0 100%!important}
+      .profile-header .profile-theme-button{flex:0 0 auto!important;min-width:auto!important}
+      .profile-header .profile-back-link{display:grid!important;flex:1 1 0!important;min-width:0!important;min-height:38px!important;padding:8px 7px!important;border-radius:8px!important;font-size:11px!important;line-height:1.25!important;text-align:center!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
+      .profile-main{padding-top:34px!important}
+    }
+    @media(max-width:390px){.profile-header .profile-back-link{font-size:10px!important;padding-inline:5px!important}}
+  </style>
 
 <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script defer src="js/supabase-config.js?v=1.0.64"></script>
-<script defer src="js/auth.js?v=1.0.64"></script>
-<script defer src="js/community-data.js?v=1.0.64"></script>
-<script defer src="js/profile.js?v=1.0.64"></script>
-<script defer src="js/public-alpha.js?v=1.0.64"></script>
+<script defer src="js/supabase-config.js?v=1.0.65"></script>
+<script defer src="js/auth.js?v=1.0.65"></script>
+<script defer src="js/community-data.js?v=1.0.65"></script>
+<script defer src="js/profile.js?v=1.0.65"></script>
+<script defer src="js/public-alpha.js?v=1.0.65"></script>
 </head>
 <body class="profile-page">
   <header class="profile-header">
