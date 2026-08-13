@@ -927,3 +927,15 @@ html[data-theme="dark"] .community-browser .like-stat::before {
 /* v1.0.47 イサン人格画像 */
 .browse-identity-card.has-identity-image{background-size:cover!important;background-position:center!important;color:#fff!important}
 .browse-identity-card.has-identity-image strong,.browse-identity-card.has-identity-image small,.browse-identity-card.has-identity-image .browse-order{color:#fff!important;text-shadow:0 1px 3px #000}
+
+/* v1.0.64: bookmark cards must keep their natural height on phones */
+.bookmark-card-grid.community-browser{padding-top:0!important}
+.bookmark-card-grid .post-card-rich{height:auto!important;min-height:0!important;align-self:start!important}
+.bookmark-card-grid .browse-identity-scroll:empty,
+.bookmark-card-grid .browse-keyword-row:empty,
+.bookmark-card-grid .browse-strategy-row:empty{display:none!important}
+@media(max-width:720px){
+  .bookmark-card-grid.community-browser{padding-top:0!important;gap:10px!important}
+  .bookmark-card-grid .post-card-rich{display:block!important;height:auto!important;min-height:0!important;padding:12px!important}
+  .bookmark-card-grid .post-card-info-row{margin-top:8px!important}
+}

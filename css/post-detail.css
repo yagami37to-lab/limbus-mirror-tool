@@ -157,7 +157,7 @@ html[data-theme="dark"] .detail-report-button{background:#302326;border-color:#8
 html[data-theme="dark"] .report-dialog{background:#171c23}html[data-theme="dark"] .report-field select,html[data-theme="dark"] .report-field textarea{background:#20262f;color:#f4f1eb}
 @media(max-width:760px){.detail-persistent-actions{grid-template-columns:1fr 1fr}.detail-report-button{order:4}.report-dialog-backdrop{padding:12px}.report-dialog{max-height:calc(100dvh - 24px);padding:18px}.report-actions{display:grid;grid-template-columns:1fr 1fr}.post-detail-page{padding-bottom:150px}}
 
-/* v1.0.63: match substitute portraits to party-order framing */
+/* v1.0.64: match substitute portraits to party-order framing */
 .detail-substitute-card.has-identity-image,
 html[data-theme="dark"] .detail-substitute-card.has-identity-image{
   min-height:94px;
@@ -165,4 +165,24 @@ html[data-theme="dark"] .detail-substitute-card.has-identity-image{
   background-position:center!important;
   background-repeat:no-repeat!important;
   background-color:#111!important;
+}
+
+/* v1.0.64: cleaner persistent actions on mobile */
+@media(max-width:760px){
+  .detail-persistent-actions{
+    width:calc(100% - 20px);
+    bottom:max(10px,env(safe-area-inset-bottom));
+    grid-template-columns:1fr 1fr 1fr;
+    grid-template-areas:"back save share" "report report report";
+    gap:7px;
+    padding:8px;
+    border-radius:12px;
+  }
+  .detail-persistent-actions .button{min-height:42px;padding:8px 6px;font-size:11px;line-height:1.25}
+  .detail-back-action{grid-area:back}
+  .detail-save-footer{grid-area:save}
+  .detail-share-button{grid-area:share}
+  .detail-report-button{grid-area:report;order:initial;min-height:36px!important;background:transparent!important;border-color:color-mix(in srgb,#b85a50 55%,var(--line))!important;color:#9b3c35!important}
+  html[data-theme="dark"] .detail-report-button{color:#ffb4b4!important;border-color:#70464d!important}
+  .post-detail-page{padding-bottom:158px}
 }
