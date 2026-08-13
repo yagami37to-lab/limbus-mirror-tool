@@ -2387,3 +2387,47 @@ body.news-page .site-shell{
     text-align:left;
   }
 }
+
+
+/* v1.0.72: スマホの投稿カテゴリ選択フッターを画面幅内へ収める */
+@media(max-width:720px){
+  .category-picker-actions{
+    position:sticky;
+    bottom:0;
+    z-index:3;
+    display:grid!important;
+    grid-template-columns:1fr;
+    gap:9px;
+    width:100%;
+    min-width:0;
+    padding:11px 14px calc(11px + env(safe-area-inset-bottom))!important;
+    box-sizing:border-box;
+  }
+  .category-picker-actions > span{
+    min-width:0;
+    font-size:13px;
+    line-height:1.35;
+    overflow-wrap:anywhere;
+  }
+  .category-picker-action-buttons{
+    display:grid!important;
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+    gap:8px!important;
+    width:100%;
+    min-width:0;
+  }
+  .category-picker-action-buttons .button{
+    width:100%!important;
+    min-width:0!important;
+    max-width:100%!important;
+    min-height:48px;
+    padding:10px 8px!important;
+    font-size:14px!important;
+    line-height:1.25!important;
+    white-space:normal!important;
+    overflow-wrap:anywhere;
+  }
+}
+@media(max-width:350px){
+  .category-picker-action-buttons{grid-template-columns:1fr!important;}
+}

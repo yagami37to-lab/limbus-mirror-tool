@@ -17,10 +17,13 @@
         const version=document.createElement('strong');version.textContent=`v${entry.version}`;
         const date=document.createElement('time');date.dateTime=entry.date||'';date.textContent=(entry.date||'').replaceAll('-','.');
         header.append(version,date);
-        const summary=document.createElement('p');summary.className='news-entry-summary';summary.textContent=entry.summary||'';
+        const summary=document.createElement('p');summary.className='news-entry-summary';summary.textContent=entry.summary||entry.title||'';
         const groups=document.createElement('div');groups.className='news-change-groups';
+        const normalizedChanges=Array.isArray(entry.changes)
+          ? entry.changes.reduce((acc,item)=>{const key=item?.type,text=item?.text;if(key&&text)(acc[key]??=[]).push(text);return acc;},{})
+          : (entry.changes||{});
         categoryOrder.forEach(category=>{
-          const values=entry.changes?.[category];
+          const values=normalizedChanges[category];
           const items=Array.isArray(values)?values.filter(text=>!blockedPublicTerms.test(String(text))):[];
           if(!items.length)return;
           const group=document.createElement('section');group.className='news-change-group';
