@@ -58,7 +58,7 @@
   }
   async function loadProfile(){const {data}=await client.from('profiles').select('display_name,avatar_url,bio,role').eq('id',user.id).maybeSingle();profile=data||null;}
   async function loadPosts(){const {data,error}=await client.from('posts').select('*').eq('author_id',user.id).order('updated_at',{ascending:false});if(error)throw error;cloudPosts=data||[];}
-  function normalizeCloud(p){const c=p.content||{};return{id:p.id,title:p.title,summary:p.summary,category:p.category,difficulty:p.difficulty,type:p.strategy_type,status:p.status,published:p.published_at||p.created_at,updated:p.updated_at,views:p.views||0,likes:p.likes||0,...c};}
+  function normalizeCloud(p){const c=p.content||{};return{id:p.id,author_id:p.author_id,title:p.title,summary:p.summary,category:p.category,difficulty:p.difficulty,type:p.strategy_type,status:p.status,published:p.published_at||p.created_at,updated:p.updated_at,views:p.views||0,likes:p.likes||0,...c};}
   async function renderBookmarks(){
     const list=qs('[data-bookmark-list]');if(!list)return;const keys=await bookmarkKeys();const cloudAll=await api.getPublishedPosts();
     const merged=cloudAll.map(normalizeCloud).filter(p=>keys.includes(String(p.id)));

@@ -932,7 +932,7 @@ html[data-theme="light"] .identity-alternative-chip{background-color:#2b241b;col
   .identity-alternative-chip{min-width:0;width:100%}
 }
 
-/* v1.0.62: substitute portraits use the same crop rule as formation cards */
+/* v1.0.63: substitute portraits use the same crop rule as formation cards */
 .identity-alternative-chip.has-identity-image,
 html[data-theme="dark"] .identity-alternative-chip.has-identity-image{
   background-size:cover!important;
