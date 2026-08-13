@@ -77,7 +77,7 @@ html[data-theme="dark"] .profile-brand small span{color:#ef6a5d!important}
 .profile-header{border-bottom-color:var(--account-line,var(--line))!important}.profile-brand small{color:var(--account-muted,var(--muted))}.profile-brand small span{color:#b93d32}.profile-theme-button,.profile-back-link{background:var(--account-card,#fffdf8);border-color:var(--account-line,var(--line))}
 
 
-/* v1.0.66: use the shared account-subpage header layout on phones. */
+/* v1.0.67: use the shared account-subpage header layout on phones. */
 @media(max-width:760px){
   .profile-shared-header{
     height:auto!important;
@@ -123,3 +123,8 @@ html[data-theme="dark"] .profile-brand small span{color:#ef6a5d!important}
 @media(max-width:390px){
   .profile-shared-header .account-back-link{font-size:10px!important;padding-inline:5px!important}
 }
+
+
+/* v1.0.67: profile now uses the exact shared account-subpage header. */
+.profile-page>.account-shell-header{box-shadow:0 8px 24px rgba(25,20,12,.06)}
+html[data-theme="dark"] .profile-page>.account-shell-header{box-shadow:0 8px 24px rgba(0,0,0,.18)}

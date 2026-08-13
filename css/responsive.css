@@ -2147,7 +2147,7 @@ body.news-page .site-shell{
 }
 
 
-/* v1.0.66: shared mobile header parity for profile/news and collision-free detail controls. */
+/* v1.0.67: shared mobile header parity for profile/news and collision-free detail controls. */
 @media(max-width:720px){
   /* News uses the same two-row shell as account subpages, but only needs Top. */
   body.news-page .news-shell-header{

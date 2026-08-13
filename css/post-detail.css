@@ -188,5 +188,5 @@ html[data-theme="dark"] .detail-substitute-card.has-identity-image{
 }
 
 
-/* v1.0.66: mobile report action is separated from the primary bottom toolbar. */
+/* v1.0.67: mobile report action is separated from the primary bottom toolbar. */
 .detail-mobile-report-button{display:none}
