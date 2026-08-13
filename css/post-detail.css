@@ -190,3 +190,12 @@ html[data-theme="dark"] .detail-substitute-card.has-identity-image{
 
 /* v1.0.67: mobile report action is separated from the primary bottom toolbar. */
 .detail-mobile-report-button{display:none}
+
+/* v1.0.68: report entry points and modal collision cleanup */
+.post-report-link{display:inline-flex;align-items:center;justify-content:center;min-height:40px;padding:8px 12px;border:1px solid #c78b8b;border-radius:5px;background:#fff7f7;color:#9b3c35;font-size:12px;font-weight:800;text-decoration:none;white-space:nowrap}
+.post-report-link:hover,.post-report-link:focus-visible{background:#fbeaea}
+html[data-theme="dark"] .post-report-link{background:#302326;border-color:#86545b;color:#ffb4b4}
+.post-card-detail-actions:has(.post-report-link){display:grid;grid-template-columns:minmax(0,1fr) auto auto;align-items:center}
+.post-card-detail-actions:has(.post-report-link) .post-save-button{justify-self:start}
+@media(max-width:520px){.post-card-detail-actions:has(.post-report-link){grid-template-columns:minmax(0,1fr) auto auto;gap:6px}.post-card-detail-actions:has(.post-report-link) .post-save-button,.post-card-detail-actions:has(.post-report-link) .post-report-link,.post-card-detail-actions:has(.post-report-link) .post-detail-link{min-height:38px;padding:7px 8px;font-size:10px}}
+@media(max-width:720px){.post-detail-page.report-dialog-open .detail-mobile-report-button,.post-detail-page.report-dialog-open .mobile-news-button{display:none!important}}
