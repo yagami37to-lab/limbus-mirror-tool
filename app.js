@@ -448,46 +448,8 @@ function activateReviewEgoMarquees(){
     });
   });
 }
-function updateReview(){
-  const val=s=>$(s)?.value.trim()||'未入力';
-  $('[data-review-title]').textContent=postTitle.value.trim()||'無題の攻略';
-  $('[data-review-difficulty]').textContent=postState.difficulty==='HARD'?'ハード':postState.difficulty==='NORMAL'?'ノーマル':'難易度未選択';
-  $('[data-review-type]').textContent=postState.type||'攻略タイプ未選択';
-  $('[data-review-count]').textContent=isSoloPost()?'使用枠 1枠（ソロ）':`使用枠 ${postState.identities.size}枠`;
-
-  const party=$('[data-review-party]');
-  const selected=orderedSelectedSinners();
-  party.innerHTML=selected.length?selected.map((sinner,index)=>{
-    const identity=postState.identities.get(sinner.id);
-    const order=formationPosition(sinner.id);
-    const tone=cardToneForKeywords(identity.keywords,index);
-    const picks=postState.egos.get(sinner.id)||new Map();
-    const egoTags=egoSummaryRankOrder.filter(rank=>picks.has(rank)).map(rank=>reviewEgoTagMarkup(rank,picks.get(rank))).join('');
-    const identityName=identity?.isFreeSlot?'自由枠（誰でも可）':identity?.name||'未選択';
-    const rarity=identity?.isFreeSlot?'FREE':identity?.rarity||'';
-    const reviewImage=identityImageFor(sinner.id,identity);return `<article class="review-party-card${identity?.isFreeSlot?' review-free-card':''}${reviewImage?' has-identity-image':''}" style="--card-a:${tone[0]};--card-b:${tone[1]};${reviewImage?`background-image:linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.9)),url('${reviewImage}');background-size:cover;background-position:center;`:''}">
-      <div class="review-party-card-visual"><span class="review-formation-number">${String(order).padStart(2,'0')}</span><span class="review-sinner-number">No.${reviewEscape(sinner.id)}</span><span class="review-sinner-monogram">${reviewEscape(sinner.name.slice(0,1))}</span><div><strong>${reviewEscape(sinner.name)}</strong><p>${reviewEscape(identityName)}</p><small>${reviewEscape(rarity)}</small></div></div>
-      <div class="review-card-egos"><span class="review-card-egos-label">E.G.O</span><div class="review-card-ego-list">${egoTags||'<span class="review-ego-empty">未選択</span>'}</div></div>
-    </article>`;
-  }).join(''):'<p class="review-empty">人格が選択されていません。</p>';
-
-  const reviewThemePacks=$('[data-review-theme-packs]');
-  if(reviewThemePacks){
-    const selectedPacks=[...postState.themePacks.entries()].sort((a,b)=>a[0]-b[0]);
-    reviewThemePacks.innerHTML=selectedPacks.length?selectedPacks.map(([floor,name])=>`<div class="review-theme-pack-item"><b>${floor}F</b><span>${reviewEscape(name)}</span></div>`).join(''):'<span class="tag-empty">未選択</span>';
-  }
-
-  const strategy=[...postState.strategyTags];
-  $('[data-review-tags]').innerHTML=strategy.length?strategy.map(tag=>reviewTagMarkup(tag,'strategy-tag')).join(''):'<span class="tag-empty">未選択</span>';
-  const keywords=automaticPostKeywords();
-  $('[data-review-keywords]').innerHTML=keywords.length?keywords.map(tag=>reviewTagMarkup(tag,tag==='弾丸'?'keyword-ammo active':tag==='ソロ'?'keyword-solo active':'active')).join(''):'<span class="tag-empty">該当なし</span>';
-  const affiliations=[...postState.affiliationTags];
-  $('[data-review-affiliations]').innerHTML=affiliations.length?affiliations.map(tag=>reviewTagMarkup(tag,'affiliation-tag')).join(''):'<span class="tag-empty">未選択</span>';
-  $('[data-review-affiliation-section]').hidden=!affiliations.length;
-  $('[data-review-summary]').textContent=val('[data-post-summary]');
-  $('[data-review-points]').textContent=val('[data-post-points]');
-  activateReviewEgoMarquees();
-}
+const postReviewController=window.LimbusPostReviewController.create({state:postState,getOrderedSinners:orderedSelectedSinners,getPosition:formationPosition,getTone:cardToneForKeywords,getImage:identityImageFor,escapeHtml:reviewEscape,egoRanks:egoSummaryRankOrder,egoTagMarkup:reviewEgoTagMarkup,tagMarkup:reviewTagMarkup,getAutomaticKeywords:automaticPostKeywords,activateMarquees:activateReviewEgoMarquees});
+function updateReview(){postReviewController.render();}
 function updateIdentitySearchButtonState(){
   toggleIdentitySearch?.classList.toggle('has-active-filters',identityFilterController.hasActiveFilters());
 }
