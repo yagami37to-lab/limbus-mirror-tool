@@ -206,13 +206,6 @@ const clearAllEgos=$('[data-clear-all-egos]');
 const workspaceStepName=$('[data-workspace-step-name]');
 const workspaceStepCounter=$('[data-workspace-step-counter]');
 const mobilePrevStep=$('[data-mobile-prev-step]');
-const themeFloorGrid=$('[data-theme-floor-grid]');
-const themePackSelectView=$('[data-theme-pack-select-view]');
-const themePackOptionGrid=$('[data-theme-pack-option-grid]');
-const themePackFloorLabel=$('[data-theme-pack-floor-label]');
-const themePackSearch=$('[data-theme-pack-search]');
-const themePackCount=$('[data-theme-pack-count]');
-const closeThemePackSelectButton=$('[data-close-theme-pack-select]');
 const postStage=$('.post-stage');
 function getScrollableAncestor(element){
   let node=element?.parentElement;
@@ -651,68 +644,9 @@ function renderFormationOrder(){
   if(formationEmptyNote)formationEmptyNote.hidden=selectedSinners.length!==0;
   if(resetFormationButton){resetFormationButton.hidden=selectedSinners.length===0;resetFormationButton.disabled=postState.identityOrder.length===0;resetFormationButton.textContent=solo?'選択を解除':'編成順をすべて解除';}
 }
-function currentThemePackMode(){return themePackData?.modes?.[postState.difficulty]||null;}
-function themePackOptionsForFloor(floor){return currentThemePackMode()?.floors?.[String(floor)]||[];}
-function themePackUsedByAnotherFloor(name,currentFloor){if(name==='自由枠')return false;return [...postState.themePacks.entries()].some(([floor,selectedName])=>floor!==currentFloor&&selectedName===name);}
-function closeThemePackSelect({scroll=true}={}){
-  postState.activeThemePackFloor=null;
-  if(themePackSelectView)themePackSelectView.hidden=true;
-  if(themeFloorGrid)themeFloorGrid.hidden=false;
-  if(themePackSearch)themePackSearch.value='';
-  if(scroll&&themeFloorGrid)queueIdentityScroll(themeFloorGrid,18);
-}
-function renderThemeFloorCards(){
-  if(!themeFloorGrid)return;
-  const mode=currentThemePackMode();
-  themeFloorGrid.hidden=false;
-  if(themePackSelectView)themePackSelectView.hidden=true;
-  themeFloorGrid.innerHTML='';
-  if(!mode){themeFloorGrid.innerHTML='<p class="theme-pack-empty">先に「攻略タイプ」で難易度を選択してください。</p>';if(themePackCount)themePackCount.textContent='0';return;}
-  for(let floor=1;floor<=mode.maxFloor;floor++){
-    const selectedName=postState.themePacks.get(floor);
-    const card=document.createElement('button');
-    card.type='button';
-    card.className='theme-floor-card'+(selectedName?' selected':'');
-    card.innerHTML=`<span class="theme-floor-number">${floor}F</span><span class="theme-floor-status">${selectedName?'選択済み':'未選択'}</span><strong>${reviewEscape(selectedName||'テーマパックを選択')}</strong><small>${selectedName?'クリックして変更':'この階層の候補を表示'}</small>`;
-    card.addEventListener('click',()=>openThemePackSelect(floor));
-    themeFloorGrid.appendChild(card);
-  }
-  if(themePackCount)themePackCount.textContent=postState.themePacks.size;
-}
-function openThemePackSelect(floor){
-  postState.activeThemePackFloor=floor;
-  if(themePackFloorLabel)themePackFloorLabel.textContent=`${floor}F`;
-  if(themeFloorGrid)themeFloorGrid.hidden=true;
-  if(themePackSelectView)themePackSelectView.hidden=false;
-  if(themePackSearch)themePackSearch.value='';
-  renderThemePackOptions();
-  requestAnimationFrame(()=>smoothScrollToElement(themePackSelectView,18,'auto'));
-}
-function renderThemePackOptions(){
-  if(!themePackOptionGrid)return;
-  const floor=postState.activeThemePackFloor;
-  const query=(themePackSearch?.value||'').trim().toLowerCase();
-  const baseOptions=themePackOptionsForFloor(floor);const allowFree=postState.difficulty==='HARD'&&floor>=6&&floor<=15;const options=(allowFree?['自由枠',...baseOptions]:baseOptions).filter(name=>name.toLowerCase().includes(query));
-  themePackOptionGrid.innerHTML='';
-  const current=postState.themePacks.get(floor);
-  const clear=document.createElement('button');
-  clear.type='button';clear.className='theme-pack-option-card clear-option';clear.disabled=!current;
-  clear.innerHTML='<strong>この階層を未選択に戻す</strong><small>選択中のパックを解除します</small>';
-  clear.addEventListener('click',()=>{postState.themePacks.delete(floor);showToast(`${floor}Fのテーマパックを解除しました。`);closeThemePackSelect({scroll:false});renderThemeFloorCards();});
-  themePackOptionGrid.appendChild(clear);
-  options.forEach(name=>{
-    const usedElsewhere=themePackUsedByAnotherFloor(name,floor);
-    const selected=current===name;
-    const button=document.createElement('button');button.type='button';
-    button.className='theme-pack-option-card'+(selected?' selected':'')+(usedElsewhere?' disabled':'');
-    button.disabled=usedElsewhere;
-    const usedFloor=[...postState.themePacks.entries()].find(([otherFloor,selectedName])=>otherFloor!==floor&&selectedName===name)?.[0];
-    button.innerHTML=`<strong>${reviewEscape(name)}</strong><small>${usedElsewhere?`${usedFloor}Fで選択済み`:selected?'現在選択中':'このパックを選択'}</small>`;
-    button.addEventListener('click',()=>{postState.themePacks.set(floor,name);showToast(`${floor}Fに「${name}」を設定しました。`);closeThemePackSelect({scroll:false});renderThemeFloorCards();});
-    themePackOptionGrid.appendChild(button);
-  });
-  if(!options.length){const empty=document.createElement('p');empty.className='theme-pack-empty';empty.textContent='検索条件に一致するテーマパックがありません。';themePackOptionGrid.appendChild(empty);}
-}
+const themePackController=window.LimbusThemePackController.create({data:themePackData,state:postState,escapeHtml:reviewEscape,showToast,scrollToElement:smoothScrollToElement,queueScroll:queueIdentityScroll});
+const closeThemePackSelect=options=>themePackController.close(options);
+const renderThemeFloorCards=()=>themePackController.renderFloors();
 function keywordCounts(){
   const counts=new Map([...automaticKeywordOptions,'弾丸','ソロ'].map(k=>[k,0]));
   // 通常キーワードは出撃枠1〜7のみ。弾丸だけは控えを含む全12枠を数える。
@@ -958,7 +892,6 @@ if(clearAllEgos)clearAllEgos.onclick=()=>{
   if(postState.activeEgoSinner)renderEgoOptions();
   updateEgoCount();updateEgoConfirmState();showToast('すべてのE.G.O選択を解除しました。');
 };
-if(closeThemePackSelectButton)closeThemePackSelectButton.onclick=()=>closeThemePackSelect();if(themePackSearch)themePackSearch.addEventListener('input',renderThemePackOptions);
 const clearIdentities=$('[data-clear-identities]');if(clearIdentities)clearIdentities.onclick=()=>{postState.identities.clear();postState.identityAlternatives.clear();postState.identityOrder=[];postState.egos.clear();postState.freeSlotEgoEnabled.clear();renderIdentitySinnerRoster();if(postState.activeSinner)openIdentitySelect(postState.activeSinner);updatePostIdentityCount();};const legacyClearEgos=$('[data-clear-egos]');if(legacyClearEgos)legacyClearEgos.onclick=()=>{postState.egos.clear();postState.freeSlotEgoEnabled.clear();closeEgoSelect();renderEgoSinners();};const goBackInWorkspace=()=>{if(postState.step===4&&postState.activeEgoSinner)return closeEgoSelect();if(postState.step===5&&postState.activeThemePackFloor)return closeThemePackSelect();setStep(postState.step-1);};$('[data-prev-step]').onclick=goBackInWorkspace;if(mobilePrevStep)mobilePrevStep.onclick=goBackInWorkspace;
 function buildPostPayload(){
   // 使用人格と編成順は別データとして保存する。
