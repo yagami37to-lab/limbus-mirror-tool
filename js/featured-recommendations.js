@@ -104,14 +104,31 @@ function updateFeaturedCarousel(index,{restart=true}={}){
   if(!track)return;
   const slides=[...track.children];
   if(!slides.length)return;
+  const previousIndex=featuredCarouselIndex;
   featuredCarouselIndex=((index%slides.length)+slides.length)%slides.length;
-  track.style.transform=`translateX(-${featuredCarouselIndex*100}%)`;
+  const previousTransform=`translateX(-${previousIndex*100}%)`;
+  const nextTransform=`translateX(-${featuredCarouselIndex*100}%)`;
+  track.getAnimations().forEach(animation=>animation.cancel());
+  track.style.transform=nextTransform;
+  if(previousIndex!==featuredCarouselIndex){
+    track.animate(
+      [{transform:previousTransform},{transform:nextTransform}],
+      {duration:720,easing:'cubic-bezier(.22,.61,.36,1)'}
+    );
+  }
   const viewport=document.querySelector('[data-featured-carousel-viewport]');
   slides.forEach((slide,i)=>{
     const active=i===featuredCarouselIndex;
     slide.setAttribute('aria-hidden',String(!active));
     slide.classList.toggle('is-active',active);
     if(active && viewport){
+      if(previousIndex!==featuredCarouselIndex){
+        slide.getAnimations().forEach(animation=>animation.cancel());
+        slide.animate(
+          [{opacity:.25,transform:'translateX(28px)'},{opacity:1,transform:'translateX(0)'}],
+          {duration:620,easing:'ease-out'}
+        );
+      }
       requestAnimationFrame(()=>{
         const height=Math.ceil(slide.getBoundingClientRect().height);
         if(height>0) viewport.style.height=`${height}px`;
