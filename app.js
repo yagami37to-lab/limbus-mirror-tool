@@ -586,18 +586,8 @@ const postEditorResetController=window.LimbusPostEditorResetController.create({s
 const resetPostEditorState=()=>postEditorResetController.reset();
 window.LimbusPostCloseController.create({confirmDialog:postCloseConfirm,editorDialog:postModal,closeButtons:$$('[data-close-post]'),cancelButton:$('[data-cancel-close-post]'),discardButton:$('[data-discard-and-close-post]'),saveButton:$('[data-save-and-close-post]'),openDialog,closeDialog,unlockPageScroll,saveDraft:()=>draftController.createDraft(),resetEditor:resetPostEditorState,showToast});
 
-$('[data-next-step]').onclick=async()=>{
-  if(postState.step===4&&postState.activeEgoSinner)return closeEgoSelect();
-  if(postState.step===5&&postState.activeThemePackFloor)return closeThemePackSelect();
-  if(postState.step===7)return savePostToSupabase('published');
-  if(postState.step===2&&postState.identities.size<sinnerIdentityData.length){
-    const missingCount=sinnerIdentityData.length-postState.identities.size;
-    if(!window.confirm(`未設定の人格枠が${missingCount}件あります。空いている枠を自由枠に設定して次へ進みますか？`))return;
-    identitySelectionController.fillEmpty();clearStepValidation(2);renderIdentitySinnerRoster();renderIdentityOptions();updatePostIdentityCount();showToast(`空いている${missingCount}枠を自由枠に設定しました。`);
-  }
-  if(!validateRequiredStep(postState.step))return;
-  setStep(postState.step+1);
-};
+const postAdvanceController=window.LimbusPostAdvanceController.create({state:postState,identityCount:sinnerIdentityData.length,closeEgoSelect,closeThemePackSelect,publish:()=>savePostToSupabase('published'),confirmFillEmpty:missingCount=>window.confirm(`未設定の人格枠が${missingCount}件あります。空いている枠を自由枠に設定して次へ進みますか？`),fillEmpty:()=>identitySelectionController.fillEmpty(),afterFillEmpty:missingCount=>{clearStepValidation(2);renderIdentitySinnerRoster();renderIdentityOptions();updatePostIdentityCount();showToast(`空いている${missingCount}枠を自由枠に設定しました。`);},validateStep:validateRequiredStep,setStep});
+$('[data-next-step]').onclick=()=>postAdvanceController.advance();
 
 postState.activeSinner=sinnerIdentityData[0]?.id||null;updatePostCategoryDisplays();searchController.renderActiveFilters();renderIdentitySinnerRoster();updatePartyKeywordSummary();setStep(1);
 
