@@ -127,7 +127,6 @@ function updateFeaturedCarousel(index,{restart=true}={}){
 }
 function startFeaturedCarousel(){
   stopFeaturedCarousel();
-  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
   const track=document.querySelector('[data-featured-list]');
   if(!track||track.children.length<2)return;
   featuredCarouselTimer=setInterval(()=>updateFeaturedCarousel(featuredCarouselIndex+1,{restart:false}),6500);
@@ -147,8 +146,6 @@ function wireFeaturedCarousel(){
     viewport.dataset.carouselWired='1';
     prev.addEventListener('click',()=>updateFeaturedCarousel(featuredCarouselIndex-1));
     next.addEventListener('click',()=>updateFeaturedCarousel(featuredCarouselIndex+1));
-    viewport.addEventListener('focusin',stopFeaturedCarousel);
-    viewport.addEventListener('focusout',event=>{if(!viewport.contains(event.relatedTarget))startFeaturedCarousel()});
     document.addEventListener('visibilitychange',()=>document.hidden?stopFeaturedCarousel():startFeaturedCarousel());
   }
   updateFeaturedCarousel(Math.min(featuredCarouselIndex,slides.length-1),{restart:false});
