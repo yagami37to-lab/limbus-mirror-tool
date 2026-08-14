@@ -364,51 +364,10 @@ const themePackController=window.LimbusThemePackController.create({data:themePac
 const closeThemePackSelect=options=>themePackController.close(options);
 const renderThemeFloorCards=()=>themePackController.renderFloors();
 postStepController=window.LimbusPostStepController.create({state:postState,stepInfo,identityData:sinnerIdentityData,onCloseEgo:closeEgoSelect,onCloseTheme:closeThemePackSelect,onRenderIdentities:renderIdentitySinnerRoster,onOpenIdentity:openIdentitySelect,onRenderFormation:renderFormationOrder,onRenderEgos:renderEgoSinners,onRenderThemes:renderThemeFloorCards,onRenderDetails:renderDetailTags,onRenderReview:updateReview,onIdentityFooterUpdate:updateIdentityFooterState,onEgoFooterUpdate:updateEgoConfirmState,onResetScroll:resetStageScroll});
-function keywordCounts(){
-  const counts=new Map([...automaticKeywordOptions,'弾丸','ソロ'].map(k=>[k,0]));
-  // 通常キーワードは出撃枠1〜7のみ。弾丸だけは控えを含む全12枠を数える。
-  orderedSelectedSinners().forEach(sinner=>{
-    const identity=postState.identities.get(sinner.id);
-    if(identity?.isFreeSlot)return;
-    const keys=new Set(identity?.keywords||[]);
-    const order=formationPosition(sinner.id);
-    automaticKeywordOptions.forEach(keyword=>{
-      if(order&&order<=7&&keys.has(keyword))counts.set(keyword,counts.get(keyword)+1);
-    });
-    if(keys.has('弾丸'))counts.set('弾丸',counts.get('弾丸')+1);
-  });
-  if(isSoloPost()&&postState.identityOrder.length===1)counts.set('ソロ',1);
-  return counts;
-}
-function automaticPostKeywords(){
-  const counts=keywordCounts();
-  const tags=automaticKeywordOptions.filter(k=>counts.get(k)>=5);
-  if(postState.ammoKeywordSelected&&counts.get('弾丸')>=1)tags.push('弾丸');
-  if(counts.get('ソロ')===1)tags.push('ソロ');
-  return tags;
-}
-function renderTagButtons(grid,options,selection,max){
-  if(!grid)return;grid.innerHTML='';
-  options.forEach(tag=>{const b=document.createElement('button');b.type='button';b.className='selectable-tag'+(selection.has(tag)?' selected':'');b.textContent=tag;b.addEventListener('click',()=>{if(selection.has(tag))selection.delete(tag);else if(selection.size>=max){showToast(`最大${max}個まで選択できます。`);return;}else selection.add(tag);renderDetailTags();});grid.appendChild(b);});
-}
-function renderDetailTags(){
-  renderTagButtons(strategyTagGrid,strategyTagOptions,postState.strategyTags,5);
-  renderTagButtons(affiliationTagGrid,affiliationTagOptions,postState.affiliationTags,3);
-  if(strategyTagCount)strategyTagCount.textContent=postState.strategyTags.size;
-  if(affiliationTagCount)affiliationTagCount.textContent=postState.affiliationTags.size;
-  const counts=keywordCounts();
-  const auto=automaticKeywordOptions.filter(k=>counts.get(k)>=5);
-  const ammoAvailable=counts.get('弾丸')>=1;
-  if(!ammoAvailable)postState.ammoKeywordSelected=false;
-  if(automaticKeywordTags){
-    const autoTags=auto.map(k=>`<span class="automatic-keyword-tag" data-keyword="${k}"><b>${k}</b><small>${counts.get(k)}人</small></span>`).join('');
-    const ammoButton=ammoAvailable?`<button type="button" class="automatic-keyword-tag ammo-selectable${postState.ammoKeywordSelected?' selected':''}" data-toggle-ammo><b>弾丸</b><small>1人以上</small></button>`:'';
-    const soloTag=isSoloPost()&&postState.identityOrder.length===1?'<span class="automatic-keyword-tag" data-keyword="ソロ"><b>ソロ</b><small>自動付与</small></span>':'';
-    automaticKeywordTags.innerHTML=(autoTags+ammoButton+soloTag)||'<span class="tag-empty">該当するキーワードはありません。</span>';
-    automaticKeywordTags.querySelector('[data-toggle-ammo]')?.addEventListener('click',()=>{postState.ammoKeywordSelected=!postState.ammoKeywordSelected;renderDetailTags();});
-  }
-  if(ammoKeywordNote)ammoKeywordNote.hidden=!ammoAvailable;
-}
+const postTagsController=window.LimbusPostTagsController.create({state:postState,strategyOptions:strategyTagOptions,affiliationOptions:affiliationTagOptions,automaticOptions:automaticKeywordOptions,strategyGrid:strategyTagGrid,affiliationGrid:affiliationTagGrid,automaticTags:automaticKeywordTags,ammoNote:ammoKeywordNote,strategyCount:strategyTagCount,affiliationCount:affiliationTagCount,getOrderedSinners:orderedSelectedSinners,getFormationPosition:formationPosition,isSolo:isSoloPost,showToast});
+function keywordCounts(){return postTagsController.counts();}
+function automaticPostKeywords(){return postTagsController.automaticKeywords();}
+function renderDetailTags(){postTagsController.render();}
 function reviewEscape(value){return String(value??'').replace(/[&<>'"]/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[char]));}
 function reviewTagMarkup(label,className=''){return `<span class="review-tag ${className}">${reviewEscape(label)}</span>`;}
 function reviewEgoTagMarkup(rank,name){return `<span class="review-ego-tag rank-${rank.toLowerCase()}"><b>${reviewEscape(rank)}</b><span class="review-ego-name" title="${reviewEscape(name)}"><span class="review-ego-marquee"><span class="review-ego-marquee-text">${reviewEscape(name)}</span></span></span></span>`;}
