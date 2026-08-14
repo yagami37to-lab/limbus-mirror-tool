@@ -605,14 +605,8 @@ const draftController=window.LimbusDraftController.create({
 });
 
 const postCloseConfirm=$('[data-post-close-confirm]');
-function resetPostEditorState(){
-  postModal.dataset.editingPostId='';draftController.clearActive();
-  postState.step=1;postState.category='mirror_dungeon';postState.type=null;postState.difficulty=null;
-  postState.identities=new Map();postState.identityAlternatives=new Map();postState.identityOrder=[];postState.egos=new Map();postState.freeSlotEgoEnabled=new Set();postState.themePacks=new Map();postState.activeThemePackFloor=null;postState.strategyTags=new Set();postState.affiliationTags=new Set();postState.ammoKeywordSelected=false;postState.activeSinner=sinnerIdentityData[0]?.id||null;postState.activeEgoSinner=null;postState.alternativeSelectionMode=false;
-  postTitle.value='';if(postSummary)postSummary.value='';const points=$('[data-post-points]');if(points)points.value='';
-  $$('[data-post-type],[data-post-difficulty]').forEach(node=>node.classList.remove('active'));
-  updatePostCategoryDisplays();updateDifficultyDisplay();syncTitle();updatePostSummaryCount();renderIdentitySinnerRoster();renderFormationOrder();renderEgoSinners();renderThemeFloorCards();renderDetailTags();setStep(1);
-}
+const postEditorResetController=window.LimbusPostEditorResetController.create({state:postState,identityData:sinnerIdentityData,postModal,onClearDraft:()=>draftController.clearActive(),onRefresh:()=>{updatePostCategoryDisplays();updateDifficultyDisplay();syncTitle();updatePostSummaryCount();renderIdentitySinnerRoster();renderFormationOrder();renderEgoSinners();renderThemeFloorCards();renderDetailTags();setStep(1);}});
+const resetPostEditorState=()=>postEditorResetController.reset();
 function requestPostClose(){if(postCloseConfirm&&!postCloseConfirm.open)openDialog(postCloseConfirm)}
 $$('[data-close-post]').forEach(button=>button.onclick=requestPostClose);
 $('[data-cancel-close-post]')?.addEventListener('click',()=>closeDialog(postCloseConfirm));
