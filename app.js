@@ -125,7 +125,6 @@ const clearAllIdentities=$('[data-clear-all-identities]');
 const fillEmptyIdentities=$('[data-fill-empty-identities]');
 const applyIdentityFilters=$('[data-apply-identity-filters]');
 const identityFilterScrollHint=$('[data-identity-filter-scroll-hint]');
-let identityFilterScrollTop=0;
 const partyKeywordSummaryChips=$('[data-party-keyword-summary-chips]');
 const formationChoiceGrid=$('[data-formation-choice-grid]');
 const strategyTagGrid=$('[data-strategy-tag-grid]');
@@ -266,17 +265,7 @@ function updatePartyKeywordSummary(){
   partyKeywordSummaryChips.innerHTML=chips.length?chips.join(''):'<span class="filter-summary-empty">人格未選択</span>';
 }
 function updatePostIdentityCount(){$('[data-post-identity-count]').textContent=postState.identities.size;updatePartyKeywordSummary();updateIdentityFooterState();}
-function updateIdentityFooterState(){
-  if(!identityFooterActions)return;
-  const onIdentityStep=postState.step===2;
-  identityFooterActions.hidden=!onIdentityStep;
-  workspaceFooter?.classList.toggle('identity-mode',onIdentityStep);
-  if(onIdentityStep)workspaceFooter?.classList.remove('ego-mode');
-  const chosen=postState.activeSinner&&postState.identities.has(postState.activeSinner);
-  clearCurrentIdentity.disabled=!chosen;
-  clearCurrentIdentity.textContent=chosen?'選択解除':'未選択';
-  clearAllIdentities.disabled=postState.identities.size===0;
-}
+function updateIdentityFooterState(){identityWorkspaceController.updateFooter();}
 const egoSummaryRankOrder=['ZAYIN','TETH','HE','WAW','ALEPH'];
 function egoSummaryTagsMarkup(picks,{emptyLabel='E.G.Oを選択'}={}){
   const tags=egoSummaryRankOrder
@@ -389,71 +378,11 @@ function activateReviewEgoMarquees(){
 }
 const postReviewController=window.LimbusPostReviewController.create({state:postState,getOrderedSinners:orderedSelectedSinners,getPosition:formationPosition,getTone:cardToneForKeywords,getImage:identityImageFor,escapeHtml:reviewEscape,egoRanks:egoSummaryRankOrder,egoTagMarkup:reviewEgoTagMarkup,tagMarkup:reviewTagMarkup,getAutomaticKeywords:automaticPostKeywords,activateMarquees:activateReviewEgoMarquees});
 function updateReview(){postReviewController.render();}
-function updateIdentitySearchButtonState(){
-  toggleIdentitySearch?.classList.toggle('has-active-filters',identityFilterController.hasActiveFilters());
-}
-function updateIdentityFilterScrollCue(){
-  if(!identityFilterPanel||identityFilterPanel.hidden)return;
-  const hasMore=identityFilterPanel.scrollHeight-identityFilterPanel.clientHeight-identityFilterPanel.scrollTop>10;
-  identityFilterPanel.classList.toggle('has-more-below',hasMore);
-  if(identityFilterScrollHint)identityFilterScrollHint.hidden=!hasMore;
-}
-function closeIdentityFilterPanel(){
-  identityFilterScrollTop=identityFilterPanel.scrollTop;
-  identityFilterPanel.classList.add('is-closing');
-  toggleIdentitySearch.setAttribute('aria-expanded','false');
-  toggleIdentitySearch.textContent='人格検索';
-  setTimeout(()=>{
-    identityFilterPanel.hidden=true;
-    identityFilterPanel.classList.remove('is-closing');
-  },180);
-}
-toggleIdentitySearch.addEventListener('click',()=>{
-  const opening=identityFilterPanel.hidden;
-  if(opening){
-    identityFilterPanel.hidden=false;
-    identityFilterPanel.classList.remove('is-closing');
-    identityFilterPanel.scrollTop=identityFilterScrollTop;
-    toggleIdentitySearch.setAttribute('aria-expanded','true');
-    toggleIdentitySearch.textContent='検索中';
-    requestAnimationFrame(updateIdentityFilterScrollCue);
-    setTimeout(()=>identityFilterController.focusName(),100);
-  }else closeIdentityFilterPanel();
-});
-identityFilterPanel?.addEventListener('scroll',()=>{
-  identityFilterScrollTop=identityFilterPanel.scrollTop;
-  updateIdentityFilterScrollCue();
-},{passive:true});
-applyIdentityFilters.addEventListener('click',()=>{
-  identityFilterController.renderSummary();
-  closeIdentityFilterPanel();
-  showToast('人格の絞り込み条件を適用しました。');
-});
-clearCurrentIdentity.addEventListener('click',()=>{
-  const id=postState.activeSinner;if(!identitySelectionController.clearOne(id))return;
-  renderIdentitySinnerRoster();renderIdentityOptions();updatePostIdentityCount();
-  showToast('この囚人の人格選択を解除しました。');
-  queueIdentityScroll(identitySinnerRoster,18);
-});
-clearAllIdentities.addEventListener('click',()=>{
-  if(!postState.identities.size)return;
-  if(!window.confirm('選択中の人格と、それに設定したE.G.Oをすべて解除しますか？'))return;
-  identitySelectionController.clearAll();
-  currentIdentityName.textContent='未選択';
-  renderIdentitySinnerRoster();renderIdentityOptions();updatePostIdentityCount();
-  showToast('すべての人格選択を解除しました。');
-});
-if(fillEmptyIdentities)fillEmptyIdentities.addEventListener('click',()=>{
-  const filledCount=identitySelectionController.fillEmpty();
-  if(!filledCount){showToast('すべての人格枠が設定済みです。');return;}
-  clearStepValidation(2);
-  renderIdentitySinnerRoster();
-  renderIdentityOptions();
-  updatePostIdentityCount();
-  updatePartyKeywordSummary();
-  showToast(`空いている${filledCount}枠を自由枠に設定しました。`);
-});
-updateIdentitySearchButtonState();
+const identityWorkspaceController=window.LimbusIdentityWorkspaceController.create({state:postState,filterController:identityFilterController,selectionController:identitySelectionController,filterPanel:identityFilterPanel,filterToggle:toggleIdentitySearch,filterScrollHint:identityFilterScrollHint,applyFiltersButton:applyIdentityFilters,clearCurrentButton:clearCurrentIdentity,clearAllButton:clearAllIdentities,fillEmptyButton:fillEmptyIdentities,footerActions:identityFooterActions,workspaceFooter,currentIdentityName,identityRoster:identitySinnerRoster,renderRoster:renderIdentitySinnerRoster,renderOptions:renderIdentityOptions,updateCount:updatePostIdentityCount,updateKeywordSummary:updatePartyKeywordSummary,clearValidation:clearStepValidation,queueRosterScroll:queueIdentityScroll,showToast,confirmClearAll:()=>window.confirm('選択中の人格と、それに設定したE.G.Oをすべて解除しますか？')});
+identityWorkspaceController.bind();
+function updateIdentitySearchButtonState(){identityWorkspaceController.updateSearchButton();}
+function updateIdentityFilterScrollCue(){identityWorkspaceController.updateScrollCue();}
+function closeIdentityFilterPanel(){identityWorkspaceController.closeFilter();}
 
 const postCategoryController=window.LimbusPostCategoryController.create({state:postState,categories:categoryDefinitions,getCategory:categoryById,iconMarkup:categoryIconMarkup,dialog:categoryPicker,editorDialog:postModal,list:$('[data-category-picker-list]'),status:$('[data-category-picker-status]'),startButton:$('[data-start-category-post]'),openDraftButton:$('[data-open-draft-from-category]'),openButtons:$$('[data-open-post]'),closeButton:$('[data-close-category-picker]'),categoryBadges:$$('[data-post-category-badge]'),reviewCategory:$('[data-review-category]'),isAuthenticated:()=>localStorage.getItem('limbus-auth')==='logged-in',openAuth:()=>window.LimbusAuth?.open(),openDialog,closeDialog,openDrafts:()=>draftController.openManager(),resetEditor:()=>resetPostEditorState(),getInitialSinnerId:()=>sinnerIdentityData[0]?.id||null,setStep});
 postCategoryController.bind();
