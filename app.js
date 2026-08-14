@@ -128,11 +128,6 @@ const identityFilterScrollHint=$('[data-identity-filter-scroll-hint]');
 let identityFilterScrollTop=0;
 const partyKeywordSummaryChips=$('[data-party-keyword-summary-chips]');
 const formationChoiceGrid=$('[data-formation-choice-grid]');
-const formationSelectedStrip=$('[data-formation-selected-strip]');
-const formationCount=$('[data-formation-count]');
-const formationTotal=$('[data-formation-total]');
-const formationEmptyNote=$('[data-formation-empty-note]');
-const resetFormationButton=$('[data-reset-formation]');
 const strategyTagGrid=$('[data-strategy-tag-grid]');
 const affiliationTagGrid=$('[data-affiliation-tag-grid]');
 const automaticKeywordTags=$('[data-automatic-keyword-tags]');
@@ -226,18 +221,11 @@ const identitySelectionController=window.LimbusIdentitySelectionController.creat
 const alternativesFor=id=>identitySelectionController.alternativesFor(id);
 const alternativeNamesFor=id=>identitySelectionController.alternativeNamesFor(id);
 function isSoloPost(){return postState.type==='ソロ';}
-function formationPosition(sinnerId){const index=postState.identityOrder.indexOf(sinnerId);return index===-1?null:index+1;}
-function ensureFormationPosition(sinnerId){
-  if(isSoloPost()){
-    postState.identityOrder=[sinnerId];
-    for(const id of [...postState.egos.keys()])if(id!==sinnerId)postState.egos.delete(id);
-    postState.freeSlotEgoEnabled=new Set([...postState.freeSlotEgoEnabled].filter(id=>id===sinnerId));
-    return;
-  }
-  if(!postState.identityOrder.includes(sinnerId))postState.identityOrder.push(sinnerId);
-}
-function removeFormationPosition(sinnerId){postState.identityOrder=postState.identityOrder.filter(id=>id!==sinnerId);}
-function orderedSelectedSinners(){return postState.identityOrder.map(id=>sinnerIdentityData.find(s=>s.id===id)).filter(Boolean).filter(s=>postState.identities.has(s.id));}
+const formationController=window.LimbusFormationController.create({state:postState,identityData:sinnerIdentityData,getImage:identityImageFor,showToast,clearValidation:()=>clearStepValidation(3)});
+const formationPosition=id=>formationController.position(id);
+const ensureFormationPosition=id=>formationController.ensure(id);
+const removeFormationPosition=id=>formationController.remove(id);
+const orderedSelectedSinners=()=>formationController.ordered();
 const identityViewController=window.LimbusIdentityViewController.create({state:postState,identityData:sinnerIdentityData,cardTones,getIdentityImage:identityImageFor,applyCardImage:applyIdentityCardImage,escapeHtml:reviewEscape,getAlternatives:alternativesFor,onOpen:id=>openIdentitySelect(id),onRenderOptions:()=>renderIdentityOptions(),onFooterUpdate:()=>updateIdentityFooterState(),queueScroll:queueIdentityScroll});
 const renderIdentitySinnerRoster=()=>identityViewController.renderRoster();
 const renderIdentityAlternativeControls=()=>identityViewController.renderAlternatives();
@@ -392,35 +380,7 @@ function navigateToStep(target){
 }
 function setStep(n){const previousStep=postState.step;postState.step=Math.max(1,Math.min(7,n));if(postState.step===2&&!postState.activeSinner)postState.activeSinner=sinnerIdentityData[0]?.id||null;if(postState.step!==4&&postState.activeEgoSinner)closeEgoSelect({scroll:false});if(postState.step!==5)closeThemePackSelect({scroll:false});$$('[data-post-step]').forEach(s=>s.classList.toggle('active',+s.dataset.postStep===postState.step));$$('[data-step-link]').forEach(s=>s.classList.toggle('active',+s.dataset.stepLink===postState.step));const info=stepInfo[postState.step];$('[data-step-kicker]').textContent=info[0];$('[data-step-title]').textContent=info[1];$('[data-step-description]').textContent=info[2];$('[data-step-counter]').textContent=`${postState.step} / 7`;if(workspaceStepName)workspaceStepName.textContent=info[1].replace(/を選択$|を入力$|して投稿$/,'');if(workspaceStepCounter)workspaceStepCounter.textContent=`${postState.step} / 7`;const prev=$('[data-prev-step]'),next=$('[data-next-step]');prev.hidden=postState.step===1;if(mobilePrevStep)mobilePrevStep.hidden=postState.step===1;next.textContent=postState.step===7?'この内容で公開する':'次のステップへ →';if(postState.step!==2&&identityFilterPanel){identityFilterPanel.hidden=true;toggleIdentitySearch?.setAttribute('aria-expanded','false');if(toggleIdentitySearch)toggleIdentitySearch.textContent='人格検索';}if(postState.step===2){renderIdentitySinnerRoster();if(postState.activeSinner)openIdentitySelect(postState.activeSinner,{scroll:false});}if(postState.step===3)renderFormationOrder();if(postState.step===4)renderEgoSinners();if(postState.step===5)renderThemeFloorCards();if(postState.step===6)renderDetailTags();if(postState.step===7)updateReview();updateIdentityFooterState();updateEgoConfirmState();if(previousStep!==postState.step)requestAnimationFrame(resetStageScroll);}
 function syncTitle(){const raw=postTitle?.value??'';const t=raw.trim()||'攻略タイトルを入力してください';$$('[data-title-preview],[data-workspace-title-live]').forEach(x=>{x.textContent=t;x.classList.toggle('is-placeholder',!raw.trim());});}
-function selectedSinnersWithoutOrder(){return sinnerIdentityData.filter(s=>postState.identities.has(s.id));}
-function renderFormationOrder(){
-  const selectedSinners=selectedSinnersWithoutOrder();
-  postState.identityOrder=postState.identityOrder.filter(id=>postState.identities.has(id));
-  if(isSoloPost()&&postState.identityOrder.length>1)postState.identityOrder=postState.identityOrder.slice(0,1);
-  const solo=isSoloPost();
-  const formationHeading=document.querySelector('[data-post-step="3"] .step-card-heading p');
-  if(formationHeading)formationHeading.textContent=solo?'ソロ攻略で使用する人格を1人選択してください。選択した人格だけが出撃し、次の使用E.G.O選択にも引き継がれます。':'使用人格を、実際に出撃させる順番で選択してください。';
-  if(postState.step===3){
-    const stageDescription=$('[data-step-description]');
-    if(stageDescription)stageDescription.textContent=solo?'ソロ攻略で出撃する人格を1人だけ選択してください。':'使用人格を、実際に出撃させる順番で選択してください。';
-  }
-  if(formationChoiceGrid)formationChoiceGrid.innerHTML='';
-  if(formationSelectedStrip){
-    const ordered=orderedSelectedSinners();
-    formationSelectedStrip.innerHTML=ordered.length?ordered.map(s=>{const identity=postState.identities.get(s.id);return `<span class="formation-selected-chip order-${formationPosition(s.id)>7?'blue':'yellow'}"><b>${formationPosition(s.id)}</b><span>${s.name}</span></span>`;}).join(''):`<span class="formation-empty">${solo?'ソロ攻略で使用する人格を選択してください。':'まだ順番を選択していません。'}</span>`;
-  }
-  selectedSinners.forEach((sinner,index)=>{
-    const identity=postState.identities.get(sinner.id);const order=formationPosition(sinner.id);
-    const b=document.createElement('button');b.type='button';b.className='formation-choice-card'+(order?' selected':'')+(order?` order-${order>7?'blue':'yellow'}`:'');
-    const formationImage=identityImageFor(sinner.id,identity);if(formationImage){b.classList.add('has-identity-image');b.style.backgroundImage=`linear-gradient(180deg,rgba(0,0,0,.08),rgba(0,0,0,.86)),url(\"${formationImage}\")`;} b.innerHTML=`${order?`<span class="formation-order-badge">${order}</span><span class="formation-card-label">編成 ${order}</span>`:'<span class="formation-choice-plus">＋</span><span class="formation-card-label">未選択</span>'}<strong>${sinner.name}</strong><small>${identity.name}</small>`;
-    b.addEventListener('click',()=>{if(order){removeFormationPosition(sinner.id);showToast(`${sinner.name}を編成順から解除しました。`);}else{ensureFormationPosition(sinner.id);clearStepValidation(3);showToast(`${sinner.name}を${postState.identityOrder.length}番に設定しました。`);}renderFormationOrder();});
-    formationChoiceGrid?.appendChild(b);
-  });
-  if(formationCount)formationCount.textContent=postState.identityOrder.length;
-  if(formationTotal)formationTotal.textContent=solo?1:selectedSinners.length;
-  if(formationEmptyNote)formationEmptyNote.hidden=selectedSinners.length!==0;
-  if(resetFormationButton){resetFormationButton.hidden=selectedSinners.length===0;resetFormationButton.disabled=postState.identityOrder.length===0;resetFormationButton.textContent=solo?'選択を解除':'編成順をすべて解除';}
-}
+function renderFormationOrder(){formationController.render();}
 const themePackController=window.LimbusThemePackController.create({data:themePackData,state:postState,escapeHtml:reviewEscape,showToast,scrollToElement:smoothScrollToElement,queueScroll:queueIdentityScroll});
 const closeThemePackSelect=options=>themePackController.close(options);
 const renderThemeFloorCards=()=>themePackController.renderFloors();
@@ -593,7 +553,6 @@ if(fillEmptyIdentities)fillEmptyIdentities.addEventListener('click',()=>{
   showToast(`空いている${filledCount}枠を自由枠に設定しました。`);
 });
 updateIdentitySearchButtonState();
-if(resetFormationButton)resetFormationButton.addEventListener('click',()=>{const solo=isSoloPost();postState.identityOrder=[];renderFormationOrder();showToast(solo?'ソロ攻略の人格選択を解除しました。':'編成順をすべて解除しました。');});
 
 const categoryPickerList=$('[data-category-picker-list]');
 const categoryPickerStatus=$('[data-category-picker-status]');
