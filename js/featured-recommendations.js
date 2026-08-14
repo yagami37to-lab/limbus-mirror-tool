@@ -3,11 +3,6 @@
 
 // 管理者おすすめは閲覧画面の投稿カードを唯一の情報源として自動生成する。
 // 投稿側の情報を更新すると、人格・タグ・閲覧数・いいね数・評価もおすすめ欄へ同期される。
-const keywordEnglishNames={
-  '火傷':'BURN','出血':'BLEED','振動':'TREMOR','破裂':'RUPTURE',
-  '沈潜':'SINKING','呼吸':'POISE','充電':'CHARGE',
-  '弾丸':'AMMO','ソロ':'SOLO'
-};
 const featuredDefinitions=[
   {id:'recent',label:'最近の投稿',kicker:'NEW ARRIVAL',note:'新しく投稿された攻略です。最近追加された編成や考え方を早めに確認できます。'},
   {id:'today-rating',label:'今日の高評価投稿',kicker:"TODAY'S PICK",note:'本日投稿された攻略のうち、評価点が最も高い記事です。'},

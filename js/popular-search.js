@@ -49,12 +49,6 @@
     target.replaceChildren(...items.map(createPopularSearchButton));
   }
 
-  // app.js より先に読み込まれるため、描画完了後に app.js が通常どおりイベントを登録できる。
-  window.popularSearches = {
-    get: getPopularSearches,
-    render: renderPopularSearches,
-    fallback: fallbackPopularSearches
-  };
-
+  // app.js より先に描画を完了し、生成したボタンへ通常どおりイベントを登録させる。
   renderPopularSearches();
 })();

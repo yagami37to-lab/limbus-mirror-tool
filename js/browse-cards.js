@@ -18,11 +18,6 @@
     return number.toLocaleString('ja-JP');
   };
 
-  const storageKeyFor = (card, index) => {
-    const title = card.dataset.title || card.querySelector('h3')?.textContent || `post-${index}`;
-    return `limbus-like:${title.trim()}`;
-  };
-
   const restartClassAnimation = (element, className) => {
     element.classList.remove(className);
     void element.offsetWidth;
