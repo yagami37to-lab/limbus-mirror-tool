@@ -116,12 +116,6 @@ const identitySelectHeader=$('.identity-select-header');
 const identitySelectView=$('[data-identity-select-view]');
 const currentSinnerName=$('[data-current-sinner-name]');
 const currentIdentityName=$('[data-current-identity-name]');
-const identityKeywordFilters=$('[data-identity-keyword-filters]');
-const identityNameFilter=$('[data-identity-name-filter]');
-const identityRarityFilter=$('[data-identity-rarity-filter]');
-const identityMultiOnly=$('[data-identity-multi-only]');
-const identityIncludeConditional=$('[data-identity-include-conditional]');
-const identityFilterMode=$('[data-identity-filter-mode]');
 const identityFilterPanel=$('[data-identity-filter-panel]');
 const identityFooterActions=$('[data-identity-footer-actions]');
 const workspaceFooter=$('.workspace-footer');
@@ -130,12 +124,9 @@ const clearCurrentIdentity=$('[data-clear-current-identity]');
 const clearAllIdentities=$('[data-clear-all-identities]');
 const fillEmptyIdentities=$('[data-fill-empty-identities]');
 const applyIdentityFilters=$('[data-apply-identity-filters]');
-if(identityIncludeConditional)identityIncludeConditional.checked=true;
 const identityFilterScrollHint=$('[data-identity-filter-scroll-hint]');
 let identityFilterScrollTop=0;
-const identityFilterSummaryChips=$('[data-identity-filter-summary-chips]');
 const partyKeywordSummaryChips=$('[data-party-keyword-summary-chips]');
-let activeIdentityKeywords=new Set();
 const formationChoiceGrid=$('[data-formation-choice-grid]');
 const formationSelectedStrip=$('[data-formation-selected-strip]');
 const formationCount=$('[data-formation-count]');
@@ -287,40 +278,11 @@ function renderIdentityAlternativeControls(){
   root.hidden=false;root.innerHTML=`<div><strong>代用人格（任意）</strong>${cards}</div><button type="button" data-toggle-alternatives>${postState.alternativeSelectionMode?'代用人格の選択を完了':'＋代用人格を追加（任意）'}</button>`;
   root.querySelector('[data-toggle-alternatives]').onclick=()=>{postState.alternativeSelectionMode=!postState.alternativeSelectionMode;renderIdentityAlternativeControls();renderIdentityOptions();};
 }
-function renderIdentityKeywordFilters(){
-  identityKeywordFilters.innerHTML='';
-  keywordDefinitions.filter(keyword=>keyword.name!=='ソロ').forEach(keyword=>{
-    const b=document.createElement('button');b.type='button';b.className='keyword-filter-chip'+(keyword.id==='ammo'?' keyword-ammo':'')+(activeIdentityKeywords.has(keyword.name)?' active':'');
-    b.textContent=keyword.name;b.dataset.keyword=keyword.name;b.addEventListener('click',()=>{activeIdentityKeywords.has(keyword.name)?activeIdentityKeywords.delete(keyword.name):activeIdentityKeywords.add(keyword.name);renderIdentityKeywordFilters();renderIdentityOptions();updateIdentityFilterSummary();updateIdentitySearchButtonState();});
-    identityKeywordFilters.appendChild(b);
-  });
-}
-function updateIdentityFilterSummary(){
-  if(!identityFilterSummaryChips)return;
-  const items=[];
-  const name=identityNameFilter.value.trim();
-  if(name)items.push(`名前：${name}`);
-  if(identityRarityFilter.value!=='all')items.push(`レアリティ：${identityRarityFilter.value}`);
-  [...activeIdentityKeywords].forEach(keyword=>items.push(keyword));
-  if(activeIdentityKeywords.size>1)items.push(identityFilterMode.value==='and'?'AND検索':'OR検索');
-  if(identityMultiOnly.checked)items.push('複数キーワードのみ');
-  if(identityIncludeConditional.checked)items.push('条件付き含む');
-  identityFilterSummaryChips.innerHTML=items.length?items.map(item=>`<span class="filter-summary-chip">${item}</span>`).join(''):'<span class="filter-summary-empty">指定なし</span>';
-}
-function resetIdentityFilters(){activeIdentityKeywords.clear();identityNameFilter.value='';identityRarityFilter.value='all';identityMultiOnly.checked=false;identityIncludeConditional.checked=true;identityFilterMode.value='or';renderIdentityKeywordFilters();renderIdentityOptions();updateIdentityFilterSummary();updateIdentitySearchButtonState();}
+const identityFilterController=window.LimbusIdentityFilterController.create({keywordDefinitions,onChange:()=>{renderIdentityOptions();updateIdentitySearchButtonState();}});
 function renderIdentityOptions(){
   const sinner=sinnerIdentityData.find(x=>x.id===postState.activeSinner);if(!sinner)return;
   const selectedIdentity=postState.identities.get(sinner.id);const selectedName=selectedIdentity?.name;identityGrid.innerHTML='';
-  const query=identityNameFilter.value.trim().toLowerCase();const rarity=identityRarityFilter.value;const selectedKeywords=[...activeIdentityKeywords];const mode=identityFilterMode.value;const includeConditional=identityIncludeConditional.checked;
-  const effectiveKeywords=identity=>{const base=[...(identity.keywords||[])];if(includeConditional)(identity.conditionalKeywords||[]).forEach(c=>(c.keywords||[]).forEach(k=>{if(!base.includes(k))base.push(k);}));return base;};
-  const rarityOrder={'000':3,'00':2,'0':1};
-  const visible=sinner.identities.filter(identity=>{
-    const searchableKeywords=effectiveKeywords(identity);const nameOk=!query||identity.name.toLowerCase().includes(query);const rarityOk=rarity==='all'||identity.rarity===rarity;const multiOk=!identityMultiOnly.checked||searchableKeywords.length>=2;
-    const keywordOk=!selectedKeywords.length||(mode==='and'?selectedKeywords.every(k=>searchableKeywords.includes(k)):selectedKeywords.some(k=>searchableKeywords.includes(k)));
-    return nameOk&&rarityOk&&multiOk&&keywordOk;
-  }).sort((a,b)=>(rarityOrder[b.rarity]||0)-(rarityOrder[a.rarity]||0)||a.name.localeCompare(b.name,'ja',{numeric:true,sensitivity:'base'}));
-
-  const showFreeSlot=!query&&rarity==='all'&&!selectedKeywords.length&&!identityMultiOnly.checked;
+  const {visible,showFreeSlot}=identityFilterController.getResult(sinner.identities);
   if(showFreeSlot){
     const free=document.createElement('button');
     free.type='button';
@@ -657,8 +619,7 @@ function updateReview(){
   activateReviewEgoMarquees();
 }
 function updateIdentitySearchButtonState(){
-  const hasFilters=Boolean(identityNameFilter.value.trim())||identityRarityFilter.value!=='all'||activeIdentityKeywords.size>0||identityMultiOnly.checked||identityIncludeConditional.checked||identityFilterMode.value==='and';
-  toggleIdentitySearch?.classList.toggle('has-active-filters',hasFilters);
+  toggleIdentitySearch?.classList.toggle('has-active-filters',identityFilterController.hasActiveFilters());
 }
 function updateIdentityFilterScrollCue(){
   if(!identityFilterPanel||identityFilterPanel.hidden)return;
@@ -685,7 +646,7 @@ toggleIdentitySearch.addEventListener('click',()=>{
     toggleIdentitySearch.setAttribute('aria-expanded','true');
     toggleIdentitySearch.textContent='検索中';
     requestAnimationFrame(updateIdentityFilterScrollCue);
-    setTimeout(()=>identityNameFilter.focus({preventScroll:true}),100);
+    setTimeout(()=>identityFilterController.focusName(),100);
   }else closeIdentityFilterPanel();
 });
 identityFilterPanel?.addEventListener('scroll',()=>{
@@ -693,7 +654,7 @@ identityFilterPanel?.addEventListener('scroll',()=>{
   updateIdentityFilterScrollCue();
 },{passive:true});
 applyIdentityFilters.addEventListener('click',()=>{
-  updateIdentityFilterSummary();
+  identityFilterController.renderSummary();
   closeIdentityFilterPanel();
   showToast('人格の絞り込み条件を適用しました。');
 });
@@ -725,8 +686,7 @@ if(fillEmptyIdentities)fillEmptyIdentities.addEventListener('click',()=>{
   updatePartyKeywordSummary();
   showToast(`空いている${emptySinners.length}枠を自由枠に設定しました。`);
 });
-const handleIdentityFilterChange=()=>{renderIdentityOptions();updateIdentityFilterSummary();updateIdentitySearchButtonState();};
-identityNameFilter.addEventListener('input',handleIdentityFilterChange);identityRarityFilter.addEventListener('change',handleIdentityFilterChange);identityMultiOnly.addEventListener('change',handleIdentityFilterChange);identityIncludeConditional.addEventListener('change',handleIdentityFilterChange);identityFilterMode.addEventListener('change',handleIdentityFilterChange);$('[data-reset-identity-filters]').addEventListener('click',resetIdentityFilters);renderIdentityKeywordFilters();updateIdentityFilterSummary();updateIdentitySearchButtonState();
+updateIdentitySearchButtonState();
 if(resetFormationButton)resetFormationButton.addEventListener('click',()=>{const solo=isSoloPost();postState.identityOrder=[];renderFormationOrder();showToast(solo?'ソロ攻略の人格選択を解除しました。':'編成順をすべて解除しました。');});
 
 const categoryPickerList=$('[data-category-picker-list]');
