@@ -899,7 +899,7 @@ function updatePostCategoryDisplays(){const category=categoryById(postState.cate
 function renderCategoryPicker(){if(!categoryPickerList)return;categoryPickerList.innerHTML='';pendingPostCategory='';startCategoryPost.disabled=true;categoryPickerStatus.textContent='カテゴリを選択してください';categoryDefinitions.forEach(category=>{const button=document.createElement('button');button.type='button';button.className='category-picker-option';button.disabled=!category.available;button.dataset.categoryId=category.id;button.innerHTML=`<span class="category-picker-icon">${categoryIconMarkup(category)}</span><span><strong>${category.label}</strong><small>${category.description}</small>${category.available?'':'<em>※実装予定</em>'}</span>`;button.addEventListener('click',()=>{if(!category.available)return;pendingPostCategory=category.id;categoryPickerList.querySelectorAll('.category-picker-option').forEach(x=>x.classList.toggle('active',x===button));categoryPickerStatus.textContent=`${category.label}を選択中`;startCategoryPost.disabled=false;});categoryPickerList.appendChild(button)})}
 $$('[data-open-post]').forEach(b=>b.onclick=()=>{if(localStorage.getItem('limbus-auth')!=='logged-in'){window.LimbusAuth?.open();return;}renderCategoryPicker();openDialog(categoryPicker);});
 $('[data-close-category-picker]')?.addEventListener('click',()=>closeDialog(categoryPicker));
-openDraftFromCategory?.addEventListener('click',()=>{closeDialog(categoryPicker);renderDraftManager();requestAnimationFrame(()=>openDialog(draftManager));});
+openDraftFromCategory?.addEventListener('click',()=>{closeDialog(categoryPicker);requestAnimationFrame(()=>draftController.openManager());});
 startCategoryPost?.addEventListener('click',()=>{if(!pendingPostCategory)return;const selectedCategory=pendingPostCategory;resetPostEditorState();postState.category=selectedCategory;postState.activeSinner=sinnerIdentityData[0]?.id||null;updatePostCategoryDisplays();setStep(1);closeDialog(categoryPicker);requestAnimationFrame(()=>openDialog(postModal));});
 $$('[data-step-link]').forEach(b=>b.onclick=()=>navigateToStep(+b.dataset.stepLink));
 const typePreviewIcon=$('[data-type-preview-icon]');
@@ -988,18 +988,10 @@ async function savePostToSupabase(status){
   if(error){console.error(error);showToast(`保存できませんでした：${error.message}`);return false;}
   postModal.dataset.editingPostId=data.id;
   showToast(status==='published'?'攻略を公開しました。':'下書きを保存しました。');
-  if(status==='published'){if(activeLocalDraftId&&window.confirm('公開した投稿のセーブデータを削除しますか？')){writeLocalDrafts(readLocalDrafts().filter(x=>x.id!==activeLocalDraftId));activeLocalDraftId=null;}setTimeout(()=>{location.href=`post-detail.html?id=${encodeURIComponent(data.id)}`;},700);}
+  if(status==='published'){draftController.removeAfterPublish();setTimeout(()=>{location.href=`post-detail.html?id=${encodeURIComponent(data.id)}`;},700);}
   return true;
 }
 
-const LOCAL_DRAFT_KEY='limbus-post-save-slots-v1';
-const LOCAL_DRAFT_LIMIT=5;
-const draftManager=$('[data-draft-manager]');
-const draftSlotList=$('[data-draft-slot-list]');
-const draftSlotCount=$('[data-draft-slot-count]');
-let activeLocalDraftId=null;
-function readLocalDrafts(){try{const value=JSON.parse(localStorage.getItem(LOCAL_DRAFT_KEY)||'[]');return Array.isArray(value)?value.slice(0,LOCAL_DRAFT_LIMIT):[]}catch{return []}}
-function writeLocalDrafts(items){localStorage.setItem(LOCAL_DRAFT_KEY,JSON.stringify(items.slice(0,LOCAL_DRAFT_LIMIT)))}
 function serializeDraftState(){
   return {version:1,step:postState.step,editingPostId:postModal.dataset.editingPostId||'',payload:buildPostPayload(),
     identityAlternatives:[...postState.identityAlternatives.entries()].map(([id,items])=>[id,(items||[]).map(item=>({name:item?.name||'',rarity:item?.rarity||'',keywords:item?.keywords||[]}))]),
@@ -1018,28 +1010,21 @@ function applyDraftState(saved){
   $$('[data-post-type]').forEach(x=>x.classList.toggle('active',x.dataset.postType===postState.type));$$('[data-post-difficulty]').forEach(x=>x.classList.toggle('active',x.dataset.postDifficulty===postState.difficulty));
   updatePostCategoryDisplays();updateDifficultyDisplay();syncTitle();updatePostSummaryCount();renderIdentitySinnerRoster();renderFormationOrder();renderEgoSinners();renderThemeFloorCards();renderDetailTags();setStep(Math.min(7,Math.max(1,Number(saved.step)||1)));
 }
-function formatDraftDate(value){try{return new Intl.DateTimeFormat('ja-JP',{dateStyle:'medium',timeStyle:'short'}).format(new Date(value))}catch{return value||''}}
-function renderDraftManager(){
-  if(!draftSlotList)return;const drafts=readLocalDrafts();draftSlotList.replaceChildren();if(draftSlotCount)draftSlotCount.textContent=`${drafts.length} / ${LOCAL_DRAFT_LIMIT}件`;
-  if(!drafts.length){draftSlotList.innerHTML='<p class="draft-slot-empty">保存されているセーブデータはありません。</p>';return;}
-  drafts.forEach((draft,index)=>{const row=document.createElement('article');row.className='draft-slot-card';row.innerHTML=`<div><small>SLOT ${index+1}</small><strong></strong><time></time></div><div class="draft-slot-actions"><button type="button" data-load>続きから編集</button><button type="button" data-overwrite>上書き保存</button><button type="button" data-delete>削除</button></div>`;row.querySelector('strong').textContent=draft.name||'無題のセーブデータ';row.querySelector('time').textContent=`最終保存：${formatDraftDate(draft.updatedAt)}`;
-    row.querySelector('[data-load]').onclick=()=>{activeLocalDraftId=draft.id;applyDraftState(draft.state);closeDialog(draftManager);if(!postModal.open)openDialog(postModal);showToast('セーブデータを読み込みました。')};
-    row.querySelector('[data-overwrite]').onclick=()=>{const items=readLocalDrafts(),target=items.find(x=>x.id===draft.id);if(!target)return;target.state=serializeDraftState();target.updatedAt=new Date().toISOString();writeLocalDrafts(items);activeLocalDraftId=draft.id;renderDraftManager();showToast('セーブデータを上書きしました。')};
-    row.querySelector('[data-delete]').onclick=()=>{if(!confirm('このセーブデータを削除しますか？'))return;writeLocalDrafts(readLocalDrafts().filter(x=>x.id!==draft.id));if(activeLocalDraftId===draft.id)activeLocalDraftId=null;renderDraftManager();showToast('セーブデータを削除しました。')};draftSlotList.appendChild(row)});
-}
-function createLocalDraft(){const items=readLocalDrafts();if(items.length>=LOCAL_DRAFT_LIMIT){showToast('セーブデータは最大5件です。不要なデータを削除してください。');return}const defaultName=postTitle.value.trim()||`セーブデータ ${items.length+1}`;const name=prompt('セーブデータ名を入力してください。',defaultName);if(name===null)return;const now=new Date().toISOString(),id=(crypto.randomUUID?.()||`draft-${Date.now()}`);items.push({id,name:name.trim().slice(0,40)||defaultName,updatedAt:now,state:serializeDraftState()});writeLocalDrafts(items);activeLocalDraftId=id;renderDraftManager();showToast('セーブデータを保存しました。')}
-$('[data-save-draft]').onclick=()=>{renderDraftManager();openDialog(draftManager)};
-$('[data-close-draft-manager]')?.addEventListener('click',()=>closeDialog(draftManager));
-$('[data-create-draft-slot]')?.addEventListener('click',createLocalDraft);
-if(draftManager){
-  draftManager.addEventListener('close',unlockPageScroll);
-  draftManager.addEventListener('cancel',event=>{event.preventDefault();closeDialog(draftManager);});
-  draftManager.addEventListener('click',event=>{if(event.target===draftManager)closeDialog(draftManager);});
-}
+
+const draftController=window.LimbusDraftController.create({
+  captureState:serializeDraftState,
+  restoreState:applyDraftState,
+  getDefaultName:index=>postTitle.value.trim()||`セーブデータ ${index+1}`,
+  postModal,
+  openDialog,
+  closeDialog,
+  unlockPageScroll,
+  showToast
+});
 
 const postCloseConfirm=$('[data-post-close-confirm]');
 function resetPostEditorState(){
-  postModal.dataset.editingPostId='';activeLocalDraftId=null;
+  postModal.dataset.editingPostId='';draftController.clearActive();
   postState.step=1;postState.category='mirror_dungeon';postState.type=null;postState.difficulty=null;
   postState.identities=new Map();postState.identityAlternatives=new Map();postState.identityOrder=[];postState.egos=new Map();postState.freeSlotEgoEnabled=new Set();postState.themePacks=new Map();postState.activeThemePackFloor=null;postState.strategyTags=new Set();postState.affiliationTags=new Set();postState.ammoKeywordSelected=false;postState.activeSinner=sinnerIdentityData[0]?.id||null;postState.activeEgoSinner=null;postState.alternativeSelectionMode=false;
   postTitle.value='';if(postSummary)postSummary.value='';const points=$('[data-post-points]');if(points)points.value='';
@@ -1050,21 +1035,16 @@ function requestPostClose(){if(postCloseConfirm&&!postCloseConfirm.open)openDial
 $$('[data-close-post]').forEach(button=>button.onclick=requestPostClose);
 $('[data-cancel-close-post]')?.addEventListener('click',()=>closeDialog(postCloseConfirm));
 $('[data-discard-and-close-post]')?.addEventListener('click',()=>{closeDialog(postCloseConfirm);closeDialog(postModal);resetPostEditorState();showToast('入力内容を破棄しました。');});
-$('[data-save-and-close-post]')?.addEventListener('click',()=>{if(!createLocalDraft())return;closeDialog(postCloseConfirm);closeDialog(postModal);resetPostEditorState();showToast('下書きを保存して投稿画面を閉じました。');});
+$('[data-save-and-close-post]')?.addEventListener('click',()=>{if(!draftController.createDraft())return;closeDialog(postCloseConfirm);closeDialog(postModal);resetPostEditorState();showToast('下書きを保存して投稿画面を閉じました。');});
+postCloseConfirm?.addEventListener('close',unlockPageScroll);
 postCloseConfirm?.addEventListener('cancel',event=>{event.preventDefault();closeDialog(postCloseConfirm)});
 
 $('[data-next-step]').onclick=async()=>{if(postState.step===4&&postState.activeEgoSinner)return closeEgoSelect();if(postState.step===5&&postState.activeThemePackFloor)return closeThemePackSelect();if(postState.step===7)return savePostToSupabase('published');if(!validateRequiredStep(postState.step))return;setStep(postState.step+1);};
 
 postState.activeSinner=sinnerIdentityData[0]?.id||null;updatePostCategoryDisplays();searchController.renderActiveFilters();renderIdentitySinnerRoster();updatePartyKeywordSummary();setStep(1);
 
-function openDraftEditorFromQuery(){
-  const draftId=new URLSearchParams(location.search).get('draft');if(!draftId)return false;
-  const draft=readLocalDrafts().find(x=>String(x.id)===String(draftId));
-  if(!draft){showToast('指定されたセーブデータを読み込めませんでした。');return false;}
-  activeLocalDraftId=draft.id;applyDraftState(draft.state);openDialog(postModal);showToast('セーブデータを読み込みました。');return true;
-}
 async function openPostEditorFromQuery(){
-  if(openDraftEditorFromQuery())return;
+  if(draftController.openFromQuery())return;
   const editId=new URLSearchParams(location.search).get('edit');if(!editId||!window.limbusSupabase)return;
   const {data:{session}}=await window.limbusSupabase.auth.getSession();if(!session?.user)return;
   const {data:p,error}=await window.limbusSupabase.from('posts').select('*').eq('id',editId).eq('author_id',session.user.id).maybeSingle();if(error||!p){showToast('編集する投稿を読み込めませんでした。');return;}
