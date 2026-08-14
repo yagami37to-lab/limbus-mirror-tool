@@ -466,7 +466,9 @@ html[data-theme="dark"] .community-browser .like-stat::before {
 }
 
 .community-browser .bookmark-button {
+  position: relative;
   z-index: 7;
+  overflow: visible;
   transform: none !important;
   will-change: transform;
 }
@@ -493,25 +495,26 @@ html[data-theme="dark"] .community-browser .like-stat::before {
 
 .like-feedback-layer {
   position: absolute;
-  top: 7px;
-  right: 7px;
-  z-index: 6;
+  left: 50%;
+  top: 50%;
+  right: auto;
+  z-index: 8;
   display: block;
-  width: 74px;
-  height: 74px;
+  width: 1px;
+  height: 1px;
   overflow: visible;
   pointer-events: none;
 }
 
 .like-feedback-layer .like-particle {
-  left: 58px;
-  top: 12px;
+  left: 0;
+  top: 0;
 }
 
 .like-feedback-layer .like-plus-one {
-  left: auto;
-  right: 8px;
-  top: 42px;
+  left: 0;
+  right: auto;
+  top: -22px;
   transform: none;
 }
 
@@ -564,21 +567,15 @@ html[data-theme="dark"] .community-browser .like-stat::before {
     margin-top: 2px;
   }
 
-  .like-feedback-layer {
-    top: 5px;
-    right: 5px;
-    width: 68px;
-    height: 68px;
-  }
-
   .like-feedback-layer .like-particle {
-    left: 53px;
-    top: 11px;
+    left: 0;
+    top: 0;
   }
 
   .like-feedback-layer .like-plus-one {
-    right: 7px;
-    top: 39px;
+    left: 0;
+    right: auto;
+    top: -20px;
   }
 }
 

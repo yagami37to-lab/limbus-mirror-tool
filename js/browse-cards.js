@@ -29,13 +29,14 @@
     element.classList.add(className);
   };
 
-  const ensureFeedbackLayer = (card) => {
-    let layer = card.querySelector(':scope > .like-feedback-layer');
+  const ensureFeedbackLayer = (card, button) => {
+    card.querySelector(':scope > .like-feedback-layer')?.remove();
+    let layer = button.querySelector(':scope > .like-feedback-layer');
     if (layer) return layer;
     layer = document.createElement('span');
     layer.className = 'like-feedback-layer';
     layer.setAttribute('aria-hidden', 'true');
-    card.appendChild(layer);
+    button.appendChild(layer);
     return layer;
   };
 
@@ -59,16 +60,16 @@
 
   const playLikeFeedback = (card, button) => {
     animateHeart(button, true);
-    const layer = ensureFeedbackLayer(card);
+    const layer = ensureFeedbackLayer(card, button);
     layer.replaceChildren();
 
     const particles = [
-      [-34, 14, 0, 0.82],
-      [-22, 31, 35, 1.02],
-      [-6, 40, 70, 0.72],
-      [-44, 37, 20, 0.92],
-      [-16, 18, 90, 0.64],
-      [-48, 22, 55, 0.76],
+      [-36, -26, 0, 0.82],
+      [-20, -42, 35, 1.02],
+      [0, -48, 70, 0.72],
+      [24, -36, 20, 0.92],
+      [38, -18, 90, 0.64],
+      [28, 12, 55, 0.76],
     ];
     particles.forEach((values) => layer.appendChild(createParticle(...values)));
 
