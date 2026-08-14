@@ -222,8 +222,9 @@ function resetStageScroll(){
 const cardTones=[['#5f4b36','#1d1711'],['#3c4658','#131820'],['#594658','#1e1720'],['#40595c','#151e20'],['#6b4c3f','#251713'],['#4e4537','#181510']];
 const keywordCardTones={'火傷':['#9b2f24','#2a0d09'],'出血':['#6e1423','#21070d'],'振動':['#b28a1c','#2b2107'],'破裂':['#397a3c','#0d2510'],'呼吸':['#286ca8','#0a1d32'],'沈潜':['#253d78','#091126'],'充電':['#653c9b','#1c0d2d'],'弾丸':['#8a6a2d','#241b09']};
 function cardToneForKeywords(keywords,index=0){return keywordCardTones[(keywords||[])[0]]||cardTones[index%cardTones.length];}
-function alternativesFor(sinnerId){if(!postState.identityAlternatives.has(sinnerId))postState.identityAlternatives.set(sinnerId,[]);return postState.identityAlternatives.get(sinnerId);}
-function alternativeNamesFor(sinnerId){return alternativesFor(sinnerId).map(item=>item.name).filter(Boolean);}
+const identitySelectionController=window.LimbusIdentitySelectionController.create({state:postState,identityData:sinnerIdentityData});
+const alternativesFor=id=>identitySelectionController.alternativesFor(id);
+const alternativeNamesFor=id=>identitySelectionController.alternativeNamesFor(id);
 function isSoloPost(){return postState.type==='ソロ';}
 function formationPosition(sinnerId){const index=postState.identityOrder.indexOf(sinnerId);return index===-1?null:index+1;}
 function ensureFormationPosition(sinnerId){
@@ -292,10 +293,7 @@ function renderIdentityOptions(){
     free.innerHTML=`<span class="identity-rarity">FREE</span><span class="identity-placeholder">＋</span><strong>自由枠</strong><div class="identity-keywords"><span>誰でも可</span></div><p class="identity-note">${sinner.name}の人格は指定しません。</p><small class="identity-confidence">人格指定なし</small>`;
     free.addEventListener('click',()=>{
       const freeIdentity={name:'自由枠（誰でも可）',rarity:'FREE',keywords:[],isFreeSlot:true};
-      postState.identities.set(sinner.id,freeIdentity);
-      postState.identityOrder=postState.identityOrder.filter(id=>id!==sinner.id);
-      postState.egos.delete(sinner.id);
-      postState.freeSlotEgoEnabled.delete(sinner.id);
+      identitySelectionController.selectFree(sinner.id);
       currentIdentityName.textContent=freeIdentity.name;
       renderIdentitySinnerRoster();renderIdentityAlternativeControls();renderIdentityOptions();updatePostIdentityCount();
       showToast(`${sinner.name}を自由枠に設定しました。`);
@@ -325,11 +323,10 @@ function renderIdentityOptions(){
     b.addEventListener('click',()=>{
       if(postState.alternativeSelectionMode){
         if(selectedName===identity.name){showToast('使用人格と同じ人格は代用人格に設定できません。');return;}
-        const current=alternativesFor(sinner.id);const exists=current.some(item=>item.name===identity.name);
-        postState.identityAlternatives.set(sinner.id,exists?current.filter(item=>item.name!==identity.name):[...current,identity]);
-        renderIdentityAlternativeControls();renderIdentityOptions();showToast(exists?'代用人格から解除しました。':'代用人格へ追加しました。');return;
+        const result=identitySelectionController.toggleAlternative(sinner.id,identity);if(!result.changed){showToast('使用人格と同じ人格は代用人格に設定できません。');return;}
+        renderIdentityAlternativeControls();renderIdentityOptions();showToast(result.removed?'代用人格から解除しました。':'代用人格へ追加しました。');return;
       }
-      postState.identities.set(sinner.id,identity);postState.identityAlternatives.set(sinner.id,alternativesFor(sinner.id).filter(item=>item.name!==identity.name));clearStepValidation(2);postState.identityOrder=postState.identityOrder.filter(id=>id!==sinner.id);postState.freeSlotEgoEnabled.delete(sinner.id);currentIdentityName.textContent=identity.name;renderIdentitySinnerRoster();renderIdentityAlternativeControls();renderIdentityOptions();updatePostIdentityCount();showToast(`${sinner.name}：${identity.name}を選択しました。`);queueIdentityScroll(identitySinnerRoster,18);
+      identitySelectionController.selectPrimary(sinner.id,identity);clearStepValidation(2);currentIdentityName.textContent=identity.name;renderIdentitySinnerRoster();renderIdentityAlternativeControls();renderIdentityOptions();updatePostIdentityCount();showToast(`${sinner.name}：${identity.name}を選択しました。`);queueIdentityScroll(identitySinnerRoster,18);
     });
     identityGrid.appendChild(b);
   });
@@ -659,8 +656,7 @@ applyIdentityFilters.addEventListener('click',()=>{
   showToast('人格の絞り込み条件を適用しました。');
 });
 clearCurrentIdentity.addEventListener('click',()=>{
-  const id=postState.activeSinner;if(!id||!postState.identities.has(id))return;
-  postState.identities.delete(id);removeFormationPosition(id);postState.egos.delete(id);postState.freeSlotEgoEnabled.delete(id);
+  const id=postState.activeSinner;if(!identitySelectionController.clearOne(id))return;
   renderIdentitySinnerRoster();renderIdentityOptions();updatePostIdentityCount();
   showToast('この囚人の人格選択を解除しました。');
   queueIdentityScroll(identitySinnerRoster,18);
@@ -668,23 +664,20 @@ clearCurrentIdentity.addEventListener('click',()=>{
 clearAllIdentities.addEventListener('click',()=>{
   if(!postState.identities.size)return;
   if(!window.confirm('選択中の人格と、それに設定したE.G.Oをすべて解除しますか？'))return;
-  postState.identities.clear();postState.identityAlternatives.clear();postState.identityOrder=[];postState.egos.clear();postState.freeSlotEgoEnabled.clear();
+  identitySelectionController.clearAll();
   currentIdentityName.textContent='未選択';
   renderIdentitySinnerRoster();renderIdentityOptions();updatePostIdentityCount();
   showToast('すべての人格選択を解除しました。');
 });
 if(fillEmptyIdentities)fillEmptyIdentities.addEventListener('click',()=>{
-  const emptySinners=sinnerIdentityData.filter(sinner=>!postState.identities.has(sinner.id));
-  if(!emptySinners.length){showToast('すべての人格枠が設定済みです。');return;}
-  emptySinners.forEach(sinner=>{
-    postState.identities.set(sinner.id,{name:'自由枠（誰でも可）',rarity:'FREE',keywords:[],isFreeSlot:true});
-  });
+  const filledCount=identitySelectionController.fillEmpty();
+  if(!filledCount){showToast('すべての人格枠が設定済みです。');return;}
   clearStepValidation(2);
   renderIdentitySinnerRoster();
   renderIdentityOptions();
   updatePostIdentityCount();
   updatePartyKeywordSummary();
-  showToast(`空いている${emptySinners.length}枠を自由枠に設定しました。`);
+  showToast(`空いている${filledCount}枠を自由枠に設定しました。`);
 });
 updateIdentitySearchButtonState();
 if(resetFormationButton)resetFormationButton.addEventListener('click',()=>{const solo=isSoloPost();postState.identityOrder=[];renderFormationOrder();showToast(solo?'ソロ攻略の人格選択を解除しました。':'編成順をすべて解除しました。');});
