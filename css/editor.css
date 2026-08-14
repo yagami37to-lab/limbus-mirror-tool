@@ -26,7 +26,7 @@
 .ego-sinner-grid{display:grid;grid-template-columns:repeat(4,minmax(180px,1fr));gap:12px;margin-top:14px}
 .ego-sinner-card{min-height:150px;padding:16px;border:2px solid #a97725;background:linear-gradient(150deg,var(--card-a),var(--card-b));color:#fff;text-align:left;display:flex;flex-direction:column;gap:7px;cursor:pointer;position:relative;overflow:hidden}
 .ego-sinner-card:before{content:"";position:absolute;inset:0;background:linear-gradient(transparent,rgba(0,0,0,.82))}.ego-sinner-card>*{position:relative;z-index:1}.ego-sinner-card strong{font-size:20px}.ego-sinner-card small{color:#e8dcc2}.ego-sinner-card em{font-style:normal;font-size:11px;line-height:1.55;color:#f4d993;margin-top:auto}.ego-sinner-card.selected{outline:3px solid #efb72a;outline-offset:-5px}
-.ego-sinner-card.has-identity-image{background-image:var(--identity-image),linear-gradient(150deg,var(--card-a),var(--card-b))!important;background-size:contain,cover!important;background-position:center,center!important;background-repeat:no-repeat!important}
+.ego-sinner-card.has-identity-image{background-image:var(--identity-image),linear-gradient(150deg,var(--card-a),var(--card-b))!important;background-size:cover,cover!important;background-position:center 22%,center!important;background-repeat:no-repeat!important}
 .ego-sinner-card.has-identity-image:before{background:linear-gradient(180deg,rgba(0,0,0,.04),rgba(0,0,0,.88))}
 .ego-option-grid{display:grid;grid-template-columns:repeat(5,minmax(140px,1fr));gap:14px;margin-top:18px}
 .ego-option-card{min-height:220px;border:2px solid #8c6a34;background:#211c16;color:#fff;padding:14px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:8px;text-align:center;cursor:pointer;position:relative;overflow:hidden}
@@ -915,8 +915,9 @@ body.dark-mode .theme-pack-option-card small{color:#aeb4bc!important}
 
 /* v1.0.47 イサン人格画像: 投稿画面の小型カードにも反映 */
 .formation-choice-card.has-identity-image{background-image:linear-gradient(180deg,rgba(0,0,0,.08),rgba(0,0,0,.86)),var(--identity-image)!important}
-.formation-choice-card.has-identity-image{background-size:cover,contain!important;background-repeat:no-repeat!important}
-.formation-choice-card.has-identity-image,.review-party-card.has-identity-image{background-position:center!important;color:#fff!important}
+.formation-choice-card.has-identity-image{background-size:cover,cover!important;background-position:center,center 22%!important;background-repeat:no-repeat!important}
+.review-party-card.has-identity-image{background-position:center!important;color:#fff!important}
+.formation-choice-card.has-identity-image{color:#fff!important}
 .formation-choice-card.has-identity-image>*,.review-party-card.has-identity-image>*{position:relative;z-index:1}
 .formation-choice-card.has-identity-image .formation-card-label,.formation-choice-card.has-identity-image>small{color:#f2eadc!important}
 html[data-theme="dark"] .formation-choice-card.has-identity-image,
