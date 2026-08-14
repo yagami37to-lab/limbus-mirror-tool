@@ -555,24 +555,9 @@ setInterval(()=>{if(document.activeElement===postTitle)handlePostTitleSync();},1
 const clearIdentities=$('[data-clear-identities]');if(clearIdentities)clearIdentities.onclick=()=>{postState.identities.clear();postState.identityAlternatives.clear();postState.identityOrder=[];postState.egos.clear();postState.freeSlotEgoEnabled.clear();renderIdentitySinnerRoster();if(postState.activeSinner)openIdentitySelect(postState.activeSinner);updatePostIdentityCount();};const legacyClearEgos=$('[data-clear-egos]');if(legacyClearEgos)legacyClearEgos.onclick=()=>{postState.egos.clear();postState.freeSlotEgoEnabled.clear();closeEgoSelect();renderEgoSinners();};const goBackInWorkspace=()=>{if(postState.step===4&&postState.activeEgoSinner)return closeEgoSelect();if(postState.step===5&&postState.activeThemePackFloor)return closeThemePackSelect();setStep(postState.step-1);};$('[data-prev-step]').onclick=goBackInWorkspace;if(mobilePrevStep)mobilePrevStep.onclick=goBackInWorkspace;
 const postPayloadController=window.LimbusPostPayloadController.create({state:postState,identityData:sinnerIdentityData,getAlternativeNames:alternativeNamesFor,getOrderedSinners:orderedSelectedSinners,getFormationPosition:formationPosition,getAutomaticKeywords:automaticPostKeywords});
 const buildPostPayload=()=>postPayloadController.build();
-async function savePostToSupabase(status){
-  const client=window.limbusSupabase; if(!client){showToast('Supabase接続設定を読み込めませんでした。');return false;}
-  const {data:{session}}=await client.auth.getSession(); const user=session?.user;
-  if(!user){window.LimbusAuth?.open();return false;}
-  if(status==='published'&&!validateAllRequiredSteps())return false;
-  const payload=buildPostPayload();
-  if(!payload.title){window.alert('攻略タイトルを設定していません');setStep(1);return false;}
-  const row={author_id:user.id,...payload,status,published_at:status==='published'?new Date().toISOString():null,updated_at:new Date().toISOString()};
-  const editingId=postModal.dataset.editingPostId;
-  if(!editingId){const {count,error:countError}=await client.from('posts').select('*',{count:'exact',head:true}).eq('author_id',user.id);if(countError){showToast(`投稿数を確認できませんでした：${countError.message}`);return false;}if((count||0)>=20){showToast('投稿上限の20件に達しています。既存の投稿を編集または削除してください。');return false;}}
-  const query=editingId?client.from('posts').update(row).eq('id',editingId).eq('author_id',user.id).select('id').single():client.from('posts').insert(row).select('id').single();
-  const {data,error}=await query;
-  if(error){console.error(error);showToast(`保存できませんでした：${error.message}`);return false;}
-  postModal.dataset.editingPostId=data.id;
-  showToast(status==='published'?'攻略を公開しました。':'下書きを保存しました。');
-  if(status==='published'){draftController.removeAfterPublish();setTimeout(()=>{location.href=`post-detail.html?id=${encodeURIComponent(data.id)}`;},700);}
-  return true;
-}
+let draftController;
+const postPersistenceController=window.LimbusPostPersistenceController.create({buildPayload:buildPostPayload,getEditingId:()=>postModal.dataset.editingPostId||'',setEditingId:id=>{postModal.dataset.editingPostId=id;},validatePublished:validateAllRequiredSteps,onTitleMissing:()=>{window.alert('攻略タイトルを設定していません');setStep(1);},onAuthRequired:()=>window.LimbusAuth?.open(),onPublished:id=>{draftController.removeAfterPublish();setTimeout(()=>{location.href=`post-detail.html?id=${encodeURIComponent(id)}`;},700);},showToast});
+const savePostToSupabase=status=>postPersistenceController.save(status);
 
 function serializeDraftState(){
   return {version:1,step:postState.step,editingPostId:postModal.dataset.editingPostId||'',payload:buildPostPayload(),
@@ -585,7 +570,7 @@ const refreshRestoredEditor=step=>{updatePostCategoryDisplays();updateDifficulty
 const postRestoreController=window.LimbusPostRestoreController.create({state:postState,identityData:sinnerIdentityData,postModal,normalizeThemePacks:normalizeThemePackEntries,onRefresh:refreshRestoredEditor});
 const applyDraftState=saved=>postRestoreController.restoreDraft(saved);
 
-const draftController=window.LimbusDraftController.create({
+draftController=window.LimbusDraftController.create({
   captureState:serializeDraftState,
   restoreState:applyDraftState,
   getDefaultName:index=>postTitle.value.trim()||`セーブデータ ${index+1}`,
