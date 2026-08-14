@@ -1,7 +1,7 @@
 (()=>{
 'use strict';
 
-function createEgoController({state,identityData,egoData,orderedSinners,formationPosition,summaryMarkup,cardTones,toneForKeywords,workspaceFooter,showToast,scrollToElement,queueScroll}){
+function createEgoController({state,identityData,egoData,orderedSinners,formationPosition,summaryMarkup,cardTones,toneForKeywords,getIdentityImage,workspaceFooter,showToast,scrollToElement,queueScroll}){
   const $=selector=>document.querySelector(selector);
   const sinnerGrid=$('[data-post-ego-sinner-grid]');
   const egoGrid=$('[data-post-ego-grid]');
@@ -31,6 +31,7 @@ function createEgoController({state,identityData,egoData,orderedSinners,formatio
       if(isFree){
         const card=document.createElement('article');
         card.className='ego-sinner-card ego-free-sinner-card'+(freeEgoEnabled?' enabled':' locked')+(picks.size?' selected':'');
+        const cardImage=getIdentityImage?.(sinner.id,identity);if(cardImage){card.classList.add('has-identity-image');card.style.setProperty('--identity-image',`url("${cardImage}")`);}
         card.style.setProperty('--card-a',cardTones[index%cardTones.length][0]);card.style.setProperty('--card-b',cardTones[index%cardTones.length][1]);
         card.innerHTML=`<span class="sinner-number">No.${sinner.id}</span><span class="formation-order-badge ego-order-badge">${order}</span><strong>${sinner.name}</strong><small>自由枠（人格指定なし）</small><div class="ego-card-summary ego-summary-tags">${freeEgoEnabled?summaryMarkup(picks,{emptyLabel:'E.G.Oを選択可能'}):'<span class="ego-summary-empty">初期設定ではE.G.O指定なし</span>'}</div><div class="ego-free-actions"></div>`;
         const actions=card.querySelector('.ego-free-actions');
@@ -41,6 +42,7 @@ function createEgoController({state,identityData,egoData,orderedSinners,formatio
         sinnerGrid.appendChild(card);return;
       }
       const button=document.createElement('button');button.type='button';button.className='ego-sinner-card'+(picks.size?' selected':'');
+      const buttonImage=getIdentityImage?.(sinner.id,identity);if(buttonImage){button.classList.add('has-identity-image');button.style.setProperty('--identity-image',`url("${buttonImage}")`);}
       button.style.setProperty('--card-a',cardTones[index%cardTones.length][0]);button.style.setProperty('--card-b',cardTones[index%cardTones.length][1]);
       button.innerHTML=`<span class="sinner-number">No.${sinner.id}</span><span class="formation-order-badge ego-order-badge">${order}</span><strong>${sinner.name}</strong><small>${identity.name}</small><div class="ego-card-summary ego-summary-tags">${summaryMarkup(picks)}</div>`;
       button.addEventListener('click',()=>open(sinner.id));sinnerGrid.appendChild(button);

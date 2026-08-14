@@ -26,6 +26,8 @@
 .ego-sinner-grid{display:grid;grid-template-columns:repeat(4,minmax(180px,1fr));gap:12px;margin-top:14px}
 .ego-sinner-card{min-height:150px;padding:16px;border:2px solid #a97725;background:linear-gradient(150deg,var(--card-a),var(--card-b));color:#fff;text-align:left;display:flex;flex-direction:column;gap:7px;cursor:pointer;position:relative;overflow:hidden}
 .ego-sinner-card:before{content:"";position:absolute;inset:0;background:linear-gradient(transparent,rgba(0,0,0,.82))}.ego-sinner-card>*{position:relative;z-index:1}.ego-sinner-card strong{font-size:20px}.ego-sinner-card small{color:#e8dcc2}.ego-sinner-card em{font-style:normal;font-size:11px;line-height:1.55;color:#f4d993;margin-top:auto}.ego-sinner-card.selected{outline:3px solid #efb72a;outline-offset:-5px}
+.ego-sinner-card.has-identity-image{background-image:var(--identity-image),linear-gradient(150deg,var(--card-a),var(--card-b))!important;background-size:cover,cover!important;background-position:center,center!important;background-repeat:no-repeat!important}
+.ego-sinner-card.has-identity-image:before{background:linear-gradient(180deg,rgba(0,0,0,.04),rgba(0,0,0,.88))}
 .ego-option-grid{display:grid;grid-template-columns:repeat(5,minmax(140px,1fr));gap:14px;margin-top:18px}
 .ego-option-card{min-height:220px;border:2px solid #8c6a34;background:#211c16;color:#fff;padding:14px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:8px;text-align:center;cursor:pointer;position:relative;overflow:hidden}
 .ego-option-card:before{content:"";position:absolute;width:126px;height:126px;border-radius:50%;top:18px;background:radial-gradient(circle at 35% 30%,rgba(255,255,255,.35),transparent 26%),radial-gradient(circle at center,var(--ego-glow),#15120f 72%);border:3px solid #b88a3c;box-shadow:0 0 22px var(--ego-glow)}
@@ -709,6 +711,7 @@ html[data-theme="dark"] .identity-footer-buttons [data-clear-all-identities]{
 .review-party-card-visual{position:relative;min-height:190px;padding:14px;color:#fff;background:linear-gradient(145deg,var(--card-a),var(--card-b));display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden}
 .review-party-card-visual:before{content:"";position:absolute;inset:0;background:linear-gradient(transparent 25%,rgba(0,0,0,.86))}
 .review-party-card-visual>*{position:relative}
+.review-party-card.has-identity-image .review-sinner-monogram{visibility:hidden}
 .review-formation-number{position:absolute;right:10px;top:10px;min-width:34px;height:34px;padding:0 8px;display:grid;place-items:center;border:2px solid #e4aa2b;background:rgba(20,16,11,.86);color:#ffd66b;font-weight:900}
 .review-party-card-visual strong{display:block;font-size:17px}
 .review-party-card-visual p{min-height:2.7em;margin:5px 0 0;font-size:13px;line-height:1.35}
