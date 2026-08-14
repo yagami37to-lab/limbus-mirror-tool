@@ -288,32 +288,10 @@ const egoController=window.LimbusEgoController.create({state:postState,identityD
 const renderEgoSinners=()=>egoController.renderSinners();
 const closeEgoSelect=options=>egoController.close(options);
 const updateEgoConfirmState=()=>egoController.updateControls();
-function clearStepValidation(step){
-  document.querySelector(`[data-step-link="${step}"]`)?.classList.remove('validation-error');
-  document.querySelector(`[data-post-step="${step}"]`)?.classList.remove('validation-error');
-}
-function markStepValidation(step,invalid=true){
-  document.querySelector(`[data-step-link="${step}"]`)?.classList.toggle('validation-error',invalid);
-  document.querySelector(`[data-post-step="${step}"]`)?.classList.toggle('validation-error',invalid);
-}
-function stepValidation(step){
-  if(step===1){
-    if(!postTitle?.value.trim())return {valid:false,message:'攻略タイトルを設定していません',field:'title',popup:true};
-    if(!postState.difficulty&&!postState.type)return {valid:false,message:'難易度と攻略タイプを選択してください。',field:'difficulty'};
-    if(!postState.difficulty)return {valid:false,message:'ノーマルまたはハードを選択してください。',field:'difficulty'};
-    if(!postState.type)return {valid:false,message:'攻略タイプを選択してください。',field:'type'};
-  }
-  if(step===2&&postState.identities.size!==sinnerIdentityData.length){
-    return {valid:false,message:'必要のない人格は自由枠として設定してください',popup:true};
-  }
-  if(step===3&&postState.identityOrder.length<1){
-    return {valid:false,message:'編成順に少なくとも1人を設定してください。'};
-  }
-  if(step===6&&!postSummary?.value.trim()){
-    return {valid:false,message:'一言紹介を入力してください。'};
-  }
-  return {valid:true,message:''};
-}
+const postValidationController=window.LimbusPostValidationController.create({state:postState,requiredIdentityCount:sinnerIdentityData.length});
+const clearStepValidation=step=>postValidationController.clear(step);
+const markStepValidation=(step,invalid=true)=>postValidationController.mark(step,invalid);
+const stepValidation=step=>postValidationController.check(step);
 function focusInvalidStep(step){
   markStepValidation(step,true);
   const result=stepValidation(step);
@@ -353,7 +331,7 @@ function validateRequiredStep(step,{showMessage=true}={}){
   return result.valid;
 }
 function validateAllRequiredSteps(){
-  const required=[1,2,3,6];
+  const required=postValidationController.requiredSteps;
   const invalid=required.filter(step=>!validateRequiredStep(step,{showMessage:false}));
   if(invalid.length){
     const first=invalid[0];
@@ -367,7 +345,7 @@ function validateAllRequiredSteps(){
 function navigateToStep(target){
   target=Math.max(1,Math.min(7,target));
   if(target<=postState.step){setStep(target);return;}
-  const requiredBefore=[1,2,3,6].filter(step=>step<target);
+  const requiredBefore=postValidationController.requiredSteps.filter(step=>step<target);
   const invalid=requiredBefore.find(step=>!validateRequiredStep(step,{showMessage:false}));
   if(invalid){
     setStep(invalid);
@@ -641,7 +619,18 @@ $('[data-save-and-close-post]')?.addEventListener('click',()=>{if(!draftControll
 postCloseConfirm?.addEventListener('close',unlockPageScroll);
 postCloseConfirm?.addEventListener('cancel',event=>{event.preventDefault();closeDialog(postCloseConfirm)});
 
-$('[data-next-step]').onclick=async()=>{if(postState.step===4&&postState.activeEgoSinner)return closeEgoSelect();if(postState.step===5&&postState.activeThemePackFloor)return closeThemePackSelect();if(postState.step===7)return savePostToSupabase('published');if(!validateRequiredStep(postState.step))return;setStep(postState.step+1);};
+$('[data-next-step]').onclick=async()=>{
+  if(postState.step===4&&postState.activeEgoSinner)return closeEgoSelect();
+  if(postState.step===5&&postState.activeThemePackFloor)return closeThemePackSelect();
+  if(postState.step===7)return savePostToSupabase('published');
+  if(postState.step===2&&postState.identities.size<sinnerIdentityData.length){
+    const missingCount=sinnerIdentityData.length-postState.identities.size;
+    if(!window.confirm(`未設定の人格枠が${missingCount}件あります。空いている枠を自由枠に設定して次へ進みますか？`))return;
+    identitySelectionController.fillEmpty();clearStepValidation(2);renderIdentitySinnerRoster();renderIdentityOptions();updatePostIdentityCount();showToast(`空いている${missingCount}枠を自由枠に設定しました。`);
+  }
+  if(!validateRequiredStep(postState.step))return;
+  setStep(postState.step+1);
+};
 
 postState.activeSinner=sinnerIdentityData[0]?.id||null;updatePostCategoryDisplays();searchController.renderActiveFilters();renderIdentitySinnerRoster();updatePartyKeywordSummary();setStep(1);
 

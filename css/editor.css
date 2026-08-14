@@ -543,6 +543,15 @@
 :is(.identity-keywords span,.conditional-keyword i,.keyword-loss-condition i,.party-keyword-chip,.keyword-filter-chip,.automatic-keyword-tag)[data-keyword="呼吸"]{background:var(--keyword-poise-bg);border-color:var(--keyword-poise-border);color:var(--keyword-poise-text)}
 :is(.identity-keywords span,.conditional-keyword i,.keyword-loss-condition i,.party-keyword-chip,.keyword-filter-chip,.automatic-keyword-tag)[data-keyword="充電"]{background:var(--keyword-charge-bg);border-color:var(--keyword-charge-border);color:var(--keyword-charge-text)}
 :is(.identity-keywords span,.conditional-keyword i,.keyword-loss-condition i,.party-keyword-chip,.keyword-filter-chip,.automatic-keyword-tag)[data-keyword="弾丸"]{background:#171717;border-color:#171717;color:#fff}
+.identity-filter-panel .keyword-filter-chip{background:#fff!important;border-color:#c99732!important;color:#59451f!important}
+.identity-filter-panel .keyword-filter-chip.active[data-keyword="火傷"]{background:var(--keyword-burn-bg)!important;border-color:var(--keyword-burn-border)!important;color:var(--keyword-burn-text)!important}
+.identity-filter-panel .keyword-filter-chip.active[data-keyword="出血"]{background:var(--keyword-bleed-bg)!important;border-color:var(--keyword-bleed-border)!important;color:var(--keyword-bleed-text)!important}
+.identity-filter-panel .keyword-filter-chip.active[data-keyword="振動"]{background:var(--keyword-tremor-bg)!important;border-color:var(--keyword-tremor-border)!important;color:var(--keyword-tremor-text)!important}
+.identity-filter-panel .keyword-filter-chip.active[data-keyword="破裂"]{background:var(--keyword-rupture-bg)!important;border-color:var(--keyword-rupture-border)!important;color:var(--keyword-rupture-text)!important}
+.identity-filter-panel .keyword-filter-chip.active[data-keyword="沈潜"]{background:var(--keyword-sinking-bg)!important;border-color:var(--keyword-sinking-border)!important;color:var(--keyword-sinking-text)!important}
+.identity-filter-panel .keyword-filter-chip.active[data-keyword="呼吸"]{background:var(--keyword-poise-bg)!important;border-color:var(--keyword-poise-border)!important;color:var(--keyword-poise-text)!important}
+.identity-filter-panel .keyword-filter-chip.active[data-keyword="充電"]{background:var(--keyword-charge-bg)!important;border-color:var(--keyword-charge-border)!important;color:var(--keyword-charge-text)!important}
+.identity-filter-panel .keyword-filter-chip.active[data-keyword="弾丸"]{background:#171717!important;border-color:#171717!important;color:#fff!important}
 .identity-keywords span,.conditional-keyword i,.keyword-loss-condition i{border:1px solid currentColor;border-radius:999px;padding:3px 7px;font-style:normal}
 .party-keyword-chip[data-keyword] strong{background:currentColor;color:#fff}
 
