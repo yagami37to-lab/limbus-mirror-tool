@@ -31,7 +31,6 @@ siteUiController.bind();
 const openDialog=dialog=>siteUiController.openDialog(dialog);
 const closeDialog=dialog=>siteUiController.closeDialog(dialog);
 const unlockPageScroll=()=>siteUiController.unlockPageScroll();
-const reconcilePageScrollLock=()=>siteUiController.reconcilePageScrollLock();
 const showToast=message=>siteUiController.showToast(message);
 
 const searchController=window.LimbusSearchController.create({
@@ -52,10 +51,6 @@ const postTitle=$('[data-post-title]');
 const postSummary=$('[data-post-summary]');
 const postSummaryCount=$('[data-post-summary-count]');
 const identitySinnerRoster=$('[data-identity-sinner-roster]');
-const identityGrid=$('[data-post-identity-grid]');
-const identitySelectHeader=$('.identity-select-header');
-const identitySelectView=$('[data-identity-select-view]');
-const currentSinnerName=$('[data-current-sinner-name]');
 const currentIdentityName=$('[data-current-identity-name]');
 const identityFilterPanel=$('[data-identity-filter-panel]');
 const identityFooterActions=$('[data-identity-footer-actions]');
@@ -106,8 +101,6 @@ const normalizeThemePackEntries=entries=>themePackNameNormalizer.normalizeEntrie
 const strategyTagOptions=['オート対応','半オート','手動推奨','初心者向け','中級者向け','上級者向け','安定重視','高速周回','自由枠あり','人格固定','運要素あり','E.G.O依存','ギフト依存'];
 const affiliationTagOptions=['リンバス・カンパニー','ロボトミー本社','H社','N社','R社','T社','W社','ツヴァイ','シ','センク','リウ','セブン','チェーヴィチ','ディエーチ','ウーフィ','剣契','黒雲会','技術解放連合','ワザリング・ハイツ','ピークォド号','血鬼','黒獣','指','親指','人差し指','中指','薬指','小指','蜘蛛の巣','LCE','E.G.O装備','捨てる'];
 const automaticKeywordOptions=['火傷','出血','振動','破裂','沈潜','呼吸','充電'];
-const workspaceStepName=$('[data-workspace-step-name]');
-const workspaceStepCounter=$('[data-workspace-step-counter]');
 const mobilePrevStep=$('[data-mobile-prev-step]');
 const postStage=$('.post-stage');
 function getScrollableAncestor(element){
@@ -150,8 +143,6 @@ const alternativeNamesFor=id=>identitySelectionController.alternativeNamesFor(id
 function isSoloPost(){return postState.type==='ソロ';}
 const formationController=window.LimbusFormationController.create({state:postState,identityData:sinnerIdentityData,getImage:identityImageFor,showToast,clearValidation:()=>clearStepValidation(3)});
 const formationPosition=id=>formationController.position(id);
-const ensureFormationPosition=id=>formationController.ensure(id);
-const removeFormationPosition=id=>formationController.remove(id);
 const orderedSelectedSinners=()=>formationController.ordered();
 const identityViewController=window.LimbusIdentityViewController.create({state:postState,identityData:sinnerIdentityData,cardTones,getIdentityImage:identityImageFor,applyCardImage:applyIdentityCardImage,escapeHtml:reviewEscape,getAlternatives:alternativesFor,onOpen:id=>openIdentitySelect(id),onRenderOptions:()=>renderIdentityOptions(),onFooterUpdate:()=>updateIdentityFooterState(),queueScroll:queueIdentityScroll});
 const renderIdentitySinnerRoster=()=>identityViewController.renderRoster();
@@ -209,7 +200,6 @@ const postValidationController=window.LimbusPostValidationController.create({sta
 const clearStepValidation=step=>postValidationController.clear(step);
 const stepValidation=step=>postValidationController.check(step);
 const validationFlowController=window.LimbusPostValidationFlowController.create({state:postState,validationController:postValidationController,identityData:sinnerIdentityData,titleInput:postTitle,summaryInput:postSummary,formationGrid:formationChoiceGrid,renderIdentityRoster:renderIdentitySinnerRoster,openIdentity:openIdentitySelect,setStep:step=>setStep(step),showToast});
-function focusInvalidStep(step){validationFlowController.focusInvalid(step);}
 function validateRequiredStep(step,options){return validationFlowController.validateStep(step,options);}
 function validateAllRequiredSteps(){return validationFlowController.validateAll();}
 function navigateToStep(target){return validationFlowController.navigate(target);}
@@ -222,7 +212,6 @@ const closeThemePackSelect=options=>themePackController.close(options);
 const renderThemeFloorCards=()=>themePackController.renderFloors();
 postStepController=window.LimbusPostStepController.create({state:postState,stepInfo,identityData:sinnerIdentityData,onCloseEgo:closeEgoSelect,onCloseTheme:closeThemePackSelect,onRenderIdentities:renderIdentitySinnerRoster,onOpenIdentity:openIdentitySelect,onRenderFormation:renderFormationOrder,onRenderEgos:renderEgoSinners,onRenderThemes:renderThemeFloorCards,onRenderDetails:renderDetailTags,onRenderReview:updateReview,onIdentityFooterUpdate:updateIdentityFooterState,onEgoFooterUpdate:updateEgoConfirmState,onResetScroll:resetStageScroll});
 const postTagsController=window.LimbusPostTagsController.create({state:postState,strategyOptions:strategyTagOptions,affiliationOptions:affiliationTagOptions,automaticOptions:automaticKeywordOptions,strategyGrid:strategyTagGrid,affiliationGrid:affiliationTagGrid,automaticTags:automaticKeywordTags,ammoNote:ammoKeywordNote,strategyCount:strategyTagCount,affiliationCount:affiliationTagCount,getOrderedSinners:orderedSelectedSinners,getFormationPosition:formationPosition,isSolo:isSoloPost,showToast});
-function keywordCounts(){return postTagsController.counts();}
 function automaticPostKeywords(){return postTagsController.automaticKeywords();}
 function renderDetailTags(){postTagsController.render();}
 function reviewEscape(value){return String(value??'').replace(/[&<>'"]/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[char]));}
@@ -249,8 +238,6 @@ function updateReview(){postReviewController.render();}
 const identityWorkspaceController=window.LimbusIdentityWorkspaceController.create({state:postState,filterController:identityFilterController,selectionController:identitySelectionController,filterPanel:identityFilterPanel,filterToggle:toggleIdentitySearch,filterScrollHint:identityFilterScrollHint,applyFiltersButton:applyIdentityFilters,clearCurrentButton:clearCurrentIdentity,clearAllButton:clearAllIdentities,fillEmptyButton:fillEmptyIdentities,footerActions:identityFooterActions,workspaceFooter,currentIdentityName,identityRoster:identitySinnerRoster,renderRoster:renderIdentitySinnerRoster,renderOptions:renderIdentityOptions,updateCount:updatePostIdentityCount,updateKeywordSummary:updatePartyKeywordSummary,clearValidation:clearStepValidation,queueRosterScroll:queueIdentityScroll,showToast,confirmClearAll:()=>window.confirm('選択中の人格と、それに設定したE.G.Oをすべて解除しますか？')});
 identityWorkspaceController.bind();
 function updateIdentitySearchButtonState(){identityWorkspaceController.updateSearchButton();}
-function updateIdentityFilterScrollCue(){identityWorkspaceController.updateScrollCue();}
-function closeIdentityFilterPanel(){identityWorkspaceController.closeFilter();}
 
 const postCategoryController=window.LimbusPostCategoryController.create({state:postState,categories:categoryDefinitions,getCategory:categoryById,iconMarkup:categoryIconMarkup,dialog:categoryPicker,editorDialog:postModal,list:$('[data-category-picker-list]'),status:$('[data-category-picker-status]'),startButton:$('[data-start-category-post]'),openDraftButton:$('[data-open-draft-from-category]'),openButtons:$$('[data-open-post]'),closeButton:$('[data-close-category-picker]'),categoryBadges:$$('[data-post-category-badge]'),reviewCategory:$('[data-review-category]'),isAuthenticated:()=>localStorage.getItem('limbus-auth')==='logged-in',openAuth:()=>window.LimbusAuth?.open(),openDialog,closeDialog,openDrafts:()=>draftController.openManager(),resetEditor:()=>resetPostEditorState(),getInitialSinnerId:()=>sinnerIdentityData[0]?.id||null,setStep});
 postCategoryController.bind();
@@ -261,7 +248,7 @@ postBasicsController.bind();
 const updateDifficultyDisplay=()=>postBasicsController.updateDifficulty();
 function updatePostSummaryCount(){if(postSummaryCount)postSummaryCount.textContent=String(postSummary?.value.length||0);}
 if(postSummary){postSummary.addEventListener('input',()=>{updatePostSummaryCount();if(postSummary.value.trim())clearStepValidation(6);});updatePostSummaryCount();}
-const clearIdentities=$('[data-clear-identities]');if(clearIdentities)clearIdentities.onclick=()=>{postState.identities.clear();postState.identityAlternatives.clear();postState.identityOrder=[];postState.egos.clear();postState.freeSlotEgoEnabled.clear();renderIdentitySinnerRoster();if(postState.activeSinner)openIdentitySelect(postState.activeSinner);updatePostIdentityCount();};const legacyClearEgos=$('[data-clear-egos]');if(legacyClearEgos)legacyClearEgos.onclick=()=>{postState.egos.clear();postState.freeSlotEgoEnabled.clear();closeEgoSelect();renderEgoSinners();};const goBackInWorkspace=()=>{if(postState.step===4&&postState.activeEgoSinner)return closeEgoSelect();if(postState.step===5&&postState.activeThemePackFloor)return closeThemePackSelect();setStep(postState.step-1);};$('[data-prev-step]').onclick=goBackInWorkspace;if(mobilePrevStep)mobilePrevStep.onclick=goBackInWorkspace;
+const goBackInWorkspace=()=>{if(postState.step===4&&postState.activeEgoSinner)return closeEgoSelect();if(postState.step===5&&postState.activeThemePackFloor)return closeThemePackSelect();setStep(postState.step-1);};$('[data-prev-step]').onclick=goBackInWorkspace;if(mobilePrevStep)mobilePrevStep.onclick=goBackInWorkspace;
 const postPayloadController=window.LimbusPostPayloadController.create({state:postState,identityData:sinnerIdentityData,getAlternativeNames:alternativeNamesFor,getOrderedSinners:orderedSelectedSinners,getFormationPosition:formationPosition,getAutomaticKeywords:automaticPostKeywords});
 const buildPostPayload=()=>postPayloadController.build();
 let draftController;
