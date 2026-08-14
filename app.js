@@ -238,47 +238,10 @@ function ensureFormationPosition(sinnerId){
 }
 function removeFormationPosition(sinnerId){postState.identityOrder=postState.identityOrder.filter(id=>id!==sinnerId);}
 function orderedSelectedSinners(){return postState.identityOrder.map(id=>sinnerIdentityData.find(s=>s.id===id)).filter(Boolean).filter(s=>postState.identities.has(s.id));}
-function renderIdentitySinnerRoster(){
-  identitySinnerRoster.innerHTML='';
-  sinnerIdentityData.forEach((sinner,index)=>{
-    const chosen=postState.identities.get(sinner.id);
-    const order=formationPosition(sinner.id);
-    const b=document.createElement('button');
-    b.type='button';
-    b.className='identity-sinner-button'+(postState.activeSinner===sinner.id?' active':'')+(chosen?' selected':'');
-    b.style.setProperty('--card-a',cardTones[index%cardTones.length][0]);
-    b.style.setProperty('--card-b',cardTones[index%cardTones.length][1]);
-    b.title=chosen?`${sinner.name}：${chosen.name}`:`${sinner.name}の人格を選択`;
-    const rosterImage=identityImageFor(sinner.id,chosen);applyIdentityCardImage(b,rosterImage);
-    b.innerHTML=`<span class="identity-sinner-number">${sinner.id}</span><span class="identity-sinner-mark">${sinner.name.slice(0,1)}</span><strong>${sinner.name}</strong><small class="identity-sinner-selection">${chosen?chosen.name:'未選択'}</small>`;
-    b.addEventListener('click',()=>openIdentitySelect(sinner.id));
-    identitySinnerRoster.appendChild(b);
-  });
-}
-function openIdentitySelect(sinnerId,{scroll=true}={}){
-  postState.activeSinner=sinnerId;
-  postState.alternativeSelectionMode=false;
-  const sinner=sinnerIdentityData.find(x=>x.id===sinnerId);
-  currentSinnerName.textContent=sinner.name;
-  currentIdentityName.textContent=postState.identities.get(sinnerId)?.name||'未選択';
-  renderIdentitySinnerRoster();
-  renderIdentityAlternativeControls();
-  renderIdentityOptions();
-  updateIdentityFooterState();
-  if(scroll)queueIdentityScroll(identitySelectHeader,18);
-}
-function renderIdentityAlternativeControls(){
-  let root=document.querySelector('[data-identity-alternative-controls]');
-  if(!root){
-    root=document.createElement('div');root.dataset.identityAlternativeControls='';root.className='identity-alternative-controls';
-    identitySelectHeader?.insertAdjacentElement('afterend',root);
-  }
-  const sinner=sinnerIdentityData.find(x=>x.id===postState.activeSinner);const primary=postState.identities.get(postState.activeSinner);const alternatives=alternativesFor(postState.activeSinner);
-  if(!sinner||!primary){root.hidden=true;return;}
-  const cards=alternatives.length?`<div class="identity-alternative-summary">${alternatives.map(item=>{const image=identityImageFor(sinner.id,item);return `<span class="identity-alternative-chip${image?' has-identity-image':''}"${image?` style="background-image:linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.78)),url('${reviewEscape(image)}')"`:''}>${reviewEscape(item.name)}</span>`;}).join('')}</div>`:'<small>未設定</small>';
-  root.hidden=false;root.innerHTML=`<div><strong>代用人格（任意）</strong>${cards}</div><button type="button" data-toggle-alternatives>${postState.alternativeSelectionMode?'代用人格の選択を完了':'＋代用人格を追加（任意）'}</button>`;
-  root.querySelector('[data-toggle-alternatives]').onclick=()=>{postState.alternativeSelectionMode=!postState.alternativeSelectionMode;renderIdentityAlternativeControls();renderIdentityOptions();};
-}
+const identityViewController=window.LimbusIdentityViewController.create({state:postState,identityData:sinnerIdentityData,cardTones,getIdentityImage:identityImageFor,applyCardImage:applyIdentityCardImage,escapeHtml:reviewEscape,getAlternatives:alternativesFor,onOpen:id=>openIdentitySelect(id),onRenderOptions:()=>renderIdentityOptions(),onFooterUpdate:()=>updateIdentityFooterState(),queueScroll:queueIdentityScroll});
+const renderIdentitySinnerRoster=()=>identityViewController.renderRoster();
+const renderIdentityAlternativeControls=()=>identityViewController.renderAlternatives();
+function openIdentitySelect(sinnerId,options){identityViewController.open(sinnerId,options);}
 const identityFilterController=window.LimbusIdentityFilterController.create({keywordDefinitions,onChange:()=>{renderIdentityOptions();updateIdentitySearchButtonState();}});
 function renderIdentityOptions(){
   const sinner=sinnerIdentityData.find(x=>x.id===postState.activeSinner);if(!sinner)return;
