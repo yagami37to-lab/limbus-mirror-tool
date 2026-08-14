@@ -279,72 +279,12 @@ const closeEgoSelect=options=>egoController.close(options);
 const updateEgoConfirmState=()=>egoController.updateControls();
 const postValidationController=window.LimbusPostValidationController.create({state:postState,requiredIdentityCount:sinnerIdentityData.length});
 const clearStepValidation=step=>postValidationController.clear(step);
-const markStepValidation=(step,invalid=true)=>postValidationController.mark(step,invalid);
 const stepValidation=step=>postValidationController.check(step);
-function focusInvalidStep(step){
-  markStepValidation(step,true);
-  const result=stepValidation(step);
-  if(step===1){
-    if(result.field==='title'){
-      document.querySelector('[data-workspace-titlebar]')?.classList.add('validation-error');
-      postTitle?.focus();
-      postTitle?.scrollIntoView({behavior:'smooth',block:'center'});
-    }else if(result.field==='difficulty'){
-      $('[data-difficulty-selector]')?.scrollIntoView({behavior:'smooth',block:'center'});
-    }else{
-      document.querySelector('[data-post-type]')?.scrollIntoView({behavior:'smooth',block:'center'});
-    }
-  }else if(step===2){
-    const missing=sinnerIdentityData.find(sinner=>!postState.identities.has(sinner.id));
-    if(missing){
-      postState.activeSinner=missing.id;
-      renderIdentitySinnerRoster();
-      openIdentitySelect(missing.id,{scroll:false});
-      requestAnimationFrame(()=>document.querySelector('.identity-sinner-button.active')?.scrollIntoView({behavior:'smooth',block:'center'}));
-    }
-  }else if(step===3){
-    formationChoiceGrid?.scrollIntoView({behavior:'smooth',block:'center'});
-  }else if(step===6){
-    postSummary?.focus();
-    postSummary?.scrollIntoView({behavior:'smooth',block:'center'});
-  }
-}
-function validateRequiredStep(step,{showMessage=true}={}){
-  const result=stepValidation(step);
-  markStepValidation(step,!result.valid);
-  if(!result.valid&&showMessage){
-    if(result.popup)window.alert(result.message);
-    else showToast(result.message);
-    focusInvalidStep(step);
-  }
-  return result.valid;
-}
-function validateAllRequiredSteps(){
-  const required=postValidationController.requiredSteps;
-  const invalid=required.filter(step=>!validateRequiredStep(step,{showMessage:false}));
-  if(invalid.length){
-    const first=invalid[0];
-    setStep(first);
-    requestAnimationFrame(()=>focusInvalidStep(first));
-    showToast('未入力の必須ステップを赤く表示しました。');
-    return false;
-  }
-  return true;
-}
-function navigateToStep(target){
-  target=Math.max(1,Math.min(7,target));
-  if(target<=postState.step){setStep(target);return;}
-  const requiredBefore=postValidationController.requiredSteps.filter(step=>step<target);
-  const invalid=requiredBefore.find(step=>!validateRequiredStep(step,{showMessage:false}));
-  if(invalid){
-    setStep(invalid);
-    requestAnimationFrame(()=>focusInvalidStep(invalid));
-    const result=stepValidation(invalid);
-    if(result.popup)window.alert(result.message);else showToast(result.message);
-    return;
-  }
-  setStep(target);
-}
+const validationFlowController=window.LimbusPostValidationFlowController.create({state:postState,validationController:postValidationController,identityData:sinnerIdentityData,titleInput:postTitle,summaryInput:postSummary,formationGrid:formationChoiceGrid,renderIdentityRoster:renderIdentitySinnerRoster,openIdentity:openIdentitySelect,setStep:step=>setStep(step),showToast});
+function focusInvalidStep(step){validationFlowController.focusInvalid(step);}
+function validateRequiredStep(step,options){return validationFlowController.validateStep(step,options);}
+function validateAllRequiredSteps(){return validationFlowController.validateAll();}
+function navigateToStep(target){return validationFlowController.navigate(target);}
 let postStepController;
 function setStep(step){postStepController.set(step);}
 function syncTitle(){const raw=postTitle?.value??'';const t=raw.trim()||'攻略タイトルを入力してください';$$('[data-title-preview],[data-workspace-title-live]').forEach(x=>{x.textContent=t;x.classList.toggle('is-placeholder',!raw.trim());});}
