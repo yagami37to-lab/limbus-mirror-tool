@@ -581,17 +581,9 @@ function serializeDraftState(){
     identityOrder:[...postState.identityOrder],egos:[...postState.egos.entries()].map(([id,map])=>[id,[...map.entries()]]),
     freeSlotEgoEnabled:[...postState.freeSlotEgoEnabled],ammoKeywordSelected:!!postState.ammoKeywordSelected};
 }
-function applyDraftState(saved){
-  const payload=saved?.payload||{},content=payload.content||{};
-  postModal.dataset.editingPostId=saved.editingPostId||'';postState.category=payload.category||'mirror_dungeon';postState.type=payload.strategy_type||null;postState.difficulty=payload.difficulty||null;
-  postState.identities=new Map((saved.identities||[]).map(([id,item])=>{const sinner=sinnerIdentityData.find(x=>x.id===id);const found=sinner?.identities.find(x=>x.name===item.name);return [id,found||item]}));
-  postState.identityAlternatives=new Map((saved.identityAlternatives||[]).map(([id,items])=>{const sinner=sinnerIdentityData.find(x=>x.id===id);return [id,(items||[]).map(item=>sinner?.identities.find(x=>x.name===item.name)||item)]}));
-  postState.identityOrder=[...(saved.identityOrder||[])];postState.egos=new Map((saved.egos||[]).map(([id,entries])=>[id,new Map(entries||[])]));postState.freeSlotEgoEnabled=new Set(saved.freeSlotEgoEnabled||[]);
-  postState.themePacks=new Map(normalizeThemePackEntries(content.themePacks||[]).map(x=>[Number(x.floor),x.name]));postState.strategyTags=new Set(content.tags||[]);postState.affiliationTags=new Set(content.affiliations||[]);postState.ammoKeywordSelected=!!saved.ammoKeywordSelected;
-  postTitle.value=payload.title||'';if(postSummary)postSummary.value=payload.summary||'';const points=$('[data-post-points]');if(points)points.value=content.description||'';
-  $$('[data-post-type]').forEach(x=>x.classList.toggle('active',x.dataset.postType===postState.type));$$('[data-post-difficulty]').forEach(x=>x.classList.toggle('active',x.dataset.postDifficulty===postState.difficulty));
-  updatePostCategoryDisplays();updateDifficultyDisplay();syncTitle();updatePostSummaryCount();renderIdentitySinnerRoster();renderFormationOrder();renderEgoSinners();renderThemeFloorCards();renderDetailTags();setStep(Math.min(7,Math.max(1,Number(saved.step)||1)));
-}
+const refreshRestoredEditor=step=>{updatePostCategoryDisplays();updateDifficultyDisplay();syncTitle();updatePostSummaryCount();renderIdentitySinnerRoster();renderFormationOrder();renderEgoSinners();renderThemeFloorCards();renderDetailTags();setStep(step);};
+const postRestoreController=window.LimbusPostRestoreController.create({state:postState,identityData:sinnerIdentityData,postModal,normalizeThemePacks:normalizeThemePackEntries,onRefresh:refreshRestoredEditor});
+const applyDraftState=saved=>postRestoreController.restoreDraft(saved);
 
 const draftController=window.LimbusDraftController.create({
   captureState:serializeDraftState,
@@ -635,15 +627,7 @@ async function openPostEditorFromQuery(){
   const editId=new URLSearchParams(location.search).get('edit');if(!editId||!window.limbusSupabase)return;
   const {data:{session}}=await window.limbusSupabase.auth.getSession();if(!session?.user)return;
   const {data:p,error}=await window.limbusSupabase.from('posts').select('*').eq('id',editId).eq('author_id',session.user.id).maybeSingle();if(error||!p){showToast('編集する投稿を読み込めませんでした。');return;}
-  const c=p.content||{};postModal.dataset.editingPostId=p.id;postState.category=p.category||'mirror_dungeon';postState.type=p.strategy_type||null;postState.difficulty=p.difficulty||null;postState.identities.clear();postState.identityAlternatives.clear();postState.identityOrder=[];postState.egos.clear();postState.themePacks=new Map(normalizeThemePackEntries(c.themePacks||[]).map(x=>[Number(x.floor),x.name]));postState.strategyTags=new Set(c.tags||[]);postState.affiliationTags=new Set(c.affiliations||[]);
-  // 新形式では使用人格全体を selectedIdentities、編成順を party として個別に復元する。
-  // 旧投稿は selectedIdentities がないため party を使用人格のフォールバックとして扱う。
-  const savedIdentities=Array.isArray(c.selectedIdentities)&&c.selectedIdentities.length?c.selectedIdentities:(c.party||[]);
-  savedIdentities.forEach(item=>{const sinner=sinnerIdentityData.find(x=>x.name===item.sinner||x.id===item.sinner_id);if(!sinner)return;const isFree=!!item.is_free||String(item.identity||'').includes('自由枠');const identity=sinner.identities.find(x=>x.name===item.identity)||{name:item.identity||'自由枠（誰でも可）',rarity:isFree?'FREE':undefined,keywords:[],isFreeSlot:isFree};postState.identities.set(sinner.id,identity);postState.identityAlternatives.set(sinner.id,(item.alternatives||[]).map(name=>sinner.identities.find(x=>x.name===name)||{name}));});
-  (c.party||[]).sort((a,b)=>(Number(a.order)||999)-(Number(b.order)||999)).forEach(item=>{const sinner=sinnerIdentityData.find(x=>x.name===item.sinner||x.id===item.sinner_id);if(!sinner||!postState.identities.has(sinner.id))return;postState.identityOrder.push(sinner.id);});
-  (c.egos||[]).forEach(group=>{const sinner=sinnerIdentityData.find(x=>x.name===group.sinner);if(!sinner)return;const map=new Map();(group.items||[]).forEach(v=>{const i=String(v).indexOf(':');if(i>0)map.set(String(v).slice(0,i).trim(),String(v).slice(i+1).trim())});postState.egos.set(sinner.id,map)});
-  postTitle.value=p.title||'';if(postSummary)postSummary.value=p.summary||'';const points=$('[data-post-points]');if(points)points.value=c.description||'';
-  $$('[data-post-type]').forEach(x=>x.classList.toggle('active',x.dataset.postType===postState.type));$$('[data-post-difficulty]').forEach(x=>x.classList.toggle('active',x.dataset.postDifficulty===postState.difficulty));updatePostCategoryDisplays();updateDifficultyDisplay();syncTitle();updatePostSummaryCount();renderIdentitySinnerRoster();renderFormationOrder();renderEgoSinners();renderThemeFloorCards();renderDetailTags();setStep(1);openDialog(postModal);showToast('投稿を編集できます。');
+  postRestoreController.restorePost(p);openDialog(postModal);showToast('投稿を編集できます。');
 }
 openPostEditorFromQuery();
 window.addEventListener('pageshow',reconcilePageScrollLock);
