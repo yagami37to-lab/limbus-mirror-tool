@@ -1218,8 +1218,7 @@ body.alpha-banner-ready .site-header{top:var(--alpha-banner-height,0px)!importan
 
 /* v1.0.37 hotfix: compact, isolated top-page recommendation carousel */
 .home-featured-carousel .featured-carousel-slide{align-self:flex-start;overflow:hidden}
-.home-featured-carousel .featured-carousel-slide[aria-hidden="true"]{visibility:hidden;pointer-events:none}
-.home-featured-carousel .featured-carousel-slide.is-active{visibility:visible}
+.home-featured-carousel .featured-carousel-slide[aria-hidden="true"]{pointer-events:none}
 .home-featured-carousel .featured-post-slot{align-self:flex-start;overflow:hidden}
 .home-featured-carousel .featured-post-copy{min-height:0!important;height:auto!important;overflow:hidden!important}
 .home-featured-carousel .featured-post-copy h3{margin:9px 0 5px!important;font-size:19px!important;line-height:1.3!important}
