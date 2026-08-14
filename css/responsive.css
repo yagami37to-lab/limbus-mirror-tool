@@ -1931,8 +1931,6 @@
   .account-admin-site-heading{align-items:flex-start}.account-admin-stat-grid{grid-template-columns:1fr 1fr}.account-admin-stat{padding:14px 12px}.account-admin-stat strong{font-size:27px}
 }
 @media(max-width:420px){.account-admin-stat-grid{grid-template-columns:1fr}.account-admin-stat{border-right:0!important;border-bottom:1px solid var(--line)}.account-admin-stat:last-child{border-bottom:0}}
-@media(prefers-reduced-motion:reduce){.featured-carousel-track{transition:none}}
-
 /* v1.0.37 hotfix: keep recommendation cards readable on phones */
 @media(max-width:720px){
   .home-featured-carousel .featured-carousel-viewport{overflow:hidden!important}
@@ -2463,4 +2461,3 @@ body.news-page .site-shell{
     padding-inline:4px!important;
   }
 }
-

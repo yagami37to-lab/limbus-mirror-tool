@@ -1191,8 +1191,9 @@ body.alpha-banner-ready .site-header{top:var(--alpha-banner-height,0px)!importan
 .home-featured-heading h2{margin:0;font:700 20px Georgia,"Yu Mincho",serif}
 .home-featured-list-link{color:var(--gold);font-size:11px;font-weight:800;white-space:nowrap}
 .featured-carousel-viewport{width:100%;overflow:hidden;outline:none}
-.featured-carousel-track{display:flex;width:100%;transition:transform .48s cubic-bezier(.22,.61,.36,1);will-change:transform}
-.featured-carousel-slide{flex:0 0 100%;width:100%;min-width:0;grid-template-columns:1fr!important;border-radius:8px;box-shadow:none!important}
+.featured-carousel-track{display:flex;width:100%;transition:transform .68s cubic-bezier(.22,.61,.36,1);will-change:transform}
+.featured-carousel-slide{flex:0 0 100%;width:100%;min-width:0;grid-template-columns:1fr!important;border-radius:8px;box-shadow:none!important;opacity:.62;transition:opacity .58s ease}
+.featured-carousel-slide.is-active{opacity:1}
 .home-featured-carousel .featured-editor-panel{min-height:0;padding:14px 14px 12px;border-right:0;border-bottom:1px solid rgba(208,166,75,.35)}
 .home-featured-carousel .featured-editor-keywords{display:none}
 .home-featured-carousel .featured-editor-routes{margin-top:9px}
