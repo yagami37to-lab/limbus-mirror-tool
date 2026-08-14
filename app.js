@@ -611,19 +611,8 @@ postTitle.addEventListener('focus',handlePostTitleSync);
 window.visualViewport?.addEventListener('resize',()=>{if(document.activeElement===postTitle&&!postTitleComposing)handlePostTitleSync();});
 setInterval(()=>{if(document.activeElement===postTitle)handlePostTitleSync();},120);
 const clearIdentities=$('[data-clear-identities]');if(clearIdentities)clearIdentities.onclick=()=>{postState.identities.clear();postState.identityAlternatives.clear();postState.identityOrder=[];postState.egos.clear();postState.freeSlotEgoEnabled.clear();renderIdentitySinnerRoster();if(postState.activeSinner)openIdentitySelect(postState.activeSinner);updatePostIdentityCount();};const legacyClearEgos=$('[data-clear-egos]');if(legacyClearEgos)legacyClearEgos.onclick=()=>{postState.egos.clear();postState.freeSlotEgoEnabled.clear();closeEgoSelect();renderEgoSinners();};const goBackInWorkspace=()=>{if(postState.step===4&&postState.activeEgoSinner)return closeEgoSelect();if(postState.step===5&&postState.activeThemePackFloor)return closeThemePackSelect();setStep(postState.step-1);};$('[data-prev-step]').onclick=goBackInWorkspace;if(mobilePrevStep)mobilePrevStep.onclick=goBackInWorkspace;
-function buildPostPayload(){
-  // 使用人格と編成順は別データとして保存する。
-  // selectedIdentities には投稿画面で選択した12囚人分（自由枠を含む）を保持し、
-  // party には実際に編成順へ入れた囚人だけを保持する。
-  const selectedIdentities=sinnerIdentityData.filter(sinner=>postState.identities.has(sinner.id)).map(sinner=>{const identity=postState.identities.get(sinner.id);return {sinner:sinner.name,identity:identity?.name||'',sinner_id:sinner.id,is_free:!!identity?.isFreeSlot,alternatives:alternativeNamesFor(sinner.id)};});
-  const party=orderedSelectedSinners().map(sinner=>{const identity=postState.identities.get(sinner.id);return {order:formationPosition(sinner.id),sinner:sinner.name,identity:identity?.name||'',sinner_id:sinner.id,is_free:!!identity?.isFreeSlot};});
-  const egos=orderedSelectedSinners().map(sinner=>{const picks=postState.egos.get(sinner.id)||new Map();return {sinner:sinner.name,items:[...picks.entries()].map(([rank,name])=>`${rank}: ${name}`)};}).filter(group=>group.items.length);
-  return {
-    title:postTitle.value.trim(), summary:$('[data-post-summary]')?.value.trim()||'', category:postState.category||'mirror_dungeon',
-    difficulty:postState.difficulty||null, strategy_type:postState.type||null,
-    content:{selectedIdentities,party,egos,themePacks:[...postState.themePacks.entries()].map(([floor,name])=>({floor,name})),keywords:automaticPostKeywords(),tags:[...postState.strategyTags],affiliations:[...postState.affiliationTags],description:$('[data-post-points]')?.value.trim()||''}
-  };
-}
+const postPayloadController=window.LimbusPostPayloadController.create({state:postState,identityData:sinnerIdentityData,getAlternativeNames:alternativeNamesFor,getOrderedSinners:orderedSelectedSinners,getFormationPosition:formationPosition,getAutomaticKeywords:automaticPostKeywords});
+const buildPostPayload=()=>postPayloadController.build();
 async function savePostToSupabase(status){
   const client=window.limbusSupabase; if(!client){showToast('Supabase接続設定を読み込めませんでした。');return false;}
   const {data:{session}}=await client.auth.getSession(); const user=session?.user;
