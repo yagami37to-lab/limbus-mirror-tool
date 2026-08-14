@@ -1920,6 +1920,36 @@
   .workspace-footer{left:292px;right:24px}
 }
 
+/* v1.0.86: keep every E.G.O action on one desktop row. */
+@media (min-width:721px){
+  .workspace-footer.ego-mode,
+  .workspace-footer.ego-detail-mode{
+    display:grid;
+    grid-template-columns:auto auto minmax(12px,1fr) auto auto;
+    grid-template-areas:none;
+    align-items:center;
+  }
+  .workspace-footer.ego-mode .footer-back-button{grid-column:1;grid-row:1}
+  .workspace-footer.ego-mode .ego-footer-actions{grid-column:2;grid-row:1}
+  .workspace-footer.ego-mode .ego-confirm-button{grid-column:4;grid-row:1;justify-self:end}
+  .workspace-footer.ego-mode .workspace-main-actions{grid-column:5;grid-row:1}
+}
+
+/* The confirmation action is the primary mobile E.G.O action. */
+@media (max-width:720px){
+  .workspace-footer.ego-detail-mode .ego-confirm-button{
+    background:#c93d3d!important;
+    border-color:#df5a55!important;
+    color:#fff!important;
+    box-shadow:0 8px 20px rgba(160,36,32,.24)!important;
+  }
+  .workspace-footer.ego-detail-mode .ego-confirm-button:hover,
+  .workspace-footer.ego-detail-mode .ego-confirm-button:focus-visible{
+    background:#b8312d!important;
+    border-color:#ef6a64!important;
+  }
+}
+
 /* v1.0.37 top carousel / news page / administrator overview */
 @media(max-width:1000px){
   .home-featured-carousel{padding:20px}
