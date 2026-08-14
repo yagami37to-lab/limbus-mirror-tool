@@ -147,8 +147,6 @@ function wireFeaturedCarousel(){
     viewport.dataset.carouselWired='1';
     prev.addEventListener('click',()=>updateFeaturedCarousel(featuredCarouselIndex-1));
     next.addEventListener('click',()=>updateFeaturedCarousel(featuredCarouselIndex+1));
-    viewport.addEventListener('mouseenter',stopFeaturedCarousel);
-    viewport.addEventListener('mouseleave',startFeaturedCarousel);
     viewport.addEventListener('focusin',stopFeaturedCarousel);
     viewport.addEventListener('focusout',event=>{if(!viewport.contains(event.relatedTarget))startFeaturedCarousel()});
     document.addEventListener('visibilitychange',()=>document.hidden?stopFeaturedCarousel():startFeaturedCarousel());
