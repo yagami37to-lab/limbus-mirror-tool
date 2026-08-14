@@ -26,72 +26,13 @@ async function trackSiteVisit(){
 trackSiteVisit();
 
 const categoryPicker=$('[data-category-picker]'),postModal=$('[data-post-modal]'),toast=$('[data-toast]');
-// ライト / ダークモード切り替え（ユーザー選択を保存）
-const themeToggles=[...document.querySelectorAll('[data-theme-toggle]')];
-const themeRoot=document.documentElement;
-const savedTheme=localStorage.getItem('limbus-theme');
-const initialTheme=savedTheme || 'light';
-function applyTheme(theme){
-  themeRoot.dataset.theme=theme;
-  const dark=theme==='dark';
-  themeToggles.forEach(themeToggle=>{
-    themeToggle.setAttribute('aria-pressed',String(dark));
-    themeToggle.setAttribute('aria-label',dark?'ライトモードに切り替える':'ダークモードに切り替える');
-  });
-}
-applyTheme(initialTheme);
-themeToggles.forEach(themeToggle=>themeToggle.addEventListener('click',()=>{
-  const next=themeRoot.dataset.theme==='dark'?'light':'dark';
-  applyTheme(next);
-  localStorage.setItem('limbus-theme',next);
-}));
-
-// モーダル表示中は背面ページを固定する（PC / iOS Safari 両対応）
-let lockedScrollY=0;
-let openDialogCount=0;
-function lockPageScroll(){
-  openDialogCount+=1;
-  if(openDialogCount>1)return;
-  lockedScrollY=window.scrollY;
-  document.body.classList.add("dialog-open");
-  document.body.style.top=`-${lockedScrollY}px`;
-}
-function restorePageScroll(){
-  openDialogCount=0;
-  document.body.classList.remove("dialog-open");
-  document.body.style.removeProperty("top");
-  document.documentElement.style.removeProperty("overflow");
-  document.body.style.removeProperty("overflow");
-  window.scrollTo(0,lockedScrollY);
-}
-function reconcilePageScrollLock(){
-  const anyOpen=[...document.querySelectorAll("dialog")].some(dialog=>dialog.open);
-  if(!anyOpen)restorePageScroll();
-}
-function unlockPageScroll(){
-  openDialogCount=Math.max(0,openDialogCount-1);
-  if(openDialogCount>0)return;
-  restorePageScroll();
-}
-function openDialog(dialog){
-  if(dialog.open)return;
-  lockPageScroll();
-  dialog.showModal();
-}
-function closeDialog(dialog){
-  if(!dialog?.open){queueMicrotask(reconcilePageScrollLock);return;}
-  dialog.close();
-  queueMicrotask(reconcilePageScrollLock);
-}
-[$('[data-selector-modal]'),categoryPicker,postModal].filter(Boolean).forEach(dialog=>{
-  dialog.addEventListener("close",unlockPageScroll);
-  dialog.addEventListener("cancel",event=>{
-    event.preventDefault();
-    closeDialog(dialog);
-  });
-});
-
-function showToast(m){toast.textContent=m;toast.classList.add("show");clearTimeout(showToast.t);showToast.t=setTimeout(()=>toast.classList.remove("show"),2200)}
+const siteUiController=window.LimbusSiteUiController.create({toast,managedDialogs:[$('[data-selector-modal]'),categoryPicker,postModal],themeToggles:$$('[data-theme-toggle]'),mobileMenuButton:$('.mobile-menu-button'),headerNav:$('.header-nav')});
+siteUiController.bind();
+const openDialog=dialog=>siteUiController.openDialog(dialog);
+const closeDialog=dialog=>siteUiController.closeDialog(dialog);
+const unlockPageScroll=()=>siteUiController.unlockPageScroll();
+const reconcilePageScrollLock=()=>siteUiController.reconcilePageScrollLock();
+const showToast=message=>siteUiController.showToast(message);
 
 const searchController=window.LimbusSearchController.create({
   identityOptions,
@@ -361,34 +302,4 @@ postState.activeSinner=sinnerIdentityData[0]?.id||null;updatePostCategoryDisplay
 
 const postEditorLaunchController=window.LimbusPostEditorLaunchController.create({openDraftFromQuery:()=>draftController.openFromQuery(),restorePost:post=>postRestoreController.restorePost(post),openEditor:()=>openDialog(postModal),showToast});
 postEditorLaunchController.openFromQuery();
-window.addEventListener('pageshow',reconcilePageScrollLock);
-window.addEventListener('focus',()=>queueMicrotask(reconcilePageScrollLock));
-
-
-
-// Mobile navigation
-const mobileMenuButton=document.querySelector('.mobile-menu-button');
-const headerNav=document.querySelector('.header-nav');
-if(mobileMenuButton&&headerNav){
-  mobileMenuButton.addEventListener('click',()=>{
-    const open=headerNav.classList.toggle('mobile-open');
-    mobileMenuButton.setAttribute('aria-expanded',String(open));
-    mobileMenuButton.textContent=open?'×':'☰';
-  });
-  headerNav.addEventListener('click',e=>{
-    if(window.innerWidth<=720&&(e.target.closest('a')||e.target.closest('button'))){
-      headerNav.classList.remove('mobile-open');
-      mobileMenuButton.setAttribute('aria-expanded','false');
-      mobileMenuButton.textContent='☰';
-    }
-  });
-  window.addEventListener('resize',()=>{
-    if(window.innerWidth>720){
-      headerNav.classList.remove('mobile-open');
-      mobileMenuButton.setAttribute('aria-expanded','false');
-      mobileMenuButton.textContent='☰';
-    }
-  });
-}
-
 })().catch(error=>{console.error(error);document.body.insertAdjacentHTML('afterbegin','<div class="data-load-error">データの読み込みに失敗しました。Live Serverで開いてください。</div>')});
