@@ -243,58 +243,8 @@ const renderIdentitySinnerRoster=()=>identityViewController.renderRoster();
 const renderIdentityAlternativeControls=()=>identityViewController.renderAlternatives();
 function openIdentitySelect(sinnerId,options){identityViewController.open(sinnerId,options);}
 const identityFilterController=window.LimbusIdentityFilterController.create({keywordDefinitions,onChange:()=>{renderIdentityOptions();updateIdentitySearchButtonState();}});
-function renderIdentityOptions(){
-  const sinner=sinnerIdentityData.find(x=>x.id===postState.activeSinner);if(!sinner)return;
-  const selectedIdentity=postState.identities.get(sinner.id);const selectedName=selectedIdentity?.name;identityGrid.innerHTML='';
-  const {visible,showFreeSlot}=identityFilterController.getResult(sinner.identities);
-  if(showFreeSlot){
-    const free=document.createElement('button');
-    free.type='button';
-    const freeOrder=selectedIdentity?.isFreeSlot?formationPosition(sinner.id):null;
-    free.className='identity-option-card identity-option-free'+(selectedIdentity?.isFreeSlot?' selected':'');
-    free.style.setProperty('--card-a','#6a604f');free.style.setProperty('--card-b','#191713');const freeImage=identityImageFor(sinner.id,{isFreeSlot:true});applyIdentityCardImage(free,freeImage);
-    free.innerHTML=`<span class="identity-rarity">FREE</span><span class="identity-placeholder">＋</span><strong>自由枠</strong><div class="identity-keywords"><span>誰でも可</span></div><p class="identity-note">${sinner.name}の人格は指定しません。</p><small class="identity-confidence">人格指定なし</small>`;
-    free.addEventListener('click',()=>{
-      const freeIdentity={name:'自由枠（誰でも可）',rarity:'FREE',keywords:[],isFreeSlot:true};
-      identitySelectionController.selectFree(sinner.id);
-      currentIdentityName.textContent=freeIdentity.name;
-      renderIdentitySinnerRoster();renderIdentityAlternativeControls();renderIdentityOptions();updatePostIdentityCount();
-      showToast(`${sinner.name}を自由枠に設定しました。`);
-      queueIdentityScroll(identitySinnerRoster,18);
-    });
-    identityGrid.appendChild(free);
-  }
-
-  visible.forEach((identity,index)=>{
-    const tone=cardToneForKeywords(identity.keywords,index);
-    const b=document.createElement('button');
-    b.type='button';
-    const isSelected=selectedName===identity.name;const isAlternative=alternativeNamesFor(sinner.id).includes(identity.name);
-    b.className='identity-option-card'+(isSelected?' selected':'')+(isAlternative?' alternative-selected':'')+(postState.alternativeSelectionMode?' alternative-mode':'');
-    b.style.setProperty('--card-a',tone[0]);b.style.setProperty('--card-b',tone[1]);
-    const identityImage=identityImageFor(sinner.id,identity);applyIdentityCardImage(b,identityImage);
-    const chips=(identity.keywords||[]).length
-      ?identity.keywords.map(k=>`<span class="${k==='弾丸'?'keyword-ammo':''}" data-keyword="${k}">${k}</span>`).join('')
-      :'<span class="keyword-none">未分類</span>';
-    const conditional=(identity.conditionalKeywords||[]).map(c=>`<div class="conditional-keyword${(c.keywords||[]).includes('弾丸')?' keyword-ammo':''}"><b>条件付き</b><span>${(c.keywords||[]).map(k=>`<i data-keyword="${k}">${k}</i>`).join('・')}</span><small>${c.conditionLabel}</small></div>`).join('');
-    const lossConditions=identity.keywordLossConditions||[];
-    const lossKeywords=[...new Set(lossConditions.flatMap(c=>c.keywords||[]))];
-    const losses=lossConditions.length?`<div class="keyword-loss-condition"><div class="keyword-loss-title"><b>条件付き</b><span>${lossKeywords.map(k=>`<i data-keyword="${k}">${k}</i>`).join('・')}</span></div><div class="keyword-loss-list">${lossConditions.map(c=>`<small class="keyword-loss-row">● ${c.conditionLabel} → ${(c.keywords||[]).join('・')}消失</small>`).join('')}</div></div>`:'';
-    const notes=(identity.notes||[]).map(n=>`<p class="identity-note">${n}</p>`).join('');
-    const confidence=identity.keywordConfidence==='user-reviewed'?'確認済み':identity.keywordConfidence==='community-explicit'?'複数キーワード確認済み':'初期分類・要確認';
-    b.innerHTML=`<span class="identity-rarity">${identity.rarity}</span><span class="identity-placeholder">${String(index+1).padStart(2,'0')}</span><strong>${identity.name}</strong><div class="identity-keywords">${chips}</div>${conditional}${losses}${notes}<small class="identity-confidence">${confidence}</small>`;
-    b.addEventListener('click',()=>{
-      if(postState.alternativeSelectionMode){
-        if(selectedName===identity.name){showToast('使用人格と同じ人格は代用人格に設定できません。');return;}
-        const result=identitySelectionController.toggleAlternative(sinner.id,identity);if(!result.changed){showToast('使用人格と同じ人格は代用人格に設定できません。');return;}
-        renderIdentityAlternativeControls();renderIdentityOptions();showToast(result.removed?'代用人格から解除しました。':'代用人格へ追加しました。');return;
-      }
-      identitySelectionController.selectPrimary(sinner.id,identity);clearStepValidation(2);currentIdentityName.textContent=identity.name;renderIdentitySinnerRoster();renderIdentityAlternativeControls();renderIdentityOptions();updatePostIdentityCount();showToast(`${sinner.name}：${identity.name}を選択しました。`);queueIdentityScroll(identitySinnerRoster,18);
-    });
-    identityGrid.appendChild(b);
-  });
-  $('[data-identity-filter-count]').textContent=`${visible.length+(showFreeSlot?1:0)} / ${sinner.identities.length+(showFreeSlot?1:0)}`;$('[data-identity-filter-empty]').hidden=visible.length!==0||showFreeSlot;
-}
+const identityCardController=window.LimbusIdentityCardController.create({state:postState,identityData:sinnerIdentityData,filterController:identityFilterController,selectionController:identitySelectionController,getTone:cardToneForKeywords,getImage:identityImageFor,applyImage:applyIdentityCardImage,onRenderRoster:()=>renderIdentitySinnerRoster(),onRenderAlternatives:()=>renderIdentityAlternativeControls(),onCountUpdate:()=>updatePostIdentityCount(),onValidationClear:()=>clearStepValidation(2),showToast,queueRosterScroll:()=>queueIdentityScroll(identitySinnerRoster,18)});
+function renderIdentityOptions(){identityCardController.render();}
 function updatePartyKeywordSummary(){
   if(!partyKeywordSummaryChips)return;
   const baseCounts=new Map(keywordDefinitions.map(keyword=>[keyword.name,0]));
