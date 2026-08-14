@@ -193,16 +193,6 @@ function normalizeThemePackEntries(entries){return (entries||[]).map(x=>({...x,n
 const strategyTagOptions=['オート対応','半オート','手動推奨','初心者向け','中級者向け','上級者向け','安定重視','高速周回','自由枠あり','人格固定','運要素あり','E.G.O依存','ギフト依存'];
 const affiliationTagOptions=['リンバス・カンパニー','ロボトミー本社','H社','N社','R社','T社','W社','ツヴァイ','シ','センク','リウ','セブン','チェーヴィチ','ディエーチ','ウーフィ','剣契','黒雲会','技術解放連合','ワザリング・ハイツ','ピークォド号','血鬼','黒獣','指','親指','人差し指','中指','薬指','小指','蜘蛛の巣','LCE','E.G.O装備','捨てる'];
 const automaticKeywordOptions=['火傷','出血','振動','破裂','沈潜','呼吸','充電'];
-const egoSinnerGrid=$('[data-post-ego-sinner-grid]');
-const egoGrid=$('[data-post-ego-grid]');
-const egoSinnerView=$('[data-ego-sinner-view]');
-const egoSelectView=$('[data-ego-select-view]');
-const currentEgoSinnerName=$('[data-current-ego-sinner-name]');
-const currentEgoSummary=$('[data-current-ego-summary]');
-const egoConfirmButton=$('[data-confirm-ego-selection]');
-const egoFooterActions=$('[data-ego-footer-actions]');
-const clearCurrentEgos=$('[data-clear-current-egos]');
-const clearAllEgos=$('[data-clear-all-egos]');
 const workspaceStepName=$('[data-workspace-step-name]');
 const workspaceStepCounter=$('[data-workspace-step-counter]');
 const mobilePrevStep=$('[data-mobile-prev-step]');
@@ -434,95 +424,10 @@ function egoSummaryTagsMarkup(picks,{emptyLabel='E.G.Oを選択'}={}){
     .map(rank=>`<span class="ego-summary-tag rank-${rank.toLowerCase()}"><b>${rank}</b><span>${picks.get(rank)}</span></span>`);
   return tags.length?tags.join(''):`<span class="ego-summary-empty">${emptyLabel}</span>`;
 }
-function egoMapFor(id){if(!postState.egos.has(id))postState.egos.set(id,new Map());return postState.egos.get(id);}
-function renderEgoSinners(){
-  egoSinnerGrid.innerHTML='';
-  const selectedSinners=orderedSelectedSinners();
-  $('[data-ego-empty-note]').hidden=selectedSinners.length!==0;
-  selectedSinners.forEach((sinner,index)=>{
-    const order=formationPosition(sinner.id);
-    const identity=postState.identities.get(sinner.id);
-    const isFree=identity?.isFreeSlot;
-    const freeEgoEnabled=postState.freeSlotEgoEnabled.has(sinner.id);
-    const picks=egoMapFor(sinner.id);
-    const summaryTags=egoSummaryTagsMarkup(picks);
-
-    if(isFree){
-      const card=document.createElement('article');
-      card.className='ego-sinner-card ego-free-sinner-card'+(freeEgoEnabled?' enabled':' locked')+(picks.size?' selected':'');
-      card.style.setProperty('--card-a',cardTones[index%cardTones.length][0]);
-      card.style.setProperty('--card-b',cardTones[index%cardTones.length][1]);
-      card.innerHTML=`<span class="sinner-number">No.${sinner.id}</span><span class="formation-order-badge ego-order-badge">${order}</span><strong>${sinner.name}</strong><small>自由枠（人格指定なし）</small><div class="ego-card-summary ego-summary-tags">${freeEgoEnabled?egoSummaryTagsMarkup(picks,{emptyLabel:'E.G.Oを選択可能'}):'<span class="ego-summary-empty">初期設定ではE.G.O指定なし</span>'}</div><div class="ego-free-actions"></div>`;
-      const actions=card.querySelector('.ego-free-actions');
-      const toggle=document.createElement('button');
-      toggle.type='button';
-      toggle.className='ego-free-toggle';
-      toggle.textContent=freeEgoEnabled?'E.G.O指定を解除':'自由枠のE.G.Oを選択';
-      toggle.addEventListener('click',event=>{
-        event.stopPropagation();
-        if(freeEgoEnabled){
-          postState.freeSlotEgoEnabled.delete(sinner.id);
-          postState.egos.delete(sinner.id);
-          showToast(`${sinner.name}自由枠のE.G.O指定を解除しました。`);
-        }else{
-          postState.freeSlotEgoEnabled.add(sinner.id);
-          showToast(`${sinner.name}自由枠のE.G.Oを選択できます。`);
-        }
-        renderEgoSinners();
-      });
-      actions.appendChild(toggle);
-      if(freeEgoEnabled){
-        const select=document.createElement('button');
-        select.type='button';
-        select.className='ego-free-select';
-        select.textContent='E.G.O一覧を開く →';
-        select.addEventListener('click',()=>openEgoSelect(sinner.id));
-        actions.appendChild(select);
-      }
-      egoSinnerGrid.appendChild(card);
-      return;
-    }
-
-    const b=document.createElement('button');
-    b.type='button';
-    b.className='ego-sinner-card'+(picks.size?' selected':'');
-    b.style.setProperty('--card-a',cardTones[index%cardTones.length][0]);
-    b.style.setProperty('--card-b',cardTones[index%cardTones.length][1]);
-    b.innerHTML=`<span class="sinner-number">No.${sinner.id}</span><span class="formation-order-badge ego-order-badge">${order}</span><strong>${sinner.name}</strong><small>${identity.name}</small><div class="ego-card-summary ego-summary-tags">${summaryTags}</div>`;
-    b.addEventListener('click',()=>openEgoSelect(sinner.id));
-    egoSinnerGrid.appendChild(b);
-  });
-  updateEgoCount();
-}
-function openEgoSelect(id){postState.activeEgoSinner=id;const sinner=sinnerIdentityData.find(x=>x.id===id);currentEgoSinnerName.textContent=sinner.name;egoSinnerView.hidden=true;egoSelectView.hidden=false;renderEgoOptions();updateEgoConfirmState();requestAnimationFrame(()=>smoothScrollToElement(egoSelectView,18,'auto'));}
-function closeEgoSelect({scroll=true}={}){postState.activeEgoSinner=null;egoSelectView.hidden=true;egoSinnerView.hidden=false;renderEgoSinners();updateEgoConfirmState();if(scroll)queueIdentityScroll(egoSinnerView,18);}
-function renderEgoOptions(){
-  const id=postState.activeEgoSinner;const sinner=sinnerIdentityData.find(x=>x.id===id);const picks=egoMapFor(id);egoGrid.innerHTML='';
-  const egoRankOrder={ALEPH:5,WAW:4,HE:3,TETH:2,ZAYIN:1};
-  [...(sinnerEgoData[id]||[])].sort((a,b)=>(egoRankOrder[b[1]]||0)-(egoRankOrder[a[1]]||0)||a[0].localeCompare(b[0],'ja',{numeric:true,sensitivity:'base'})).forEach(([name,rank],index)=>{const b=document.createElement('button');b.type='button';const identity=postState.identities.get(id);const tone=cardToneForKeywords(identity?.keywords,index);b.style.setProperty('--ego-card-a',tone[0]);b.style.setProperty('--ego-card-b',tone[1]);b.className=`ego-option-card rank-${rank.toLowerCase()}`+(picks.get(rank)===name?' selected':'');b.innerHTML=`<span class="ego-orb">E.G.O</span><span class="ego-rank">${rank}</span><strong>${name}</strong><small>${sinner.name}</small>`;b.addEventListener('click',()=>{if(picks.get(rank)===name)picks.delete(rank);else picks.set(rank,name);renderEgoOptions();updateEgoCount();updateEgoConfirmState();});egoGrid.appendChild(b);});
-  currentEgoSummary.innerHTML=egoSummaryTagsMarkup(picks,{emptyLabel:'未選択'});
-}
-function updateEgoConfirmState(){
-  const onEgoStep=postState.step===4;
-  const inEgoDetail=onEgoStep&&Boolean(postState.activeEgoSinner);
-  if(egoConfirmButton)egoConfirmButton.hidden=!inEgoDetail;
-  // E.G.Oの全解除は囚人一覧・個別選択のどちらでも使えるようにする。
-  if(egoFooterActions)egoFooterActions.hidden=!onEgoStep;
-  workspaceFooter?.classList.toggle('ego-mode',onEgoStep);
-  workspaceFooter?.classList.toggle('ego-detail-mode',inEgoDetail);
-  if(clearCurrentEgos){
-    const picks=inEgoDetail?egoMapFor(postState.activeEgoSinner):null;
-    clearCurrentEgos.hidden=!inEgoDetail;
-    clearCurrentEgos.disabled=!picks?.size;
-    clearCurrentEgos.textContent=picks?.size?'選択解除':'未選択';
-  }
-  if(clearAllEgos){
-    let total=0;postState.egos.forEach(map=>total+=map.size);
-    clearAllEgos.disabled=total===0;
-    clearAllEgos.textContent='現在選択中のE.G.Oを全選択解除';
-  }
-}
-function updateEgoCount(){let total=0;postState.egos.forEach(m=>total+=m.size);$('[data-post-ego-count]').textContent=total;}
+const egoController=window.LimbusEgoController.create({state:postState,identityData:sinnerIdentityData,egoData:sinnerEgoData,orderedSinners:orderedSelectedSinners,formationPosition,summaryMarkup:egoSummaryTagsMarkup,cardTones,toneForKeywords:cardToneForKeywords,workspaceFooter,showToast,scrollToElement:smoothScrollToElement,queueScroll:queueIdentityScroll});
+const renderEgoSinners=()=>egoController.renderSinners();
+const closeEgoSelect=options=>egoController.close(options);
+const updateEgoConfirmState=()=>egoController.updateControls();
 function clearStepValidation(step){
   document.querySelector(`[data-step-link="${step}"]`)?.classList.remove('validation-error');
   document.querySelector(`[data-post-step="${step}"]`)?.classList.remove('validation-error');
@@ -879,19 +784,7 @@ postTitle.addEventListener('beforeinput',()=>requestAnimationFrame(handlePostTit
 postTitle.addEventListener('keydown',event=>{if(event.key==='Enter')requestAnimationFrame(handlePostTitleSync);});
 postTitle.addEventListener('focus',handlePostTitleSync);
 window.visualViewport?.addEventListener('resize',()=>{if(document.activeElement===postTitle&&!postTitleComposing)handlePostTitleSync();});
-setInterval(()=>{if(document.activeElement===postTitle)handlePostTitleSync();},120);const backToEgoSinners=$('[data-back-to-ego-sinners]');if(backToEgoSinners)backToEgoSinners.onclick=()=>closeEgoSelect();if(egoConfirmButton)egoConfirmButton.onclick=()=>{closeEgoSelect({scroll:true});showToast('E.G.O選択を決定しました。');};
-if(clearCurrentEgos)clearCurrentEgos.onclick=()=>{
-  const id=postState.activeEgoSinner;if(!id)return;
-  const picks=egoMapFor(id);if(!picks.size)return;
-  picks.clear();renderEgoOptions();updateEgoCount();updateEgoConfirmState();showToast('この囚人のE.G.O選択を解除しました。');
-};
-if(clearAllEgos)clearAllEgos.onclick=()=>{
-  let total=0;postState.egos.forEach(map=>total+=map.size);if(!total)return;
-  if(!window.confirm('選択中のE.G.Oをすべて解除しますか？'))return;
-  postState.egos.clear();
-  if(postState.activeEgoSinner)renderEgoOptions();
-  updateEgoCount();updateEgoConfirmState();showToast('すべてのE.G.O選択を解除しました。');
-};
+setInterval(()=>{if(document.activeElement===postTitle)handlePostTitleSync();},120);
 const clearIdentities=$('[data-clear-identities]');if(clearIdentities)clearIdentities.onclick=()=>{postState.identities.clear();postState.identityAlternatives.clear();postState.identityOrder=[];postState.egos.clear();postState.freeSlotEgoEnabled.clear();renderIdentitySinnerRoster();if(postState.activeSinner)openIdentitySelect(postState.activeSinner);updatePostIdentityCount();};const legacyClearEgos=$('[data-clear-egos]');if(legacyClearEgos)legacyClearEgos.onclick=()=>{postState.egos.clear();postState.freeSlotEgoEnabled.clear();closeEgoSelect();renderEgoSinners();};const goBackInWorkspace=()=>{if(postState.step===4&&postState.activeEgoSinner)return closeEgoSelect();if(postState.step===5&&postState.activeThemePackFloor)return closeThemePackSelect();setStep(postState.step-1);};$('[data-prev-step]').onclick=goBackInWorkspace;if(mobilePrevStep)mobilePrevStep.onclick=goBackInWorkspace;
 function buildPostPayload(){
   // 使用人格と編成順は別データとして保存する。
