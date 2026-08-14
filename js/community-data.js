@@ -3,17 +3,8 @@
   const client = window.limbusSupabase;
   const esc = value => String(value ?? '').replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
 
-  const themePackDataPromise=fetch('data/packs.json').then(r=>r.ok?r.json():null).catch(()=>null);
-  const normalizeThemePackKey=value=>String(value??'').normalize('NFKC').replace(/[\s・･,，、.。:：／/\\\-_―—–]/g,'').toLowerCase();
-  function levenshteinDistance(a,b){const x=[...a],y=[...b],row=Array.from({length:y.length+1},(_,i)=>i);for(let i=1;i<=x.length;i++){let prev=row[0];row[0]=i;for(let j=1;j<=y.length;j++){const tmp=row[j];row[j]=Math.min(row[j]+1,row[j-1]+1,prev+(x[i-1]===y[j-1]?0:1));prev=tmp;}}return row[y.length];}
-  async function canonicalThemePackNames(){const data=await themePackDataPromise;const names=[];Object.values(data?.modes||{}).forEach(mode=>Object.values(mode?.floors||{}).forEach(list=>(list||[]).forEach(name=>{if(name&&!names.includes(name))names.push(name);})));return names;}
-  async function normalizeThemePackName(value){
-    const original=String(value??'').trim();if(!original||original==='自由枠')return original;
-    const names=await canonicalThemePackNames();if(!names.length||names.includes(original))return original;
-    const key=normalizeThemePackKey(original);const exact=names.find(name=>normalizeThemePackKey(name)===key);if(exact)return exact;
-    let best=null,bestDistance=Infinity,ties=0;for(const candidate of names){const d=levenshteinDistance(key,normalizeThemePackKey(candidate));if(d<bestDistance){best=candidate;bestDistance=d;ties=1;}else if(d===bestDistance)ties++;}
-    const maxDistance=key.length>=12?2:1;return best&&ties===1&&bestDistance<=maxDistance?best:original;
-  }
+  const themePackNormalizerPromise=fetch('data/packs.json').then(r=>r.ok?r.json():null).catch(()=>null).then(data=>window.LimbusThemePackNames.create(data));
+  async function normalizeThemePackName(value){return (await themePackNormalizerPromise).normalize(value);}
   async function normalizePostThemePacks(post){
     if(!post?.content||!Array.isArray(post.content.themePacks))return post;
     const themePacks=await Promise.all(post.content.themePacks.map(async item=>({...item,name:await normalizeThemePackName(item?.name)})));

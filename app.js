@@ -160,21 +160,8 @@ function applyIdentityCardImage(element,imageUrl){
   const safeUrl=String(imageUrl);
   element.style.backgroundImage=`url("${safeUrl}")`;
 } 
-function themePackCanonicalNames(){
-  const names=[];Object.values(themePackData?.modes||{}).forEach(mode=>Object.values(mode?.floors||{}).forEach(list=>(list||[]).forEach(name=>{if(name&&!names.includes(name))names.push(name);})));return names;
-}
-function normalizeThemePackKey(value){return String(value??'').normalize('NFKC').replace(/[\s・･,，、.。:：／/\\-_―—–]/g,'').toLowerCase();}
-function levenshteinDistance(a,b){const x=[...a],y=[...b],row=Array.from({length:y.length+1},(_,i)=>i);for(let i=1;i<=x.length;i++){let prev=row[0];row[0]=i;for(let j=1;j<=y.length;j++){const tmp=row[j];row[j]=Math.min(row[j]+1,row[j-1]+1,prev+(x[i-1]===y[j-1]?0:1));prev=tmp;}}return row[y.length];}
-const themePackCanonicalList=themePackCanonicalNames();
-const themePackCanonicalByKey=new Map(themePackCanonicalList.map(name=>[normalizeThemePackKey(name),name]));
-function normalizeThemePackName(value){
-  const original=String(value??'').trim();if(!original||original==='自由枠')return original;
-  if(themePackCanonicalList.includes(original))return original;
-  const key=normalizeThemePackKey(original);if(themePackCanonicalByKey.has(key))return themePackCanonicalByKey.get(key);
-  let best=null,bestDistance=Infinity,ties=0;for(const candidate of themePackCanonicalList){const d=levenshteinDistance(key,normalizeThemePackKey(candidate));if(d<bestDistance){best=candidate;bestDistance=d;ties=1;}else if(d===bestDistance)ties++;}
-  const maxDistance=key.length>=12?2:1;return best&&ties===1&&bestDistance<=maxDistance?best:original;
-}
-function normalizeThemePackEntries(entries){return (entries||[]).map(x=>({...x,name:normalizeThemePackName(x?.name)}));}
+const themePackNameNormalizer=window.LimbusThemePackNames.create(themePackData);
+const normalizeThemePackEntries=entries=>themePackNameNormalizer.normalizeEntries(entries);
 const strategyTagOptions=['オート対応','半オート','手動推奨','初心者向け','中級者向け','上級者向け','安定重視','高速周回','自由枠あり','人格固定','運要素あり','E.G.O依存','ギフト依存'];
 const affiliationTagOptions=['リンバス・カンパニー','ロボトミー本社','H社','N社','R社','T社','W社','ツヴァイ','シ','センク','リウ','セブン','チェーヴィチ','ディエーチ','ウーフィ','剣契','黒雲会','技術解放連合','ワザリング・ハイツ','ピークォド号','血鬼','黒獣','指','親指','人差し指','中指','薬指','小指','蜘蛛の巣','LCE','E.G.O装備','捨てる'];
 const automaticKeywordOptions=['火傷','出血','振動','破裂','沈潜','呼吸','充電'];
