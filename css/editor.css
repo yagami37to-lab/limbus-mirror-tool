@@ -922,8 +922,8 @@ body.dark-mode .theme-pack-option-card small{color:#aeb4bc!important}
 .formation-choice-card.has-identity-image .formation-card-label,.formation-choice-card.has-identity-image>small{color:#f2eadc!important}
 html[data-theme="dark"] .formation-choice-card.has-identity-image,
 html[data-theme="dark"] .formation-choice-card.has-identity-image:hover,
-html[data-theme="dark"] .formation-choice-card.has-identity-image.selected{background-image:linear-gradient(180deg,rgba(0,0,0,.08),rgba(0,0,0,.86)),var(--identity-image)!important;background-color:transparent!important}
-html[data-theme="dark"] .ego-sinner-card.has-identity-image{background-image:var(--identity-image),linear-gradient(150deg,var(--card-a),var(--card-b))!important;background-color:transparent!important}
+html[data-theme="dark"] .formation-choice-card.has-identity-image.selected{background-image:linear-gradient(180deg,rgba(0,0,0,.08),rgba(0,0,0,.86)),var(--identity-image)!important;background-color:transparent!important;background-size:cover,cover!important;background-position:center,center 22%!important;background-repeat:no-repeat!important}
+html[data-theme="dark"] .ego-sinner-card.has-identity-image{background-image:var(--identity-image),linear-gradient(150deg,var(--card-a),var(--card-b))!important;background-color:transparent!important;background-size:cover,cover!important;background-position:center 22%,center!important;background-repeat:no-repeat!important}
 
 /* v1.0.47: substitute identity stability and compact card summary */
 .identity-alternative-summary{display:flex;flex-wrap:wrap;gap:7px;margin-top:7px}
