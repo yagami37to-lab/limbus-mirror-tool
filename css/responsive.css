@@ -2115,6 +2115,13 @@ body.news-page .site-shell{
   }
 }
 
+/* v1.1.00 featured identities: all on desktop, five cards plus one summary on mobile */
+.home-featured-carousel .featured-more-identities{display:none!important}
+@media(max-width:720px){
+  .home-featured-carousel .featured-post-copy .browse-identity-card:nth-child(n+6){display:none!important}
+  .home-featured-carousel .featured-more-identities{display:flex!important;align-items:center;justify-content:center}
+}
+
 
 /* v1.0.48 responsive hotfixes */
 @media(min-width:761px) and (max-width:980px){

@@ -38,15 +38,15 @@ function createFeaturedRecommendation(definition,source){
   // 元カード上で再生中だった一時的なハート演出を複製しない。
   copy.querySelectorAll('.like-feedback-layer,.heart-spark,.like-plus-one,.like-particle').forEach(node=>node.remove());
   copy.querySelectorAll('.bookmark-button').forEach(button=>button.classList.remove('is-animating','is-unliking','is-popping'));
-  // トップのおすすめは詳細カードではなく概要として見せるため、人格は最大4件に絞る。
+  // デスクトップでは全人格を表示し、スマホではCSSで5人までに絞る。
+  // 6人目以降がいる場合だけ、スマホ用の残り人数表示を用意する。
   const identityRoot=copy.querySelector('.browse-identity-scroll');
   if(identityRoot){
     const identityCards=[...identityRoot.querySelectorAll('.browse-identity-card')];
-    if(identityCards.length>4){
-      identityCards.slice(4).forEach(card=>card.remove());
+    if(identityCards.length>5){
       const more=document.createElement('span');
       more.className='featured-more-identities';
-      more.textContent=`ほか ${identityCards.length-4} 人`;
+      more.textContent=`ほか ${identityCards.length-5} 人`;
       identityRoot.appendChild(more);
     }
   }
