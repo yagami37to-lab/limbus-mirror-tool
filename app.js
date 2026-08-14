@@ -607,14 +607,8 @@ $('[data-next-step]').onclick=async()=>{
 
 postState.activeSinner=sinnerIdentityData[0]?.id||null;updatePostCategoryDisplays();searchController.renderActiveFilters();renderIdentitySinnerRoster();updatePartyKeywordSummary();setStep(1);
 
-async function openPostEditorFromQuery(){
-  if(draftController.openFromQuery())return;
-  const editId=new URLSearchParams(location.search).get('edit');if(!editId||!window.limbusSupabase)return;
-  const {data:{session}}=await window.limbusSupabase.auth.getSession();if(!session?.user)return;
-  const {data:p,error}=await window.limbusSupabase.from('posts').select('*').eq('id',editId).eq('author_id',session.user.id).maybeSingle();if(error||!p){showToast('編集する投稿を読み込めませんでした。');return;}
-  postRestoreController.restorePost(p);openDialog(postModal);showToast('投稿を編集できます。');
-}
-openPostEditorFromQuery();
+const postEditorLaunchController=window.LimbusPostEditorLaunchController.create({openDraftFromQuery:()=>draftController.openFromQuery(),restorePost:post=>postRestoreController.restorePost(post),openEditor:()=>openDialog(postModal),showToast});
+postEditorLaunchController.openFromQuery();
 window.addEventListener('pageshow',reconcilePageScrollLock);
 window.addEventListener('focus',()=>queueMicrotask(reconcilePageScrollLock));
 
