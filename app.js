@@ -508,50 +508,11 @@ $('[data-close-category-picker]')?.addEventListener('click',()=>closeDialog(cate
 openDraftFromCategory?.addEventListener('click',()=>{closeDialog(categoryPicker);requestAnimationFrame(()=>draftController.openManager());});
 startCategoryPost?.addEventListener('click',()=>{if(!pendingPostCategory)return;const selectedCategory=pendingPostCategory;resetPostEditorState();postState.category=selectedCategory;postState.activeSinner=sinnerIdentityData[0]?.id||null;updatePostCategoryDisplays();setStep(1);closeDialog(categoryPicker);requestAnimationFrame(()=>openDialog(postModal));});
 $$('[data-step-link]').forEach(b=>b.onclick=()=>navigateToStep(+b.dataset.stepLink));
-const typePreviewIcon=$('[data-type-preview-icon]');
-const typePreviewDifficulty=$('[data-type-preview-difficulty]');
-function renderTypePreviewIcon(button){
-  if(!typePreviewIcon)return;
-  const logo=button?.querySelector(':scope > .type-option-logo > img');
-  typePreviewIcon.classList.toggle('has-type-logo',Boolean(logo));
-  typePreviewIcon.replaceChildren();
-  if(logo){
-    const image=logo.cloneNode(true);
-    image.removeAttribute('width');
-    image.removeAttribute('height');
-    image.setAttribute('aria-hidden','true');
-    image.alt='';
-    typePreviewIcon.appendChild(image);
-    return;
-  }
-  const fallback=button?.querySelector(':scope > span')?.textContent?.trim()||'◇';
-  typePreviewIcon.textContent=fallback;
-}
-const difficultyError=$('[data-difficulty-error]');
-function updateDifficultyDisplay(){
-  const label=postState.difficulty==='HARD'?'ハード':postState.difficulty==='NORMAL'?'ノーマル':'難易度未選択';
-  $$('[data-difficulty-badge]').forEach(x=>{x.textContent=label;x.classList.toggle('is-unset',!postState.difficulty);x.dataset.difficulty=postState.difficulty||'';});
-  if(typePreviewDifficulty){typePreviewDifficulty.textContent=postState.difficulty?`${label}向け攻略`:'難易度を選択してください';typePreviewDifficulty.dataset.difficulty=postState.difficulty||'';}
-  if(difficultyError)difficultyError.hidden=Boolean(postState.difficulty);
-}
-$$('[data-post-difficulty]').forEach(b=>b.onclick=()=>{const nextDifficulty=b.dataset.postDifficulty;if(postState.difficulty&&postState.difficulty!==nextDifficulty&&postState.themePacks.size&&!window.confirm('難易度を変更すると、選択済みのテーマパックが解除されます。変更しますか？'))return;if(postState.difficulty!==nextDifficulty){postState.themePacks.clear();closeThemePackSelect({scroll:false});}postState.difficulty=nextDifficulty;$$('[data-post-difficulty]').forEach(x=>x.classList.toggle('active',x===b));clearStepValidation(1);updateDifficultyDisplay();});
+const postBasicsController=window.LimbusPostBasicsController.create({state:postState,titleInput:postTitle,typeButtons:$$('[data-post-type]'),difficultyButtons:$$('[data-post-difficulty]'),typePreview:$('[data-type-preview]'),typeCopy:$('[data-type-copy]'),typePreviewIcon:$('[data-type-preview-icon]'),typePreviewDifficulty:$('[data-type-preview-difficulty]'),difficultyError:$('[data-difficulty-error]'),difficultyBadges:$$('[data-difficulty-badge]'),typeBadges:$$('[data-type-badge]'),workspaceTitlebar:$('[data-workspace-titlebar]'),syncTitle,validateBasics:()=>stepValidation(1),clearValidation:clearStepValidation,isSolo:isSoloPost,onDifficultyChanged:()=>closeThemePackSelect({scroll:false}),onTypeChanged:()=>{renderFormationOrder();renderEgoSinners();renderDetailTags();}});
+postBasicsController.bind();
+const updateDifficultyDisplay=()=>postBasicsController.updateDifficulty();
 function updatePostSummaryCount(){if(postSummaryCount)postSummaryCount.textContent=String(postSummary?.value.length||0);}
 if(postSummary){postSummary.addEventListener('input',()=>{updatePostSummaryCount();if(postSummary.value.trim())clearStepValidation(6);});updatePostSummaryCount();}
-$$('[data-post-type]').forEach(b=>b.onclick=()=>{$$('[data-post-type]').forEach(x=>x.classList.remove('active'));b.classList.add('active');postState.type=b.dataset.postType;clearStepValidation(1);if(isSoloPost()&&postState.identityOrder.length>1)postState.identityOrder=postState.identityOrder.slice(0,1);if(isSoloPost()){const soloId=postState.identityOrder[0];for(const id of [...postState.egos.keys()])if(id!==soloId)postState.egos.delete(id);}renderFormationOrder();renderEgoSinners();renderDetailTags();$('[data-type-preview]').textContent=postState.type;$('[data-type-copy]').textContent=b.querySelector('small').textContent+'攻略として投稿します。';renderTypePreviewIcon(b);$$('[data-type-badge]').forEach(x=>{x.textContent=postState.type;x.classList.remove('is-unset');});});updateDifficultyDisplay();const handlePostTitleSync=()=>{
-  syncTitle();
-  document.querySelector('[data-workspace-titlebar]')?.classList.remove('validation-error');
-  if(stepValidation(1).valid)clearStepValidation(1);
-};
-let postTitleComposing=false;
-postTitle.addEventListener('compositionstart',()=>{postTitleComposing=true;});
-postTitle.addEventListener('compositionupdate',handlePostTitleSync);
-postTitle.addEventListener('compositionend',()=>{postTitleComposing=false;handlePostTitleSync();requestAnimationFrame(handlePostTitleSync);setTimeout(handlePostTitleSync,0);});
-['input','change','blur','keyup'].forEach(eventName=>postTitle.addEventListener(eventName,handlePostTitleSync));
-postTitle.addEventListener('beforeinput',()=>requestAnimationFrame(handlePostTitleSync));
-postTitle.addEventListener('keydown',event=>{if(event.key==='Enter')requestAnimationFrame(handlePostTitleSync);});
-postTitle.addEventListener('focus',handlePostTitleSync);
-window.visualViewport?.addEventListener('resize',()=>{if(document.activeElement===postTitle&&!postTitleComposing)handlePostTitleSync();});
-setInterval(()=>{if(document.activeElement===postTitle)handlePostTitleSync();},120);
 const clearIdentities=$('[data-clear-identities]');if(clearIdentities)clearIdentities.onclick=()=>{postState.identities.clear();postState.identityAlternatives.clear();postState.identityOrder=[];postState.egos.clear();postState.freeSlotEgoEnabled.clear();renderIdentitySinnerRoster();if(postState.activeSinner)openIdentitySelect(postState.activeSinner);updatePostIdentityCount();};const legacyClearEgos=$('[data-clear-egos]');if(legacyClearEgos)legacyClearEgos.onclick=()=>{postState.egos.clear();postState.freeSlotEgoEnabled.clear();closeEgoSelect();renderEgoSinners();};const goBackInWorkspace=()=>{if(postState.step===4&&postState.activeEgoSinner)return closeEgoSelect();if(postState.step===5&&postState.activeThemePackFloor)return closeThemePackSelect();setStep(postState.step-1);};$('[data-prev-step]').onclick=goBackInWorkspace;if(mobilePrevStep)mobilePrevStep.onclick=goBackInWorkspace;
 const postPayloadController=window.LimbusPostPayloadController.create({state:postState,identityData:sinnerIdentityData,getAlternativeNames:alternativeNamesFor,getOrderedSinners:orderedSelectedSinners,getFormationPosition:formationPosition,getAutomaticKeywords:automaticPostKeywords});
 const buildPostPayload=()=>postPayloadController.build();
