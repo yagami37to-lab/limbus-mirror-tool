@@ -22,14 +22,16 @@ begin
 end;
 $$;
 
-drop trigger if exists posts_set_updated_at on public.posts;
-create trigger posts_set_updated_at
-before update on public.posts
-for each row execute function public.set_post_updated_at();
-
 -- 統計更新だけで公開日時より後へ進んだ既存値を、判別可能な範囲で補正する。
+-- 補正中は旧トリガーが明示的な updated_at を上書きしないよう、先に削除する。
+drop trigger if exists posts_set_updated_at on public.posts;
+
 update public.posts
 set updated_at = published_at
 where status = 'published'
   and published_at is not null
   and updated_at > published_at;
+
+create trigger posts_set_updated_at
+before update on public.posts
+for each row execute function public.set_post_updated_at();

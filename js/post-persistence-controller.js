@@ -7,8 +7,16 @@ function createPostPersistenceController({buildPayload,getEditingId,setEditingId
     if(!user){onAuthRequired();return false;}
     if(status==='published'&&!validatePublished())return false;
     const payload=buildPayload();if(!payload.title){onTitleMissing();return false;}
-    const now=new Date().toISOString();const row={author_id:user.id,...payload,status,published_at:status==='published'?now:null,updated_at:now};
     const editingId=getEditingId();
+    const now=new Date().toISOString();
+    const row={author_id:user.id,...payload,status,updated_at:now};
+    if(!editingId)row.published_at=status==='published'?now:null;
+    else if(status!=='published')row.published_at=null;
+    else{
+      const {data:existing,error:existingError}=await client.from('posts').select('published_at').eq('id',editingId).eq('author_id',user.id).single();
+      if(existingError){showToast(`公開日時を確認できませんでした：${existingError.message}`);return false;}
+      row.published_at=existing.published_at||now;
+    }
     if(!editingId){
       const {count,error}=await client.from('posts').select('*',{count:'exact',head:true}).eq('author_id',user.id);
       if(error){showToast(`投稿数を確認できませんでした：${error.message}`);return false;}
