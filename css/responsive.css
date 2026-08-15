@@ -2171,12 +2171,6 @@ body.news-page .site-shell{
     white-space:nowrap!important;
     writing-mode:horizontal-tb!important;
     word-break:keep-all!important;
-    border:1px solid var(--gold)!important;
-    border-radius:5px!important;
-    background:linear-gradient(135deg,var(--gold2),var(--gold))!important;
-    color:#fff!important;
-    font-weight:900!important;
-    cursor:pointer!important;
   }
   .mobile-auth-slot{display:none!important;}
 }
