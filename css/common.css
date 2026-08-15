@@ -985,7 +985,7 @@ html[data-theme="dark"] .news-change-group ul{color:#c7c4bd}
 
 /* top-page order, mobile header, independent featured cards, and official footer */
 .hero-description-mobile{display:none}
-.mobile-header-post{display:none}
+.mobile-header-post{display:none;align-items:center;justify-content:center;min-height:36px;padding:7px 10px;border:1px solid var(--gold);border-radius:5px;background:linear-gradient(135deg,var(--gold2),var(--gold));color:#fff;font-weight:900;line-height:1;white-space:nowrap;writing-mode:horizontal-tb;word-break:keep-all;cursor:pointer}
 .featured-list-button{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:9px 18px;border:1px solid var(--gold);background:transparent;color:var(--gold);font-weight:800;text-decoration:none;transition:transform .18s ease,background .18s ease,color .18s ease,box-shadow .18s ease}
 .featured-list-button:hover,.featured-list-button:focus-visible{transform:translateY(-2px);background:var(--gold);color:#fff;box-shadow:0 9px 24px rgba(111,78,21,.18)}
 .featured-editor-note{padding:18px;border:1px solid rgba(202,164,91,.55);background:rgba(255,250,240,.72)}
