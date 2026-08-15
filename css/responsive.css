@@ -147,6 +147,8 @@
   .ego-orb { top: 57px; font-size: 14px; }
   .ego-option-card.selected:after { top: 69px; padding: 5px; font-size: 11px; }
   .ego-option-card strong { font-size: 12px; }
+  .ego-option-card.has-ego-image .ego-image-frame{top:12px;width:112px;height:112px}
+  .ego-option-card.has-ego-image .ego-rank{top:105px}
 
   .detail-form label { padding: 11px; }
   .review-card { padding: 18px; }

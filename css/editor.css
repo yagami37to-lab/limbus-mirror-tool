@@ -659,9 +659,12 @@ html[data-theme="dark"] .workspace-brand strong{color:#f2efe8!important}
 html[data-theme="dark"] .brand-copy small,
 html[data-theme="dark"] .workspace-brand small{color:#d0a64b!important}
 
-.ego-option-card.has-ego-image{background-size:cover;background-position:center;color:#fff;text-shadow:0 1px 3px #000}
-.ego-option-card.has-ego-image::before{background:radial-gradient(circle,rgba(255,255,255,.18),rgba(0,0,0,.22));box-shadow:0 0 0 1px rgba(255,255,255,.2)}
-.ego-option-card.has-ego-image>*{position:relative;z-index:1}
+.ego-option-card.has-ego-image{color:#fff;text-shadow:0 1px 3px #000}
+.ego-option-card.has-ego-image::before{opacity:0}
+.ego-image-frame{position:absolute!important;z-index:0!important;top:14px;width:136px;height:136px;border:3px solid #b88a3c;border-radius:50%;background-position:center;background-size:cover;background-repeat:no-repeat;box-shadow:0 0 22px var(--ego-glow),inset 0 -18px 28px rgba(0,0,0,.28);overflow:hidden}
+.ego-option-card.has-ego-image .ego-orb{display:none}
+.ego-option-card.has-ego-image .ego-rank{position:absolute;top:126px;z-index:2;min-width:72px;box-shadow:0 3px 8px rgba(0,0,0,.38);text-shadow:none}
+.ego-option-card.has-ego-image strong,.ego-option-card.has-ego-image small{z-index:2}
 
 /* Step 3: formation order surfaces */
 html[data-theme="dark"] .formation-order-panel{color:#e8e8e8!important}

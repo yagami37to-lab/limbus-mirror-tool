@@ -65,8 +65,7 @@ function createEgoController({state,identityData,egoData,orderedSinners,formatio
     [...(egoData[id]||[])].sort((a,b)=>(rankOrder[b[1]]||0)-(rankOrder[a[1]]||0)||a[0].localeCompare(b[0],'ja',{numeric:true,sensitivity:'base'})).forEach(([name,rank],index)=>{
       const button=document.createElement('button');button.type='button';const identity=state.identities.get(id);const tone=toneForKeywords(identity?.keywords,index);
       button.style.setProperty('--ego-card-a',tone[0]);button.style.setProperty('--ego-card-b',tone[1]);const image=getEgoImage?.(id,name)||'';button.className=`ego-option-card rank-${rank.toLowerCase()}`+(image?' has-ego-image':'')+(picks.get(rank)===name?' selected':'');
-      if(image)button.style.backgroundImage=`linear-gradient(180deg,rgba(0,0,0,.08),rgba(0,0,0,.88)),url("${image}")`;
-      button.innerHTML=`<span class="ego-orb">E.G.O</span><span class="ego-rank">${rank}</span><strong>${name}</strong><small>${sinner.name}</small>`;
+      button.innerHTML=`${image?`<span class="ego-image-frame" style="background-image:url('${image}')" aria-hidden="true"></span>`:''}<span class="ego-orb">E.G.O</span><span class="ego-rank">${rank}</span><strong>${name}</strong><small>${sinner.name}</small>`;
       button.addEventListener('click',()=>{if(picks.get(rank)===name)picks.delete(rank);else picks.set(rank,name);renderOptions();updateCount();updateControls();});egoGrid.appendChild(button);
     });
     if(currentSummary)currentSummary.innerHTML=summaryMarkup(picks,{emptyLabel:'未選択'});
