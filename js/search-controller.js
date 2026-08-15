@@ -111,15 +111,17 @@ function renderResultPagination(totalItems){
 }
 function runSearch(scrollToResults=true,{resetPage=true}={}){
   if(resetPage)resultPage=1;
-  const identityTerms=[...selected.identity].map(x=>x.split('｜')[0].toLowerCase());
-  const terms=[keywordInput.value.trim().toLowerCase(),activeTag.toLowerCase(),...['keyword','type','strategy','difficulty','affiliation'].flatMap(key=>[...selected[key]].map(x=>x.toLowerCase())),...identityTerms].filter(Boolean);
+  const identityTerms=[...selected.identity].map(x=>x.toLowerCase());
+  const terms=[keywordInput.value.trim().toLowerCase(),activeTag.toLowerCase(),...['keyword','type','strategy','difficulty','affiliation'].flatMap(key=>[...selected[key]].map(x=>x.toLowerCase()))].filter(Boolean);
   const selectedCategory=[...selected.category][0]||'';
   const cards=postGrid?[...postGrid.querySelectorAll(':scope > .post-card')]:[];
   const matched=[];
   cards.forEach(c=>{
     const h=(c.dataset.title+' '+c.dataset.tags+' '+(c.dataset.identities||'')+' '+c.textContent).toLowerCase();
     const categoryMatches=!selectedCategory||c.dataset.category===selectedCategory;
-    const matches=categoryMatches&&terms.every(t=>h.includes(t));
+    const identityHaystack=(c.dataset.identityDetails||'').toLowerCase();
+    const identityMatches=identityTerms.every(term=>identityHaystack?identityHaystack.includes(term):term.split('｜').every(part=>h.includes(part)));
+    const matches=categoryMatches&&identityMatches&&terms.every(t=>h.includes(t));
     c.dataset.filterMatch=matches?'true':'false';
     c.hidden=true;
     if(matches)matched.push(c);

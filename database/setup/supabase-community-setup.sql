@@ -45,6 +45,22 @@ $$;
 drop trigger if exists post_bookmarks_sync_count on public.bookmarks;
 create trigger post_bookmarks_sync_count after insert or delete on public.bookmarks for each row execute function public.sync_post_bookmark_count();
 
+create or replace function public.set_post_updated_at()
+returns trigger language plpgsql security invoker set search_path=public as $$
+begin
+  if new.author_id is distinct from old.author_id or new.title is distinct from old.title
+     or new.summary is distinct from old.summary or new.category is distinct from old.category
+     or new.difficulty is distinct from old.difficulty or new.strategy_type is distinct from old.strategy_type
+     or new.status is distinct from old.status or new.content is distinct from old.content
+     or new.published_at is distinct from old.published_at then new.updated_at=now();
+  else new.updated_at=old.updated_at;
+  end if;
+  return new;
+end;
+$$;
+drop trigger if exists posts_set_updated_at on public.posts;
+create trigger posts_set_updated_at before update on public.posts for each row execute function public.set_post_updated_at();
+
 alter table public.posts enable row level security;
 alter table public.bookmarks enable row level security;
 
