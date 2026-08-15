@@ -491,12 +491,14 @@ html[data-theme="dark"] .browse-strategy-tag{background:#25221d;color:#edcf8e;bo
 @keyframes heart-float{0%{opacity:1;transform:translate(0,0) scale(.6) rotate(0)}100%{opacity:0;transform:translate(var(--x,0),-26px) scale(1.15) rotate(var(--r,0deg))}}
 .post-card-rich .post-bottom{margin-top:8px;padding-top:8px;gap:16px;font-size:11px}
 .post-stat{display:inline-flex;align-items:center;gap:5px}
-.post-stat.view-stat::before{content:"◉";font-size:12px;color:#111}
+.post-stat.view-stat::before{content:"";width:14px;height:10px;background:currentColor;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 16'%3E%3Cpath d='M12 0C5.8 0 1.6 4.6 0 8c1.6 3.4 5.8 8 12 8s10.4-4.6 12-8c-1.6-3.4-5.8-8-12-8Zm0 13a5 5 0 1 1 0-10 5 5 0 0 1 0 10Zm0-2.5A2.5 2.5 0 1 1 12 5a2.5 2.5 0 0 1 0 5.5Z'/%3E%3C/svg%3E") center/contain no-repeat}
 .post-stat.like-stat{color:#222}
 .post-stat.like-stat::before{content:"♥";font-size:15px;color:#ff315d}
 html[data-theme="dark"] .browse-strategy-tag{background:#251d36;color:#cbb1ff;border-color:#8459d1}
 html[data-theme="dark"] .post-stat.like-stat{color:#f2eadc}
 html[data-theme="dark"] .post-stat.view-stat::before{color:#f2eadc}
+.post-stat.bookmark-stat{color:var(--muted);white-space:nowrap}
+.post-stat.bookmark-stat>span[aria-hidden]{font-size:12px;filter:grayscale(1)}
 
 /* denser browse cards and reliable like feedback */
 .post-grid{gap:18px}
@@ -1236,7 +1238,7 @@ body.alpha-banner-ready .site-header{top:var(--alpha-banner-height,0px)!importan
 .home-featured-carousel .featured-post-copy .post-card-detail-actions{margin-top:8px!important;padding-top:8px!important}
 .home-featured-carousel .featured-post-copy .post-save-button,
 .home-featured-carousel .featured-post-copy .post-detail-link{min-height:36px;padding:7px 10px;font-size:11px}
-.home-featured-carousel .featured-post-copy .like-feedback-layer{display:none!important}
+.home-featured-carousel .featured-post-copy .like-feedback-layer{display:block}
 
 
 /* top recommendation carousel: compact desktop layout and active-slide height */

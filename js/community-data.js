@@ -36,7 +36,7 @@
     if(!client) throw new Error('Supabase接続設定を読み込めませんでした。');
     const safeLimit=Math.min(Math.max(Number(limit)||50,1),100);
     const {data,error}=await client.from('posts')
-      .select('id,author_id,title,summary,category,difficulty,strategy_type,status,content,views,likes,published_at,created_at,updated_at')
+      .select('id,author_id,title,summary,category,difficulty,strategy_type,status,content,views,likes,bookmark_count,published_at,created_at,updated_at')
       .eq('status','published')
       .order('published_at',{ascending:false})
       .limit(safeLimit);
@@ -73,6 +73,9 @@
       : client.from('bookmarks').delete().eq('user_id',user.id).eq('post_key',String(postKey));
     const {error}=await query;
     if(error) throw error;
+    const {data:post,error:countError}=await client.from('posts').select('bookmark_count').eq('id',String(postKey)).maybeSingle();
+    if(countError)throw countError;
+    return Number(post?.bookmark_count||0);
   }
 
 

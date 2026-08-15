@@ -1984,7 +1984,7 @@
   .home-featured-carousel .featured-post-copy .browse-identity-card strong{font-size:11px!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
   .home-featured-carousel .featured-post-copy .browse-identity-card small{font-size:9px!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
   .home-featured-carousel .featured-more-identities{min-height:50px;font-size:10px}
-  .home-featured-carousel .featured-post-copy .post-bottom{display:grid!important;grid-template-columns:auto auto minmax(0,1fr)!important;gap:8px!important;align-items:center!important;margin-top:7px!important}
+  .home-featured-carousel .featured-post-copy .post-bottom{display:grid!important;grid-template-columns:auto auto auto minmax(0,1fr)!important;gap:8px!important;align-items:center!important;margin-top:7px!important}
   .home-featured-carousel .featured-post-copy .post-bottom>span:last-child{justify-self:end!important;white-space:nowrap!important}
   .home-featured-carousel .featured-post-copy .post-card-detail-actions{display:grid!important;grid-template-columns:1fr 1fr!important;gap:8px!important}
   .home-featured-carousel .featured-post-copy .post-save-button,

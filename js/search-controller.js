@@ -98,7 +98,7 @@ function setSearchPanelOpen(open,{scroll=false}={}){
 function renderActiveFilters(){const items=getFilterItems();if(activeTag)items.push({key:'popular',value:activeTag,label:`人気検索：${activeTag}`});renderFilterTarget(activeFilters,items,'現在、検索条件は指定されていません。');renderFilterTarget(resultActiveFilters,items,'すべての攻略を表示しています。');updateSearchToggleSummary(items)}
 function syncSearchControls(){$$('.search-filter-chip').forEach(button=>{const key=button.closest('[data-search-keywords]')?'keyword':button.closest('[data-search-types]')?'type':button.closest('[data-search-strategy-tags]')?'strategy':button.closest('[data-search-difficulties]')?'difficulty':'affiliation';button.classList.toggle('active',selected[key].has(button.textContent))});$$('.search-category-option').forEach(button=>button.classList.toggle('active',selected.category.has(button.dataset.categoryId)));updateSelectionLabels()}
 function clearSearch(){Object.values(selected).forEach(set=>set.clear());keywordInput.value='';$('[data-date-kind]').value='posted';$('[data-date-range]').value='all';sortSelect.value='recommended';syncSearchControls();renderActiveFilters()}
-function recommendedScore(card){return (Number(card.dataset.popular)||0)*5+(Number(card.dataset.views)||0)*0.2}
+function recommendedScore(card){return (Number(card.dataset.popular)||0)*5+(Number(card.dataset.views)||0)*0.2+(Number(card.dataset.bookmarks)||0)*15}
 function cardDate(card,key){const value=card.dataset[key]||'';const time=Date.parse(value);return Number.isFinite(time)?time:0}
 function renderResultPagination(totalItems){
   if(!resultPagination)return;

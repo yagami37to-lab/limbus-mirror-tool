@@ -659,6 +659,10 @@ html[data-theme="dark"] .workspace-brand strong{color:#f2efe8!important}
 html[data-theme="dark"] .brand-copy small,
 html[data-theme="dark"] .workspace-brand small{color:#d0a64b!important}
 
+.ego-option-card.has-ego-image{background-size:cover;background-position:center;color:#fff;text-shadow:0 1px 3px #000}
+.ego-option-card.has-ego-image::before{background:radial-gradient(circle,rgba(255,255,255,.18),rgba(0,0,0,.22));box-shadow:0 0 0 1px rgba(255,255,255,.2)}
+.ego-option-card.has-ego-image>*{position:relative;z-index:1}
+
 /* Step 3: formation order surfaces */
 html[data-theme="dark"] .formation-order-panel{color:#e8e8e8!important}
 html[data-theme="dark"] .formation-order-heading,

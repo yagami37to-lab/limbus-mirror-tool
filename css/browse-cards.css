@@ -603,7 +603,7 @@ html[data-theme="dark"] .community-browser .like-stat::before {
 .community-browser .post-card-rich{min-width:0}
 .community-browser .browse-identity-scroll,.community-browser .browse-strategy-row,.community-browser .post-bottom{min-width:0}
 .community-browser .browse-strategy-row{display:flex;flex-wrap:wrap;align-items:center}
-.community-browser .post-bottom{display:grid;grid-template-columns:auto auto minmax(0,1fr);align-items:center}
+.community-browser .post-bottom{display:grid;grid-template-columns:auto auto auto minmax(0,1fr);align-items:center}
 .community-browser .post-bottom>span:last-child{justify-self:end;white-space:nowrap}
 
 

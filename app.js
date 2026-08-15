@@ -192,7 +192,7 @@ function egoSummaryTagsMarkup(picks,{emptyLabel='E.G.Oを選択'}={}){
     .map(rank=>`<span class="ego-summary-tag rank-${rank.toLowerCase()}"><b>${rank}</b><span>${picks.get(rank)}</span></span>`);
   return tags.length?tags.join(''):`<span class="ego-summary-empty">${emptyLabel}</span>`;
 }
-const egoController=window.LimbusEgoController.create({state:postState,identityData:sinnerIdentityData,egoData:sinnerEgoData,orderedSinners:orderedSelectedSinners,formationPosition,summaryMarkup:egoSummaryTagsMarkup,cardTones,toneForKeywords:cardToneForKeywords,getIdentityImage:identityImageFor,workspaceFooter,showToast,scrollToElement:smoothScrollToElement,queueScroll:queueIdentityScroll});
+const egoController=window.LimbusEgoController.create({state:postState,identityData:sinnerIdentityData,egoData:sinnerEgoData,orderedSinners:orderedSelectedSinners,formationPosition,summaryMarkup:egoSummaryTagsMarkup,cardTones,toneForKeywords:cardToneForKeywords,getIdentityImage:identityImageFor,getEgoImage:(id,name)=>window.LimbusEgoImages?.forEgo(id,name,sinnerEgoData)||'',workspaceFooter,showToast,scrollToElement:smoothScrollToElement,queueScroll:queueIdentityScroll});
 const renderEgoSinners=()=>egoController.renderSinners();
 const closeEgoSelect=options=>egoController.close(options);
 const updateEgoConfirmState=()=>egoController.updateControls();

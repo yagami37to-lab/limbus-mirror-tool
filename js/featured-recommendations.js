@@ -10,6 +10,7 @@ const featuredDefinitions=[
   {id:'most-viewed',label:'最高閲覧',kicker:'MOST VIEWED',note:'現在もっとも多く閲覧されている攻略です。'}
 ];
 const numericData=(card,key)=>Number(card.dataset[key]||0)||0;
+const recommendationScore=card=>numericData(card,'popular')*5+numericData(card,'views')*.2+numericData(card,'bookmarks')*15;
 const publishedTime=card=>Date.parse(card.dataset.published||'')||0;
 function selectFeaturedSource(definition,cards){
   const sorted=[...cards];
@@ -18,7 +19,7 @@ function selectFeaturedSource(definition,cards){
     const now=new Date();
     const today=[now.getFullYear(),String(now.getMonth()+1).padStart(2,'0'),String(now.getDate()).padStart(2,'0')].join('-');
     const todays=sorted.filter(card=>(card.dataset.published||'').startsWith(today));
-    return (todays.length?todays:sorted).sort((a,b)=>numericData(b,'rating')-numericData(a,'rating'))[0];
+    return (todays.length?todays:sorted).sort((a,b)=>recommendationScore(b)-recommendationScore(a))[0];
   }
   if(definition.id==='most-liked')return sorted.sort((a,b)=>numericData(b,'popular')-numericData(a,'popular'))[0];
   return sorted.sort((a,b)=>numericData(b,'views')-numericData(a,'views'))[0];
