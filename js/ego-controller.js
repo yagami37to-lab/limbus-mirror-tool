@@ -64,7 +64,8 @@ function createEgoController({state,identityData,egoData,orderedSinners,formatio
     const picks=picksFor(id);egoGrid.innerHTML='';const rankOrder={ALEPH:5,WAW:4,HE:3,TETH:2,ZAYIN:1};
     [...(egoData[id]||[])].sort((a,b)=>(rankOrder[b[1]]||0)-(rankOrder[a[1]]||0)||a[0].localeCompare(b[0],'ja',{numeric:true,sensitivity:'base'})).forEach(([name,rank],index)=>{
       const button=document.createElement('button');button.type='button';const identity=state.identities.get(id);const tone=toneForKeywords(identity?.keywords,index);
-      button.style.setProperty('--ego-card-a',tone[0]);button.style.setProperty('--ego-card-b',tone[1]);const image=getEgoImage?.(id,name)||'';button.className=`ego-option-card rank-${rank.toLowerCase()}`+(image?' has-ego-image':'')+(picks.get(rank)===name?' selected':'');
+      button.style.setProperty('--ego-card-a',tone[0]);button.style.setProperty('--ego-card-b',tone[1]);const image=getEgoImage?.(id,name)||'';const affinity=window.LimbusEgoSinAffinities?.get(id,name,egoData);button.className=`ego-option-card rank-${rank.toLowerCase()}`+(affinity?` sin-${affinity.key}`:'')+(image?' has-ego-image':'')+(picks.get(rank)===name?' selected':'');
+      if(affinity)button.title=`罪悪属性：${affinity.label}`;
       button.innerHTML=`${image?`<span class="ego-image-frame" style="background-image:url('${image}')" aria-hidden="true"></span>`:''}<span class="ego-orb">E.G.O</span><span class="ego-rank">${rank}</span><strong>${name}</strong><small>${sinner.name}</small>`;
       button.addEventListener('click',()=>{if(picks.get(rank)===name)picks.delete(rank);else picks.set(rank,name);renderOptions();updateCount();updateControls();});egoGrid.appendChild(button);
     });

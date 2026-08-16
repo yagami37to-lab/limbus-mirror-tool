@@ -1974,7 +1974,7 @@
 }
 
 /* v1.1.14: prevent E.G.O footer actions collapsing into vertical text. */
-@media (min-width:721px) and (max-width:1000px){
+@media (min-width:721px) and (max-width:1180px){
   .workspace-footer.ego-mode,
   .workspace-footer.ego-detail-mode{
     grid-template-columns:auto minmax(0,1fr) auto!important;
@@ -2009,6 +2009,15 @@
     overflow-wrap:normal!important;
     line-height:1.35!important;
   }
+}
+@media (min-width:721px) and (max-width:900px){
+  .workspace-footer.ego-mode,
+  .workspace-footer.ego-detail-mode{
+    grid-template-columns:auto minmax(0,1fr)!important;
+    grid-template-areas:"back confirm" "ego ego" "main main"!important;
+  }
+  .workspace-footer.ego-mode .ego-footer-actions{grid-template-columns:minmax(90px,.72fr) minmax(180px,1.28fr)!important}
+  .workspace-footer.ego-mode .ego-confirm-button{justify-self:end!important;width:min(150px,100%)!important}
 }
 @media(max-width:720px){
   .ego-option-card.has-ego-image{min-height:216px!important;padding-top:136px!important}

@@ -934,6 +934,21 @@ body.dark-mode .theme-pack-option-card small{color:#aeb4bc!important}
 .ego-summary-tag.rank-teth{color:#1d629c!important;background:#f1f7fc!important}
 .ego-summary-tag.rank-he{color:#80600a!important;background:#fff9e8!important}
 .ego-summary-tag.rank-waw{color:#633b91!important;background:#f8f3fc!important}
+
+/* Sin affinity changes frames only; rank colors continue to own the card surface. */
+.ego-option-card.sin-crimson{--sin-color:#c51f3a}
+.ego-option-card.sin-scarlet{--sin-color:#e3532f}
+.ego-option-card.sin-amber{--sin-color:#d89d18}
+.ego-option-card.sin-shamrock{--sin-color:#2e9b58}
+.ego-option-card.sin-azure{--sin-color:#369bd6}
+.ego-option-card.sin-indigo{--sin-color:#304f9e}
+.ego-option-card.sin-violet{--sin-color:#8650ad}
+.ego-option-card[class*=" sin-"]{border-color:var(--sin-color)!important}
+.ego-option-card[class*=" sin-"] .ego-image-frame{
+  border-color:var(--sin-color)!important;
+  box-shadow:0 0 22px color-mix(in srgb,var(--sin-color) 78%,transparent),inset 0 -18px 28px rgba(0,0,0,.28)!important;
+}
+.ego-option-card[class*=" sin-"].selected{outline-color:var(--sin-color)!important}
 .post-close-confirm-shell{width:min(560px,calc(100vw - 30px));padding:28px}
 .post-close-confirm-shell p{margin:18px 0 24px;color:var(--muted);line-height:1.8}
 .post-close-confirm-actions{display:grid;grid-template-columns:1fr;gap:10px}
