@@ -55,7 +55,7 @@
 .current-selection{text-align:right;padding-left:18px;border-left:1px solid var(--line)}
 .current-selection small,.current-selection strong{display:block}
 .current-selection strong{margin-top:5px;max-width:320px}
-[hidden]{display:none!important}.rank-zayin{--ego-glow:#b69a45}.rank-teth{--ego-glow:#7240b8}.rank-he{--ego-glow:#2d8bc1}.rank-waw{--ego-glow:#d3442f}.rank-aleph{--ego-glow:#b00}
+[hidden]{display:none!important}.rank-zayin{--ego-glow:#2f8f5b}.rank-teth{--ego-glow:#2776b9}.rank-he{--ego-glow:#d5a51f}.rank-waw{--ego-glow:#7650a8}.rank-aleph{--ego-glow:#b00}
 
 /* keyword filter */
 .data-load-error{position:fixed;z-index:99999;top:0;left:0;right:0;padding:12px;background:#7f1d1d;color:#fff;text-align:center;font-weight:700}

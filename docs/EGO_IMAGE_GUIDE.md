@@ -16,3 +16,7 @@
 - `assets/egos/yi-sang/`
 - ファウストのE.G.O全10種（`001.png`～`010.png`）
 - `assets/egos/faust/`
+- ドンキホーテのE.G.O全10種（`001.png`～`010.png`）
+- `assets/egos/don-quixote/`
+- 良秀のE.G.O全9種（`001.png`～`009.png`）
+- `assets/egos/ryoshu/`

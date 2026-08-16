@@ -903,6 +903,25 @@ body.dark-mode .theme-pack-option-card small{color:#aeb4bc!important}
 .identity-option-card.alternative-selected:after{content:"代用";position:absolute;right:8px;top:8px;background:#286ca8;color:#fff;padding:4px 8px;font-weight:900;z-index:3}
 
 .ego-option-card{background:linear-gradient(160deg,var(--ego-card-a,#3a3024),var(--ego-card-b,#15120f))}
+
+/* v1.1.13: canonical E.G.O rank palette, including image-card surfaces. */
+.ego-option-card.rank-zayin,.ego-summary-tag.rank-zayin,.review-ego-tag.rank-zayin{--rank-color:#2f8f5b!important;--ego-glow:#2f8f5b!important}
+.ego-option-card.rank-teth,.ego-summary-tag.rank-teth,.review-ego-tag.rank-teth{--rank-color:#2776b9!important;--ego-glow:#2776b9!important}
+.ego-option-card.rank-he,.ego-summary-tag.rank-he,.review-ego-tag.rank-he{--rank-color:#d5a51f!important;--ego-glow:#d5a51f!important}
+.ego-option-card.rank-waw,.ego-summary-tag.rank-waw,.review-ego-tag.rank-waw{--rank-color:#7650a8!important;--ego-glow:#7650a8!important}
+.ego-option-card.rank-zayin{background:linear-gradient(160deg,#286f4b,#14291e)!important}
+.ego-option-card.rank-teth{background:linear-gradient(160deg,#245f92,#142333)!important}
+.ego-option-card.rank-he{background:linear-gradient(160deg,#a77b13,#30250e)!important}
+.ego-option-card.rank-waw{background:linear-gradient(160deg,#65428f,#261b33)!important}
+.ego-option-card.rank-zayin,.ego-option-card.rank-teth,.ego-option-card.rank-he,.ego-option-card.rank-waw{border-color:var(--rank-color)!important}
+.ego-option-card .ego-image-frame{border-color:var(--rank-color)!important;box-shadow:0 0 22px color-mix(in srgb,var(--rank-color) 72%,transparent),inset 0 -18px 28px rgba(0,0,0,.28)!important}
+.ego-option-card .ego-rank{background:var(--rank-color)!important;color:#fff!important}
+.ego-option-card.rank-he .ego-rank{color:#201805!important}
+.ego-option-card.selected{outline-color:var(--rank-color)!important;box-shadow:0 0 24px color-mix(in srgb,var(--rank-color) 58%,transparent)!important}
+.ego-summary-tag.rank-zayin{color:#1f6740!important;background:#f1faf5!important}
+.ego-summary-tag.rank-teth{color:#1d629c!important;background:#f1f7fc!important}
+.ego-summary-tag.rank-he{color:#80600a!important;background:#fff9e8!important}
+.ego-summary-tag.rank-waw{color:#633b91!important;background:#f8f3fc!important}
 .post-close-confirm-shell{width:min(560px,calc(100vw - 30px));padding:28px}
 .post-close-confirm-shell p{margin:18px 0 24px;color:var(--muted);line-height:1.8}
 .post-close-confirm-actions{display:grid;grid-template-columns:1fr;gap:10px}
