@@ -7,7 +7,7 @@
 <meta content="Limbus Companyの鏡ダンジョン・鏡屈折鉄道・射影戦闘攻略を投稿・共有できる非公式攻略サイトです。" name="description"/>
 <title>Limbus Company 攻略投稿サイト（非公式）</title>
 <link href="logo-mark.svg" rel="icon" type="image/svg+xml"/>
-<link href="styles.css?v=1.1.26" rel="stylesheet"/>
+<link href="styles.css?v=1.1.27" rel="stylesheet"/>
 <link href="css/browse-cards.css?v=1.1.04" rel="stylesheet"/>
 
 <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -15,14 +15,14 @@
 <script defer src="js/auth.js?v=1.1.08"></script>
 <script defer src="js/theme-pack-names.js?v=1.1.26"></script>
 <script defer src="js/theme-pack-images.js?v=1.1.24"></script>
-<script defer src="js/formation-code-controller.js?v=1.1.26"></script>
+<script defer src="js/formation-code-controller.js?v=1.1.27"></script>
 <script defer src="js/community-data.js?v=1.1.04"></script>
 <script defer src="js/categories.js?v=1.0.99"></script>
 <script defer src="js/popular-search.js?v=1.0.114"></script>
 <script defer src="js/identity-images.js?v=1.1.23"></script>
 <script defer src="js/ego-images.js?v=1.1.19"></script>
 <script defer src="js/ego-sin-affinities.js?v=1.1.15"></script>
-<script defer src="js/featured-recommendations.js?v=1.1.09"></script>
+<script defer src="js/featured-recommendations.js?v=1.1.27"></script>
 <script defer src="js/search-controller.js?v=1.1.07"></script>
 <script defer src="js/draft-controller.js?v=1.0.99"></script>
 <script defer src="js/theme-pack-controller.js?v=1.1.22"></script>
@@ -36,7 +36,7 @@
 <script defer src="js/post-persistence-controller.js?v=1.1.07"></script>
 <script defer src="js/post-review-controller.js?v=1.1.22"></script>
 <script defer src="js/post-validation-controller.js?v=1.0.99"></script>
-<script defer src="js/post-step-controller.js?v=1.1.25"></script>
+<script defer src="js/post-step-controller.js?v=1.1.27"></script>
 <script defer src="js/post-editor-reset-controller.js?v=1.0.99"></script>
 <script defer src="js/post-restore-controller.js?v=1.1.23"></script>
 <script defer src="js/post-editor-launch-controller.js?v=1.0.101"></script>
@@ -289,7 +289,7 @@
 </div>
 <div class="footer-meta">
 <span>© 非公式ファンサイト</span>
-<span>Version 1.1.26 α</span>
+<span>Version 1.1.27 α</span>
 <time datetime="2026-08-16">Last Updated: 2026.08.16</time>
 </div>
 </footer>
@@ -628,7 +628,7 @@
 <dialog class="modal formation-import-dialog" data-formation-import-dialog>
   <div class="modal-shell formation-import-shell">
     <div class="modal-header"><div><small>FORMATION CODE IMPORT</small><h2>編成コードを入力して投稿しますか？</h2></div></div>
-    <p>ゲームで作成した編成コードから、人格・E.G.O・編成順を読み込めます。キャンセルすると通常どおり手動で選択できます。</p>
+    <p>ゲームで作成した編成コードから、人格・E.G.O・編成順を読み込めます。<strong class="formation-import-cancel-guide">キャンセル</strong>すると通常どおり手動で選択できます。</p>
     <textarea data-formation-code-input rows="5" spellcheck="false" autocomplete="off" placeholder="H4sIAAAAA..."></textarea>
     <p class="formation-code-error" data-formation-code-error role="alert" hidden></p>
     <div class="formation-import-actions"><button class="button button-primary" data-import-formation-code type="button">読み込む</button><button class="button button-secondary" data-cancel-formation-import type="button">キャンセル</button></div>

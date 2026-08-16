@@ -105,8 +105,13 @@ function normalizeFeaturedCarouselHeights(){
   const slots=slides.map(slide=>slide.querySelector('.featured-post-slot')).filter(Boolean);
   const copies=slides.map(slide=>slide.querySelector('.featured-post-copy')).filter(Boolean);
   [...slides,...panels,...slots,...copies].forEach(node=>{node.style.setProperty('height','auto','important');node.style.setProperty('min-height','0','important');});
-  const panelHeight=document.documentElement.clientWidth>=1001?56:Math.max(0,...panels.map(node=>Math.ceil(node.scrollHeight)));
-  const copyHeight=Math.max(0,...copies.map(node=>Math.ceil(node.scrollHeight)));
+  const width=document.documentElement.clientWidth;
+  const naturalPanelHeight=Math.max(0,...panels.map(node=>Math.ceil(node.scrollHeight)));
+  const naturalCopyHeight=Math.max(0,...copies.map(node=>Math.ceil(node.scrollHeight)));
+  /* Mobile cards use one compact, bounded geometry. A long slide must not make every
+     recommendation inherit a large empty area. */
+  const panelHeight=width>=1001?56:width<=720?Math.min(naturalPanelHeight,148):naturalPanelHeight;
+  const copyHeight=width<=720?Math.min(naturalCopyHeight,520):naturalCopyHeight;
   panels.forEach(node=>node.style.setProperty('height',`${panelHeight}px`,'important'));
   slots.forEach(node=>node.style.setProperty('height',`${copyHeight}px`,'important'));
   copies.forEach(node=>node.style.setProperty('height','100%','important'));

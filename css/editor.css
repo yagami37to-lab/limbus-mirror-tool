@@ -1028,6 +1028,8 @@ html[data-theme="dark"] .identity-alternative-chip.has-identity-image{
 .formation-import-shell{width:min(680px,100%);max-width:100%;max-height:calc(100dvh - 24px);margin:auto;padding:28px;overflow:auto;overscroll-behavior:contain}
 .formation-import-shell>p{margin:16px 0;color:var(--muted);line-height:1.75}
 .formation-import-shell textarea{min-height:130px;padding:14px}
+.formation-import-shell textarea{font-size:16px}
+.formation-import-cancel-guide{color:#c43224;font-weight:900}
 .formation-import-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:18px}
 .formation-code-error{padding:10px 12px;border:1px solid #c43224;background:rgba(196,50,36,.08);color:#b72e22!important;font-weight:800}
 html[data-theme="dark"] .formation-code-section textarea,html[data-theme="dark"] .formation-import-shell textarea{background:#15191e;border-color:#454b54;color:#f2eee6}

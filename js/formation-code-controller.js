@@ -38,12 +38,12 @@ function slotsFromContent(content,map){
 
 function create({state,identityData,egoData,showToast,onApplied,onBeforePrompt}){
   const dialog=document.querySelector('[data-formation-import-dialog]');const input=document.querySelector('[data-formation-code-input]');const error=document.querySelector('[data-formation-code-error]');const loadButton=document.querySelector('[data-import-formation-code]');const cancelButton=document.querySelector('[data-cancel-formation-import]');const openButtons=document.querySelectorAll('[data-open-formation-import]');const output=document.querySelector('[data-formation-code-output]');const copyButton=document.querySelector('[data-copy-formation-code]');const status=document.querySelector('[data-formation-code-status]');
-  let prompted=false,mapPromise=null,lastCode='';
+  let mapPromise=null,lastCode='';
   async function loadMap(){if(!mapPromise)mapPromise=fetch('data/game-id-map.json').then(response=>{if(!response.ok)throw new Error('map_load_failed');return response.json();});return mapPromise;}
-  function open({automatic=false}={}){if(!dialog)return;if(automatic)prompted=true;if(error){error.hidden=true;error.textContent='';}if(input)input.value='';dialog.showModal();requestAnimationFrame(()=>input?.focus());}
+  function open(){if(!dialog)return;if(error){error.hidden=true;error.textContent='';}if(input)input.value='';dialog.showModal();}
   function close(){dialog?.close();}
-  function offer(){if(prompted)return;prompted=true;if(state.identities.size)return;onBeforePrompt?.();open();}
-  function reset(){prompted=false;lastCode='';if(output)output.value='';if(status)status.textContent='';}
+  function offer(){onBeforePrompt?.();open();}
+  function reset(){lastCode='';if(output)output.value='';if(status)status.textContent='';}
   async function importCode(){
     const code=input?.value.trim()||'';if(!code){showError('編成コードを入力してください。');return;}
     loadButton.disabled=true;

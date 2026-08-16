@@ -2377,6 +2377,36 @@ body.news-page .site-shell{
   .home-featured-carousel .featured-more-identities{display:flex!important;align-items:center;justify-content:center}
 }
 
+/* v1.1.27: compact, consistent recommendation geometry on phones */
+@media(max-width:720px){
+  .home-featured-carousel .featured-editor-panel{
+    height:148px!important;
+    min-height:148px!important;
+    max-height:148px!important;
+    padding:12px 14px!important;
+    overflow:hidden!important;
+  }
+  .home-featured-carousel .featured-editor-heading{gap:5px 9px!important}
+  .home-featured-carousel .featured-editor-condition{font-size:16px!important}
+  .home-featured-carousel .featured-editor-note{margin-top:7px!important;padding-top:7px!important}
+  .home-featured-carousel .featured-editor-note>strong{margin-bottom:3px!important;font-size:10px!important}
+  .home-featured-carousel .featured-editor-note p{
+    display:-webkit-box!important;
+    overflow:hidden!important;
+    -webkit-box-orient:vertical!important;
+    -webkit-line-clamp:3!important;
+    font-size:11px!important;
+    line-height:1.5!important;
+  }
+  .home-featured-carousel .featured-post-slot,
+  .home-featured-carousel .featured-post-copy{
+    height:520px!important;
+    min-height:520px!important;
+    max-height:520px!important;
+  }
+  .home-featured-carousel .featured-post-copy{padding:14px!important;overflow:hidden!important}
+}
+
 
 /* v1.0.48 responsive hotfixes */
 @media(min-width:761px) and (max-width:980px){
