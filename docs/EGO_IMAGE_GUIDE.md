@@ -26,3 +26,7 @@
 - `assets/egos/hong-lu/`
 - ヒースクリフのE.G.O全9種（`001.png`～`009.png`）
 - `assets/egos/heathcliff/`
+- イシュメールのE.G.O全10種（`001.png`～`010.png`）
+- `assets/egos/ishmael/`
+- ロージャのE.G.O全9種（`001.png`～`009.png`）
+- `assets/egos/rodion/`
