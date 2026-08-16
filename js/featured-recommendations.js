@@ -93,7 +93,31 @@ function createFeaturedRecommendation(definition,source){
 }
 let featuredCarouselIndex=0;
 let featuredCarouselTimer=null;
+let featuredResizeTimer=null;
 function stopFeaturedCarousel(){if(featuredCarouselTimer){clearInterval(featuredCarouselTimer);featuredCarouselTimer=null;}}
+function normalizeFeaturedCarouselHeights(){
+  const viewport=document.querySelector('[data-featured-carousel-viewport]');
+  const track=document.querySelector('[data-featured-list]');
+  if(!viewport||!track)return;
+  const slides=[...track.children];
+  if(!slides.length)return;
+  const panels=slides.map(slide=>slide.querySelector('.featured-editor-panel')).filter(Boolean);
+  const slots=slides.map(slide=>slide.querySelector('.featured-post-slot')).filter(Boolean);
+  const copies=slides.map(slide=>slide.querySelector('.featured-post-copy')).filter(Boolean);
+  [...slides,...panels,...slots,...copies].forEach(node=>{node.style.setProperty('height','auto','important');node.style.setProperty('min-height','0','important');});
+  const panelHeight=document.documentElement.clientWidth>=1001?56:Math.max(0,...panels.map(node=>Math.ceil(node.scrollHeight)));
+  const copyHeight=Math.max(0,...copies.map(node=>Math.ceil(node.scrollHeight)));
+  panels.forEach(node=>node.style.setProperty('height',`${panelHeight}px`,'important'));
+  slots.forEach(node=>node.style.setProperty('height',`${copyHeight}px`,'important'));
+  copies.forEach(node=>node.style.setProperty('height','100%','important'));
+  const slideHeight=Math.max(0,...slides.map(node=>Math.ceil(node.scrollHeight)))+2;
+  slides.forEach(node=>node.style.setProperty('height',`${slideHeight}px`,'important'));
+  viewport.style.height=`${slideHeight}px`;
+}
+function scheduleFeaturedHeightNormalization(){
+  clearTimeout(featuredResizeTimer);
+  featuredResizeTimer=setTimeout(()=>requestAnimationFrame(normalizeFeaturedCarouselHeights),80);
+}
 function updateFeaturedCarousel(index,{restart=true}={}){
   const track=document.querySelector('[data-featured-list]');
   const dots=document.querySelector('[data-featured-dots]');
@@ -125,10 +149,6 @@ function updateFeaturedCarousel(index,{restart=true}={}){
           {duration:620,easing:'ease-out'}
         );
       }
-      requestAnimationFrame(()=>{
-        const height=Math.ceil(slide.getBoundingClientRect().height);
-        if(height>0) viewport.style.height=`${height}px`;
-      });
     }
     if(!active){
       slide.querySelectorAll('.like-feedback-layer').forEach(layer=>{layer.classList.remove('is-playing');layer.replaceChildren();});
@@ -162,6 +182,7 @@ function wireFeaturedCarousel(){
     document.addEventListener('visibilitychange',()=>document.hidden?stopFeaturedCarousel():startFeaturedCarousel());
   }
   updateFeaturedCarousel(Math.min(featuredCarouselIndex,slides.length-1),{restart:false});
+  scheduleFeaturedHeightNormalization();
   startFeaturedCarousel();
 }
 function renderFeaturedRecommendations(){
@@ -176,4 +197,7 @@ function renderFeaturedRecommendations(){
 }
 renderFeaturedRecommendations();
 window.addEventListener('limbus-posts-loaded',renderFeaturedRecommendations);
+window.addEventListener('resize',scheduleFeaturedHeightNormalization,{passive:true});
+window.addEventListener('load',scheduleFeaturedHeightNormalization,{once:true});
+document.fonts?.ready?.then(scheduleFeaturedHeightNormalization);
 })();

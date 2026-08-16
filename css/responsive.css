@@ -834,6 +834,42 @@
   }
 }
 
+/* v1.1.09: stable recommendation geometry across every carousel item. */
+.home-featured-carousel .featured-carousel-slide{overflow:hidden!important}
+.home-featured-carousel .featured-editor-panel,
+.home-featured-carousel .featured-post-slot,
+.home-featured-carousel .featured-post-copy{box-sizing:border-box!important}
+.home-featured-carousel .featured-post-copy{overflow:hidden!important}
+.home-featured-carousel .post-author .admin-badge{
+  flex:0 0 auto!important;
+  gap:3px!important;
+  padding:2px 6px!important;
+  font-size:9px!important;
+  line-height:1.2!important;
+}
+.home-featured-carousel .post-author-name-row{min-height:22px;align-items:center!important}
+
+@media(max-width:1000px){
+  .home-featured-carousel .featured-editor-note p{
+    display:-webkit-box!important;
+    min-height:3.3em!important;
+    overflow:hidden!important;
+    -webkit-box-orient:vertical!important;
+    -webkit-line-clamp:2!important;
+  }
+  .home-featured-carousel .featured-post-copy h3{
+    display:-webkit-box!important;
+    min-height:2.7em!important;
+    overflow:hidden!important;
+    -webkit-box-orient:vertical!important;
+    -webkit-line-clamp:2!important;
+  }
+}
+@media(max-width:430px){
+  .home-featured-carousel .post-author .admin-badge{padding:2px 5px!important;font-size:8px!important}
+  .home-featured-carousel .post-author-name-row{min-height:20px}
+}
+
 /* desktop-only identity search redesign */
 @media(min-width:721px){
   .identity-filter-panel{
