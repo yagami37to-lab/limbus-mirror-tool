@@ -3,7 +3,7 @@ const [sinnerIdentityData,sinnerEgoData,keywordDefinitions,themePackData]=await 
   fetch('data/identities.json').then(r=>{if(!r.ok)throw new Error('identities.json');return r.json()}),
   fetch('data/egos.json').then(r=>{if(!r.ok)throw new Error('egos.json');return r.json()}),
   fetch('data/keywords.json').then(r=>{if(!r.ok)throw new Error('keywords.json');return r.json()}),
-  fetch('data/packs.json').then(r=>{if(!r.ok)throw new Error('packs.json');return r.json()})
+  fetch('data/packs.json?v=1.1.26').then(r=>{if(!r.ok)throw new Error('packs.json');return r.json()})
 ]);
 const identityOptions=sinnerIdentityData.flatMap(sinner=>sinner.identities.map(identity=>`${sinner.name}｜${identity.name}`));
 const categoryDefinitions=window.STRATEGY_CATEGORIES||[];

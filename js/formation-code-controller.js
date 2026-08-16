@@ -21,6 +21,20 @@ function bytesToSlots(bytes){
 }
 async function encode(slots){const inner=new TextEncoder().encode(bytesToBase64(slotsToBytes(slots)));return bytesToBase64(await gzip(inner));}
 async function decode(code){const inner=await gunzip(base64ToBytes(code));const encoded=new TextDecoder('ascii',{fatal:true}).decode(inner).trim();return bytesToSlots(base64ToBytes(encoded));}
+const contentNameKey=value=>String(value??'').normalize('NFKC').replace(/[\s:：\[\]【】・･]/g,'').toLowerCase();
+function slotsFromContent(content,map){
+  const sinnerNames=['イサン','ファウスト','ドンキホーテ','良秀','ムルソー','ホンル','ヒースクリフ','イシュメール','ロージャ','シンクレア','ウーティス','グレゴール'];
+  const siteIds=['01','02','03','04','05','06','07','08','09','11','12','13'];
+  const selected=Array.isArray(content?.selectedIdentities)&&content.selectedIdentities.length?content.selectedIdentities:(content?.party||[]);
+  const identityBySinner=new Map(selected.map(item=>[item.sinner,item]));const orderBySinner=new Map((content?.party||[]).map(item=>[item.sinner,Math.max(0,Number(item.order)||0)]));const egoBySinner=new Map((content?.egos||[]).map(group=>[group.sinner,group.items||[]]));const warnings=[];
+  return sinnerNames.map((sinner,index)=>{
+    const siteId=siteIds[index],identity=identityBySinner.get(sinner);const isFree=!!identity?.is_free||String(identity?.identity||'').includes('自由枠');let mappedIdentity=!isFree?map.identities.find(item=>item.sinnerId===siteId&&contentNameKey(item.name)===contentNameKey(identity?.identity)):null;
+    if(identity&&!mappedIdentity)warnings.push(`${sinner}の自由枠または未対応人格はLCB囚人として出力されます。`);
+    const egos=Object.fromEntries(RANKS.map(rank=>[rank,rank==='ZAYIN'?1:0]));
+    for(const raw of egoBySinner.get(sinner)||[]){const match=String(raw).trim().match(/^(ZAYIN|TETH|HE|WAW|ALEPH)\s*[：:]\s*(.+)$/i);if(!match)continue;const rank=match[1].toUpperCase(),name=match[2].trim();const mapped=map.egos.find(item=>item.sinnerId===siteId&&item.risk===rank&&contentNameKey(item.name)===contentNameKey(name));if(mapped)egos[rank]=Number(mapped.gameId)%100;else warnings.push(`${sinner}の${rank} E.G.Oはコードへ変換できません。`);}
+    return {gameSinnerId:index+1,identityModifier:mappedIdentity?Number(mappedIdentity.gameId)%100:1,slotType:Math.min(15,orderBySinner.get(sinner)||0),egos,warnings};
+  });
+}
 
 function create({state,identityData,egoData,showToast,onApplied,onBeforePrompt}){
   const dialog=document.querySelector('[data-formation-import-dialog]');const input=document.querySelector('[data-formation-code-input]');const error=document.querySelector('[data-formation-code-error]');const loadButton=document.querySelector('[data-import-formation-code]');const cancelButton=document.querySelector('[data-cancel-formation-import]');const openButtons=document.querySelectorAll('[data-open-formation-import]');const output=document.querySelector('[data-formation-code-output]');const copyButton=document.querySelector('[data-copy-formation-code]');const status=document.querySelector('[data-formation-code-status]');
@@ -65,5 +79,5 @@ function create({state,identityData,egoData,showToast,onApplied,onBeforePrompt})
   loadButton?.addEventListener('click',importCode);cancelButton?.addEventListener('click',close);openButtons.forEach(button=>button.addEventListener('click',()=>open()));copyButton?.addEventListener('click',copy);
   return {offer,open,reset,refresh,decode,encode};
 }
-window.LimbusFormationCode={RANKS,slotsToBytes,bytesToSlots,encode,decode,create};
+window.LimbusFormationCode={RANKS,slotsToBytes,bytesToSlots,slotsFromContent,encode,decode,create};
 })();

@@ -1,13 +1,20 @@
 (()=>{
 'use strict';
 const key=value=>String(value??'').normalize('NFKC').replace(/[\s・･,，、.。:：／/\\\-_―—–]/g,'').toLowerCase();
+const legacyAliases=new Map([
+  [key('感情の前に怯けたもの'),'感情の前に怠けたもの'],
+  [key('追い寄る深淵'),'這い寄る深淵'],
+  [key('ワープ特急殺人事件BokGak'),'ワープ特急時間殺人事件 BokGak'],
+  [key('ワープ特急殺人事件 BokGak'),'ワープ特急時間殺人事件 BokGak']
+]);
+const canonical=value=>legacyAliases.get(key(value))||String(value??'').trim();
 function distance(a,b){const left=[...a],right=[...b],row=Array.from({length:right.length+1},(_,index)=>index);for(let i=1;i<=left.length;i++){let previous=row[0];row[0]=i;for(let j=1;j<=right.length;j++){const current=row[j];row[j]=Math.min(row[j]+1,row[j-1]+1,previous+(left[i-1]===right[j-1]?0:1));previous=current;}}return row[right.length];}
 function namesFrom(data){const names=[];Object.values(data?.modes||{}).forEach(mode=>Object.values(mode?.floors||{}).forEach(list=>(list||[]).forEach(name=>{if(name&&!names.includes(name))names.push(name);})));return names;}
 function create(data){
   const names=namesFrom(data);const exactByKey=new Map(names.map(name=>[key(name),name]));
-  function normalize(value){const original=String(value??'').trim();if(!original||original==='自由枠'||names.includes(original))return original;const normalized=key(original);if(exactByKey.has(normalized))return exactByKey.get(normalized);let best=null,bestDistance=Infinity,ties=0;for(const candidate of names){const score=distance(normalized,key(candidate));if(score<bestDistance){best=candidate;bestDistance=score;ties=1;}else if(score===bestDistance)ties++;}const maximum=normalized.length>=12?2:1;return best&&ties===1&&bestDistance<=maximum?best:original;}
+  function normalize(value){const original=canonical(value);if(!original||original==='自由枠'||names.includes(original))return original;const normalized=key(original);if(exactByKey.has(normalized))return exactByKey.get(normalized);let best=null,bestDistance=Infinity,ties=0;for(const candidate of names){const score=distance(normalized,key(candidate));if(score<bestDistance){best=candidate;bestDistance=score;ties=1;}else if(score===bestDistance)ties++;}const maximum=normalized.length>=12?2:1;return best&&ties===1&&bestDistance<=maximum?best:original;}
   const normalizeEntries=entries=>(entries||[]).map(item=>({...item,name:normalize(item?.name)}));
   return {names:[...names],normalize,normalizeEntries};
 }
-window.LimbusThemePackNames={create,key,distance,namesFrom};
+window.LimbusThemePackNames={create,key,distance,namesFrom,canonical};
 })();

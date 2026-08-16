@@ -1,0 +1,10 @@
+const assert=require('node:assert/strict');
+const fs=require('node:fs');
+global.window={};require('../js/theme-pack-names.js');
+const packs=JSON.parse(fs.readFileSync('data/packs.json','utf8'));const normalizer=window.LimbusThemePackNames.create(packs);
+assert.equal(normalizer.normalize('感情の前に怯けたもの'),'感情の前に怠けたもの');
+assert.equal(normalizer.normalize('追い寄る深淵'),'這い寄る深淵');
+assert.equal(normalizer.normalize('ワープ特急殺人事件BokGak'),'ワープ特急時間殺人事件 BokGak');
+assert.equal(normalizer.normalize('ワープ特急殺人事件 BokGak'),'ワープ特急時間殺人事件 BokGak');
+assert.ok(normalizer.names.includes('ワープ特急時間殺人事件 BokGak'));
+console.log('theme-pack-name tests passed');
