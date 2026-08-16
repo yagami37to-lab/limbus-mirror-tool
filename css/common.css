@@ -960,8 +960,10 @@ html[data-theme="dark"] .featured-list-button:focus-visible{background:var(--gol
   white-space:nowrap;
 }
 .news-change-label.is-feature{color:#147c73}
+.news-change-label.is-image{color:#3d72b8}
 .news-change-label.is-improvement{color:#9a6910}
 .news-change-label.is-fix{color:#b1453d}
+.news-change-label.is-check{color:#59636f}
 .news-change-label.is-future{color:#6a55a3}
 .news-change-group ul{margin:0;padding-left:1.15em;color:var(--muted);font-size:13px;line-height:1.8}
 .news-more-button{

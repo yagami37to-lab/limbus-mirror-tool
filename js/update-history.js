@@ -2,9 +2,8 @@
   'use strict';
   const root=document.querySelector('[data-update-history]');
   if(!root)return;
-  const categoryOrder=['新機能','改善','修正','将来対応'];
-  const categoryClass={'新機能':'is-feature','改善':'is-improvement','修正':'is-fix','将来対応':'is-future'};
-  const blockedPublicTerms=/(?:CHANGELOG|update-history|README|ZIP|キャッシュ(?:バージョン)?|\.(?:html|css|js|json|sql)\b|ファイル名|フォルダ名|Supabase|テーブル名|関数名)/i;
+  const categoryOrder=['新機能','画像追加','改善','修正','確認','将来対応'];
+  const categoryClass={'新機能':'is-feature','画像追加':'is-image','改善':'is-improvement','修正':'is-fix','確認':'is-check','将来対応':'is-future'};
   async function render(){
     try{
       const response=await fetch('data/update-history.json',{cache:'no-cache'});
@@ -22,9 +21,10 @@
         const normalizedChanges=Array.isArray(entry.changes)
           ? entry.changes.reduce((acc,item)=>{const key=item?.type,text=item?.text;if(key&&text)(acc[key]??=[]).push(text);return acc;},{})
           : (entry.changes||{});
-        categoryOrder.forEach(category=>{
+        const categories=[...categoryOrder,...Object.keys(normalizedChanges).filter(category=>!categoryOrder.includes(category))];
+        categories.forEach(category=>{
           const values=normalizedChanges[category];
-          const items=Array.isArray(values)?values.filter(text=>!blockedPublicTerms.test(String(text))):[];
+          const items=Array.isArray(values)?values.filter(text=>String(text).trim()):[];
           if(!items.length)return;
           const group=document.createElement('section');group.className='news-change-group';
           const label=document.createElement('span');label.className=`news-change-label ${categoryClass[category]||''}`;label.textContent=category;

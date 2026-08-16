@@ -14,3 +14,5 @@
 
 - イサンのE.G.O全9種（`001.png`～`009.png`）
 - `assets/egos/yi-sang/`
+- ファウストのE.G.O全10種（`001.png`～`010.png`）
+- `assets/egos/faust/`
