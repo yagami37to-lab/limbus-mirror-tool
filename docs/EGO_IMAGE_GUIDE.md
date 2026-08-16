@@ -20,3 +20,7 @@
 - `assets/egos/don-quixote/`
 - 良秀のE.G.O全9種（`001.png`～`009.png`）
 - `assets/egos/ryoshu/`
+- ムルソーのE.G.O全9種（`001.png`～`009.png`）
+- `assets/egos/meursault/`
+- ホンルのE.G.O全9種（`001.png`～`009.png`）
+- `assets/egos/hong-lu/`

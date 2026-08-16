@@ -1973,6 +1973,56 @@
   .workspace-footer.ego-mode .workspace-main-actions{grid-column:5;grid-row:1}
 }
 
+/* v1.1.14: prevent E.G.O footer actions collapsing into vertical text. */
+@media (min-width:721px) and (max-width:1000px){
+  .workspace-footer.ego-mode,
+  .workspace-footer.ego-detail-mode{
+    grid-template-columns:auto minmax(0,1fr) auto!important;
+    grid-template-areas:"back ego confirm" "main main main"!important;
+    gap:9px 10px!important;
+  }
+  .workspace-footer.ego-mode .footer-back-button{grid-area:back!important;grid-column:auto!important;grid-row:auto!important}
+  .workspace-footer.ego-mode .ego-footer-actions{
+    grid-area:ego!important;
+    grid-column:auto!important;
+    grid-row:auto!important;
+    display:grid!important;
+    grid-template-columns:minmax(88px,.7fr) minmax(170px,1.3fr)!important;
+    width:100%!important;
+  }
+  .workspace-footer.ego-mode .ego-confirm-button{grid-area:confirm!important;grid-column:auto!important;grid-row:auto!important;min-width:96px!important}
+  .workspace-footer.ego-mode .workspace-main-actions{
+    grid-area:main!important;
+    grid-column:auto!important;
+    grid-row:auto!important;
+    display:grid!important;
+    grid-template-columns:1fr 1fr!important;
+    width:100%!important;
+  }
+  .workspace-footer.ego-mode .button{
+    width:100%!important;
+    min-width:0!important;
+    min-height:42px!important;
+    padding:8px 10px!important;
+    white-space:normal!important;
+    word-break:keep-all!important;
+    overflow-wrap:normal!important;
+    line-height:1.35!important;
+  }
+}
+@media(max-width:720px){
+  .ego-option-card.has-ego-image{min-height:216px!important;padding-top:136px!important}
+  .ego-option-card.has-ego-image strong{min-height:2.7em!important;line-height:1.35!important}
+  .workspace-footer.ego-mode .ego-footer-actions .button,
+  .workspace-footer.ego-mode .workspace-main-actions .button,
+  .workspace-footer.ego-mode .ego-confirm-button{
+    writing-mode:horizontal-tb!important;
+    word-break:keep-all!important;
+    overflow-wrap:normal!important;
+    white-space:normal!important;
+  }
+}
+
 /* The confirmation action is the primary mobile E.G.O action. */
 @media (max-width:720px){
   .workspace-footer.ego-detail-mode .ego-confirm-button{

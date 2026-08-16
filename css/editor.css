@@ -918,6 +918,18 @@ body.dark-mode .theme-pack-option-card small{color:#aeb4bc!important}
 .ego-option-card .ego-rank{background:var(--rank-color)!important;color:#fff!important}
 .ego-option-card.rank-he .ego-rank{color:#201805!important}
 .ego-option-card.selected{outline-color:var(--rank-color)!important;box-shadow:0 0 24px color-mix(in srgb,var(--rank-color) 58%,transparent)!important}
+.ego-option-card.has-ego-image{min-height:238px!important;justify-content:flex-start!important;padding-top:158px!important}
+.ego-option-card.has-ego-image strong{
+  display:-webkit-box;
+  width:100%;
+  min-height:2.8em;
+  margin:0;
+  overflow:hidden;
+  -webkit-box-orient:vertical;
+  -webkit-line-clamp:2;
+  line-height:1.4;
+}
+.ego-option-card.has-ego-image small{width:100%;margin-top:0}
 .ego-summary-tag.rank-zayin{color:#1f6740!important;background:#f1faf5!important}
 .ego-summary-tag.rank-teth{color:#1d629c!important;background:#f1f7fc!important}
 .ego-summary-tag.rank-he{color:#80600a!important;background:#fff9e8!important}
