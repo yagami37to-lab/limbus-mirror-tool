@@ -49,6 +49,13 @@ function createFeaturedRecommendation(definition,source){
       more.className='featured-more-identities';
       more.textContent=`ほか ${identityCards.length-5} 人`;
       identityRoot.appendChild(more);
+    }else{
+      for(let index=identityCards.length;index<6;index++){
+        const placeholder=document.createElement('span');
+        placeholder.className='featured-identity-placeholder';
+        placeholder.setAttribute('aria-hidden','true');
+        identityRoot.appendChild(placeholder);
+      }
     }
   }
   // おすすめ欄でも通常投稿カードと同じいいね表示・処理を使う。
@@ -107,7 +114,7 @@ function normalizeFeaturedCarouselHeights(){
   [...slides,...panels,...slots,...copies].forEach(node=>{node.style.setProperty('height','auto','important');node.style.setProperty('min-height','0','important');});
   /* Every slide follows the largest complete card. This keeps the carousel stable
      without clipping posts that contain the full identity and tag set. */
-  const panelHeight=document.documentElement.clientWidth>=1001?56:Math.max(0,...panels.map(node=>Math.ceil(node.scrollHeight)));
+  const panelHeight=document.documentElement.clientWidth>=1001?56:document.documentElement.clientWidth<=720?118:Math.max(0,...panels.map(node=>Math.ceil(node.scrollHeight)));
   const copyHeight=Math.max(0,...copies.map(node=>Math.ceil(node.scrollHeight)));
   panels.forEach(node=>node.style.setProperty('height',`${panelHeight}px`,'important'));
   slots.forEach(node=>node.style.setProperty('height',`${copyHeight}px`,'important'));
