@@ -24,3 +24,5 @@
 - `assets/egos/meursault/`
 - ホンルのE.G.O全9種（`001.png`～`009.png`）
 - `assets/egos/hong-lu/`
+- ヒースクリフのE.G.O全9種（`001.png`～`009.png`）
+- `assets/egos/heathcliff/`
