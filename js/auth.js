@@ -22,6 +22,18 @@
     status.dataset.state=type;
     status.hidden=!text;
   }
+  function requireConsent(text){
+    message(text,'error');
+    window.alert(text);
+    const consent=qs('[data-auth-consent]');
+    consent?.classList.remove('needs-attention');
+    requestAnimationFrame(()=>{
+      consent?.classList.add('needs-attention');
+      consent?.scrollIntoView({block:'center',behavior:'smooth'});
+      consentCheck?.focus({preventScroll:true});
+    });
+    return false;
+  }
   function displayName(user){
     return currentProfile?.display_name || user?.user_metadata?.full_name || user?.user_metadata?.name || user?.email?.split('@')[0] || 'ユーザー';
   }
@@ -63,7 +75,7 @@
 
   qsa('[data-auth-google]').forEach(b=>b.addEventListener('click',async()=>{
     if(!client){ message('Supabase接続設定が未入力です。','error'); return; }
-    if(!consentCheck?.checked){ message('Googleで新規登録する可能性があるため、利用規約とプライバシーポリシーを確認して同意してください。','error'); consentCheck?.focus(); return; }
+    if(!consentCheck?.checked){ requireConsent('新規登録するには、利用規約とプライバシーポリシーを確認して同意してください。'); return; }
     message('Googleのログイン画面を開いています…');
     const {error}=await client.auth.signInWithOAuth({provider:'google',options:{redirectTo:window.location.href.split('#')[0]}});
     if(error) message(`Googleログインを開始できませんでした：${error.message}`,'error');
@@ -76,7 +88,7 @@
     const password=qs('[name=password]',form)?.value || '';
     const mode=form.dataset.mode||'login';
     if(!email || password.length<6){ message('メールアドレスと6文字以上のパスワードを入力してください。','error'); return; }
-    if(mode==='signup'&&!consentCheck?.checked){ message('新規登録するには、利用規約とプライバシーポリシーへの同意が必要です。','error'); consentCheck?.focus(); return; }
+    if(mode==='signup'&&!consentCheck?.checked){ requireConsent('新規登録するには、利用規約とプライバシーポリシーを確認して同意してください。'); return; }
     message(mode==='signup'?'登録処理中です…':'ログイン中です…');
     const result=mode==='signup'
       ? await client.auth.signUp({email,password,options:{emailRedirectTo:window.location.href.split('#')[0]}})
