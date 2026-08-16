@@ -36,10 +36,11 @@ function createThemePackController({data,state,escapeHtml,showToast,scrollToElem
     }
     for(let floor=1;floor<=mode.maxFloor;floor++){
       const selectedName=state.themePacks.get(floor);
+      const imageSrc=selectedName?(window.LimbusThemePackImages?.forName(selectedName)||''):'';
       const card=document.createElement('button');
       card.type='button';
-      card.className='theme-floor-card'+(selectedName?' selected':'');
-      card.innerHTML=`<span class="theme-floor-number">${floor}F</span><span class="theme-floor-status">${selectedName?'選択済み':'未選択'}</span><strong>${escapeHtml(selectedName||'テーマパックを選択')}</strong><small>${selectedName?'クリックして変更':'この階層の候補を表示'}</small>`;
+      card.className='theme-floor-card'+(selectedName?' selected':'')+(imageSrc?' has-pack-image':'');
+      card.innerHTML=`${imageSrc?`<span class="theme-floor-pack-image"><img src="${escapeHtml(imageSrc)}" alt="" loading="lazy"></span>`:''}<span class="theme-floor-number">${floor}F</span><span class="theme-floor-status">${selectedName?'選択済み':'未選択'}</span><strong>${escapeHtml(selectedName||'テーマパックを選択')}</strong><small>${selectedName?'クリックして変更':'この階層の候補を表示'}</small>`;
       card.addEventListener('click',()=>open(floor));
       floorGrid.appendChild(card);
     }
