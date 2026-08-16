@@ -32,3 +32,7 @@
 - `assets/egos/rodion/`
 - シンクレアのE.G.O全9種（`001.png`～`009.png`）
 - `assets/egos/sinclair/`
+- ウーティスのE.G.O全9種（`001.png`～`009.png`）
+- `assets/egos/outis/`
+- グレゴールのE.G.O全9種（`001.png`～`009.png`）
+- `assets/egos/gregor/`

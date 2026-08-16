@@ -2065,6 +2065,78 @@
   }
 }
 
+/* v1.1.19: responsive identity footer with dedicated rows for long actions. */
+@media(max-width:1180px){
+  .workspace-footer.identity-mode{
+    display:grid!important;
+    grid-template-columns:repeat(4,minmax(0,1fr))!important;
+    grid-template-areas:none!important;
+    gap:8px!important;
+    align-items:stretch!important;
+  }
+  .workspace-footer.identity-mode .workspace-context-actions,
+  .workspace-footer.identity-mode .identity-footer-buttons{
+    display:contents!important;
+  }
+  .workspace-footer.identity-mode .party-keyword-summary{
+    grid-column:1 / -1!important;
+    grid-row:1!important;
+  }
+  .workspace-footer.identity-mode .identity-active-filter-summary{
+    grid-column:1 / -1!important;
+    grid-row:2!important;
+  }
+  .workspace-footer.identity-mode .workspace-context-actions .identity-footer-buttons [data-toggle-identity-search]{
+    grid-column:1!important;
+    grid-row:3!important;
+  }
+  .workspace-footer.identity-mode .workspace-context-actions .identity-footer-buttons [data-fill-empty-identities]{
+    grid-column:2 / -1!important;
+    grid-row:3!important;
+  }
+  .workspace-footer.identity-mode .workspace-context-actions .identity-footer-buttons [data-clear-current-identity]{
+    grid-column:1 / 3!important;
+    grid-row:4!important;
+  }
+  .workspace-footer.identity-mode .workspace-context-actions .identity-footer-buttons [data-clear-all-identities]{
+    grid-column:3 / -1!important;
+    grid-row:4!important;
+  }
+  .workspace-footer.identity-mode .footer-back-button{
+    grid-column:1!important;
+    grid-row:5!important;
+    width:100%!important;
+    min-width:0!important;
+  }
+  .workspace-footer.identity-mode .workspace-main-actions{
+    grid-column:2 / -1!important;
+    grid-row:5!important;
+    display:grid!important;
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    width:100%!important;
+    gap:8px!important;
+  }
+  .workspace-footer.identity-mode .identity-footer-buttons .button,
+  .workspace-footer.identity-mode .workspace-main-actions .button,
+  .workspace-footer.identity-mode .footer-back-button{
+    writing-mode:horizontal-tb!important;
+    width:100%!important;
+    min-width:0!important;
+    min-height:44px!important;
+    height:auto!important;
+    padding:8px 9px!important;
+    white-space:normal!important;
+    word-break:keep-all!important;
+    overflow-wrap:anywhere!important;
+    line-height:1.3!important;
+  }
+}
+@media(max-width:720px){
+  .workspace-footer.identity-mode .workspace-main-actions{
+    grid-column:1 / -1!important;
+  }
+}
+
 /* The confirmation action is the primary mobile E.G.O action. */
 @media (max-width:720px){
   .workspace-footer.ego-detail-mode .ego-confirm-button{
