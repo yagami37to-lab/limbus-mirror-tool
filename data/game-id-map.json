@@ -1,0 +1,2890 @@
+{
+  "$schemaVersion": 2,
+  "generatedAt": "2026-08-16",
+  "targetRepository": "https://github.com/yagami37to-lab/limbus-mirror-tool",
+  "targetBranch": "main",
+  "purpose": "Limbus Company formation-code import/export mapping",
+  "important": "v9: final remaining identity verified directly from the user's comparison formation code.",
+  "confidencePolicy": {
+    "verified_public": "Public internal-ID data / independently corroborated legacy ID mapping. No inferred IDs are included.",
+    "needs_formation_code": "Not confirmed from the checked public internal-ID data. Must be confirmed with a game-generated comparison formation code before use."
+  },
+  "sources": [
+    {
+      "name": "Aikenfell/LimbusTeamCodeWork lc_ego_base.json",
+      "fieldsUsed": [
+        "pk",
+        "sinnerID",
+        "egoType",
+        "name_jp"
+      ]
+    },
+    {
+      "name": "Aikenfell/LimbusTeamCodeWork lc_identity_base.json",
+      "fieldsUsed": [
+        "pk",
+        "sinnerID",
+        "name_jp/name_en"
+      ]
+    },
+    {
+      "name": "Limbus Wiki Wordle identity data",
+      "use": "independent spot-check of legacy identity game IDs"
+    },
+    {
+      "name": "Mirror Tool main/data/identities.json",
+      "use": "siteId and current Japanese identity names"
+    },
+    {
+      "name": "Mirror Tool main/data/egos.json",
+      "use": "current Japanese E.G.O. names and risk levels"
+    }
+  ],
+  "sinnerSlotMap": {
+    "01": {
+      "sinner": "イサン",
+      "gameSinnerId": 1
+    },
+    "02": {
+      "sinner": "ファウスト",
+      "gameSinnerId": 2
+    },
+    "03": {
+      "sinner": "ドンキホーテ",
+      "gameSinnerId": 3
+    },
+    "04": {
+      "sinner": "良秀",
+      "gameSinnerId": 4
+    },
+    "05": {
+      "sinner": "ムルソー",
+      "gameSinnerId": 5
+    },
+    "06": {
+      "sinner": "ホンル",
+      "gameSinnerId": 6
+    },
+    "07": {
+      "sinner": "ヒースクリフ",
+      "gameSinnerId": 7
+    },
+    "08": {
+      "sinner": "イシュメール",
+      "gameSinnerId": 8
+    },
+    "09": {
+      "sinner": "ロージャ",
+      "gameSinnerId": 9
+    },
+    "11": {
+      "sinner": "シンクレア",
+      "gameSinnerId": 10
+    },
+    "12": {
+      "sinner": "ウーティス",
+      "gameSinnerId": 11
+    },
+    "13": {
+      "sinner": "グレゴール",
+      "gameSinnerId": 12
+    }
+  },
+  "identities": [
+    {
+      "siteId": "01-11",
+      "sinnerId": "01",
+      "sinner": "イサン",
+      "name": "LCB囚人",
+      "gameId": 10101,
+      "gameSinnerId": 1,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "01-10",
+      "sinnerId": "01",
+      "sinner": "イサン",
+      "name": "南部セブン協会6課",
+      "gameId": 10102,
+      "gameSinnerId": 1,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "01-08",
+      "sinnerId": "01",
+      "sinner": "イサン",
+      "name": "剣契殺手",
+      "gameId": 10103,
+      "gameSinnerId": 1,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "01-07",
+      "sinnerId": "01",
+      "sinner": "イサン",
+      "name": "開花 E.G.O::壇香梅",
+      "gameId": 10104,
+      "gameSinnerId": 1,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "01-15",
+      "sinnerId": "01",
+      "sinner": "イサン",
+      "name": "奥歯事務所フィクサー",
+      "gameId": 10105,
+      "gameSinnerId": 1,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "01-06",
+      "sinnerId": "01",
+      "sinner": "イサン",
+      "name": "W社3級整理要員",
+      "gameId": 10106,
+      "gameSinnerId": 1,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "01-09",
+      "sinnerId": "01",
+      "sinner": "イサン",
+      "name": "ピークォド号1等航海士",
+      "gameId": 10107,
+      "gameSinnerId": 1,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "01-14",
+      "sinnerId": "01",
+      "sinner": "イサン",
+      "name": "南部ディエーチ協会4課",
+      "gameId": 10108,
+      "gameSinnerId": 1,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "01-05",
+      "sinnerId": "01",
+      "sinner": "イサン",
+      "name": "薬指点描派スチューデント",
+      "gameId": 10109,
+      "gameSinnerId": 1,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "01-01",
+      "sinnerId": "01",
+      "sinner": "イサン",
+      "name": "ロボトミーE.G.O::厳粛な哀悼",
+      "gameId": 10110,
+      "gameSinnerId": 1,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "01-12",
+      "sinnerId": "01",
+      "sinner": "イサン",
+      "name": "LCE E.G.O::提灯",
+      "gameSinnerId": 1,
+      "identityModifier": 11,
+      "gameId": 10111,
+      "status": "verified_game_code"
+    },
+    {
+      "siteId": "01-04",
+      "sinnerId": "01",
+      "sinner": "イサン",
+      "name": "南部リウ協会3課",
+      "gameSinnerId": 1,
+      "identityModifier": 12,
+      "gameId": 10112,
+      "status": "verified_game_code"
+    },
+    {
+      "siteId": "01-13",
+      "sinnerId": "01",
+      "sinner": "イサン",
+      "name": "N社E.G.O::凶弾",
+      "gameSinnerId": 1,
+      "identityModifier": 13,
+      "gameId": 10113,
+      "status": "verified_game_code"
+    },
+    {
+      "siteId": "01-03",
+      "sinnerId": "01",
+      "sinner": "イサン",
+      "name": "黒獣-午 筆頭",
+      "gameSinnerId": 1,
+      "gameId": 10114,
+      "identityModifier": 14,
+      "status": "verified_game_code"
+    },
+    {
+      "siteId": "01-02",
+      "sinnerId": "01",
+      "sinner": "イサン",
+      "name": "蜘蛛の巣人差し指の親方",
+      "gameSinnerId": 1,
+      "gameId": 10115,
+      "status": "verified_game_code"
+    },
+    {
+      "siteId": "01-16",
+      "sinnerId": "01",
+      "sinner": "イサン",
+      "name": "LCE E.G.O::次元裂き",
+      "gameSinnerId": 1,
+      "identityModifier": 16,
+      "gameId": 10116,
+      "status": "verified_game_code"
+    },
+    {
+      "siteId": "02-13",
+      "sinnerId": "02",
+      "sinner": "ファウスト",
+      "name": "LCB囚人",
+      "gameId": 10201,
+      "gameSinnerId": 2,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "02-10",
+      "sinnerId": "02",
+      "sinner": "ファウスト",
+      "name": "W社2級整理要員",
+      "gameId": 10202,
+      "gameSinnerId": 2,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "02-12",
+      "sinnerId": "02",
+      "sinner": "ファウスト",
+      "name": "生き残ったロボトミー職員",
+      "gameId": 10203,
+      "gameSinnerId": 2,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "02-11",
+      "sinnerId": "02",
+      "sinner": "ファウスト",
+      "name": "握る者",
+      "gameId": 10204,
+      "gameSinnerId": 2,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "02-15",
+      "sinnerId": "02",
+      "sinner": "ファウスト",
+      "name": "南部ツヴァイ協会4課",
+      "gameId": 10205,
+      "gameSinnerId": 2,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "02-14",
+      "sinnerId": "02",
+      "sinner": "ファウスト",
+      "name": "南部セブン協会4課",
+      "gameId": 10206,
+      "gameSinnerId": 2,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "02-09",
+      "sinnerId": "02",
+      "sinner": "ファウスト",
+      "name": "ロボトミーE.G.O::後悔",
+      "gameId": 10207,
+      "gameSinnerId": 2,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "02-08",
+      "sinnerId": "02",
+      "sinner": "ファウスト",
+      "name": "剣契殺手",
+      "gameId": 10208,
+      "gameSinnerId": 2,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "02-07",
+      "sinnerId": "02",
+      "sinner": "ファウスト",
+      "name": "ワザリング・ハイツバトラー",
+      "gameId": 10209,
+      "gameSinnerId": 2,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "02-06",
+      "sinnerId": "02",
+      "sinner": "ファウスト",
+      "name": "マルチクラック事務所代表",
+      "gameId": 10210,
+      "gameSinnerId": 2,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "02-05",
+      "sinnerId": "02",
+      "sinner": "ファウスト",
+      "name": "LCE E.G.O::紅炎殺",
+      "gameSinnerId": 2,
+      "identityModifier": 11,
+      "gameId": 10211,
+      "status": "verified_game_code"
+    },
+    {
+      "siteId": "02-04",
+      "sinnerId": "02",
+      "sinner": "ファウスト",
+      "name": "黒獣-卯 筆頭",
+      "gameSinnerId": 2,
+      "identityModifier": 12,
+      "gameId": 10212,
+      "status": "verified_game_code"
+    },
+    {
+      "siteId": "02-16",
+      "sinnerId": "02",
+      "sinner": "ファウスト",
+      "name": "東部シ協会3課",
+      "gameSinnerId": 2,
+      "identityModifier": 13,
+      "gameId": 10213,
+      "status": "verified_game_code"
+    },
+    {
+      "siteId": "02-03",
+      "sinnerId": "02",
+      "sinner": "ファウスト",
+      "name": "人差し指遂行者:紙片",
+      "gameSinnerId": 2,
+      "identityModifier": 14,
+      "gameId": 10214,
+      "status": "verified_game_code"
+    },
+    {
+      "siteId": "02-02",
+      "sinnerId": "02",
+      "sinner": "ファウスト",
+      "name": "蜘蛛の巣薬指の子方",
+      "gameSinnerId": 2,
+      "gameId": 10215,
+      "identityModifier": 15,
+      "status": "verified_game_code"
+    },
+    {
+      "siteId": "02-01",
+      "sinnerId": "02",
+      "sinner": "ファウスト",
+      "name": "夜明事務所フィクサー",
+      "gameSinnerId": 2,
+      "gameId": 10216,
+      "status": "verified_game_code"
+    },
+    {
+      "siteId": "03-10",
+      "sinnerId": "03",
+      "sinner": "ドンキホーテ",
+      "name": "LCB囚人",
+      "gameId": 10301,
+      "gameSinnerId": 3,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "03-09",
+      "sinnerId": "03",
+      "sinner": "ドンキホーテ",
+      "name": "W社3級整理要員",
+      "gameId": 10302,
+      "gameSinnerId": 3,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "03-13",
+      "sinnerId": "03",
+      "sinner": "ドンキホーテ",
+      "name": "南部シ協会5課",
+      "gameId": 10303,
+      "gameSinnerId": 3,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "03-12",
+      "sinnerId": "03",
+      "sinner": "ドンキホーテ",
+      "name": "N社中鎚",
+      "gameId": 10304,
+      "gameSinnerId": 3,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "03-11",
+      "sinnerId": "03",
+      "sinner": "ドンキホーテ",
+      "name": "南部センク協会5課部長",
+      "gameId": 10305,
+      "gameSinnerId": 3,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "03-08",
+      "sinnerId": "03",
+      "sinner": "ドンキホーテ",
+      "name": "中指末妹",
+      "gameId": 10306,
+      "gameSinnerId": 3,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "03-07",
+      "sinnerId": "03",
+      "sinner": "ドンキホーテ",
+      "name": "ロボトミーE.G.O::提灯",
+      "gameId": 10307,
+      "gameSinnerId": 3,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "03-06",
+      "sinnerId": "03",
+      "sinner": "ドンキホーテ",
+      "name": "剣契殺手",
+      "gameId": 10308,
+      "gameSinnerId": 3,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "03-14",
+      "sinnerId": "03",
+      "sinner": "ドンキホーテ",
+      "name": "T社3級徴収職職員",
+      "gameId": 10309,
+      "gameSinnerId": 3,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "03-05",
+      "sinnerId": "03",
+      "sinner": "ドンキホーテ",
+      "name": "ラ・マンチャランド室長",
+      "gameId": 10310,
+      "gameSinnerId": 3,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "03-01",
+      "sinnerId": "03",
+      "sinner": "ドンキホーテ",
+      "name": "東部センク協会3課",
+      "gameSinnerId": 3,
+      "gameId": 10311,
+      "status": "verified_game_code"
+    },
+    {
+      "siteId": "03-04",
+      "sinnerId": "03",
+      "sinner": "ドンキホーテ",
+      "name": "ロボトミーE.G.O::愛と憎悪の名の下に",
+      "gameSinnerId": 3,
+      "identityModifier": 12,
+      "gameId": 10312,
+      "status": "verified_game_code"
+    },
+    {
+      "siteId": "03-03",
+      "sinnerId": "03",
+      "sinner": "ドンキホーテ",
+      "name": "黒獣-未",
+      "gameSinnerId": 3,
+      "identityModifier": 13,
+      "gameId": 10313,
+      "status": "verified_game_code"
+    },
+    {
+      "siteId": "03-02",
+      "sinnerId": "03",
+      "sinner": "ドンキホーテ",
+      "name": "人差し指代行者-開花E.G.O::代行",
+      "gameSinnerId": 3,
+      "gameId": 10314,
+      "identityModifier": 14,
+      "status": "verified_game_code"
+    },
+    {
+      "siteId": "04-10",
+      "sinnerId": "04",
+      "sinner": "良秀",
+      "name": "LCB囚人",
+      "gameId": 10401,
+      "gameSinnerId": 4,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "04-15",
+      "sinnerId": "04",
+      "sinner": "良秀",
+      "name": "南部セブン協会6課",
+      "gameId": 10402,
+      "gameSinnerId": 4,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "04-11",
+      "sinnerId": "04",
+      "sinner": "良秀",
+      "name": "黒雲会若衆",
+      "gameId": 10403,
+      "gameSinnerId": 4,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "04-14",
+      "sinnerId": "04",
+      "sinner": "良秀",
+      "name": "りょ・ミ・パ厨房長",
+      "gameId": 10404,
+      "gameSinnerId": 4,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "04-08",
+      "sinnerId": "04",
+      "sinner": "良秀",
+      "name": "W社3級整理要員",
+      "gameId": 10405,
+      "gameSinnerId": 4,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "04-13",
+      "sinnerId": "04",
+      "sinner": "良秀",
+      "name": "LCCB係長",
+      "gameId": 10406,
+      "gameSinnerId": 4,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "04-09",
+      "sinnerId": "04",
+      "sinner": "良秀",
+      "name": "南部リウ協会4課",
+      "gameId": 10407,
+      "gameSinnerId": 4,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "04-07",
+      "sinnerId": "04",
+      "sinner": "良秀",
+      "name": "エドガー家チーフバトラー",
+      "gameId": 10408,
+      "gameSinnerId": 4,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "04-12",
+      "sinnerId": "04",
+      "sinner": "良秀",
+      "name": "20区ユロージヴィ",
+      "gameId": 10409,
+      "gameSinnerId": 4,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "04-06",
+      "sinnerId": "04",
+      "sinner": "良秀",
+      "name": "ロボトミーE.G.O::赤眼・懺悔",
+      "gameId": 10410,
+      "gameSinnerId": 4,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "04-05",
+      "sinnerId": "04",
+      "sinner": "良秀",
+      "name": "黒獣-卯",
+      "gameSinnerId": 4,
+      "identityModifier": 11,
+      "gameId": 10411,
+      "status": "verified_game_code"
+    },
+    {
+      "siteId": "04-04",
+      "sinnerId": "04",
+      "sinner": "良秀",
+      "name": "N社E.G.O::軽蔑、畏敬",
+      "gameSinnerId": 4,
+      "identityModifier": 12,
+      "gameId": 10412,
+      "status": "verified_game_code"
+    },
+    {
+      "siteId": "04-03",
+      "sinnerId": "04",
+      "sinner": "良秀",
+      "name": "鴻園の放浪武者",
+      "gameSinnerId": 4,
+      "identityModifier": 13,
+      "gameId": 10413,
+      "status": "verified_game_code"
+    },
+    {
+      "siteId": "04-01",
+      "sinnerId": "04",
+      "sinner": "良秀",
+      "name": "ロボトミーE.G.O::残香・寂しさ",
+      "gameSinnerId": 4,
+      "gameId": 10414,
+      "status": "verified_game_code"
+    },
+    {
+      "siteId": "04-02",
+      "sinnerId": "04",
+      "sinner": "良秀",
+      "name": "蜘蛛の巣の刀",
+      "gameSinnerId": 4,
+      "gameId": 10415,
+      "identityModifier": 15,
+      "status": "verified_game_code"
+    },
+    {
+      "siteId": "05-10",
+      "sinnerId": "05",
+      "sinner": "ムルソー",
+      "name": "LCB囚人",
+      "gameId": 10501,
+      "gameSinnerId": 5,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "05-11",
+      "sinnerId": "05",
+      "sinner": "ムルソー",
+      "name": "南部リウ協会6課",
+      "gameId": 10502,
+      "gameSinnerId": 5,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "05-09",
+      "sinnerId": "05",
+      "sinner": "ムルソー",
+      "name": "W社2級整理要員",
+      "gameId": 10503,
+      "gameSinnerId": 5,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "05-14",
+      "sinnerId": "05",
+      "sinner": "ムルソー",
+      "name": "N社大鎚",
+      "gameId": 10504,
+      "gameSinnerId": 5,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "05-12",
+      "sinnerId": "05",
+      "sinner": "ムルソー",
+      "name": "バラのスパナ工房フィクサー",
+      "gameId": 10505,
+      "gameSinnerId": 5,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "05-08",
+      "sinnerId": "05",
+      "sinner": "ムルソー",
+      "name": "R社第4群サイチーム",
+      "gameId": 10506,
+      "gameSinnerId": 5,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "05-07",
+      "sinnerId": "05",
+      "sinner": "ムルソー",
+      "name": "中指末弟",
+      "gameId": 10507,
+      "gameSinnerId": 5,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "05-06",
+      "sinnerId": "05",
+      "sinner": "ムルソー",
+      "name": "剣契頭目",
+      "gameId": 10508,
+      "gameSinnerId": 5,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "05-13",
+      "sinnerId": "05",
+      "sinner": "ムルソー",
+      "name": "デッドラビッツボス",
+      "gameId": 10509,
+      "gameSinnerId": 5,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "05-15",
+      "sinnerId": "05",
+      "sinner": "ムルソー",
+      "name": "南部ディエーチ協会4課部長",
+      "gameId": 10510,
+      "gameSinnerId": 5,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "05-05",
+      "sinnerId": "05",
+      "sinner": "ムルソー",
+      "name": "西部センク協会3課",
+      "gameId": 10511,
+      "gameSinnerId": 5,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "05-01",
+      "sinnerId": "05",
+      "sinner": "ムルソー",
+      "name": "東部親指カポIIII",
+      "gameSinnerId": 5,
+      "gameId": 10512,
+      "status": "verified_game_code"
+    },
+    {
+      "siteId": "05-04",
+      "sinnerId": "05",
+      "sinner": "ムルソー",
+      "name": "ラ・マンチャランドの王子",
+      "gameSinnerId": 5,
+      "identityModifier": 13,
+      "gameId": 10513,
+      "status": "verified_game_code"
+    },
+    {
+      "siteId": "05-03",
+      "sinnerId": "05",
+      "sinner": "ムルソー",
+      "name": "ロボトミーE.G.O::ホーネット[変調]",
+      "gameSinnerId": 5,
+      "identityModifier": 14,
+      "gameId": 10514,
+      "status": "verified_game_code"
+    },
+    {
+      "siteId": "05-02",
+      "sinnerId": "05",
+      "sinner": "ムルソー",
+      "name": "薬指野獣派スチューデント",
+      "gameSinnerId": 5,
+      "gameId": 10515,
+      "identityModifier": 15,
+      "status": "verified_game_code"
+    },
+    {
+      "siteId": "06-10",
+      "sinnerId": "06",
+      "sinner": "ホンル",
+      "name": "LCB囚人",
+      "gameId": 10601,
+      "gameSinnerId": 6,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "06-11",
+      "sinnerId": "06",
+      "sinner": "ホンル",
+      "name": "黒雲会若衆",
+      "gameId": 10602,
+      "gameSinnerId": 6,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "06-15",
+      "sinnerId": "06",
+      "sinner": "ホンル",
+      "name": "ぽんぽん派ボス",
+      "gameId": 10603,
+      "gameSinnerId": 6,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "06-09",
+      "sinnerId": "06",
+      "sinner": "ホンル",
+      "name": "南部リウ協会5課",
+      "gameId": 10604,
+      "gameSinnerId": 6,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "06-12",
+      "sinnerId": "06",
+      "sinner": "ホンル",
+      "name": "K社3級摘出職職員",
+      "gameId": 10605,
+      "gameSinnerId": 6,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "06-08",
+      "sinnerId": "06",
+      "sinner": "ホンル",
+      "name": "W社2級整理要員",
+      "gameId": 10606,
+      "gameSinnerId": 6,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "06-14",
+      "sinnerId": "06",
+      "sinner": "ホンル",
+      "name": "鈎事務所フィクサー",
+      "gameId": 10607,
+      "gameSinnerId": 6,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "06-07",
+      "sinnerId": "06",
+      "sinner": "ホンル",
+      "name": "南部ディエーチ協会4課",
+      "gameId": 10608,
+      "gameSinnerId": 6,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "06-06",
+      "sinnerId": "06",
+      "sinner": "ホンル",
+      "name": "20区ユロージヴィ",
+      "gameId": 10609,
+      "gameSinnerId": 6,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "06-13",
+      "sinnerId": "06",
+      "sinner": "ホンル",
+      "name": "牙狩事務所フィクサー",
+      "gameId": 10610,
+      "gameSinnerId": 6,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "06-01",
+      "sinnerId": "06",
+      "sinner": "ホンル",
+      "name": "終止符事務所代表",
+      "gameId": 10611,
+      "gameSinnerId": 6,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "06-05",
+      "sinnerId": "06",
+      "sinner": "ホンル",
+      "name": "R社第4群トナカイチーム",
+      "gameSinnerId": 6,
+      "identityModifier": 12,
+      "gameId": 10612,
+      "status": "verified_game_code"
+    },
+    {
+      "siteId": "06-04",
+      "sinnerId": "06",
+      "sinner": "ホンル",
+      "name": "鴻園の君主",
+      "gameSinnerId": 6,
+      "identityModifier": 13,
+      "gameId": 10613,
+      "status": "verified_game_code"
+    },
+    {
+      "siteId": "06-03",
+      "sinnerId": "06",
+      "sinner": "ホンル",
+      "name": "蜘蛛の巣薬指の親方",
+      "gameSinnerId": 6,
+      "gameId": 10614,
+      "identityModifier": 14,
+      "status": "verified_game_code"
+    },
+    {
+      "siteId": "06-02",
+      "sinnerId": "06",
+      "sinner": "ホンル",
+      "name": "S社チュノックン",
+      "gameSinnerId": 6,
+      "gameId": 10615,
+      "status": "verified_game_code"
+    },
+    {
+      "siteId": "07-09",
+      "sinnerId": "07",
+      "sinner": "ヒースクリフ",
+      "name": "LCB囚人",
+      "gameId": 10701,
+      "gameSinnerId": 7,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "07-12",
+      "sinnerId": "07",
+      "sinner": "ヒースクリフ",
+      "name": "南部シ協会5課",
+      "gameId": 10702,
+      "gameSinnerId": 7,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "07-16",
+      "sinnerId": "07",
+      "sinner": "ヒースクリフ",
+      "name": "R社第4群ウサギチーム",
+      "gameId": 10703,
+      "gameSinnerId": 7,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "07-13",
+      "sinnerId": "07",
+      "sinner": "ヒースクリフ",
+      "name": "N社小鎚",
+      "gameId": 10704,
+      "gameSinnerId": 7,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "07-15",
+      "sinnerId": "07",
+      "sinner": "ヒースクリフ",
+      "name": "ロボトミーE.G.O::狐雨",
+      "gameId": 10705,
+      "gameSinnerId": 7,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "07-08",
+      "sinnerId": "07",
+      "sinner": "ヒースクリフ",
+      "name": "南部セブン協会4課",
+      "gameId": 10706,
+      "gameSinnerId": 7,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "07-14",
+      "sinnerId": "07",
+      "sinner": "ヒースクリフ",
+      "name": "ピークォド号銛使い",
+      "gameId": 10707,
+      "gameSinnerId": 7,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "07-11",
+      "sinnerId": "07",
+      "sinner": "ヒースクリフ",
+      "name": "南部ウーフィ協会3課",
+      "gameId": 10708,
+      "gameSinnerId": 7,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "07-10",
+      "sinnerId": "07",
+      "sinner": "ヒースクリフ",
+      "name": "マルチクラック事務所フィクサー",
+      "gameId": 10709,
+      "gameSinnerId": 7,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "07-07",
+      "sinnerId": "07",
+      "sinner": "ヒースクリフ",
+      "name": "ワイルドハント",
+      "gameId": 10710,
+      "gameSinnerId": 7,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "07-06",
+      "sinnerId": "07",
+      "sinner": "ヒースクリフ",
+      "name": "終止符事務所フィクサー",
+      "gameId": 10711,
+      "gameSinnerId": 7,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "07-05",
+      "sinnerId": "07",
+      "sinner": "ヒースクリフ",
+      "name": "黒雲会若衆",
+      "gameSinnerId": 7,
+      "identityModifier": 12,
+      "gameId": 10712,
+      "status": "verified_game_code"
+    },
+    {
+      "siteId": "07-04",
+      "sinnerId": "07",
+      "sinner": "ヒースクリフ",
+      "name": "W社4級整理要員-CCA",
+      "gameSinnerId": 7,
+      "identityModifier": 13,
+      "gameId": 10713,
+      "status": "verified_game_code"
+    },
+    {
+      "siteId": "07-03",
+      "sinnerId": "07",
+      "sinner": "ヒースクリフ",
+      "name": "黒獣-酉 筆頭",
+      "gameSinnerId": 7,
+      "identityModifier": 14,
+      "gameId": 10714,
+      "status": "verified_game_code"
+    },
+    {
+      "siteId": "07-02",
+      "sinnerId": "07",
+      "sinner": "ヒースクリフ",
+      "name": "中指末兄",
+      "gameSinnerId": 7,
+      "gameId": 10715,
+      "identityModifier": 15,
+      "status": "verified_game_code"
+    },
+    {
+      "siteId": "07-01",
+      "sinnerId": "07",
+      "sinner": "ヒースクリフ",
+      "name": "蜘蛛の巣親指の子方",
+      "gameSinnerId": 7,
+      "gameId": 10716,
+      "status": "verified_game_code"
+    },
+    {
+      "siteId": "08-12",
+      "sinnerId": "08",
+      "sinner": "イシュメール",
+      "name": "LCB囚人",
+      "gameId": 10801,
+      "gameSinnerId": 8,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "08-15",
+      "sinnerId": "08",
+      "sinner": "イシュメール",
+      "name": "R社第4群トナカイチーム",
+      "gameId": 10802,
+      "gameSinnerId": 8,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "08-13",
+      "sinnerId": "08",
+      "sinner": "イシュメール",
+      "name": "南部シ協会5課",
+      "gameId": 10803,
+      "gameSinnerId": 8,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "08-01",
+      "sinnerId": "08",
+      "sinner": "イシュメール",
+      "name": "LCCB係長",
+      "gameId": 10804,
+      "gameSinnerId": 8,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "08-14",
+      "sinnerId": "08",
+      "sinner": "イシュメール",
+      "name": "ロボトミーE.G.O::たぷつき",
+      "gameId": 10805,
+      "gameSinnerId": 8,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "08-11",
+      "sinnerId": "08",
+      "sinner": "イシュメール",
+      "name": "南部リウ協会4課",
+      "gameId": 10806,
+      "gameSinnerId": 8,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "08-10",
+      "sinnerId": "08",
+      "sinner": "イシュメール",
+      "name": "奥歯ボートセンターフィクサー",
+      "gameId": 10807,
+      "gameSinnerId": 8,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "08-09",
+      "sinnerId": "08",
+      "sinner": "イシュメール",
+      "name": "ピークォド号船長",
+      "gameId": 10808,
+      "gameSinnerId": 8,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "08-08",
+      "sinnerId": "08",
+      "sinner": "イシュメール",
+      "name": "エドガー家バトラー",
+      "gameId": 10809,
+      "gameSinnerId": 8,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "08-07",
+      "sinnerId": "08",
+      "sinner": "イシュメール",
+      "name": "西部ツヴァイ協会3課",
+      "gameId": 10810,
+      "gameSinnerId": 8,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "08-06",
+      "sinnerId": "08",
+      "sinner": "イシュメール",
+      "name": "黒雲会副組長",
+      "gameSinnerId": 8,
+      "identityModifier": 11,
+      "gameId": 10811,
+      "status": "verified_game_code"
+    },
+    {
+      "siteId": "08-05",
+      "sinnerId": "08",
+      "sinner": "イシュメール",
+      "name": "家主候補",
+      "gameSinnerId": 8,
+      "identityModifier": 12,
+      "gameId": 10812,
+      "status": "verified_game_code"
+    },
+    {
+      "siteId": "08-04",
+      "sinnerId": "08",
+      "sinner": "イシュメール",
+      "name": "定事務所代表",
+      "gameSinnerId": 8,
+      "identityModifier": 13,
+      "gameId": 10813,
+      "status": "verified_game_code"
+    },
+    {
+      "siteId": "08-03",
+      "sinnerId": "08",
+      "sinner": "イシュメール",
+      "name": "蜘蛛の巣中指の子方",
+      "gameSinnerId": 8,
+      "gameId": 10814,
+      "identityModifier": 14,
+      "status": "verified_game_code"
+    },
+    {
+      "siteId": "08-02",
+      "sinnerId": "08",
+      "sinner": "イシュメール",
+      "name": "LCD現場推理チーム",
+      "gameSinnerId": 8,
+      "gameId": 10815,
+      "status": "verified_game_code"
+    },
+    {
+      "siteId": "09-09",
+      "sinnerId": "09",
+      "sinner": "ロージャ",
+      "name": "LCB囚人",
+      "gameId": 10901,
+      "gameSinnerId": 9,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "09-14",
+      "sinnerId": "09",
+      "sinner": "ロージャ",
+      "name": "黒雲会若衆",
+      "gameId": 10902,
+      "gameSinnerId": 9,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "09-15",
+      "sinnerId": "09",
+      "sinner": "ロージャ",
+      "name": "LCCB係長",
+      "gameId": 10903,
+      "gameSinnerId": 9,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "09-10",
+      "sinnerId": "09",
+      "sinner": "ロージャ",
+      "name": "N社中鎚",
+      "gameId": 10904,
+      "gameSinnerId": 9,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "09-16",
+      "sinnerId": "09",
+      "sinner": "ロージャ",
+      "name": "バラのスパナ工房代表",
+      "gameId": 10905,
+      "gameSinnerId": 9,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "09-12",
+      "sinnerId": "09",
+      "sinner": "ロージャ",
+      "name": "南部ツヴァイ協会5課",
+      "gameId": 10906,
+      "gameSinnerId": 9,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "09-08",
+      "sinnerId": "09",
+      "sinner": "ロージャ",
+      "name": "南部ディエーチ協会4課",
+      "gameId": 10907,
+      "gameSinnerId": 9,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "09-07",
+      "sinnerId": "09",
+      "sinner": "ロージャ",
+      "name": "南部リウ協会4課部長",
+      "gameId": 10908,
+      "gameSinnerId": 9,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "09-11",
+      "sinnerId": "09",
+      "sinner": "ロージャ",
+      "name": "T社2級徴収職職員",
+      "gameId": 10909,
+      "gameSinnerId": 9,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "09-13",
+      "sinnerId": "09",
+      "sinner": "ロージャ",
+      "name": "北部ヂェーヴィチ協会3課",
+      "gameId": 10910,
+      "gameSinnerId": 9,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "09-06",
+      "sinnerId": "09",
+      "sinner": "ロージャ",
+      "name": "ラ・マンチャランドの姫",
+      "gameId": 10911,
+      "gameSinnerId": 9,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "09-05",
+      "sinnerId": "09",
+      "sinner": "ロージャ",
+      "name": "黒獣-巳",
+      "gameSinnerId": 9,
+      "identityModifier": 12,
+      "gameId": 10912,
+      "status": "verified_game_code"
+    },
+    {
+      "siteId": "09-04",
+      "sinnerId": "09",
+      "sinner": "ロージャ",
+      "name": "ロボトミーE.G.O::涙で研ぎ澄まされた剣",
+      "gameSinnerId": 9,
+      "identityModifier": 13,
+      "gameId": 10913,
+      "status": "verified_game_code"
+    },
+    {
+      "siteId": "09-03",
+      "sinnerId": "09",
+      "sinner": "ロージャ",
+      "name": "R社第4群トナカイチーム",
+      "gameSinnerId": 9,
+      "identityModifier": 14,
+      "gameId": 10914,
+      "status": "verified_game_code"
+    },
+    {
+      "siteId": "09-02",
+      "sinnerId": "09",
+      "sinner": "ロージャ",
+      "name": "薬指野獣派ドーセント",
+      "gameSinnerId": 9,
+      "gameId": 10915,
+      "identityModifier": 15,
+      "status": "verified_game_code"
+    },
+    {
+      "siteId": "09-01",
+      "sinnerId": "09",
+      "sinner": "ロージャ",
+      "name": "蜘蛛の巣親指の親方",
+      "gameSinnerId": 9,
+      "gameId": 10916,
+      "status": "verified_game_code"
+    },
+    {
+      "siteId": "11-10",
+      "sinnerId": "11",
+      "sinner": "シンクレア",
+      "name": "LCB囚人",
+      "gameId": 11001,
+      "gameSinnerId": 10,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "11-08",
+      "sinnerId": "11",
+      "sinner": "シンクレア",
+      "name": "剣契殺手",
+      "gameId": 11002,
+      "gameSinnerId": 10,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "11-14",
+      "sinnerId": "11",
+      "sinner": "シンクレア",
+      "name": "南部ツヴァイ協会6課",
+      "gameId": 11003,
+      "gameSinnerId": 10,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "11-09",
+      "sinnerId": "11",
+      "sinner": "シンクレア",
+      "name": "マリアッチボス",
+      "gameId": 11004,
+      "gameSinnerId": 10,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "11-07",
+      "sinnerId": "11",
+      "sinner": "シンクレア",
+      "name": "握らんとする者",
+      "gameId": 11005,
+      "gameSinnerId": 10,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "11-12",
+      "sinnerId": "11",
+      "sinner": "シンクレア",
+      "name": "ロボトミーE.G.O::紅籍",
+      "gameId": 11006,
+      "gameSinnerId": 10,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "11-13",
+      "sinnerId": "11",
+      "sinner": "シンクレア",
+      "name": "奥歯ボートセンターフィクサー",
+      "gameId": 11007,
+      "gameSinnerId": 10,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "11-06",
+      "sinnerId": "11",
+      "sinner": "シンクレア",
+      "name": "南部センク協会4課部長",
+      "gameId": 11008,
+      "gameSinnerId": 10,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "11-05",
+      "sinnerId": "11",
+      "sinner": "シンクレア",
+      "name": "夜明事務所フィクサー",
+      "gameId": 11009,
+      "gameSinnerId": 10,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "11-11",
+      "sinnerId": "11",
+      "sinner": "シンクレア",
+      "name": "西部ツヴァイ協会3課",
+      "gameId": 11010,
+      "gameSinnerId": 10,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "11-15",
+      "sinnerId": "11",
+      "sinner": "シンクレア",
+      "name": "北部ヂェーヴィチ協会3課",
+      "gameId": 11011,
+      "gameSinnerId": 10,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "11-04",
+      "sinnerId": "11",
+      "sinner": "シンクレア",
+      "name": "中指末弟",
+      "gameSinnerId": 10,
+      "identityModifier": 12,
+      "gameId": 11012,
+      "status": "verified_game_code"
+    },
+    {
+      "siteId": "11-01",
+      "sinnerId": "11",
+      "sinner": "シンクレア",
+      "name": "東部親指ソルダートII",
+      "gameSinnerId": 10,
+      "gameId": 11013,
+      "status": "verified_game_code"
+    },
+    {
+      "siteId": "11-03",
+      "sinnerId": "11",
+      "sinner": "シンクレア",
+      "name": "黒獣-酉",
+      "gameSinnerId": 10,
+      "identityModifier": 14,
+      "gameId": 11014,
+      "status": "verified_game_code"
+    },
+    {
+      "siteId": "11-02",
+      "sinnerId": "11",
+      "sinner": "シンクレア",
+      "name": "蜘蛛の巣小指の子方",
+      "gameSinnerId": 10,
+      "gameId": 11015,
+      "identityModifier": 15,
+      "status": "verified_game_code"
+    },
+    {
+      "siteId": "12-11",
+      "sinnerId": "12",
+      "sinner": "ウーティス",
+      "name": "LCB囚人",
+      "gameId": 11101,
+      "gameSinnerId": 11,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "12-10",
+      "sinnerId": "12",
+      "sinner": "ウーティス",
+      "name": "剣契殺手",
+      "gameId": 11102,
+      "gameSinnerId": 11,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "12-15",
+      "sinnerId": "12",
+      "sinner": "ウーティス",
+      "name": "G社部長",
+      "gameId": 11103,
+      "gameSinnerId": 11,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "12-12",
+      "sinnerId": "12",
+      "sinner": "ウーティス",
+      "name": "南部セブン協会6課部長",
+      "gameId": 11104,
+      "gameSinnerId": 11,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "12-14",
+      "sinnerId": "12",
+      "sinner": "ウーティス",
+      "name": "奥歯事務所フィクサー",
+      "gameId": 11105,
+      "gameSinnerId": 11,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "12-13",
+      "sinnerId": "12",
+      "sinner": "ウーティス",
+      "name": "南部センク協会4課",
+      "gameId": 11106,
+      "gameSinnerId": 11,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "12-09",
+      "sinnerId": "12",
+      "sinner": "ウーティス",
+      "name": "ロボトミーE.G.O::魔弾",
+      "gameId": 11107,
+      "gameSinnerId": 11,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "12-08",
+      "sinnerId": "12",
+      "sinner": "ウーティス",
+      "name": "ワザリング・ハイツチーフバトラー",
+      "gameId": 11108,
+      "gameSinnerId": 11,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "12-07",
+      "sinnerId": "12",
+      "sinner": "ウーティス",
+      "name": "薬指点描派スチューデント",
+      "gameId": 11109,
+      "gameSinnerId": 11,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "12-06",
+      "sinnerId": "12",
+      "sinner": "ウーティス",
+      "name": "W社3級整理要員チーフ",
+      "gameId": 11110,
+      "gameSinnerId": 11,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "12-05",
+      "sinnerId": "12",
+      "sinner": "ウーティス",
+      "name": "ラ・マンチャランド理髪師",
+      "gameId": 11111,
+      "gameSinnerId": 11,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "12-04",
+      "sinnerId": "12",
+      "sinner": "ウーティス",
+      "name": "黒獣-卯",
+      "gameSinnerId": 11,
+      "identityModifier": 12,
+      "gameId": 11112,
+      "status": "verified_game_code"
+    },
+    {
+      "siteId": "12-03",
+      "sinnerId": "12",
+      "sinner": "ウーティス",
+      "name": "T社3級強制徴収職職員",
+      "gameSinnerId": 11,
+      "identityModifier": 13,
+      "gameId": 11113,
+      "status": "verified_game_code"
+    },
+    {
+      "siteId": "12-01",
+      "sinnerId": "12",
+      "sinner": "ウーティス",
+      "name": "LCAウアジェト先鋒三隊隊長",
+      "gameSinnerId": 11,
+      "gameId": 11114,
+      "status": "verified_game_code"
+    },
+    {
+      "siteId": "12-02",
+      "sinnerId": "12",
+      "sinner": "ウーティス",
+      "name": "蜘蛛の巣中指の親方",
+      "gameSinnerId": 11,
+      "gameId": 11115,
+      "identityModifier": 15,
+      "status": "verified_game_code"
+    },
+    {
+      "siteId": "13-09",
+      "sinnerId": "13",
+      "sinner": "グレゴール",
+      "name": "LCB囚人",
+      "gameId": 11201,
+      "gameSinnerId": 12,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "13-15",
+      "sinnerId": "13",
+      "sinner": "グレゴール",
+      "name": "南部リウ協会6課",
+      "gameId": 11202,
+      "gameSinnerId": 12,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "13-11",
+      "sinnerId": "13",
+      "sinner": "グレゴール",
+      "name": "G社課長代理",
+      "gameId": 11203,
+      "gameSinnerId": 12,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "13-16",
+      "sinnerId": "13",
+      "sinner": "グレゴール",
+      "name": "りょ・ミ・パ助手",
+      "gameId": 11204,
+      "gameSinnerId": 12,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "13-14",
+      "sinnerId": "13",
+      "sinner": "グレゴール",
+      "name": "バラのスパナ工房フィクサー",
+      "gameId": 11205,
+      "gameSinnerId": 12,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "13-12",
+      "sinnerId": "13",
+      "sinner": "グレゴール",
+      "name": "南部ツヴァイ協会4課",
+      "gameId": 11206,
+      "gameSinnerId": 12,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "13-13",
+      "sinnerId": "13",
+      "sinner": "グレゴール",
+      "name": "双鉤海賊団副船長",
+      "gameId": 11207,
+      "gameSinnerId": 12,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "13-10",
+      "sinnerId": "13",
+      "sinner": "グレゴール",
+      "name": "黒雲会副組長",
+      "gameId": 11208,
+      "gameSinnerId": 12,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "13-08",
+      "sinnerId": "13",
+      "sinner": "グレゴール",
+      "name": "エドガー家継承者",
+      "gameId": 11209,
+      "gameSinnerId": 12,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "13-07",
+      "sinnerId": "13",
+      "sinner": "グレゴール",
+      "name": "ラ・マンチャランド神父",
+      "gameId": 11210,
+      "gameSinnerId": 12,
+      "status": "verified_public"
+    },
+    {
+      "siteId": "13-06",
+      "sinnerId": "13",
+      "sinner": "グレゴール",
+      "name": "炎拳事務所生存者",
+      "gameSinnerId": 12,
+      "identityModifier": 11,
+      "gameId": 11211,
+      "status": "verified_game_code"
+    },
+    {
+      "siteId": "13-05",
+      "sinnerId": "13",
+      "sinner": "グレゴール",
+      "name": "黒獣-巳",
+      "gameSinnerId": 12,
+      "identityModifier": 12,
+      "gameId": 11212,
+      "status": "verified_game_code"
+    },
+    {
+      "siteId": "13-04",
+      "sinnerId": "13",
+      "sinner": "グレゴール",
+      "name": "夜の錐カピターノ",
+      "gameSinnerId": 12,
+      "identityModifier": 13,
+      "gameId": 11213,
+      "status": "verified_game_code"
+    },
+    {
+      "siteId": "13-03",
+      "sinnerId": "13",
+      "sinner": "グレゴール",
+      "name": "ロボトミーE.G.O::ランプ",
+      "gameSinnerId": 12,
+      "identityModifier": 14,
+      "gameId": 11214,
+      "status": "verified_game_code"
+    },
+    {
+      "siteId": "13-02",
+      "sinnerId": "13",
+      "sinner": "グレゴール",
+      "name": "LCE E.G.O::AEDD",
+      "gameSinnerId": 12,
+      "gameId": 11215,
+      "identityModifier": 15,
+      "status": "verified_game_code"
+    },
+    {
+      "siteId": "13-01",
+      "sinnerId": "13",
+      "sinner": "グレゴール",
+      "name": "夜明事務所代表",
+      "gameSinnerId": 12,
+      "gameId": 11216,
+      "status": "verified_game_code"
+    }
+  ],
+  "egos": [
+    {
+      "sinnerId": "01",
+      "sinner": "イサン",
+      "name": "烏瞰刀",
+      "risk": "ZAYIN",
+      "gameId": 20101,
+      "gameSinnerId": 1,
+      "status": "verified_public"
+    },
+    {
+      "sinnerId": "01",
+      "sinner": "イサン",
+      "name": "4本目のマッチの火",
+      "risk": "TETH",
+      "gameId": 20102,
+      "gameSinnerId": 1,
+      "status": "verified_public"
+    },
+    {
+      "sinnerId": "01",
+      "sinner": "イサン",
+      "name": "願いの石",
+      "risk": "TETH",
+      "gameId": 20103,
+      "gameSinnerId": 1,
+      "status": "verified_public"
+    },
+    {
+      "sinnerId": "01",
+      "sinner": "イサン",
+      "name": "次元裂き",
+      "risk": "HE",
+      "gameId": 20104,
+      "gameSinnerId": 1,
+      "status": "verified_public"
+    },
+    {
+      "sinnerId": "01",
+      "sinner": "イサン",
+      "name": "狐雨",
+      "risk": "WAW",
+      "gameId": 20105,
+      "gameSinnerId": 1,
+      "status": "verified_public"
+    },
+    {
+      "sinnerId": "01",
+      "sinner": "イサン",
+      "name": "過ぎし日",
+      "risk": "ZAYIN",
+      "gameId": 20106,
+      "gameSinnerId": 1,
+      "status": "verified_public"
+    },
+    {
+      "sinnerId": "01",
+      "sinner": "イサン",
+      "name": "凶弾",
+      "risk": "HE",
+      "gameId": 20107,
+      "gameSinnerId": 1,
+      "status": "verified_public"
+    },
+    {
+      "sinnerId": "01",
+      "sinner": "イサン",
+      "name": "三千大世界",
+      "risk": "WAW",
+      "gameSinnerId": 1,
+      "gameId": 20108,
+      "status": "verified_game_code"
+    },
+    {
+      "sinnerId": "01",
+      "sinner": "イサン",
+      "name": "厳粛な哀悼",
+      "risk": "HE",
+      "gameSinnerId": 1,
+      "gameId": 20109,
+      "status": "verified_game_code"
+    },
+    {
+      "sinnerId": "02",
+      "sinner": "ファウスト",
+      "name": "表象放出機",
+      "risk": "ZAYIN",
+      "gameId": 20201,
+      "gameSinnerId": 2,
+      "status": "verified_public"
+    },
+    {
+      "sinnerId": "02",
+      "sinner": "ファウスト",
+      "name": "水袋",
+      "risk": "HE",
+      "gameId": 20202,
+      "gameSinnerId": 2,
+      "status": "verified_public"
+    },
+    {
+      "sinnerId": "02",
+      "sinner": "ファウスト",
+      "name": "呪いの釘",
+      "risk": "TETH",
+      "gameId": 20203,
+      "gameSinnerId": 2,
+      "status": "verified_public"
+    },
+    {
+      "sinnerId": "02",
+      "sinner": "ファウスト",
+      "name": "電信柱",
+      "risk": "HE",
+      "gameId": 20204,
+      "gameSinnerId": 2,
+      "status": "verified_public"
+    },
+    {
+      "sinnerId": "02",
+      "sinner": "ファウスト",
+      "name": "9章2節",
+      "risk": "TETH",
+      "gameId": 20205,
+      "gameSinnerId": 2,
+      "status": "verified_public"
+    },
+    {
+      "sinnerId": "02",
+      "sinner": "ファウスト",
+      "name": "永続",
+      "risk": "WAW",
+      "gameId": 20206,
+      "gameSinnerId": 2,
+      "status": "verified_public"
+    },
+    {
+      "sinnerId": "02",
+      "sinner": "ファウスト",
+      "name": "投げ縄",
+      "risk": "TETH",
+      "gameId": 20207,
+      "gameSinnerId": 2,
+      "status": "verified_public"
+    },
+    {
+      "sinnerId": "02",
+      "sinner": "ファウスト",
+      "name": "胸痛",
+      "risk": "HE",
+      "gameId": 20208,
+      "gameSinnerId": 2,
+      "status": "verified_public"
+    },
+    {
+      "sinnerId": "02",
+      "sinner": "ファウスト",
+      "name": "指令:メルトダウン",
+      "risk": "HE",
+      "gameId": 20209,
+      "gameSinnerId": 2,
+      "status": "verified_public"
+    },
+    {
+      "sinnerId": "02",
+      "sinner": "ファウスト",
+      "name": "紅炎殺",
+      "risk": "HE",
+      "gameSinnerId": 2,
+      "gameId": 20210,
+      "status": "verified_game_code"
+    },
+    {
+      "sinnerId": "03",
+      "sinner": "ドンキホーテ",
+      "name": "ラ・サングレ・デ・サンチョ",
+      "risk": "ZAYIN",
+      "gameId": 20301,
+      "gameSinnerId": 3,
+      "status": "verified_public"
+    },
+    {
+      "sinnerId": "03",
+      "sinner": "ドンキホーテ",
+      "name": "水袋",
+      "risk": "HE",
+      "gameId": 20302,
+      "gameSinnerId": 3,
+      "status": "verified_public"
+    },
+    {
+      "sinnerId": "03",
+      "sinner": "ドンキホーテ",
+      "name": "電信柱",
+      "risk": "HE",
+      "gameId": 20303,
+      "gameSinnerId": 3,
+      "status": "verified_public"
+    },
+    {
+      "sinnerId": "03",
+      "sinner": "ドンキホーテ",
+      "name": "一生シチュー",
+      "risk": "TETH",
+      "gameId": 20304,
+      "gameSinnerId": 3,
+      "status": "verified_public"
+    },
+    {
+      "sinnerId": "03",
+      "sinner": "ドンキホーテ",
+      "name": "願いの石",
+      "risk": "TETH",
+      "gameId": 20305,
+      "gameSinnerId": 3,
+      "status": "verified_public"
+    },
+    {
+      "sinnerId": "03",
+      "sinner": "ドンキホーテ",
+      "name": "電気哀鳴",
+      "risk": "TETH",
+      "gameId": 20306,
+      "gameSinnerId": 3,
+      "status": "verified_public"
+    },
+    {
+      "sinnerId": "03",
+      "sinner": "ドンキホーテ",
+      "name": "渇望-ミルカラ",
+      "risk": "WAW",
+      "gameId": 20307,
+      "gameSinnerId": 3,
+      "status": "verified_public"
+    },
+    {
+      "sinnerId": "03",
+      "sinner": "ドンキホーテ",
+      "name": "紅籍",
+      "risk": "HE",
+      "gameId": 20308,
+      "gameSinnerId": 3,
+      "status": "verified_public"
+    },
+    {
+      "sinnerId": "03",
+      "sinner": "ドンキホーテ",
+      "name": "愛と憎悪の名の下に",
+      "risk": "WAW",
+      "gameSinnerId": 3,
+      "gameId": 20309,
+      "status": "verified_game_code"
+    },
+    {
+      "sinnerId": "03",
+      "sinner": "ドンキホーテ",
+      "name": "私はチョキを出すね、そっちは？",
+      "risk": "ZAYIN",
+      "gameSinnerId": 3,
+      "gameId": 20310,
+      "status": "verified_game_code"
+    },
+    {
+      "sinnerId": "04",
+      "sinner": "良秀",
+      "name": "森羅炎象",
+      "risk": "ZAYIN",
+      "gameId": 20401,
+      "gameSinnerId": 4,
+      "status": "verified_public"
+    },
+    {
+      "sinnerId": "04",
+      "sinner": "良秀",
+      "name": "4本目のマッチの火",
+      "risk": "HE",
+      "gameId": 20402,
+      "gameSinnerId": 4,
+      "status": "verified_public"
+    },
+    {
+      "sinnerId": "04",
+      "sinner": "良秀",
+      "name": "赤眼",
+      "risk": "TETH",
+      "gameId": 20403,
+      "gameSinnerId": 4,
+      "status": "verified_public"
+    },
+    {
+      "sinnerId": "04",
+      "sinner": "良秀",
+      "name": "赤眼（開）",
+      "risk": "HE",
+      "gameId": 20404,
+      "gameSinnerId": 4,
+      "status": "verified_public"
+    },
+    {
+      "sinnerId": "04",
+      "sinner": "良秀",
+      "name": "ソーダ",
+      "risk": "ZAYIN",
+      "gameId": 20405,
+      "gameSinnerId": 4,
+      "status": "verified_public"
+    },
+    {
+      "sinnerId": "04",
+      "sinner": "良秀",
+      "name": "盲目",
+      "risk": "TETH",
+      "gameId": 20406,
+      "gameSinnerId": 4,
+      "status": "verified_public"
+    },
+    {
+      "sinnerId": "04",
+      "sinner": "良秀",
+      "name": "軽蔑、畏敬",
+      "risk": "WAW",
+      "gameId": 20407,
+      "gameSinnerId": 4,
+      "status": "verified_public"
+    },
+    {
+      "sinnerId": "04",
+      "sinner": "良秀",
+      "name": "胸痛",
+      "risk": "HE",
+      "gameId": 20408,
+      "gameSinnerId": 4,
+      "status": "verified_public"
+    },
+    {
+      "sinnerId": "04",
+      "sinner": "良秀",
+      "name": "三千大世界",
+      "risk": "WAW",
+      "gameSinnerId": 4,
+      "gameId": 20409,
+      "status": "verified_game_code"
+    },
+    {
+      "sinnerId": "05",
+      "sinner": "ムルソー",
+      "name": "他人の鎖",
+      "risk": "ZAYIN",
+      "gameId": 20501,
+      "gameSinnerId": 5,
+      "status": "verified_public"
+    },
+    {
+      "sinnerId": "05",
+      "sinner": "ムルソー",
+      "name": "ネジの外れた一撃",
+      "risk": "TETH",
+      "gameId": 20502,
+      "gameSinnerId": 5,
+      "status": "verified_public"
+    },
+    {
+      "sinnerId": "05",
+      "sinner": "ムルソー",
+      "name": "執行",
+      "risk": "HE",
+      "gameId": 20503,
+      "gameSinnerId": 5,
+      "status": "verified_public"
+    },
+    {
+      "sinnerId": "05",
+      "sinner": "ムルソー",
+      "name": "カポーテ",
+      "risk": "HE",
+      "gameId": 20504,
+      "gameSinnerId": 5,
+      "status": "verified_public"
+    },
+    {
+      "sinnerId": "05",
+      "sinner": "ムルソー",
+      "name": "後悔",
+      "risk": "TETH",
+      "gameId": 20505,
+      "gameSinnerId": 5,
+      "status": "verified_public"
+    },
+    {
+      "sinnerId": "05",
+      "sinner": "ムルソー",
+      "name": "電気哀鳴",
+      "risk": "TETH",
+      "gameId": 20506,
+      "gameSinnerId": 5,
+      "status": "verified_public"
+    },
+    {
+      "sinnerId": "05",
+      "sinner": "ムルソー",
+      "name": "渇望-ミルカラ",
+      "risk": "WAW",
+      "gameId": 20507,
+      "gameSinnerId": 5,
+      "status": "verified_public"
+    },
+    {
+      "sinnerId": "05",
+      "sinner": "ムルソー",
+      "name": "粉砕される過去",
+      "risk": "WAW",
+      "gameId": 20508,
+      "gameSinnerId": 5,
+      "status": "verified_public"
+    },
+    {
+      "sinnerId": "05",
+      "sinner": "ムルソー",
+      "name": "蒼影揮刀",
+      "risk": "HE",
+      "gameSinnerId": 5,
+      "gameId": 20509,
+      "status": "verified_game_code"
+    },
+    {
+      "sinnerId": "06",
+      "sinner": "ホンル",
+      "name": "虚幻境",
+      "risk": "ZAYIN",
+      "gameId": 20601,
+      "gameSinnerId": 6,
+      "status": "verified_public"
+    },
+    {
+      "sinnerId": "06",
+      "sinner": "ホンル",
+      "name": "桃色の欲望",
+      "risk": "TETH",
+      "gameId": 20602,
+      "gameSinnerId": 6,
+      "status": "verified_public"
+    },
+    {
+      "sinnerId": "06",
+      "sinner": "ホンル",
+      "name": "次元裂き",
+      "risk": "HE",
+      "gameId": 20603,
+      "gameSinnerId": 6,
+      "status": "verified_public"
+    },
+    {
+      "sinnerId": "06",
+      "sinner": "ホンル",
+      "name": "ソーダ",
+      "risk": "TETH",
+      "gameId": 20604,
+      "gameSinnerId": 6,
+      "status": "verified_public"
+    },
+    {
+      "sinnerId": "06",
+      "sinner": "ホンル",
+      "name": "沸き立つ腐食",
+      "risk": "HE",
+      "gameId": 20605,
+      "gameSinnerId": 6,
+      "status": "verified_public"
+    },
+    {
+      "sinnerId": "06",
+      "sinner": "ホンル",
+      "name": "低いなきごえ",
+      "risk": "TETH",
+      "gameId": 20606,
+      "gameSinnerId": 6,
+      "status": "verified_public"
+    },
+    {
+      "sinnerId": "06",
+      "sinner": "ホンル",
+      "name": "投げ縄",
+      "risk": "TETH",
+      "gameId": 20607,
+      "gameSinnerId": 6,
+      "status": "verified_public"
+    },
+    {
+      "sinnerId": "06",
+      "sinner": "ホンル",
+      "name": "汚血泣涙",
+      "risk": "WAW",
+      "gameId": 20608,
+      "gameSinnerId": 6,
+      "status": "verified_public"
+    },
+    {
+      "sinnerId": "06",
+      "sinner": "ホンル",
+      "name": "寧ろ吾をなさん",
+      "risk": "HE",
+      "gameSinnerId": 6,
+      "gameId": 20609,
+      "status": "verified_game_code"
+    },
+    {
+      "sinnerId": "07",
+      "sinner": "ヒースクリフ",
+      "name": "死体袋",
+      "risk": "ZAYIN",
+      "gameId": 20701,
+      "gameSinnerId": 7,
+      "status": "verified_public"
+    },
+    {
+      "sinnerId": "07",
+      "sinner": "ヒースクリフ",
+      "name": "AEDD",
+      "risk": "TETH",
+      "gameId": 20702,
+      "gameSinnerId": 7,
+      "status": "verified_public"
+    },
+    {
+      "sinnerId": "07",
+      "sinner": "ヒースクリフ",
+      "name": "電信柱",
+      "risk": "HE",
+      "gameId": 20703,
+      "gameSinnerId": 7,
+      "status": "verified_public"
+    },
+    {
+      "sinnerId": "07",
+      "sinner": "ヒースクリフ",
+      "name": "空即是色",
+      "risk": "HE",
+      "gameId": 20704,
+      "gameSinnerId": 7,
+      "status": "verified_public"
+    },
+    {
+      "sinnerId": "07",
+      "sinner": "ヒースクリフ",
+      "name": "ホリディ",
+      "risk": "ZAYIN",
+      "gameId": 20705,
+      "gameSinnerId": 7,
+      "status": "verified_public"
+    },
+    {
+      "sinnerId": "07",
+      "sinner": "ヒースクリフ",
+      "name": "拘束",
+      "risk": "WAW",
+      "gameId": 20706,
+      "gameSinnerId": 7,
+      "status": "verified_public"
+    },
+    {
+      "sinnerId": "07",
+      "sinner": "ヒースクリフ",
+      "name": "凶弾",
+      "risk": "TETH",
+      "gameId": 20707,
+      "gameSinnerId": 7,
+      "status": "verified_public"
+    },
+    {
+      "sinnerId": "07",
+      "sinner": "ヒースクリフ",
+      "name": "偏った慣性",
+      "risk": "HE",
+      "gameId": 20708,
+      "gameSinnerId": 7,
+      "status": "verified_public"
+    },
+    {
+      "sinnerId": "07",
+      "sinner": "ヒースクリフ",
+      "name": "転入届",
+      "risk": "TETH",
+      "gameSinnerId": 7,
+      "gameId": 20709,
+      "status": "verified_game_code"
+    },
+    {
+      "sinnerId": "08",
+      "sinner": "イシュメール",
+      "name": "銛穿ち",
+      "risk": "ZAYIN",
+      "gameId": 20801,
+      "gameSinnerId": 8,
+      "status": "verified_public"
+    },
+    {
+      "sinnerId": "08",
+      "sinner": "イシュメール",
+      "name": "桃色の欲望",
+      "risk": "TETH",
+      "gameId": 20802,
+      "gameSinnerId": 8,
+      "status": "verified_public"
+    },
+    {
+      "sinnerId": "08",
+      "sinner": "イシュメール",
+      "name": "紅炎殺",
+      "risk": "HE",
+      "gameId": 20803,
+      "gameSinnerId": 8,
+      "status": "verified_public"
+    },
+    {
+      "sinnerId": "08",
+      "sinner": "イシュメール",
+      "name": "カポーテ",
+      "risk": "TETH",
+      "gameId": 20804,
+      "gameSinnerId": 8,
+      "status": "verified_public"
+    },
+    {
+      "sinnerId": "08",
+      "sinner": "イシュメール",
+      "name": "盲目",
+      "risk": "WAW",
+      "gameId": 20805,
+      "gameSinnerId": 8,
+      "status": "verified_public"
+    },
+    {
+      "sinnerId": "08",
+      "sinner": "イシュメール",
+      "name": "過ぎし日",
+      "risk": "TETH",
+      "gameId": 20806,
+      "gameSinnerId": 8,
+      "status": "verified_public"
+    },
+    {
+      "sinnerId": "08",
+      "sinner": "イシュメール",
+      "name": "羽ばたき",
+      "risk": "HE",
+      "gameId": 20807,
+      "gameSinnerId": 8,
+      "status": "verified_public"
+    },
+    {
+      "sinnerId": "08",
+      "sinner": "イシュメール",
+      "name": "クリスマスの悪夢",
+      "risk": "HE",
+      "gameId": 20808,
+      "gameSinnerId": 8,
+      "status": "verified_public"
+    },
+    {
+      "sinnerId": "08",
+      "sinner": "イシュメール",
+      "name": "蛆虫殺",
+      "risk": "ZAYIN",
+      "gameSinnerId": 8,
+      "gameId": 20809,
+      "status": "verified_game_code"
+    },
+    {
+      "sinnerId": "08",
+      "sinner": "イシュメール",
+      "name": "海嘯の悲歌",
+      "risk": "HE",
+      "gameSinnerId": 8,
+      "gameId": 20810,
+      "status": "verified_game_code"
+    },
+    {
+      "sinnerId": "09",
+      "sinner": "ロージャ",
+      "name": "投げられたもの",
+      "risk": "ZAYIN",
+      "gameId": 20901,
+      "gameSinnerId": 9,
+      "status": "verified_public"
+    },
+    {
+      "sinnerId": "09",
+      "sinner": "ロージャ",
+      "name": "氷の脚",
+      "risk": "TETH",
+      "gameId": 20902,
+      "gameSinnerId": 9,
+      "status": "verified_public"
+    },
+    {
+      "sinnerId": "09",
+      "sinner": "ロージャ",
+      "name": "4本目のマッチの火",
+      "risk": "HE",
+      "gameId": 20903,
+      "gameSinnerId": 9,
+      "status": "verified_public"
+    },
+    {
+      "sinnerId": "09",
+      "sinner": "ロージャ",
+      "name": "沸き立つ腐食",
+      "risk": "TETH",
+      "gameId": 20904,
+      "gameSinnerId": 9,
+      "status": "verified_public"
+    },
+    {
+      "sinnerId": "09",
+      "sinner": "ロージャ",
+      "name": "執行",
+      "risk": "HE",
+      "gameId": 20905,
+      "gameSinnerId": 9,
+      "status": "verified_public"
+    },
+    {
+      "sinnerId": "09",
+      "sinner": "ロージャ",
+      "name": "血色の欲望",
+      "risk": "WAW",
+      "gameId": 20906,
+      "gameSinnerId": 9,
+      "status": "verified_public"
+    },
+    {
+      "sinnerId": "09",
+      "sinner": "ロージャ",
+      "name": "呪いの釘",
+      "risk": "HE",
+      "gameId": 20907,
+      "gameSinnerId": 9,
+      "status": "verified_public"
+    },
+    {
+      "sinnerId": "09",
+      "sinner": "ロージャ",
+      "name": "指定裁判",
+      "risk": "WAW",
+      "gameId": 20908,
+      "gameSinnerId": 9,
+      "status": "verified_public"
+    },
+    {
+      "sinnerId": "09",
+      "sinner": "ロージャ",
+      "name": "夕焼けの中へ",
+      "risk": "ZAYIN",
+      "gameSinnerId": 9,
+      "gameId": 20909,
+      "status": "verified_game_code"
+    },
+    {
+      "sinnerId": "11",
+      "sinner": "シンクレア",
+      "name": "知識の木の枝",
+      "risk": "ZAYIN",
+      "gameId": 21001,
+      "gameSinnerId": 10,
+      "status": "verified_public"
+    },
+    {
+      "sinnerId": "11",
+      "sinner": "シンクレア",
+      "name": "迫り来る日",
+      "risk": "TETH",
+      "gameId": 21002,
+      "gameSinnerId": 10,
+      "status": "verified_public"
+    },
+    {
+      "sinnerId": "11",
+      "sinner": "シンクレア",
+      "name": "一生シチュー",
+      "risk": "TETH",
+      "gameId": 21003,
+      "gameSinnerId": 10,
+      "status": "verified_public"
+    },
+    {
+      "sinnerId": "11",
+      "sinner": "シンクレア",
+      "name": "提灯",
+      "risk": "HE",
+      "gameId": 21004,
+      "gameSinnerId": 10,
+      "status": "verified_public"
+    },
+    {
+      "sinnerId": "11",
+      "sinner": "シンクレア",
+      "name": "9章2節",
+      "risk": "HE",
+      "gameId": 21005,
+      "gameSinnerId": 10,
+      "status": "verified_public"
+    },
+    {
+      "sinnerId": "11",
+      "sinner": "シンクレア",
+      "name": "低いなきごえ",
+      "risk": "ZAYIN",
+      "gameId": 21006,
+      "gameSinnerId": 10,
+      "status": "verified_public"
+    },
+    {
+      "sinnerId": "11",
+      "sinner": "シンクレア",
+      "name": "呪いの釘",
+      "risk": "TETH",
+      "gameId": 21007,
+      "gameSinnerId": 10,
+      "status": "verified_public"
+    },
+    {
+      "sinnerId": "11",
+      "sinner": "シンクレア",
+      "name": "汚血泣涙",
+      "risk": "WAW",
+      "gameSinnerId": 10,
+      "gameId": 21008,
+      "status": "verified_game_code"
+    },
+    {
+      "sinnerId": "11",
+      "sinner": "シンクレア",
+      "name": "ハーモニー",
+      "risk": "HE",
+      "gameSinnerId": 10,
+      "gameId": 21009,
+      "status": "verified_game_code"
+    },
+    {
+      "sinnerId": "12",
+      "sinner": "ウーティス",
+      "name": "ト・パソス・マソス",
+      "risk": "ZAYIN",
+      "gameId": 21101,
+      "gameSinnerId": 11,
+      "status": "verified_public"
+    },
+    {
+      "sinnerId": "12",
+      "sinner": "ウーティス",
+      "name": "黒い枝",
+      "risk": "HE",
+      "gameId": 21102,
+      "gameSinnerId": 11,
+      "status": "verified_public"
+    },
+    {
+      "sinnerId": "12",
+      "sinner": "ウーティス",
+      "name": "空即是色",
+      "risk": "TETH",
+      "gameId": 21103,
+      "gameSinnerId": 11,
+      "status": "verified_public"
+    },
+    {
+      "sinnerId": "12",
+      "sinner": "ウーティス",
+      "name": "狐雨",
+      "risk": "TETH",
+      "gameId": 21104,
+      "gameSinnerId": 11,
+      "status": "verified_public"
+    },
+    {
+      "sinnerId": "12",
+      "sinner": "ウーティス",
+      "name": "ホリディ",
+      "risk": "HE",
+      "gameId": 21105,
+      "gameSinnerId": 11,
+      "status": "verified_public"
+    },
+    {
+      "sinnerId": "12",
+      "sinner": "ウーティス",
+      "name": "次元裂き",
+      "risk": "HE",
+      "gameId": 21106,
+      "gameSinnerId": 11,
+      "status": "verified_public"
+    },
+    {
+      "sinnerId": "12",
+      "sinner": "ウーティス",
+      "name": "拘束",
+      "risk": "WAW",
+      "gameId": 21107,
+      "gameSinnerId": 11,
+      "status": "verified_public"
+    },
+    {
+      "sinnerId": "12",
+      "sinner": "ウーティス",
+      "name": "魔弾",
+      "risk": "HE",
+      "gameId": 21108,
+      "gameSinnerId": 11,
+      "status": "verified_public"
+    },
+    {
+      "sinnerId": "12",
+      "sinner": "ウーティス",
+      "name": "私はチョキを出すね、そっちは？",
+      "risk": "ZAYIN",
+      "gameSinnerId": 11,
+      "gameId": 21109,
+      "status": "verified_game_code"
+    },
+    {
+      "sinnerId": "13",
+      "sinner": "グレゴール",
+      "name": "ある日突然",
+      "risk": "ZAYIN",
+      "gameId": 21201,
+      "gameSinnerId": 12,
+      "status": "verified_public"
+    },
+    {
+      "sinnerId": "13",
+      "sinner": "グレゴール",
+      "name": "まやかし",
+      "risk": "ZAYIN",
+      "gameId": 21202,
+      "gameSinnerId": 12,
+      "status": "verified_public"
+    },
+    {
+      "sinnerId": "13",
+      "sinner": "グレゴール",
+      "name": "提灯",
+      "risk": "TETH",
+      "gameId": 21203,
+      "gameSinnerId": 12,
+      "status": "verified_public"
+    },
+    {
+      "sinnerId": "13",
+      "sinner": "グレゴール",
+      "name": "AEDD",
+      "risk": "HE",
+      "gameId": 21204,
+      "gameSinnerId": 12,
+      "status": "verified_public"
+    },
+    {
+      "sinnerId": "13",
+      "sinner": "グレゴール",
+      "name": "茨の花園",
+      "risk": "WAW",
+      "gameId": 21205,
+      "gameSinnerId": 12,
+      "status": "verified_public"
+    },
+    {
+      "sinnerId": "13",
+      "sinner": "グレゴール",
+      "name": "過ぎし日",
+      "risk": "TETH",
+      "gameId": 21206,
+      "gameSinnerId": 12,
+      "status": "verified_public"
+    },
+    {
+      "sinnerId": "13",
+      "sinner": "グレゴール",
+      "name": "厳粛な哀悼",
+      "risk": "HE",
+      "gameId": 21207,
+      "gameSinnerId": 12,
+      "status": "verified_public"
+    },
+    {
+      "sinnerId": "13",
+      "sinner": "グレゴール",
+      "name": "クリスマスの悪夢",
+      "risk": "HE",
+      "gameId": 21208,
+      "gameSinnerId": 12,
+      "status": "verified_public"
+    },
+    {
+      "sinnerId": "13",
+      "sinner": "グレゴール",
+      "name": "輝かざる栄光",
+      "risk": "WAW",
+      "gameSinnerId": 12,
+      "gameId": 21209,
+      "status": "verified_game_code"
+    }
+  ],
+  "unconfirmed": {
+    "identities": [],
+    "egos": []
+  },
+  "audit": {
+    "verifiedIdentityCount": 184,
+    "verifiedEgoCount": 111,
+    "unconfirmedIdentityCount": 0,
+    "unconfirmedEgoCount": 0,
+    "duplicateAndPrefixCheck": "PASS",
+    "errors": [],
+    "knownCorrectionsFromDeprecatedV1": [
+      {
+        "type": "ego",
+        "sinner": "ムルソー",
+        "name": "執行",
+        "oldGameId": 20504,
+        "correctGameId": 20503
+      },
+      {
+        "type": "ego",
+        "sinner": "ムルソー",
+        "name": "カポーテ",
+        "oldGameId": 20503,
+        "correctGameId": 20504
+      },
+      {
+        "type": "ego",
+        "sinner": "ホンル",
+        "name": "次元裂き",
+        "oldGameId": 20604,
+        "correctGameId": 20603
+      },
+      {
+        "type": "ego",
+        "sinner": "ホンル",
+        "name": "ソーダ",
+        "oldGameId": 20603,
+        "correctGameId": 20604
+      }
+    ],
+    "latestComparisonCodeResolution": {
+      "source": "user-generated final comparison code",
+      "initialCode": "H4sIAAAAAAAACnMMdEx3BAInR2cQ5ejq6AmmqSLsaGsLANDKykhgAAAA",
+      "comparisonCode": "H4sIAAAAAAAAE3MMdEx3BAI/R2cQ5ejq6AmmocJOFAk72toCAP6mFx9gAAAA",
+      "target": {
+        "type": "identity",
+        "siteId/sinnerId": "02-16",
+        "sinner": "ファウスト",
+        "name": "東部シ協会3課",
+        "risk": "",
+        "gameSinnerId": "2",
+        "gameId": "",
+        "status": "needs_formation_code"
+      },
+      "initialSlot": {
+        "slot": 2,
+        "personalityModifier": 1,
+        "slotType": 0,
+        "egoModifiers": [
+          1,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "comparisonSlot": {
+        "slot": 2,
+        "personalityModifier": 13,
+        "slotType": 0,
+        "egoModifiers": [
+          1,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "resolved": {
+        "siteId": "02-16",
+        "sinnerId": "02",
+        "sinner": "ファウスト",
+        "name": "東部シ協会3課",
+        "gameSinnerId": 2,
+        "identityModifier": 13,
+        "gameId": 10213,
+        "status": "verified_game_code"
+      },
+      "resolutionErrors": []
+    }
+  }
+}

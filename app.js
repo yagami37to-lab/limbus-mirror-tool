@@ -204,13 +204,14 @@ function validateRequiredStep(step,options){return validationFlowController.vali
 function validateAllRequiredSteps(){return validationFlowController.validateAll();}
 function navigateToStep(target){return validationFlowController.navigate(target);}
 let postStepController;
+let formationCodeController;
 function setStep(step){postStepController.set(step);}
 function syncTitle(){const raw=postTitle?.value??'';const t=raw.trim()||'攻略タイトルを入力してください';$$('[data-title-preview],[data-workspace-title-live]').forEach(x=>{x.textContent=t;x.classList.toggle('is-placeholder',!raw.trim());});}
 function renderFormationOrder(){formationController.render();}
 const themePackController=window.LimbusThemePackController.create({data:themePackData,state:postState,escapeHtml:reviewEscape,showToast,scrollToElement:smoothScrollToElement,queueScroll:queueIdentityScroll});
 const closeThemePackSelect=options=>themePackController.close(options);
 const renderThemeFloorCards=()=>themePackController.renderFloors();
-postStepController=window.LimbusPostStepController.create({state:postState,stepInfo,identityData:sinnerIdentityData,onCloseEgo:closeEgoSelect,onCloseTheme:closeThemePackSelect,onRenderIdentities:renderIdentitySinnerRoster,onOpenIdentity:openIdentitySelect,onRenderFormation:renderFormationOrder,onRenderEgos:renderEgoSinners,onRenderThemes:renderThemeFloorCards,onRenderDetails:renderDetailTags,onRenderReview:updateReview,onIdentityFooterUpdate:updateIdentityFooterState,onEgoFooterUpdate:updateEgoConfirmState,onResetScroll:resetStageScroll});
+postStepController=window.LimbusPostStepController.create({state:postState,stepInfo,identityData:sinnerIdentityData,onCloseEgo:closeEgoSelect,onCloseTheme:closeThemePackSelect,onRenderIdentities:renderIdentitySinnerRoster,onOpenIdentity:openIdentitySelect,onRenderFormation:renderFormationOrder,onRenderEgos:renderEgoSinners,onRenderThemes:renderThemeFloorCards,onRenderDetails:renderDetailTags,onRenderReview:updateReview,onEnterIdentity:()=>formationCodeController?.offer(),onIdentityFooterUpdate:updateIdentityFooterState,onEgoFooterUpdate:updateEgoConfirmState,onResetScroll:resetStageScroll});
 const postTagsController=window.LimbusPostTagsController.create({state:postState,strategyOptions:strategyTagOptions,affiliationOptions:affiliationTagOptions,automaticOptions:automaticKeywordOptions,strategyGrid:strategyTagGrid,affiliationGrid:affiliationTagGrid,automaticTags:automaticKeywordTags,ammoNote:ammoKeywordNote,strategyCount:strategyTagCount,affiliationCount:affiliationTagCount,getOrderedSinners:orderedSelectedSinners,getFormationPosition:formationPosition,isSolo:isSoloPost,showToast});
 function automaticPostKeywords(){return postTagsController.automaticKeywords();}
 function renderDetailTags(){postTagsController.render();}
@@ -234,7 +235,8 @@ function activateReviewEgoMarquees(){
   });
 }
 const postReviewController=window.LimbusPostReviewController.create({state:postState,getOrderedSinners:orderedSelectedSinners,getPosition:formationPosition,getTone:cardToneForKeywords,getImage:identityImageFor,escapeHtml:reviewEscape,egoRanks:egoSummaryRankOrder,egoTagMarkup:reviewEgoTagMarkup,tagMarkup:reviewTagMarkup,getAutomaticKeywords:automaticPostKeywords,activateMarquees:activateReviewEgoMarquees});
-function updateReview(){postReviewController.render();}
+formationCodeController=window.LimbusFormationCode.create({state:postState,identityData:sinnerIdentityData,egoData:sinnerEgoData,showToast,onApplied:()=>{clearStepValidation(2);renderIdentitySinnerRoster();renderIdentityOptions();renderFormationOrder();renderEgoSinners();updatePostIdentityCount();setStep(2);}});
+function updateReview(){postReviewController.render();formationCodeController.refresh();}
 const identityWorkspaceController=window.LimbusIdentityWorkspaceController.create({state:postState,filterController:identityFilterController,selectionController:identitySelectionController,filterPanel:identityFilterPanel,filterToggle:toggleIdentitySearch,filterScrollHint:identityFilterScrollHint,applyFiltersButton:applyIdentityFilters,clearCurrentButton:clearCurrentIdentity,clearAllButton:clearAllIdentities,fillEmptyButton:fillEmptyIdentities,footerActions:identityFooterActions,workspaceFooter,currentIdentityName,identityRoster:identitySinnerRoster,renderRoster:renderIdentitySinnerRoster,renderOptions:renderIdentityOptions,updateCount:updatePostIdentityCount,updateKeywordSummary:updatePartyKeywordSummary,clearValidation:clearStepValidation,queueRosterScroll:queueIdentityScroll,showToast,confirmClearAll:()=>window.confirm('選択中の人格と、それに設定したE.G.Oをすべて解除しますか？')});
 identityWorkspaceController.bind();
 function updateIdentitySearchButtonState(){identityWorkspaceController.updateSearchButton();}
@@ -278,7 +280,7 @@ draftController=window.LimbusDraftController.create({
 });
 
 const postCloseConfirm=$('[data-post-close-confirm]');
-const postEditorResetController=window.LimbusPostEditorResetController.create({state:postState,identityData:sinnerIdentityData,postModal,onClearDraft:()=>draftController.clearActive(),onRefresh:()=>{updatePostCategoryDisplays();updateDifficultyDisplay();syncTitle();updatePostSummaryCount();renderIdentitySinnerRoster();renderFormationOrder();renderEgoSinners();renderThemeFloorCards();renderDetailTags();setStep(1);}});
+const postEditorResetController=window.LimbusPostEditorResetController.create({state:postState,identityData:sinnerIdentityData,postModal,onClearDraft:()=>draftController.clearActive(),onRefresh:()=>{formationCodeController.reset();updatePostCategoryDisplays();updateDifficultyDisplay();syncTitle();updatePostSummaryCount();renderIdentitySinnerRoster();renderFormationOrder();renderEgoSinners();renderThemeFloorCards();renderDetailTags();setStep(1);}});
 const resetPostEditorState=()=>postEditorResetController.reset();
 window.LimbusPostCloseController.create({confirmDialog:postCloseConfirm,editorDialog:postModal,closeButtons:$$('[data-close-post]'),cancelButton:$('[data-cancel-close-post]'),discardButton:$('[data-discard-and-close-post]'),saveButton:$('[data-save-and-close-post]'),openDialog,closeDialog,unlockPageScroll,saveDraft:()=>draftController.createDraft(),resetEditor:resetPostEditorState,showToast});
 

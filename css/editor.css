@@ -1015,3 +1015,30 @@ html[data-theme="dark"] .identity-alternative-chip.has-identity-image{
   background-repeat:no-repeat!important;
   background-color:#111!important;
 }
+/* 編成コード Import / Export */
+.formation-import-open{flex:0 0 auto;min-height:42px;white-space:nowrap}
+.identity-select-header.game-style-header{grid-template-columns:minmax(0,1fr) auto minmax(220px,auto)}
+.formation-code-section{display:grid;gap:14px}
+.formation-code-section textarea,.formation-import-shell textarea{width:100%;max-width:100%;resize:vertical;border:1px solid var(--line);background:var(--paper2);color:var(--ink);font:12px/1.65 Consolas,"SFMono-Regular",monospace;overflow-wrap:anywhere;word-break:break-all}
+.formation-code-section textarea{min-height:104px;padding:13px}
+.formation-code-actions{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.formation-code-actions p{min-width:0;margin:0;color:var(--muted);font-size:12px;line-height:1.6}
+.formation-code-actions .button{flex:0 0 auto}
+.formation-import-dialog{width:100vw;max-width:100vw;max-height:100dvh;margin:auto;padding:12px;overflow:hidden}
+.formation-import-shell{width:min(680px,100%);max-width:100%;max-height:calc(100dvh - 24px);margin:auto;padding:28px;overflow:auto;overscroll-behavior:contain}
+.formation-import-shell>p{margin:16px 0;color:var(--muted);line-height:1.75}
+.formation-import-shell textarea{min-height:130px;padding:14px}
+.formation-import-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:18px}
+.formation-code-error{padding:10px 12px;border:1px solid #c43224;background:rgba(196,50,36,.08);color:#b72e22!important;font-weight:800}
+html[data-theme="dark"] .formation-code-section textarea,html[data-theme="dark"] .formation-import-shell textarea{background:#15191e;border-color:#454b54;color:#f2eee6}
+@media(max-width:720px){
+  .identity-select-header.game-style-header{grid-template-columns:1fr}
+  .formation-import-open{width:100%;white-space:normal}
+  .formation-code-actions{align-items:stretch;flex-direction:column}
+  .formation-code-actions .button{width:100%}
+  .formation-import-dialog{padding:max(10px,env(safe-area-inset-top)) 10px max(10px,env(safe-area-inset-bottom))}
+  .formation-import-shell{max-height:calc(100dvh - 20px - env(safe-area-inset-top) - env(safe-area-inset-bottom));padding:21px 17px}
+  .formation-import-shell .modal-header h2{font-size:clamp(22px,7vw,31px);line-height:1.3}
+  .formation-import-actions{display:grid;grid-template-columns:1fr 1fr}
+  .formation-import-actions .button{min-width:0;padding-inline:8px;white-space:normal}
+}
