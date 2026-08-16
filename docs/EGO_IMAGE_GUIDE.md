@@ -30,3 +30,5 @@
 - `assets/egos/ishmael/`
 - ロージャのE.G.O全9種（`001.png`～`009.png`）
 - `assets/egos/rodion/`
+- シンクレアのE.G.O全9種（`001.png`～`009.png`）
+- `assets/egos/sinclair/`

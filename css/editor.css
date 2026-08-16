@@ -109,6 +109,7 @@
 .workspace-footer{align-items:center}
 .workspace-context-actions{display:flex;gap:8px;margin-left:auto}
 .workspace-main-actions{display:flex;gap:10px}
+.draft-label-short{display:none}
 .workspace-footer button:disabled{opacity:.45;cursor:not-allowed;filter:none}
 
 /* footer search sheet, persistent filter summary, and clear all */
