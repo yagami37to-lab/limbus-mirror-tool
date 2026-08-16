@@ -71,13 +71,13 @@ const strategyTagCount=$('[data-strategy-tag-count]');
 const affiliationTagCount=$('[data-affiliation-tag-count]');
 const yiSangIdentityImages={
   'ロボトミーE.G.O::厳粛な哀悼':'assets/identities/yi-sang/001.png',
-  '蜘蛛の巣 人差し指の親方':'assets/identities/yi-sang/002.png',
-  '黒獣・午 筆頭':'assets/identities/yi-sang/003.png',
+  '蜘蛛の巣人差し指の親方':'assets/identities/yi-sang/002.png',
+  '黒獣-午 筆頭':'assets/identities/yi-sang/003.png',
   '南部リウ協会3課':'assets/identities/yi-sang/004.png',
-  '薬指点描派 スチューデント':'assets/identities/yi-sang/005.png',
+  '薬指点描派スチューデント':'assets/identities/yi-sang/005.png',
   'W社3級整理要員':'assets/identities/yi-sang/006.png',
-  '開花E.G.O::壇香梅':'assets/identities/yi-sang/007.png',
-  '剣契 殺手':'assets/identities/yi-sang/008.png',
+  '開花 E.G.O::壇香梅':'assets/identities/yi-sang/007.png',
+  '剣契殺手':'assets/identities/yi-sang/008.png',
   'ピークォド号1等航海士':'assets/identities/yi-sang/009.png',
   '南部セブン協会6課':'assets/identities/yi-sang/010.png',
   'LCB囚人':'assets/identities/yi-sang/011.png',

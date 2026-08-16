@@ -1,14 +1,14 @@
 (async()=>{
 'use strict';
 const root=document.querySelector('[data-post-detail-root]'),toast=document.querySelector('[data-toast]'),api=window.LimbusCommunity;
-const normalizeLegacyIdentityName=value=>String(value??'').replace(/蜘蛛の巣 (薬指|親指|中指|小指)の子分/g,'蜘蛛の巣 $1の子方');
+const normalizeLegacyIdentityName=value=>window.LimbusIdentityImages?.normalize?.(String(value??'').replace(/蜘蛛の巣 (薬指|親指|中指|小指)の子分/g,'蜘蛛の巣 $1の子方'))||String(value??'');
 const esc=v=>String(v??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
 const showToast=message=>{toast.textContent=message;toast.classList.add('show');clearTimeout(showToast.timer);showToast.timer=setTimeout(()=>toast.classList.remove('show'),2600)};
 const themeRoot=document.documentElement;const applyTheme=t=>{themeRoot.dataset.theme=t;document.querySelectorAll('[data-theme-toggle]').forEach(b=>b.setAttribute('aria-pressed',String(t==='dark')))};applyTheme(localStorage.getItem('limbus-theme')||'light');document.querySelectorAll('[data-theme-toggle]').forEach(b=>b.onclick=()=>{const n=themeRoot.dataset.theme==='dark'?'light':'dark';applyTheme(n);localStorage.setItem('limbus-theme',n)});
 const params=new URLSearchParams(location.search);const id=params.get('id');const source=params.get('from');const backHref=source==='bookmarks'?'bookmarks.html':source==='my-posts'?'my-posts.html':'index.html#community';const backLabel=source==='bookmarks'?'← ブックマーク一覧へ戻る':source==='my-posts'?'← 自分の投稿へ戻る':'← 投稿一覧に戻る';document.querySelectorAll('.detail-back-action,.detail-mobile-back').forEach(a=>{a.href=backHref;a.textContent=backLabel});
 try{
  let identityCatalog=[];
- try{const identityResponse=await fetch('data/identities.json?v=1.0.52',{cache:'no-cache'});if(identityResponse.ok){const identityData=await identityResponse.json();identityCatalog=(Array.isArray(identityData)?identityData:[]).flatMap(group=>(group.identities||[]));}}catch(identityError){console.warn('人格条件データを読み込めませんでした。',identityError);}
+ try{const identityResponse=await fetch('data/identities.json?v=1.1.23',{cache:'no-cache'});if(identityResponse.ok){const identityData=await identityResponse.json();identityCatalog=(Array.isArray(identityData)?identityData:[]).flatMap(group=>(group.identities||[]));}}catch(identityError){console.warn('人格条件データを読み込めませんでした。',identityError);}
  let post,profile;
  if(!id)throw new Error('not-found');
  const cloud=await api?.getCloudPost(id);

@@ -8,7 +8,7 @@
   if(!api||!grid)return;
   const esc=api.esc;
   const dateText=value=>value?new Date(value).toLocaleDateString('ja-JP'):'未設定';
-  const normalizeLegacyIdentityName=value=>String(value??'').replace(/蜘蛛の巣 (薬指|親指|中指|小指)の子分/g,'蜘蛛の巣 $1の子方');
+  const normalizeLegacyIdentityName=value=>window.LimbusIdentityImages?.normalize?.(String(value??'').replace(/蜘蛛の巣 (薬指|親指|中指|小指)の子分/g,'蜘蛛の巣 $1の子方'))||String(value??'');
 
   grid.innerHTML='<p class="community-loading" data-community-loading>公開投稿を読み込んでいます…</p>';
   if(loadMore) loadMore.hidden=true;

@@ -31,7 +31,7 @@
         "keywordLossConditions": []
       },
       {
-        "name": "蜘蛛の巣 人差し指の親方",
+        "name": "蜘蛛の巣人差し指の親方",
         "rarity": "000",
         "id": "01-02",
         "sinnerId": "01",
@@ -49,7 +49,7 @@
         "keywordLossConditions": []
       },
       {
-        "name": "黒獣・午 筆頭",
+        "name": "黒獣-午 筆頭",
         "rarity": "000",
         "id": "01-03",
         "sinnerId": "01",
@@ -84,7 +84,7 @@
         "keywordLossConditions": []
       },
       {
-        "name": "薬指点描派 スチューデント",
+        "name": "薬指点描派スチューデント",
         "rarity": "000",
         "id": "01-05",
         "sinnerId": "01",
@@ -128,7 +128,7 @@
         ]
       },
       {
-        "name": "開花E.G.O::壇香梅",
+        "name": "開花 E.G.O::壇香梅",
         "rarity": "000",
         "id": "01-07",
         "sinnerId": "01",
@@ -145,7 +145,7 @@
         "keywordLossConditions": []
       },
       {
-        "name": "剣契 殺手",
+        "name": "剣契殺手",
         "rarity": "000",
         "id": "01-08",
         "sinnerId": "01",
@@ -325,7 +325,7 @@
         "keywordLossConditions": []
       },
       {
-        "name": "蜘蛛の巣 薬指の子方",
+        "name": "蜘蛛の巣薬指の子方",
         "rarity": "000",
         "id": "02-02",
         "sinnerId": "02",
@@ -343,7 +343,7 @@
         "keywordLossConditions": []
       },
       {
-        "name": "人差し指遂行者：紙片",
+        "name": "人差し指遂行者:【紙片】",
         "rarity": "000",
         "id": "02-03",
         "sinnerId": "02",
@@ -361,7 +361,7 @@
         "keywordLossConditions": []
       },
       {
-        "name": "黒獣・卯 筆頭",
+        "name": "黒獣-卯 筆頭",
         "rarity": "000",
         "id": "02-04",
         "sinnerId": "02",
@@ -412,7 +412,7 @@
         "keywordLossConditions": []
       },
       {
-        "name": "ワザリング・ハイツ バトラー",
+        "name": "ワザリング・ハイツバトラー",
         "rarity": "00",
         "id": "02-07",
         "sinnerId": "02",
@@ -429,7 +429,7 @@
         "keywordLossConditions": []
       },
       {
-        "name": "剣契 殺手",
+        "name": "剣契殺手",
         "rarity": "000",
         "id": "02-08",
         "sinnerId": "02",
@@ -623,7 +623,7 @@
         "keywordLossConditions": []
       },
       {
-        "name": "人差し指代行者",
+        "name": "人差し指代行者-開花E.G.O::代行",
         "rarity": "000",
         "id": "03-02",
         "sinnerId": "03",
@@ -641,7 +641,7 @@
         "keywordLossConditions": []
       },
       {
-        "name": "黒獣・未",
+        "name": "黒獣-未",
         "rarity": "000",
         "id": "03-03",
         "sinnerId": "03",
@@ -695,7 +695,7 @@
         "keywordLossConditions": []
       },
       {
-        "name": "剣契 殺手",
+        "name": "剣契殺手",
         "rarity": "00",
         "id": "03-06",
         "sinnerId": "03",
@@ -849,7 +849,7 @@
         ]
       },
       {
-        "name": "T社3級徴収職員",
+        "name": "T社3級徴収職職員",
         "rarity": "000",
         "id": "03-14",
         "sinnerId": "03",
@@ -946,7 +946,7 @@
         "keywordLossConditions": []
       },
       {
-        "name": "黒獣・卯",
+        "name": "黒獣-卯",
         "rarity": "000",
         "id": "04-05",
         "sinnerId": "04",
@@ -1170,7 +1170,7 @@
     "name": "ムルソー",
     "identities": [
       {
-        "name": "東部親指カポIII",
+        "name": "東部親指カポIIII",
         "rarity": "000",
         "id": "05-01",
         "sinnerId": "05",
@@ -1189,7 +1189,7 @@
         "keywordLossConditions": []
       },
       {
-        "name": "薬指 野獣派スチューデント",
+        "name": "薬指野獣派スチューデント",
         "rarity": "000",
         "id": "05-02",
         "sinnerId": "05",
@@ -1207,7 +1207,7 @@
         "keywordLossConditions": []
       },
       {
-        "name": "ロボトミーE.G.O::ホーネット霞調",
+        "name": "ロボトミーE.G.O::ホーネット【変調】",
         "rarity": "000",
         "id": "05-03",
         "sinnerId": "05",
@@ -1271,7 +1271,7 @@
         ]
       },
       {
-        "name": "剣契 頭目",
+        "name": "剣契頭目",
         "rarity": "000",
         "id": "05-06",
         "sinnerId": "05",
@@ -1530,7 +1530,7 @@
         "keywordLossConditions": []
       },
       {
-        "name": "蜘蛛の巣 薬指の親方",
+        "name": "蜘蛛の巣薬指の親方",
         "rarity": "000",
         "id": "06-03",
         "sinnerId": "06",
@@ -1798,7 +1798,7 @@
     "name": "ヒースクリフ",
     "identities": [
       {
-        "name": "蜘蛛の巣 親指の子方",
+        "name": "蜘蛛の巣親指の子方",
         "rarity": "000",
         "id": "07-01",
         "sinnerId": "07",
@@ -1834,7 +1834,7 @@
         "keywordLossConditions": []
       },
       {
-        "name": "黒獣・酉 筆頭",
+        "name": "黒獣-酉 筆頭",
         "rarity": "000",
         "id": "07-03",
         "sinnerId": "07",
@@ -1852,7 +1852,7 @@
         "keywordLossConditions": []
       },
       {
-        "name": "W社4級整理要員 CCA",
+        "name": "W社4級整理要員-CCA",
         "rarity": "000",
         "id": "07-04",
         "sinnerId": "07",
@@ -2194,7 +2194,7 @@
         "keywordLossConditions": []
       },
       {
-        "name": "蜘蛛の巣 中指の子方",
+        "name": "蜘蛛の巣中指の子方",
         "rarity": "000",
         "id": "08-03",
         "sinnerId": "08",
@@ -2457,7 +2457,7 @@
     "name": "ロージャ",
     "identities": [
       {
-        "name": "蜘蛛の巣 親指の親方",
+        "name": "蜘蛛の巣親指の親方",
         "rarity": "000",
         "id": "09-01",
         "sinnerId": "09",
@@ -2476,7 +2476,7 @@
         "keywordLossConditions": []
       },
       {
-        "name": "薬指 野獣派ドーセント",
+        "name": "薬指野獣派ドーセント",
         "rarity": "000",
         "id": "09-02",
         "sinnerId": "09",
@@ -2530,7 +2530,7 @@
         "keywordLossConditions": []
       },
       {
-        "name": "黒獣・巳",
+        "name": "黒獣-巳",
         "rarity": "000",
         "id": "09-05",
         "sinnerId": "09",
@@ -2668,7 +2668,7 @@
         "keywordLossConditions": []
       },
       {
-        "name": "北部ヂェーヴィチ教会3課",
+        "name": "北部ヂェーヴィチ協会3課",
         "rarity": "000",
         "id": "09-13",
         "sinnerId": "09",
@@ -2770,7 +2770,7 @@
         "keywordLossConditions": []
       },
       {
-        "name": "蜘蛛の巣 小指の子方",
+        "name": "蜘蛛の巣小指の子方",
         "rarity": "000",
         "id": "11-02",
         "sinnerId": "11",
@@ -2788,7 +2788,7 @@
         "keywordLossConditions": []
       },
       {
-        "name": "黒獣・酉",
+        "name": "黒獣-酉",
         "rarity": "000",
         "id": "11-03",
         "sinnerId": "11",
@@ -2893,7 +2893,7 @@
         ]
       },
       {
-        "name": "剣契 殺手",
+        "name": "剣契殺手",
         "rarity": "000",
         "id": "11-08",
         "sinnerId": "11",
@@ -3040,7 +3040,7 @@
         "keywordLossConditions": []
       },
       {
-        "name": "北部ヂェーヴィチ教会3課",
+        "name": "北部ヂェーヴィチ協会3課",
         "rarity": "000",
         "id": "11-15",
         "sinnerId": "11",
@@ -3082,7 +3082,7 @@
         "keywordLossConditions": []
       },
       {
-        "name": "蜘蛛の巣 中指の親方",
+        "name": "蜘蛛の巣中指の親方",
         "rarity": "000",
         "id": "12-02",
         "sinnerId": "12",
@@ -3100,7 +3100,7 @@
         "keywordLossConditions": []
       },
       {
-        "name": "T社3級強制徴収職員",
+        "name": "T社3級強制徴収職職員",
         "rarity": "000",
         "id": "12-03",
         "sinnerId": "12",
@@ -3117,7 +3117,7 @@
         "keywordLossConditions": []
       },
       {
-        "name": "黒獣・卯",
+        "name": "黒獣-卯",
         "rarity": "000",
         "id": "12-04",
         "sinnerId": "12",
@@ -3221,7 +3221,7 @@
         "keywordLossConditions": []
       },
       {
-        "name": "剣契 殺手",
+        "name": "剣契殺手",
         "rarity": "00",
         "id": "12-10",
         "sinnerId": "12",
@@ -3419,7 +3419,7 @@
         "keywordLossConditions": []
       },
       {
-        "name": "黒獣・巳",
+        "name": "黒獣-巳",
         "rarity": "000",
         "id": "13-05",
         "sinnerId": "13",
@@ -3573,7 +3573,7 @@
         "keywordLossConditions": []
       },
       {
-        "name": "双鈎海賊団副船長",
+        "name": "双鉤海賊団副船長",
         "rarity": "000",
         "id": "13-13",
         "sinnerId": "13",
