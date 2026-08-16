@@ -72,10 +72,11 @@ function createThemePackController({data,state,escapeHtml,showToast,scrollToElem
       const usedElsewhere=usedByAnotherFloor(name,floor);
       const selected=current===name;
       const button=document.createElement('button');button.type='button';
-      button.className='theme-pack-option-card'+(selected?' selected':'')+(usedElsewhere?' disabled':'');
+      const imageSrc=window.LimbusThemePackImages?.forName(name)||'';
+      button.className='theme-pack-option-card'+(imageSrc?' has-pack-image':'')+(selected?' selected':'')+(usedElsewhere?' disabled':'');
       button.disabled=usedElsewhere;
       const usedFloor=[...state.themePacks.entries()].find(([otherFloor,selectedName])=>otherFloor!==floor&&selectedName===name)?.[0];
-      button.innerHTML=`<strong>${escapeHtml(name)}</strong><small>${usedElsewhere?`${usedFloor}Fで選択済み`:selected?'現在選択中':'このパックを選択'}</small>`;
+      button.innerHTML=`${imageSrc?`<span class="theme-pack-image-frame"><img src="${escapeHtml(imageSrc)}" alt="" loading="lazy"></span>`:''}<strong>${escapeHtml(name)}</strong><small>${usedElsewhere?`${usedFloor}Fで選択済み`:selected?'現在選択中':'このパックを選択'}</small>`;
       button.addEventListener('click',()=>{state.themePacks.set(floor,name);showToast(`${floor}Fに「${name}」を設定しました。`);close({scroll:false});renderFloors();});
       optionGrid.appendChild(button);
     });
