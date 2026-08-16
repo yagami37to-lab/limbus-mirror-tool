@@ -10,7 +10,7 @@
 
 推奨形式はPNGです。画像の追加後は `js/ego-images.js` の `available` に `囚人ID:E.G.O名` を追加すると投稿エディターへ表示されます。
 
-現在の試験適用画像:
+現在の適用画像:
 
-- イサン / ZAYIN / 過ぎし日
-- `assets/egos/yi-sang/005.png`
+- イサンのE.G.O全9種（`001.png`～`009.png`）
+- `assets/egos/yi-sang/`
