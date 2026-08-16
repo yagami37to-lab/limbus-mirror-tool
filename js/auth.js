@@ -12,6 +12,7 @@
   const accountButtons=qsa('[data-account-button]');
   const logoutButtons=qsa('[data-auth-logout]');
   const accountMenus=qsa('[data-account-menu]');
+  const consentCheck=qs('[data-auth-consent-check]');
   let currentUser=null;
   let currentProfile=null;
 
@@ -62,6 +63,7 @@
 
   qsa('[data-auth-google]').forEach(b=>b.addEventListener('click',async()=>{
     if(!client){ message('Supabase接続設定が未入力です。','error'); return; }
+    if(!consentCheck?.checked){ message('Googleで新規登録する可能性があるため、利用規約とプライバシーポリシーを確認して同意してください。','error'); consentCheck?.focus(); return; }
     message('Googleのログイン画面を開いています…');
     const {error}=await client.auth.signInWithOAuth({provider:'google',options:{redirectTo:window.location.href.split('#')[0]}});
     if(error) message(`Googleログインを開始できませんでした：${error.message}`,'error');
@@ -74,6 +76,7 @@
     const password=qs('[name=password]',form)?.value || '';
     const mode=form.dataset.mode||'login';
     if(!email || password.length<6){ message('メールアドレスと6文字以上のパスワードを入力してください。','error'); return; }
+    if(mode==='signup'&&!consentCheck?.checked){ message('新規登録するには、利用規約とプライバシーポリシーへの同意が必要です。','error'); consentCheck?.focus(); return; }
     message(mode==='signup'?'登録処理中です…':'ログイン中です…');
     const result=mode==='signup'
       ? await client.auth.signUp({email,password,options:{emailRedirectTo:window.location.href.split('#')[0]}})

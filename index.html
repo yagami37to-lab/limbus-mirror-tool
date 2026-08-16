@@ -7,12 +7,12 @@
 <meta content="Limbus Companyの鏡ダンジョン・鏡屈折鉄道・射影戦闘攻略を投稿・共有できる非公式攻略サイトです。" name="description"/>
 <title>Limbus Company 攻略投稿サイト（非公式）</title>
 <link href="logo-mark.svg" rel="icon" type="image/svg+xml"/>
-<link href="styles.css?v=1.1.07" rel="stylesheet"/>
+<link href="styles.css?v=1.1.08" rel="stylesheet"/>
 <link href="css/browse-cards.css?v=1.1.04" rel="stylesheet"/>
 
 <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script defer src="js/supabase-config.js?v=1.0.99"></script>
-<script defer src="js/auth.js?v=1.0.99"></script>
+<script defer src="js/auth.js?v=1.1.08"></script>
 <script defer src="js/theme-pack-names.js?v=1.0.111"></script>
 <script defer src="js/community-data.js?v=1.1.04"></script>
 <script defer src="js/categories.js?v=1.0.99"></script>
@@ -45,7 +45,7 @@
 <script defer src="js/identity-workspace-controller.js?v=1.0.109"></script>
 <script defer src="js/post-validation-flow-controller.js?v=1.0.110"></script>
 <script defer src="js/site-ui-controller.js?v=1.0.112"></script>
-<script defer src="app.js?v=1.1.05"></script>
+<script defer src="app.js?v=1.1.08"></script>
 <script defer src="js/browse-cards.js?v=1.1.04"></script>
 <script defer src="js/community-browse.js?v=1.1.07"></script>
 <script defer src="js/public-alpha.js?v=1.0.99"></script>
@@ -286,7 +286,7 @@
 </div>
 <div class="footer-meta">
 <span>© 非公式ファンサイト</span>
-<span>Version 1.1.07 α</span>
+<span>Version 1.1.08 α</span>
 <time datetime="2026-08-16">Last Updated: 2026.08.16</time>
 </div>
 </footer>
@@ -297,13 +297,16 @@
     <div class="auth-dialog-brand"><span class="brand-mark"><img class="logo-light" src="logo-mark.svg" alt=""><img class="logo-dark" src="logo-mark-dark.svg" alt=""></span><div><strong>アカウント</strong><small>Limbus Company 攻略投稿サイト</small></div></div>
     <h2>ログイン・新規登録</h2>
     <p>投稿やブックマークを利用するにはログインしてください。</p>
-    <button class="auth-provider auth-google" type="button" data-auth-google><span>G</span>Googleでログイン</button>
+    <button class="auth-provider auth-google" type="button" data-auth-google><span>G</span>Googleでログイン・新規登録</button>
     <div class="auth-divider"><span>または</span></div>
     <form class="auth-email-form" data-auth-email-form data-mode="login">
       <label><span>メールアドレス</span><input name="email" type="email" autocomplete="email" required></label>
       <label><span>パスワード</span><input name="password" type="password" autocomplete="current-password" minlength="6" required></label>
       <button class="button button-primary" type="submit" data-auth-submit>メールでログイン</button>
     </form>
+    <div class="auth-consent" data-auth-consent>
+      <label><input type="checkbox" data-auth-consent-check><span><a href="terms.html" target="_blank" rel="noopener">利用規約</a>と<a href="privacy.html" target="_blank" rel="noopener">プライバシーポリシー</a>を確認し、同意します。新規登録には同意が必要です。</span></label>
+    </div>
     <div class="auth-sub-actions"><button type="button" data-auth-mode>メールで新規登録する</button><button type="button" data-auth-reset>パスワードを忘れた場合</button></div>
     <p class="auth-status" data-auth-status hidden></p>
     <div class="auth-coming-soon"><span>Discord・Xログインは次段階で追加予定です。</span></div>
