@@ -27,7 +27,7 @@
           const items=Array.isArray(values)?values.filter(text=>String(text).trim()):[];
           if(!items.length)return;
           const group=document.createElement('section');group.className='news-change-group';
-          const label=document.createElement('span');label.className=`news-change-label ${categoryClass[category]||''}`;label.textContent=category;
+          const label=document.createElement('span');label.className='news-change-label is-improvement';label.textContent='改善';label.title=category;label.setAttribute('aria-label',`${category}の改善`);
           const list=document.createElement('ul');items.forEach(text=>{const item=document.createElement('li');item.textContent=text;list.appendChild(item)});
           group.append(label,list);groups.appendChild(group);
         });

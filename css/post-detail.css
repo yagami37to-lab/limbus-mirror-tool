@@ -202,3 +202,19 @@ html[data-theme="dark"] .post-report-link{background:#302326;border-color:#86545
 .post-card-detail-actions:has(.post-report-link) .post-save-button{justify-self:start}
 @media(max-width:520px){.post-card-detail-actions:has(.post-report-link){grid-template-columns:minmax(0,1fr) auto auto;gap:6px}.post-card-detail-actions:has(.post-report-link) .post-save-button,.post-card-detail-actions:has(.post-report-link) .post-report-link,.post-card-detail-actions:has(.post-report-link) .post-detail-link{min-height:38px;padding:7px 8px;font-size:10px}}
 @media(max-width:720px){.post-detail-page.report-dialog-open .detail-mobile-report-button,.post-detail-page.report-dialog-open .mobile-news-button{display:none!important}}
+
+/* v1.1.40: restore the established keyword palette on strategy details. */
+.detail-tag-row span[data-keyword="火傷"]{background:var(--keyword-burn-bg)!important;border-color:var(--keyword-burn-border)!important;color:var(--keyword-burn-text)!important}
+.detail-tag-row span[data-keyword="出血"]{background:var(--keyword-bleed-bg)!important;border-color:var(--keyword-bleed-border)!important;color:var(--keyword-bleed-text)!important}
+.detail-tag-row span[data-keyword="振動"]{background:var(--keyword-tremor-bg)!important;border-color:var(--keyword-tremor-border)!important;color:var(--keyword-tremor-text)!important}
+.detail-tag-row span[data-keyword="破裂"]{background:var(--keyword-rupture-bg)!important;border-color:var(--keyword-rupture-border)!important;color:var(--keyword-rupture-text)!important}
+.detail-tag-row span[data-keyword="沈潜"]{background:var(--keyword-sinking-bg)!important;border-color:var(--keyword-sinking-border)!important;color:var(--keyword-sinking-text)!important}
+.detail-tag-row span[data-keyword="呼吸"]{background:var(--keyword-poise-bg)!important;border-color:var(--keyword-poise-border)!important;color:var(--keyword-poise-text)!important}
+.detail-tag-row span[data-keyword="充電"]{background:var(--keyword-charge-bg)!important;border-color:var(--keyword-charge-border)!important;color:var(--keyword-charge-text)!important}
+.detail-tag-row span[data-keyword="弾丸"]{background:#171717!important;border-color:#666!important;color:#fff!important}
+
+/* Keep each persistent action recognizable in dark mode. */
+html[data-theme="dark"] .detail-footer .detail-back-action{background:#3a301d!important;border-color:#d6a83f!important;color:#f4d17e!important}
+html[data-theme="dark"] .detail-footer .detail-save-footer{background:#c94349!important;border-color:#df6267!important;color:#fff!important}
+html[data-theme="dark"] .detail-footer .detail-share-button{background:#287fbd!important;border-color:#55a7dc!important;color:#fff!important}
+html[data-theme="dark"] .detail-footer .detail-report-button{background:#5d292e!important;border-color:#c35d65!important;color:#ffced1!important}
