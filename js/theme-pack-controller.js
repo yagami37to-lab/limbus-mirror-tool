@@ -60,13 +60,12 @@ function createThemePackController({data,state,escapeHtml,showToast,scrollToElem
     const floor=state.activeThemePackFloor;
     const query=(search?.value||'').trim().toLowerCase();
     const baseOptions=optionsForFloor(floor);
-    const allowFree=state.difficulty==='HARD'&&floor>=6&&floor<=15;
-    const options=(allowFree?['自由枠',...baseOptions]:baseOptions).filter(name=>name.toLowerCase().includes(query));
+    const options=['自由枠',...baseOptions].filter(name=>name.toLowerCase().includes(query));
     optionGrid.innerHTML='';
     const current=state.themePacks.get(floor);
     const clear=document.createElement('button');
-    clear.type='button';clear.className='theme-pack-option-card clear-option';clear.disabled=!current;
-    clear.innerHTML='<strong>この階層を未選択に戻す</strong><small>選択中のパックを解除します</small>';
+    clear.type='button';clear.className='theme-pack-option-card clear-option has-pack-image';clear.disabled=!current;
+    clear.innerHTML='<span class="theme-pack-image-frame theme-pack-image-placeholder" aria-hidden="true"><b>未選択</b></span><strong>この階層を未選択に戻す</strong><small>選択中のパックを解除します</small>';
     clear.addEventListener('click',()=>{state.themePacks.delete(floor);showToast(`${floor}Fのテーマパックを解除しました。`);close({scroll:false});renderFloors();});
     optionGrid.appendChild(clear);
     options.forEach(name=>{
@@ -74,10 +73,10 @@ function createThemePackController({data,state,escapeHtml,showToast,scrollToElem
       const selected=current===name;
       const button=document.createElement('button');button.type='button';
       const imageSrc=window.LimbusThemePackImages?.forName(name,state.difficulty)||'';
-      button.className='theme-pack-option-card'+(imageSrc?' has-pack-image':'')+(selected?' selected':'')+(usedElsewhere?' disabled':'');
+      button.className='theme-pack-option-card has-pack-image'+(selected?' selected':'')+(usedElsewhere?' disabled':'');
       button.disabled=usedElsewhere;
       const usedFloor=[...state.themePacks.entries()].find(([otherFloor,selectedName])=>otherFloor!==floor&&selectedName===name)?.[0];
-      button.innerHTML=`${imageSrc?`<span class="theme-pack-image-frame"><img src="${escapeHtml(imageSrc)}" alt="" loading="lazy"></span>`:''}<strong>${escapeHtml(name)}</strong><small>${usedElsewhere?`${usedFloor}Fで選択済み`:selected?'現在選択中':'このパックを選択'}</small>`;
+      button.innerHTML=`${imageSrc?`<span class="theme-pack-image-frame"><img src="${escapeHtml(imageSrc)}" alt="" loading="lazy"></span>`:`<span class="theme-pack-image-frame theme-pack-image-placeholder" aria-hidden="true"><b>${name==='自由枠'?'FREE':'NO IMAGE'}</b></span>`}<strong>${escapeHtml(name)}</strong><small>${usedElsewhere?`${usedFloor}Fで選択済み`:selected?'現在選択中':'このパックを選択'}</small>`;
       button.addEventListener('click',()=>{state.themePacks.set(floor,name);showToast(`${floor}Fに「${name}」を設定しました。`);close({scroll:false});renderFloors();});
       optionGrid.appendChild(button);
     });
