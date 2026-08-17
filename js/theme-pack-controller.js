@@ -36,7 +36,7 @@ function createThemePackController({data,state,escapeHtml,showToast,scrollToElem
     }
     for(let floor=1;floor<=mode.maxFloor;floor++){
       const selectedName=state.themePacks.get(floor);
-      const imageSrc=selectedName?(window.LimbusThemePackImages?.forName(selectedName)||''):'';
+      const imageSrc=selectedName?(window.LimbusThemePackImages?.forName(selectedName,state.difficulty)||''):'';
       const card=document.createElement('button');
       card.type='button';
       card.className='theme-floor-card'+(selectedName?' selected':'')+(imageSrc?' has-pack-image':'');
@@ -73,7 +73,7 @@ function createThemePackController({data,state,escapeHtml,showToast,scrollToElem
       const usedElsewhere=usedByAnotherFloor(name,floor);
       const selected=current===name;
       const button=document.createElement('button');button.type='button';
-      const imageSrc=window.LimbusThemePackImages?.forName(name)||'';
+      const imageSrc=window.LimbusThemePackImages?.forName(name,state.difficulty)||'';
       button.className='theme-pack-option-card'+(imageSrc?' has-pack-image':'')+(selected?' selected':'')+(usedElsewhere?' disabled':'');
       button.disabled=usedElsewhere;
       const usedFloor=[...state.themePacks.entries()].find(([otherFloor,selectedName])=>otherFloor!==floor&&selectedName===name)?.[0];

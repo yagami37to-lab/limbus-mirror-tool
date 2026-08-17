@@ -4,8 +4,10 @@ const key=value=>String(value??'').normalize('NFKC').replace(/[\s・･,，、.�
 const legacyAliases=new Map([
   [key('感情の前に怯けたもの'),'感情の前に怠けたもの'],
   [key('追い寄る深淵'),'這い寄る深淵'],
-  [key('ワープ特急殺人事件BokGak'),'ワープ特急時間殺人事件 BokGak'],
-  [key('ワープ特急殺人事件 BokGak'),'ワープ特急時間殺人事件 BokGak']
+  [key('殺人時間 BokGak'),'時間殺人時間 BokGak'],
+  [key('ワープ特急時間殺人事件BokGak'),'ワープ特急殺人事件 BokGak'],
+  [key('ワープ特急時間殺人事件 BokGak'),'ワープ特急殺人事件 BokGak'],
+  [key('ワープ特急殺人事件BokGak'),'ワープ特急殺人事件 BokGak']
 ]);
 const canonical=value=>legacyAliases.get(key(value))||String(value??'').trim();
 function distance(a,b){const left=[...a],right=[...b],row=Array.from({length:right.length+1},(_,index)=>index);for(let i=1;i<=left.length;i++){let previous=row[0];row[0]=i;for(let j=1;j<=right.length;j++){const current=row[j];row[j]=Math.min(row[j]+1,row[j-1]+1,previous+(left[i-1]===right[j-1]?0:1));previous=current;}}return row[right.length];}

@@ -1,0 +1,16 @@
+const assert=require('node:assert/strict');
+const fs=require('node:fs');
+const vm=require('node:vm');
+const context={window:{}};
+vm.createContext(context);
+vm.runInContext(fs.readFileSync('js/theme-pack-images.js','utf8'),context);
+const images=context.window.LimbusThemePackImages;
+assert.equal(images.forName('感情の前に怠けたもの','NORMAL'),'assets/theme-packs/021.png');
+assert.equal(images.forName('感情の前に怠けたもの','HARD'),'assets/theme-packs/052.png');
+assert.equal(images.forName('這い寄る深淵','NORMAL'),'assets/theme-packs/027.png');
+assert.equal(images.forName('這い寄る深淵','HARD'),'assets/theme-packs/061.png');
+assert.equal(images.forName('時間殺人時間 BokGak','HARD'),'assets/theme-packs/066.png');
+assert.equal(images.forName('ワープ特急殺人事件 BokGak','HARD'),'assets/theme-packs/067.png');
+assert.equal(images.forName('緑の黎明','HARD'),'');
+assert.equal(images.forName('1号線 : 狂気','HARD'),'');
+console.log('theme-pack-image tests passed');
