@@ -952,7 +952,7 @@ body.dark-mode .theme-pack-option-card small{color:#aeb4bc!important}
   box-shadow:0 0 22px color-mix(in srgb,var(--sin-color) 78%,transparent),inset 0 -18px 28px rgba(0,0,0,.28)!important;
 }
 .ego-option-card[class*=" sin-"].selected{outline-color:var(--sin-color)!important}
-/* v1.131: dark mode must retain the rank surface and sin-affinity frame. */
+/* v1.1.31: dark mode must retain the rank surface and sin-affinity frame. */
 html[data-theme="dark"] .ego-option-card.rank-zayin{background:linear-gradient(160deg,#286f4b,#14291e)!important}
 html[data-theme="dark"] .ego-option-card.rank-teth{background:linear-gradient(160deg,#245f92,#142333)!important}
 html[data-theme="dark"] .ego-option-card.rank-he{background:linear-gradient(160deg,#a77b13,#30250e)!important}
