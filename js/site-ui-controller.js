@@ -6,7 +6,8 @@ function createSiteUiController({toast,managedDialogs,themeToggles,mobileMenuBut
   function toggleTheme(){const next=themeRoot.dataset.theme==='dark'?'light':'dark';applyTheme(next);localStorage.setItem('limbus-theme',next);}
   function lockPageScroll(){openDialogCount+=1;if(openDialogCount>1)return;lockedScrollY=window.scrollY;document.body.classList.add('dialog-open');document.body.style.top=`-${lockedScrollY}px`;}
   function restorePageScroll(){openDialogCount=0;document.body.classList.remove('dialog-open');document.body.style.removeProperty('top');document.documentElement.style.removeProperty('overflow');document.body.style.removeProperty('overflow');window.scrollTo(0,lockedScrollY);}
-  function reconcilePageScrollLock(){const anyOpen=[...document.querySelectorAll('dialog')].some(dialog=>dialog.open);if(!anyOpen)restorePageScroll();}
+  function clearStaleScrollLock(){document.body.classList.remove('dialog-open');document.body.style.removeProperty('top');document.documentElement.style.removeProperty('overflow');document.body.style.removeProperty('overflow');}
+  function reconcilePageScrollLock(){const anyOpen=[...document.querySelectorAll('dialog')].some(dialog=>dialog.open);if(anyOpen)return;if(openDialogCount>0||document.body.classList.contains('dialog-open'))restorePageScroll();else clearStaleScrollLock();}
   function unlockPageScroll(){openDialogCount=Math.max(0,openDialogCount-1);if(openDialogCount===0)restorePageScroll();}
   function openDialog(dialog){if(!dialog||dialog.open)return;lockPageScroll();dialog.showModal();}
   function closeDialog(dialog){if(!dialog?.open){queueMicrotask(reconcilePageScrollLock);return;}dialog.close();queueMicrotask(reconcilePageScrollLock);}
