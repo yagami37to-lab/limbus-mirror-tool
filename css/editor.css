@@ -952,6 +952,16 @@ body.dark-mode .theme-pack-option-card small{color:#aeb4bc!important}
   box-shadow:0 0 22px color-mix(in srgb,var(--sin-color) 78%,transparent),inset 0 -18px 28px rgba(0,0,0,.28)!important;
 }
 .ego-option-card[class*=" sin-"].selected{outline-color:var(--sin-color)!important}
+/* v1.131: dark mode must retain the rank surface and sin-affinity frame. */
+html[data-theme="dark"] .ego-option-card.rank-zayin{background:linear-gradient(160deg,#286f4b,#14291e)!important}
+html[data-theme="dark"] .ego-option-card.rank-teth{background:linear-gradient(160deg,#245f92,#142333)!important}
+html[data-theme="dark"] .ego-option-card.rank-he{background:linear-gradient(160deg,#a77b13,#30250e)!important}
+html[data-theme="dark"] .ego-option-card.rank-waw{background:linear-gradient(160deg,#65428f,#261b33)!important}
+html[data-theme="dark"] .ego-option-card.rank-zayin,
+html[data-theme="dark"] .ego-option-card.rank-teth,
+html[data-theme="dark"] .ego-option-card.rank-he,
+html[data-theme="dark"] .ego-option-card.rank-waw{border-color:var(--rank-color)!important}
+html[data-theme="dark"] .ego-option-card[class*=" sin-"]{border-color:var(--sin-color)!important}
 .post-close-confirm-shell{width:min(560px,calc(100vw - 30px));padding:28px}
 .post-close-confirm-shell p{margin:18px 0 24px;color:var(--muted);line-height:1.8}
 .post-close-confirm-actions{display:grid;grid-template-columns:1fr;gap:10px}
