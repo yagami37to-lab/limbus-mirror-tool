@@ -610,6 +610,7 @@ html[data-theme="dark"] .community-browser .like-stat::before {
 /* v0.9.00 閲覧カードの攻略カテゴリ */
 .browse-card-head-actions{display:flex;align-items:center;gap:8px;flex:0 0 auto}
 .browse-category-badge{display:inline-flex;align-items:center;min-height:25px;padding:4px 9px;border:1px solid #208c87;background:rgba(32,140,135,.10);color:#167570;font-size:11px;font-weight:800;white-space:nowrap}
+.post-season-badge{display:inline-flex;align-items:center;min-height:25px;padding:4px 8px;border:1px solid #a97818;background:#fff7df;color:#865c09;font-size:10px;font-weight:900;letter-spacing:.08em;white-space:nowrap}[data-theme="dark"] .post-season-badge{border-color:#d3a43d;background:#3c321d;color:#f1ca70}
 [data-theme="dark"] .browse-category-badge,[data-theme="dark"] .post-category-badge,[data-theme="dark"] .review-category{border-color:#42b8b2;background:rgba(20,137,130,.22);color:#73d4cf}
 @media(max-width:520px){.browse-card-head-actions{gap:5px}.browse-category-badge{padding:3px 6px;font-size:9px}.post-card-rich .bookmark-button{flex:0 0 auto}}
 

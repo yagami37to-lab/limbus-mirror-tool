@@ -7,8 +7,8 @@
 <meta content="Limbus Companyの鏡ダンジョン・鏡屈折鉄道・射影戦闘攻略を投稿・共有できる非公式攻略サイトです。" name="description"/>
 <title>Limbus Company 攻略投稿サイト（非公式）</title>
 <link href="logo-mark.svg" rel="icon" type="image/svg+xml"/>
-<link href="styles.css?v=1.1.38" rel="stylesheet"/>
-<link href="css/browse-cards.css?v=1.1.04" rel="stylesheet"/>
+<link href="styles.css?v=1.1.39" rel="stylesheet"/>
+<link href="css/browse-cards.css?v=1.1.39" rel="stylesheet"/>
 
 <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script defer src="js/supabase-config.js?v=1.0.99"></script>
@@ -18,12 +18,11 @@
 <script defer src="js/formation-code-controller.js?v=1.1.27"></script>
 <script defer src="js/community-data.js?v=1.1.37"></script>
 <script defer src="js/categories.js?v=1.0.99"></script>
-<script defer src="js/popular-search.js?v=1.0.114"></script>
 <script defer src="js/identity-images.js?v=1.1.23"></script>
 <script defer src="js/ego-images.js?v=1.1.19"></script>
 <script defer src="js/ego-sin-affinities.js?v=1.1.15"></script>
 <script defer src="js/featured-recommendations.js?v=1.1.29"></script>
-<script defer src="js/search-controller.js?v=1.1.07"></script>
+<script defer src="js/search-controller.js?v=1.1.39"></script>
 <script defer src="js/draft-controller.js?v=1.0.99"></script>
 <script defer src="js/theme-pack-controller.js?v=1.1.33"></script>
 <script defer src="js/ego-controller.js?v=1.1.15"></script>
@@ -32,7 +31,7 @@
 <script defer src="js/identity-view-controller.js?v=1.0.99"></script>
 <script defer src="js/identity-card-controller.js?v=1.0.99"></script>
 <script defer src="js/formation-controller.js?v=1.0.102"></script>
-<script defer src="js/post-payload-controller.js?v=1.0.99"></script>
+<script defer src="js/post-payload-controller.js?v=1.1.39"></script>
 <script defer src="js/post-persistence-controller.js?v=1.1.07"></script>
 <script defer src="js/post-review-controller.js?v=1.1.30"></script>
 <script defer src="js/post-validation-controller.js?v=1.0.99"></script>
@@ -48,9 +47,9 @@
 <script defer src="js/identity-workspace-controller.js?v=1.0.109"></script>
 <script defer src="js/post-validation-flow-controller.js?v=1.0.110"></script>
 <script defer src="js/site-ui-controller.js?v=1.1.34"></script>
-<script defer src="app.js?v=1.1.38"></script>
+<script defer src="app.js?v=1.1.39"></script>
 <script defer src="js/browse-cards.js?v=1.1.04"></script>
-<script defer src="js/community-browse.js?v=1.1.23"></script>
+<script defer src="js/community-browse.js?v=1.1.39"></script>
 <script defer src="js/public-alpha.js?v=1.0.99"></script>
 </head>
 <body id="top">
@@ -235,6 +234,7 @@
 <label><span>日付の基準</span><select data-date-kind=""><option value="posted">投稿日</option><option value="updated">更新日</option></select></label>
 <label><span>期間</span><select data-date-range=""><option value="all">指定なし</option><option value="today">今日</option><option value="week">1週間以内</option><option value="month">1か月以内</option><option value="year">1年以内</option></select></label>
 <label><span>並び順</span><select data-sort=""><option value="recommended">おすすめ順</option><option value="newest">新着順</option><option value="updated">更新順</option><option value="views">閲覧数順</option><option value="popular">いいね順</option></select></label>
+<label><span>方向</span><select data-sort-direction=""><option value="desc">降順</option><option value="asc">昇順</option></select></label>
 </div>
 </div>
 <div class="search-selected-summary"><div><strong>選択中の条件</strong><small>タグの×で個別に解除できます</small></div><div aria-live="polite" class="active-filters" data-active-filters=""><span class="filter-empty">現在、検索条件は指定されていません。</span></div></div>
@@ -251,17 +251,14 @@
 <div class="community-result-tools">
 <span class="current-browse-category" data-current-browse-category="">鏡ダンジョン</span>
 <div class="result-count"><strong data-result-count="">0</strong> 件を表示</div>
-<label class="result-sort"><span>並び順</span><select data-result-sort=""><option value="recommended">おすすめ順</option><option value="newest">新着順</option><option value="views">閲覧数順</option><option value="popular">いいね順</option></select></label>
+<label class="result-sort"><span>並び順</span><select data-result-sort=""><option value="recommended">おすすめ順</option><option value="newest">新着順</option><option value="updated">更新順</option><option value="views">閲覧数順</option><option value="popular">いいね順</option></select></label>
+<label class="result-sort result-sort-direction"><span>方向</span><select data-result-direction=""><option value="desc">降順</option><option value="asc">昇順</option></select></label>
 </div>
 </div>
 <div aria-label="攻略カテゴリを切り替える" class="browse-category-tabs" data-browse-category-tabs=""></div>
 <div class="result-condition-bar">
 <div><strong>現在の検索条件</strong><small>検索画面で選んだ条件がここにも表示されます。</small></div>
 <div class="active-filters result-active-filters" data-result-active-filters=""><span class="filter-empty">すべての攻略を表示しています。</span></div>
-</div>
-<div aria-label="人気検索" class="popular-searches">
-<span>人気検索</span>
-<div aria-live="polite" class="tag-row popular-tag-row" data-popular-search-list=""></div>
 </div>
 <div class="post-grid" data-post-grid="" aria-live="polite"></div>
 <div class="empty-state" data-empty-state="" hidden=""><strong>まだ公開された攻略はありません。</strong><p>最初の攻略投稿をお待ちしています。</p></div>
@@ -294,7 +291,7 @@
 </div>
 <div class="footer-meta">
 <span>© 非公式ファンサイト</span>
-<span>Version 1.1.38 α</span>
+<span>Version 1.1.39 α</span>
 <time datetime="2026-08-16">Last Updated: 2026.08.16</time>
 </div>
 </footer>

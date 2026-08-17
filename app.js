@@ -1,9 +1,10 @@
 (async()=>{
-const [sinnerIdentityData,sinnerEgoData,keywordDefinitions,themePackData]=await Promise.all([
+const [sinnerIdentityData,sinnerEgoData,keywordDefinitions,themePackData,siteConfig]=await Promise.all([
   fetch('data/identities.json').then(r=>{if(!r.ok)throw new Error('identities.json');return r.json()}),
   fetch('data/egos.json').then(r=>{if(!r.ok)throw new Error('egos.json');return r.json()}),
   fetch('data/keywords.json').then(r=>{if(!r.ok)throw new Error('keywords.json');return r.json()}),
-  fetch('data/packs.json?v=1.1.30').then(r=>{if(!r.ok)throw new Error('packs.json');return r.json()})
+  fetch('data/packs.json?v=1.1.30').then(r=>{if(!r.ok)throw new Error('packs.json');return r.json()}),
+  fetch('data/site-config.json?v=1.1.39').then(r=>{if(!r.ok)throw new Error('site-config.json');return r.json()})
 ]);
 const identityOptions=sinnerIdentityData.flatMap(sinner=>sinner.identities.map(identity=>`${sinner.name}｜${identity.name}`));
 const categoryDefinitions=window.STRATEGY_CATEGORIES||[];
@@ -251,7 +252,7 @@ const updateDifficultyDisplay=()=>postBasicsController.updateDifficulty();
 function updatePostSummaryCount(){if(postSummaryCount)postSummaryCount.textContent=String(postSummary?.value.length||0);}
 if(postSummary){postSummary.addEventListener('input',()=>{updatePostSummaryCount();if(postSummary.value.trim())clearStepValidation(6);});updatePostSummaryCount();}
 const goBackInWorkspace=()=>{if(postState.step===4&&postState.activeEgoSinner)return closeEgoSelect();if(postState.step===5&&postState.activeThemePackFloor)return closeThemePackSelect();setStep(postState.step-1);};$('[data-prev-step]').onclick=goBackInWorkspace;if(mobilePrevStep)mobilePrevStep.onclick=goBackInWorkspace;
-const postPayloadController=window.LimbusPostPayloadController.create({state:postState,identityData:sinnerIdentityData,getAlternativeNames:alternativeNamesFor,getOrderedSinners:orderedSelectedSinners,getFormationPosition:formationPosition,getAutomaticKeywords:automaticPostKeywords});
+const postPayloadController=window.LimbusPostPayloadController.create({state:postState,identityData:sinnerIdentityData,getAlternativeNames:alternativeNamesFor,getOrderedSinners:orderedSelectedSinners,getFormationPosition:formationPosition,getAutomaticKeywords:automaticPostKeywords,getSeason:()=>Number(siteConfig.currentSeason)||7});
 const buildPostPayload=()=>postPayloadController.build();
 let draftController;
 const postPersistenceController=window.LimbusPostPersistenceController.create({buildPayload:buildPostPayload,getEditingId:()=>postModal.dataset.editingPostId||'',setEditingId:id=>{postModal.dataset.editingPostId=id;},validatePublished:validateAllRequiredSteps,onTitleMissing:()=>{window.alert('攻略タイトルを設定していません');setStep(1);},onAuthRequired:()=>window.LimbusAuth?.open(),onPublished:id=>{draftController.removeAfterPublish();setTimeout(()=>{location.href=`post-detail.html?id=${encodeURIComponent(id)}`;},700);},showToast});

@@ -84,6 +84,7 @@ html[data-theme="dark"] .detail-form-tags input{
 .detail-save-footer.is-saved{background:var(--gold2)}
 html[data-theme="dark"] .post-detail-hero,html[data-theme="dark"] .detail-section{background:#171c23}
 html[data-theme="dark"] .post-save-button,html[data-theme="dark"] .detail-save-button,html[data-theme="dark"] .detail-party-card,html[data-theme="dark"] .detail-ego-card,html[data-theme="dark"] .detail-pack-option,html[data-theme="dark"] .detail-badges span,html[data-theme="dark"] .detail-tag-row span{background:#20262f}
+.detail-badges .detail-season-badge{border-color:#b88522;background:#fff7df;color:#805809;font-weight:900;letter-spacing:.08em}html[data-theme="dark"] .detail-badges .detail-season-badge{border-color:#d3a43d;background:#3c321d;color:#f1ca70}
 html[data-theme="dark"] .detail-formation-code textarea{background:#15191e;border-color:#454b54;color:#f2eee6}
 .detail-site-header .brand-mark{display:block}
 .detail-site-header .brand-copy{min-width:0}

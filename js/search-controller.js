@@ -21,9 +21,9 @@ function createSearchController({
   const modalTitle=$('[data-modal-title]'),modalKicker=$('[data-modal-kicker]'),modalSearch=$('[data-modal-search]');
   const modalSelectionStatus=$('[data-modal-selection-status]'),modalApplySelection=$('[data-apply-selection]'),modalClearSelection=$('[data-clear-selection]');
   const identityLabel=$('[data-identity-label]'),activeFilters=$('[data-active-filters]');
-  const keywordInput=$('input[data-keyword]'),sortSelect=$('[data-sort]'),postGrid=$('[data-post-grid]');
+  const keywordInput=$('input[data-keyword]'),sortSelect=$('[data-sort]'),sortDirection=$('[data-sort-direction]'),postGrid=$('[data-post-grid]');
   const resultCount=$('[data-result-count]'),emptyState=$('[data-empty-state]');
-  const resultActiveFilters=$('[data-result-active-filters]'),resultSort=$('[data-result-sort]');
+  const resultActiveFilters=$('[data-result-active-filters]'),resultSort=$('[data-result-sort]'),resultDirection=$('[data-result-direction]');
   const resultPagination=$('[data-result-pagination]'),resultPageStatus=$('[data-page-status]'),resultPagePrev=$('[data-page-prev]'),resultPageNext=$('[data-page-next]');
   const advancedToggle=$('[data-toggle-advanced]'),advancedPanel=$('[data-advanced-search]');
   const searchPanel=$('[data-search-panel]'),searchPanelToggle=$('[data-search-panel-toggle]'),searchToggleLabel=$('[data-search-toggle-label]'),searchToggleSummary=$('[data-search-toggle-summary]');
@@ -97,7 +97,7 @@ function setSearchPanelOpen(open,{scroll=false}={}){
 }
 function renderActiveFilters(){const items=getFilterItems();if(activeTag)items.push({key:'popular',value:activeTag,label:`人気検索：${activeTag}`});renderFilterTarget(activeFilters,items,'現在、検索条件は指定されていません。');renderFilterTarget(resultActiveFilters,items,'すべての攻略を表示しています。');updateSearchToggleSummary(items)}
 function syncSearchControls(){$$('.search-filter-chip').forEach(button=>{const key=button.closest('[data-search-keywords]')?'keyword':button.closest('[data-search-types]')?'type':button.closest('[data-search-strategy-tags]')?'strategy':button.closest('[data-search-difficulties]')?'difficulty':'affiliation';button.classList.toggle('active',selected[key].has(button.textContent))});$$('.search-category-option').forEach(button=>button.classList.toggle('active',selected.category.has(button.dataset.categoryId)));updateSelectionLabels()}
-function clearSearch(){Object.values(selected).forEach(set=>set.clear());keywordInput.value='';$('[data-date-kind]').value='posted';$('[data-date-range]').value='all';sortSelect.value='recommended';syncSearchControls();renderActiveFilters()}
+function clearSearch(){Object.values(selected).forEach(set=>set.clear());keywordInput.value='';$('[data-date-kind]').value='posted';$('[data-date-range]').value='all';sortSelect.value='recommended';if(resultSort)resultSort.value='recommended';if(sortDirection)sortDirection.value='desc';if(resultDirection)resultDirection.value='desc';syncSearchControls();renderActiveFilters()}
 function recommendedScore(card){return (Number(card.dataset.popular)||0)*5+(Number(card.dataset.views)||0)*0.2+(Number(card.dataset.bookmarks)||0)*15}
 function cardDate(card,key){const value=card.dataset[key]||'';const time=Date.parse(value);return Number.isFinite(time)?time:0}
 function renderResultPagination(totalItems){
@@ -127,17 +127,18 @@ function runSearch(scrollToResults=true,{resetPage=true}={}){
     if(matches)matched.push(c);
   });
   const sortValue=resultSort?.value||sortSelect.value;
+  const direction=resultDirection?.value||sortDirection?.value||'desc';
   matched.sort((a,b)=>{
+    let comparison=0;
     if(sortValue==='recommended'){
       const scoreDiff=recommendedScore(b)-recommendedScore(a);
-      if(scoreDiff)return scoreDiff;
-      return cardDate(b,'updated')-cardDate(a,'updated');
+      comparison=scoreDiff||cardDate(b,'updated')-cardDate(a,'updated');
     }
-    if(sortValue==='views')return (Number(b.dataset.views)||0)-(Number(a.dataset.views)||0);
-    if(sortValue==='popular')return (Number(b.dataset.popular)||0)-(Number(a.dataset.popular)||0);
-    if(sortValue==='updated')return cardDate(b,'updated')-cardDate(a,'updated');
-    if(sortValue==='newest')return cardDate(b,'published')-cardDate(a,'published');
-    return 0;
+    else if(sortValue==='views')comparison=(Number(b.dataset.views)||0)-(Number(a.dataset.views)||0);
+    else if(sortValue==='popular')comparison=(Number(b.dataset.popular)||0)-(Number(a.dataset.popular)||0);
+    else if(sortValue==='updated')comparison=cardDate(b,'updated')-cardDate(a,'updated');
+    else if(sortValue==='newest')comparison=cardDate(b,'published')-cardDate(a,'published');
+    return direction==='asc'?-comparison:comparison;
   });
   matched.forEach(c=>postGrid.appendChild(c));
   const totalPages=Math.max(1,Math.ceil(matched.length/RESULT_PAGE_SIZE));
@@ -150,7 +151,7 @@ function runSearch(scrollToResults=true,{resetPage=true}={}){
   renderActiveFilters();
   if(scrollToResults){showToast(`${matched.length}件の攻略を表示しました。`);$('#community').scrollIntoView({behavior:'smooth'})}
 }
-$$('[data-open-selector]').forEach(b=>b.onclick=()=>openSelector(b.dataset.openSelector));$('[data-close-modal]').onclick=()=>closeDialog(selectorModal);modalClearSelection.onclick=()=>{selected.identity.clear();renderSelectionOptions(modalSearch.value)};modalApplySelection.onclick=()=>{updateSelectionLabels();closeDialog(selectorModal)};modalSearch.oninput=e=>renderSelectionOptions(e.target.value);$('[data-search]').onclick=runSearch;$('[data-clear-search]').onclick=clearSearch;keywordInput.oninput=renderActiveFilters;if(searchPanelToggle)searchPanelToggle.onclick=()=>setSearchPanelOpen(searchPanel?.hidden??true);keywordInput.onkeydown=e=>{if(e.key==='Enter')runSearch()};$('[data-date-kind]').onchange=renderActiveFilters;$('[data-date-range]').onchange=renderActiveFilters;if(resultSort)resultSort.onchange=()=>runSearch(false);advancedToggle.onclick=()=>{const open=advancedPanel.hidden;advancedPanel.hidden=!open;advancedToggle.setAttribute('aria-expanded',String(open));advancedToggle.innerHTML=open?'<span>−</span> 詳細条件を閉じる':'<span>＋</span> 詳細条件を表示'};
+$$('[data-open-selector]').forEach(b=>b.onclick=()=>openSelector(b.dataset.openSelector));$('[data-close-modal]').onclick=()=>closeDialog(selectorModal);modalClearSelection.onclick=()=>{selected.identity.clear();renderSelectionOptions(modalSearch.value)};modalApplySelection.onclick=()=>{updateSelectionLabels();closeDialog(selectorModal)};modalSearch.oninput=e=>renderSelectionOptions(e.target.value);$('[data-search]').onclick=()=>{if(resultSort)resultSort.value=sortSelect.value;if(resultDirection&&sortDirection)resultDirection.value=sortDirection.value;runSearch()};$('[data-clear-search]').onclick=clearSearch;keywordInput.oninput=renderActiveFilters;if(searchPanelToggle)searchPanelToggle.onclick=()=>setSearchPanelOpen(searchPanel?.hidden??true);keywordInput.onkeydown=e=>{if(e.key==='Enter')runSearch()};$('[data-date-kind]').onchange=renderActiveFilters;$('[data-date-range]').onchange=renderActiveFilters;if(resultSort)resultSort.onchange=()=>{sortSelect.value=resultSort.value;runSearch(false)};if(resultDirection)resultDirection.onchange=()=>{if(sortDirection)sortDirection.value=resultDirection.value;runSearch(false)};advancedToggle.onclick=()=>{const open=advancedPanel.hidden;advancedPanel.hidden=!open;advancedToggle.setAttribute('aria-expanded',String(open));advancedToggle.innerHTML=open?'<span>−</span> 詳細条件を閉じる':'<span>＋</span> 詳細条件を表示'};
 document.addEventListener('click',event=>{const b=event.target.closest('[data-tag]');if(!b)return;const on=b.classList.contains('active');$$('[data-tag]').forEach(x=>x.classList.remove('active'));activeTag=on?'':b.dataset.tag;if(!on)b.classList.add('active');renderActiveFilters();runSearch()});$$('[data-demo-detail]').forEach(b=>b.onclick=()=>showToast('詳細ページは次の段階で実装予定です。'));if(resultPagePrev)resultPagePrev.onclick=()=>{if(resultPage<=1)return;resultPage-=1;runSearch(false,{resetPage:false});$('#community')?.scrollIntoView({behavior:'smooth',block:'start'})};if(resultPageNext)resultPageNext.onclick=()=>{resultPage+=1;runSearch(false,{resetPage:false});$('#community')?.scrollIntoView({behavior:'smooth',block:'start'})};window.addEventListener('limbus-posts-loaded',()=>runSearch(false));window.addEventListener('limbus-like-updated',()=>runSearch(false,{resetPage:false}));$('[data-scroll-search]').onclick=()=>setSearchPanelOpen(true,{scroll:true});document.querySelectorAll('a[href="#search"]').forEach(link=>link.addEventListener('click',event=>{event.preventDefault();setSearchPanelOpen(true,{scroll:true});}));
 
 // 攻略カテゴリ（検索・閲覧）
