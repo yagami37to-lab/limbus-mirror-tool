@@ -1386,6 +1386,7 @@
   .detail-site-header .brand-copy small{font-size:8px}
 }
 @media(max-width:760px){.header-nav .header-login-button,.header-nav .header-account-button{display:none}.auth-dialog-shell{padding:22px 18px}.auth-sub-actions{display:grid;text-align:left}.auth-sub-actions button{text-align:left}}
+@media(max-width:760px){.legal-preview-shell{width:calc(100vw - 16px);height:88dvh;border-radius:14px}.legal-preview-header{padding:14px 16px}.legal-preview-header h2{font-size:22px}.legal-preview-content{padding:6px 17px 24px}.legal-preview-content h2{font-size:18px}.legal-preview-shell>footer{padding:11px 16px}.legal-preview-shell>footer .button{width:100%}}
 @media(max-width:760px){.auth-dialog-shell{background:color-mix(in srgb,var(--panel) 99%,transparent)}.account-menu{position:fixed;right:12px;top:68px;width:min(280px,calc(100vw - 24px))}}
 @media(max-width:760px){
   .mobile-auth-slot{display:flex;grid-column:3;align-items:center;justify-content:center;position:relative;z-index:24}

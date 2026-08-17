@@ -7,12 +7,12 @@
 <meta content="Limbus Companyの鏡ダンジョン・鏡屈折鉄道・射影戦闘攻略を投稿・共有できる非公式攻略サイトです。" name="description"/>
 <title>Limbus Company 攻略投稿サイト（非公式）</title>
 <link href="logo-mark.svg" rel="icon" type="image/svg+xml"/>
-<link href="styles.css?v=1.1.34" rel="stylesheet"/>
+<link href="styles.css?v=1.1.35" rel="stylesheet"/>
 <link href="css/browse-cards.css?v=1.1.04" rel="stylesheet"/>
 
 <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script defer src="js/supabase-config.js?v=1.0.99"></script>
-<script defer src="js/auth.js?v=1.1.28"></script>
+<script defer src="js/auth.js?v=1.1.35"></script>
 <script defer src="js/theme-pack-names.js?v=1.1.32"></script>
 <script defer src="js/theme-pack-images.js?v=1.1.30"></script>
 <script defer src="js/formation-code-controller.js?v=1.1.27"></script>
@@ -48,7 +48,7 @@
 <script defer src="js/identity-workspace-controller.js?v=1.0.109"></script>
 <script defer src="js/post-validation-flow-controller.js?v=1.0.110"></script>
 <script defer src="js/site-ui-controller.js?v=1.1.34"></script>
-<script defer src="app.js?v=1.1.34"></script>
+<script defer src="app.js?v=1.1.35"></script>
 <script defer src="js/browse-cards.js?v=1.1.04"></script>
 <script defer src="js/community-browse.js?v=1.1.23"></script>
 <script defer src="js/public-alpha.js?v=1.0.99"></script>
@@ -289,7 +289,7 @@
 </div>
 <div class="footer-meta">
 <span>© 非公式ファンサイト</span>
-<span>Version 1.1.34 α</span>
+<span>Version 1.1.35 α</span>
 <time datetime="2026-08-16">Last Updated: 2026.08.16</time>
 </div>
 </footer>
@@ -308,11 +308,19 @@
       <button class="button button-primary" type="submit" data-auth-submit>メールでログイン</button>
     </form>
     <div class="auth-consent" data-auth-consent>
-      <label><input type="checkbox" data-auth-consent-check><span><a href="terms.html" target="_blank" rel="noopener">利用規約</a>と<a href="privacy.html" target="_blank" rel="noopener">プライバシーポリシー</a>を確認し、同意します。新規登録には同意が必要です。</span></label>
+      <label><input type="checkbox" data-auth-consent-check><span><button class="auth-legal-link" type="button" data-open-legal="terms.html">利用規約</button>と<button class="auth-legal-link" type="button" data-open-legal="privacy.html">プライバシーポリシー</button>を確認し、同意します。新規登録には同意が必要です。</span></label>
     </div>
     <div class="auth-sub-actions"><button type="button" data-auth-mode>メールで新規登録する</button><button type="button" data-auth-reset>パスワードを忘れた場合</button></div>
     <p class="auth-status" data-auth-status hidden></p>
     <div class="auth-coming-soon"><span>Discord・Xログインは次段階で追加予定です。</span></div>
+  </div>
+</dialog>
+
+<dialog class="legal-preview-dialog" data-legal-preview-dialog>
+  <div class="legal-preview-shell">
+    <header class="legal-preview-header"><div><small data-legal-preview-kicker>LEGAL</small><h2 data-legal-preview-title>確認</h2></div><button type="button" data-close-legal-preview aria-label="確認画面を閉じる">×</button></header>
+    <div class="legal-preview-content" data-legal-preview-content><p>内容を読み込んでいます。</p></div>
+    <footer><button class="button button-primary" type="button" data-close-legal-preview>確認して閉じる</button></footer>
   </div>
 </dialog>
 

@@ -13,6 +13,10 @@
   const logoutButtons=qsa('[data-auth-logout]');
   const accountMenus=qsa('[data-account-menu]');
   const consentCheck=qs('[data-auth-consent-check]');
+  const legalModal=qs('[data-legal-preview-dialog]');
+  const legalTitle=qs('[data-legal-preview-title]');
+  const legalKicker=qs('[data-legal-preview-kicker]');
+  const legalContent=qs('[data-legal-preview-content]');
   let currentUser=null;
   let currentProfile=null;
 
@@ -68,10 +72,29 @@
     if(typeof modal.showModal==='function') modal.showModal(); else modal.setAttribute('open','');
   }
   function close(){ if(modal?.open) modal.close(); }
+  function closeLegal(){if(legalModal?.open)legalModal.close();}
+  async function openLegal(url){
+    if(!legalModal||!legalContent)return;
+    legalTitle.textContent=url.includes('privacy')?'プライバシーポリシー':'利用規約';
+    legalKicker.textContent=url.includes('privacy')?'PRIVACY POLICY':'TERMS OF SERVICE';
+    legalContent.innerHTML='<p class="legal-preview-loading">内容を読み込んでいます。</p>';
+    if(typeof legalModal.showModal==='function')legalModal.showModal();else legalModal.setAttribute('open','');
+    try{
+      const response=await fetch(url,{cache:'no-cache'});if(!response.ok)throw new Error('legal-load-failed');
+      const source=new DOMParser().parseFromString(await response.text(),'text/html');
+      const card=source.querySelector('.alpha-info-card');const updated=source.querySelector('.alpha-info-page>p:not(.section-kicker)');
+      if(!card)throw new Error('legal-content-missing');
+      legalContent.innerHTML=`${updated?`<p class="legal-preview-updated">${updated.textContent}</p>`:''}${card.innerHTML}`;
+      legalContent.scrollTop=0;
+    }catch(error){console.error(error);legalContent.innerHTML=`<p class="legal-preview-error">内容を読み込めませんでした。<a href="${url}">単独ページで確認する</a></p>`;}
+  }
 
   loginButtons.forEach(b=>b.addEventListener('click',open));
   qsa('[data-close-auth]').forEach(b=>b.addEventListener('click',close));
   modal?.addEventListener('click',e=>{ if(e.target===modal) close(); });
+  qsa('[data-open-legal]').forEach(button=>button.addEventListener('click',event=>{event.preventDefault();event.stopPropagation();openLegal(button.dataset.openLegal);}));
+  qsa('[data-close-legal-preview]').forEach(button=>button.addEventListener('click',closeLegal));
+  legalModal?.addEventListener('click',event=>{if(event.target===legalModal)closeLegal();});
 
   qsa('[data-auth-google]').forEach(b=>b.addEventListener('click',async()=>{
     if(!client){ message('Supabase接続設定が未入力です。','error'); return; }
@@ -129,7 +152,7 @@
     if(menu && willOpen){ menu.hidden=false; b.setAttribute('aria-expanded','true'); }
   }));
   document.addEventListener('click',e=>{ if(!e.target.closest('[data-account-wrap]')) closeAccountMenus(); });
-  document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ closeAccountMenus(); close(); } });
+  document.addEventListener('keydown',e=>{ if(e.key==='Escape'){closeAccountMenus();if(legalModal?.open){closeLegal();return;}close();} });
   qsa('[data-account-action]').forEach(button=>button.addEventListener('click',()=>{
     const action=button.dataset.accountAction;
     closeAccountMenus();
