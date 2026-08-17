@@ -3,6 +3,8 @@
 const key=value=>String(value??'').normalize('NFKC').replace(/[\s・･,，、.。:：／/\\\-_―—–]/g,'').toLowerCase();
 const legacyAliases=new Map([
   [key('絆れかけた終止符'),'弾丸が打った終止符'],
+  [key('弾丸が打つ終止符'),'弾丸が打った終止符'],
+  [key('フェアリーフェイル'),'フェアリーテイル'],
   [key('感情の前に怯けたもの'),'感情の前に怠けたもの'],
   [key('追い寄る深淵'),'這い寄る深淵'],
   [key('殺人時間 BokGak'),'時間殺人時間 BokGak'],

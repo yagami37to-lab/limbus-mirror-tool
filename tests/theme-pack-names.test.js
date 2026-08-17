@@ -3,6 +3,8 @@ const fs=require('node:fs');
 global.window={};require('../js/theme-pack-names.js');
 const packs=JSON.parse(fs.readFileSync('data/packs.json','utf8'));const normalizer=window.LimbusThemePackNames.create(packs);
 assert.equal(normalizer.normalize('絆れかけた終止符'),'弾丸が打った終止符');
+assert.equal(normalizer.normalize('弾丸が打つ終止符'),'弾丸が打った終止符');
+assert.equal(normalizer.normalize('フェアリーフェイル'),'フェアリーテイル');
 assert.equal(normalizer.normalize('感情の前に怯けたもの'),'感情の前に怠けたもの');
 assert.equal(normalizer.normalize('追い寄る深淵'),'這い寄る深淵');
 assert.equal(normalizer.normalize('殺人時間 BokGak'),'時間殺人時間 BokGak');

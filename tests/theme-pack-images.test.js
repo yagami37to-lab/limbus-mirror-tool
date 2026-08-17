@@ -11,6 +11,6 @@ assert.equal(images.forName('這い寄る深淵','NORMAL'),'assets/theme-packs/0
 assert.equal(images.forName('這い寄る深淵','HARD'),'assets/theme-packs/061.png');
 assert.equal(images.forName('時間殺人時間 BokGak','HARD'),'assets/theme-packs/066.png');
 assert.equal(images.forName('ワープ特急殺人事件 BokGak','HARD'),'assets/theme-packs/067.png');
-assert.equal(images.forName('緑の黎明','HARD'),'');
-assert.equal(images.forName('1号線 : 狂気','HARD'),'');
+assert.equal(images.forName('緑の黎明','HARD'),'assets/theme-packs/108.webp');
+assert.equal(images.forName('1号線 : 狂気','HARD'),'assets/theme-packs/112.webp');
 console.log('theme-pack-image tests passed');
