@@ -7,8 +7,8 @@
 <meta content="Limbus Companyの鏡ダンジョン・鏡屈折鉄道・射影戦闘攻略を投稿・共有できる非公式攻略サイトです。" name="description"/>
 <title>Limbus Company 攻略投稿サイト（非公式）</title>
 <link href="logo-mark.svg" rel="icon" type="image/svg+xml"/>
-<link href="styles.css?v=1.1.43" rel="stylesheet"/>
-<link href="css/browse-cards.css?v=1.1.42" rel="stylesheet"/>
+<link href="styles.css?v=1.1.44" rel="stylesheet"/>
+<link href="css/browse-cards.css?v=1.1.44" rel="stylesheet"/>
 
 <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script defer src="js/supabase-config.js?v=1.0.99"></script>
@@ -19,10 +19,11 @@
 <script defer src="js/community-data.js?v=1.1.37"></script>
 <script defer src="js/categories.js?v=1.0.99"></script>
 <script defer src="js/identity-images.js?v=1.1.23"></script>
+<script defer src="js/owned-identities.js?v=1.1.44"></script>
 <script defer src="js/ego-images.js?v=1.1.19"></script>
 <script defer src="js/ego-sin-affinities.js?v=1.1.15"></script>
 <script defer src="js/featured-recommendations.js?v=1.1.29"></script>
-<script defer src="js/search-controller.js?v=1.1.41"></script>
+<script defer src="js/search-controller.js?v=1.1.44"></script>
 <script defer src="js/draft-controller.js?v=1.0.99"></script>
 <script defer src="js/theme-pack-controller.js?v=1.1.33"></script>
 <script defer src="js/ego-controller.js?v=1.1.15"></script>
@@ -49,7 +50,7 @@
 <script defer src="js/site-ui-controller.js?v=1.1.34"></script>
 <script defer src="app.js?v=1.1.41"></script>
 <script defer src="js/browse-cards.js?v=1.1.04"></script>
-<script defer src="js/community-browse.js?v=1.1.41"></script>
+<script defer src="js/community-browse.js?v=1.1.44"></script>
 <script defer src="js/public-alpha.js?v=1.0.99"></script>
 </head>
 <body id="top">
@@ -233,7 +234,7 @@
 <div class="search-date-grid">
 <label><span>日付の基準</span><select data-date-kind=""><option value="posted">投稿日</option><option value="updated">更新日</option></select></label>
 <label><span>期間</span><select data-date-range=""><option value="all">指定なし</option><option value="today">今日</option><option value="week">1週間以内</option><option value="month">1か月以内</option><option value="year">1年以内</option></select></label>
-<label><span>並び順</span><select data-sort=""><option value="recommended">おすすめ順</option><option value="newest">新着順</option><option value="updated">更新順</option><option value="views">閲覧数順</option><option value="popular">いいね順</option></select></label>
+<label><span>並び順</span><select data-sort=""><option value="recommended">おすすめ順</option><option value="owned">所持率順</option><option value="newest">新着順</option><option value="updated">更新順</option><option value="views">閲覧数順</option><option value="popular">いいね順</option></select></label>
 <label><span>方向</span><select data-sort-direction=""><option value="desc">降順</option><option value="asc">昇順</option></select></label>
 </div>
 </div>
@@ -251,7 +252,7 @@
 <div class="community-result-tools">
 <span class="current-browse-category" data-current-browse-category="">鏡ダンジョン</span>
 <div class="result-count"><strong data-result-count="">0</strong> 件を表示</div>
-<label class="result-sort"><span>並び順</span><select data-result-sort=""><option value="recommended">おすすめ順</option><option value="newest">新着順</option><option value="updated">更新順</option><option value="views">閲覧数順</option><option value="popular">いいね順</option></select></label>
+<label class="result-sort"><span>並び順</span><select data-result-sort=""><option value="recommended">おすすめ順</option><option value="owned">所持率順</option><option value="newest">新着順</option><option value="updated">更新順</option><option value="views">閲覧数順</option><option value="popular">いいね順</option></select></label>
 <label class="result-sort result-sort-direction"><span>方向</span><select data-result-direction=""><option value="desc">降順</option><option value="asc">昇順</option></select></label>
 </div>
 </div>
@@ -288,7 +289,7 @@
 </div>
 <div class="footer-meta">
 <span>© 非公式ファンサイト</span>
-<span>Version 1.1.43 α</span>
+<span>Version 1.1.44 α</span>
 <time datetime="2026-08-16">Last Updated: 2026.08.16</time>
 </div>
 </footer>

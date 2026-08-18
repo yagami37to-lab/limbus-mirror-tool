@@ -1064,6 +1064,13 @@ html[data-theme="dark"] .featured-editor-note{background:rgba(43,36,24,.72)}
   .site-footer .footer-meta{margin-top:18px}
 }
 
+/* v1.1.44: desktop footer copy sits directly on the artwork. */
+@media(min-width:681px){
+  .site-footer .footer-official-links{border:0!important;border-left:0!important;background:transparent!important;box-shadow:none!important;backdrop-filter:none!important;padding:0!important}
+  .site-footer .footer-official-links>strong{text-shadow:0 2px 16px #000}
+  .site-footer .footer-official-links>p{max-width:760px;text-shadow:0 2px 7px #000,0 0 22px #000}
+}
+
 /* Selected difficulty remains visible in the dark editor preview. */
 html[data-theme="dark"] .type-preview-difficulty[data-difficulty="NORMAL"]{border-color:#78b5e5;background:#18344b;color:#b9e0ff}
 html[data-theme="dark"] .type-preview-difficulty[data-difficulty="HARD"]{border-color:#d56b61;background:#4b2525;color:#ffd0cb}

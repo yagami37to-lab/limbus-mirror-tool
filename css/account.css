@@ -176,6 +176,14 @@ html[data-theme="dark"] .moderation-card,html[data-theme="dark"] .moderation-sum
   .legal-shell-header .account-header-actions .legal-home-link{flex:0 1 auto;min-width:0;padding:7px 9px}
 }
 
+/* v1.1.44: owned identity settings. */
+.owned-identity-settings{margin-top:20px}
+.owned-identity-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:20px}.owned-identity-heading .account-kicker{margin:0 0 7px}.owned-identity-heading .account-section-title{margin-bottom:8px}.owned-identity-heading p:last-child{margin:0;color:var(--account-muted);line-height:1.7}.owned-identity-heading>strong{flex:0 0 auto;padding:9px 13px;border:1px solid var(--account-accent);border-radius:999px;color:var(--account-accent)}
+.owned-identity-tools{display:grid;grid-template-columns:minmax(220px,1fr) auto auto;gap:9px;margin:20px 0 14px}.owned-identity-tools input{min-width:0;padding:11px 13px;border:1px solid var(--account-line);border-radius:10px;background:var(--account-card);color:var(--account-text)}
+.owned-identity-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;max-height:620px;overflow:auto;padding-right:5px}
+.owned-identity-item{position:relative;isolation:isolate;min-height:92px;overflow:hidden;border:1px solid var(--account-line);border-radius:10px;background:#25211e;color:#fff;cursor:pointer}.owned-identity-item::before{content:"";position:absolute;inset:0;z-index:-2;background:var(--owned-image,linear-gradient(135deg,#3c352d,#191715)) center/cover no-repeat;opacity:.58}.owned-identity-item::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(0,0,0,.9),rgba(0,0,0,.34))}.owned-identity-item input{position:absolute;right:9px;top:9px;width:18px;height:18px;accent-color:#d59a21}.owned-identity-item span{display:flex;min-height:92px;flex-direction:column;justify-content:flex-end;padding:12px 36px 12px 12px;text-shadow:0 1px 3px #000}.owned-identity-item small{color:#efca78}.owned-identity-item b{margin-top:4px;font-size:12px;line-height:1.4}.owned-identity-item.is-owned{border-color:#e0a52e;box-shadow:inset 0 0 0 2px #e0a52e}
+@media(max-width:760px){.owned-identity-heading{display:grid}.owned-identity-heading>strong{justify-self:start}.owned-identity-tools{grid-template-columns:1fr 1fr}.owned-identity-tools input{grid-column:1/-1}.owned-identity-grid{grid-template-columns:repeat(2,minmax(0,1fr));max-height:65vh}.owned-identity-item,.owned-identity-item span{min-height:82px}}
+
 
 /* v1.0.65: keep the floating news shortcut readable on account subpages. */
 .account-page .mobile-news-button,

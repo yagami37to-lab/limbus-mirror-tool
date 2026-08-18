@@ -135,6 +135,7 @@ function runSearch(scrollToResults=true,{resetPage=true}={}){
       comparison=scoreDiff||cardDate(b,'updated')-cardDate(a,'updated');
     }
     else if(sortValue==='views')comparison=(Number(b.dataset.views)||0)-(Number(a.dataset.views)||0);
+    else if(sortValue==='owned')comparison=(Number(b.dataset.ownedRate)||0)-(Number(a.dataset.ownedRate)||0);
     else if(sortValue==='popular')comparison=(Number(b.dataset.popular)||0)-(Number(a.dataset.popular)||0);
     else if(sortValue==='updated')comparison=cardDate(b,'updated')-cardDate(a,'updated');
     else if(sortValue==='newest')comparison=cardDate(b,'published')-cardDate(a,'published');
