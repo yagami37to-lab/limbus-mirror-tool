@@ -1006,6 +1006,24 @@ html[data-theme="dark"] .mobile-header-post{border-color:var(--accent);backgroun
 .footer-meta{display:flex;flex-wrap:wrap;gap:10px 22px;margin-top:24px;padding-top:14px;border-top:1px solid #3a3124;color:#998f80;font-size:11px}
 html[data-theme="dark"] .featured-editor-note{background:rgba(43,36,24,.72)}
 
+/* v1.1.41: footer contains only the official Limbus Company introduction. */
+.footer-main{display:block}
+.footer-main .footer-official-links{width:min(100%,620px);margin:auto}
+.footer-main .footer-official-links>p{grid-column:1/-1;margin:0 0 8px;color:#c9c0b2;font-size:12px;line-height:1.7}
+
+/* Keep the recommendation card's primary badges in one compact row on phones. */
+@media(max-width:520px){
+  .home-featured-carousel .featured-post-copy .post-card-head{display:flex!important;flex-wrap:nowrap!important;gap:5px!important;align-items:center!important}
+  .home-featured-carousel .featured-post-copy .browse-primary-badges{display:flex!important;flex:1 1 auto;min-width:0;flex-wrap:nowrap!important;gap:4px!important;overflow:hidden}
+  .home-featured-carousel .featured-post-copy .browse-primary-badges>span{flex:0 1 auto;min-width:0;min-height:21px;padding:2px 5px!important;font-size:8px!important;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .home-featured-carousel .featured-post-copy .browse-card-head-actions{flex:0 0 auto}
+  .home-featured-carousel .featured-post-copy .browse-category-badge{padding:2px 5px!important;font-size:8px!important;white-space:nowrap}
+}
+
+/* Selected difficulty remains visible in the dark editor preview. */
+html[data-theme="dark"] .type-preview-difficulty[data-difficulty="NORMAL"]{border-color:#78b5e5;background:#18344b;color:#b9e0ff}
+html[data-theme="dark"] .type-preview-difficulty[data-difficulty="HARD"]{border-color:#d56b61;background:#4b2525;color:#ffd0cb}
+
 html[data-theme="dark"] .category-picker-shell{
   background:#171b20;
   color:#f2eee6;
@@ -1706,4 +1724,13 @@ html[data-theme="dark"] .modal[data-selector-modal] .selection-item.has-identity
   max-height:100%!important;
   object-fit:contain!important;
   object-position:center!important;
+}
+
+/* v1.1.41 final responsive safeguards. */
+html[data-theme="dark"] .type-preview-difficulty[data-difficulty="NORMAL"]{border-color:#78b5e5!important;background:#18344b!important;color:#b9e0ff!important}
+html[data-theme="dark"] .type-preview-difficulty[data-difficulty="HARD"]{border-color:#d56b61!important;background:#4b2525!important;color:#ffd0cb!important}
+@media(max-width:520px){
+  .home-featured-carousel .featured-post-copy .post-card-head{display:flex!important;flex-flow:row nowrap!important;gap:5px!important}
+  .home-featured-carousel .featured-post-copy .browse-primary-badges{display:flex!important;flex-flow:row nowrap!important;gap:4px!important;overflow:hidden!important}
+  .home-featured-carousel .featured-post-copy .browse-primary-badges>span{min-width:0!important;padding:2px 5px!important;font-size:8px!important;white-space:nowrap!important}
 }

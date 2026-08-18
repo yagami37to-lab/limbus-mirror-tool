@@ -8,6 +8,9 @@ const [sinnerIdentityData,sinnerEgoData,keywordDefinitions,themePackData,siteCon
 ]);
 const identityOptions=sinnerIdentityData.flatMap(sinner=>sinner.identities.map(identity=>`${sinner.name}｜${identity.name}`));
 const categoryDefinitions=window.STRATEGY_CATEGORIES||[];
+const returnPostId=new URLSearchParams(location.search).get('returnPost');
+document.addEventListener('click',event=>{const link=event.target.closest('a.post-detail-link[href*="post-detail.html"]');if(!link)return;const card=link.closest('[data-post-id]');try{sessionStorage.setItem('limbusPostReturn',JSON.stringify({id:card?.dataset.postId||'',y:window.scrollY}));}catch{}});
+if(returnPostId){let positionRestored=false;const restorePostPosition=()=>setTimeout(()=>{if(positionRestored)return;positionRestored=true;let saved=null;try{saved=JSON.parse(sessionStorage.getItem('limbusPostReturn')||'null');sessionStorage.removeItem('limbusPostReturn');}catch{}const card=document.querySelector(`[data-post-id="${CSS.escape(returnPostId)}"]`);if(saved?.id===returnPostId&&Number.isFinite(saved.y))window.scrollTo({top:saved.y,behavior:'auto'});else card?.scrollIntoView({block:'center',behavior:'auto'});history.replaceState(null,'',`${location.pathname}#community`);},80);window.addEventListener('limbus-posts-loaded',restorePostPosition,{once:true});setTimeout(restorePostPosition,1200);}
 const categoryById=id=>categoryDefinitions.find(item=>item.id===id)||categoryDefinitions[0]||{id:'mirror_dungeon',label:'鏡ダンジョン',available:true};
 const categoryIconMarkup=(category,className='category-image-icon')=>category?.iconImage?`<img class="${className}" src="${category.iconImage}" alt="" loading="lazy">`:`<span aria-hidden="true">${category?.icon||''}</span>`;
 const searchOptions={

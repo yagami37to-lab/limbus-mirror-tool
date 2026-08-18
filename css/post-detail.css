@@ -218,3 +218,10 @@ html[data-theme="dark"] .detail-footer .detail-back-action{background:#3a301d!im
 html[data-theme="dark"] .detail-footer .detail-save-footer{background:#c94349!important;border-color:#df6267!important;color:#fff!important}
 html[data-theme="dark"] .detail-footer .detail-share-button{background:#287fbd!important;border-color:#55a7dc!important;color:#fff!important}
 html[data-theme="dark"] .detail-footer .detail-report-button{background:#5d292e!important;border-color:#c35d65!important;color:#ffced1!important}
+
+/* v1.1.41: keep mobile section names on one line. */
+@media(max-width:520px){
+  .detail-section-title{align-items:center;margin-bottom:15px}
+  .detail-section-title h2{font-size:clamp(20px,7vw,26px);white-space:nowrap;word-break:keep-all}
+  .detail-section-title small{font-size:9px;letter-spacing:.12em;white-space:nowrap}
+}
