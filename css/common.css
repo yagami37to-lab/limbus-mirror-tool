@@ -1020,6 +1020,50 @@ html[data-theme="dark"] .featured-editor-note{background:rgba(43,36,24,.72)}
   .home-featured-carousel .featured-post-copy .browse-category-badge{padding:2px 5px!important;font-size:8px!important;white-space:nowrap}
 }
 
+/* v1.1.43: cinematic Limbus Company introduction footer. */
+.site-footer{
+  width:100%!important;
+  max-width:none!important;
+  min-height:470px;
+  padding:clamp(48px,7vw,88px) max(24px,calc((100vw - 1180px)/2)) 22px!important;
+  background:
+    linear-gradient(90deg,rgba(10,8,10,.96) 0%,rgba(12,9,12,.88) 43%,rgba(13,10,14,.35) 72%,rgba(8,7,10,.6) 100%),
+    linear-gradient(0deg,rgba(10,8,10,.96),transparent 48%),
+    url("../assets/site/dante-lbc.jpg") center 42%/cover no-repeat!important;
+  color:#f7efe5!important;
+  display:flex!important;
+  flex-direction:column;
+  justify-content:flex-end;
+  border-top:1px solid #8b6330!important;
+}
+.site-footer .footer-main{width:100%;max-width:1180px;margin:auto auto 0;display:block!important}
+.site-footer .footer-official-links{
+  width:min(100%,790px)!important;
+  min-width:0!important;
+  margin:0!important;
+  padding:clamp(22px,3vw,34px);
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:10px;
+  border:1px solid rgba(221,171,83,.42);
+  border-left:4px solid #d3a33f;
+  background:rgba(15,12,15,.78);
+  box-shadow:0 24px 70px rgba(0,0,0,.36);
+  backdrop-filter:blur(8px);
+}
+.site-footer .footer-official-links>strong{font:600 clamp(20px,2.5vw,30px) Georgia,"Yu Mincho",serif;letter-spacing:.14em;color:#f2cd7a}
+.site-footer .footer-official-links>p{grid-column:1/-1;margin:0 0 8px;color:#eee6dd;font-size:13px;line-height:1.9;text-shadow:0 1px 5px #000}
+.site-footer .footer-official-links>p b{color:#ffd57a;font-size:1.08em}
+.site-footer .footer-official-links a{background:rgba(19,15,18,.72);border-color:#8d6b38;color:#fff6e8}
+.site-footer .footer-official-links a:hover,.site-footer .footer-official-links a:focus-visible{background:#b77f22;border-color:#efc66f;color:#fff}
+.site-footer .footer-meta{width:100%;max-width:1180px;margin:28px auto 0;border-color:rgba(219,176,97,.3);color:#bcb0a2}
+@media(max-width:680px){
+  .site-footer{min-height:560px;padding:44px 16px 18px!important;background-position:58% center!important}
+  .site-footer .footer-official-links{grid-template-columns:repeat(2,minmax(0,1fr));padding:20px 17px;background:rgba(12,10,13,.84)}
+  .site-footer .footer-official-links>strong{font-size:20px;letter-spacing:.1em}
+  .site-footer .footer-official-links>p{font-size:12px;line-height:1.8}
+  .site-footer .footer-meta{margin-top:18px}
+}
+
 /* Selected difficulty remains visible in the dark editor preview. */
 html[data-theme="dark"] .type-preview-difficulty[data-difficulty="NORMAL"]{border-color:#78b5e5;background:#18344b;color:#b9e0ff}
 html[data-theme="dark"] .type-preview-difficulty[data-difficulty="HARD"]{border-color:#d56b61;background:#4b2525;color:#ffd0cb}
