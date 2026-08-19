@@ -25,7 +25,7 @@
       const party=Array.isArray(c.party)?c.party:[];
       const egos=Array.isArray(c.egos)?c.egos:[];
       const season=Number(c.season)||Number(siteConfig.legacyPostSeason)||7;
-      const modeLabel=p.category==='mirror_railway'?(c.stage||'ステージ未設定'):(p.difficulty==='HARD'?'ハード':p.difficulty==='NORMAL'?'ノーマル':p.difficulty||'未設定');
+      const modeLabel=['mirror_railway','projection_combat'].includes(p.category)?(c.stage||'ステージ未設定'):(p.difficulty==='HARD'?'ハード':p.difficulty==='NORMAL'?'ノーマル':p.difficulty||'未設定');
       const card=document.createElement('article');
       card.className='post-card post-card-rich cloud-post-card';
       card.dataset.postId=p.id;

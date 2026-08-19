@@ -25,9 +25,9 @@ window.STRATEGY_CATEGORIES = Object.freeze([
     shortLabel: '射影戦闘',
     icon: '⌖',
     iconImage: 'assets/category-icons/projection-combat.png',
-    available: false,
+    available: true,
     description: '射影戦闘の攻略や編成例を投稿します。',
-    searchCopy: '※実装予定'
+    searchCopy: '射影戦闘攻略を検索'
   }),
   Object.freeze({
     id: 'luxcavation', label: '採光', shortLabel: '採光', icon: '☀', available: false,

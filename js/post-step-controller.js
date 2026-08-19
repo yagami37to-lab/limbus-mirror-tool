@@ -3,7 +3,7 @@
 function createPostStepController({state,stepInfo,identityData,onCloseEgo,onCloseTheme,onRenderIdentities,onOpenIdentity,onRenderFormation,onRenderEgos,onRenderThemes,onRenderDetails,onRenderReview,onEnterIdentity,onIdentityFooterUpdate,onEgoFooterUpdate,onResetScroll}){
   const $=selector=>document.querySelector(selector);const all=selector=>document.querySelectorAll(selector);
   function set(step){
-    const previous=state.step;let requested=Math.max(1,Math.min(7,Number(step)||1));const railway=state.category==='mirror_railway';if(railway&&requested===5)requested=previous>=6?4:6;state.step=requested;
+    const previous=state.step;let requested=Math.max(1,Math.min(7,Number(step)||1));const railway=['mirror_railway','projection_combat'].includes(state.category);if(railway&&requested===5)requested=previous>=6?4:6;state.step=requested;
     if(state.step===2&&!state.activeSinner)state.activeSinner=identityData[0]?.id||null;
     if(state.step!==4&&state.activeEgoSinner)onCloseEgo({scroll:false});if(state.step!==5)onCloseTheme({scroll:false});
     all('[data-post-step]').forEach(section=>section.classList.toggle('active',+section.dataset.postStep===state.step));all('[data-step-link]').forEach(link=>link.classList.toggle('active',+link.dataset.stepLink===state.step));

@@ -7,7 +7,7 @@
 <meta content="Limbus Companyの鏡ダンジョン・鏡屈折鉄道などの攻略を投稿・共有できる非公式攻略サイトです。" name="description"/>
 <title>Limbus Company 攻略投稿サイト（非公式）</title>
 <link href="logo-mark.svg" rel="icon" type="image/svg+xml"/>
-<link href="styles.css?v=1.1.55" rel="stylesheet"/>
+<link href="styles.css?v=1.1.56" rel="stylesheet"/>
 <link href="css/browse-cards.css?v=1.1.44" rel="stylesheet"/>
 
 <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -17,7 +17,7 @@
 <script defer src="js/theme-pack-images.js?v=1.1.37"></script>
 <script defer src="js/formation-code-controller.js?v=1.1.50"></script>
 <script defer src="js/community-data.js?v=1.1.37"></script>
-<script defer src="js/categories.js?v=1.1.55"></script>
+<script defer src="js/categories.js?v=1.1.56"></script>
 <script defer src="js/identity-images.js?v=1.1.23"></script>
 <script defer src="js/owned-identities.js?v=1.1.48"></script>
 <script defer src="js/ego-images.js?v=1.1.47"></script>
@@ -32,25 +32,25 @@
 <script defer src="js/identity-view-controller.js?v=1.0.99"></script>
 <script defer src="js/identity-card-controller.js?v=1.0.99"></script>
 <script defer src="js/formation-controller.js?v=1.0.102"></script>
-<script defer src="js/post-payload-controller.js?v=1.1.55"></script>
+<script defer src="js/post-payload-controller.js?v=1.1.56"></script>
 <script defer src="js/post-persistence-controller.js?v=1.1.07"></script>
-<script defer src="js/post-review-controller.js?v=1.1.55"></script>
-<script defer src="js/post-validation-controller.js?v=1.1.55"></script>
-<script defer src="js/post-step-controller.js?v=1.1.55"></script>
-<script defer src="js/post-editor-reset-controller.js?v=1.1.55"></script>
-<script defer src="js/post-restore-controller.js?v=1.1.55"></script>
+<script defer src="js/post-review-controller.js?v=1.1.56"></script>
+<script defer src="js/post-validation-controller.js?v=1.1.56"></script>
+<script defer src="js/post-step-controller.js?v=1.1.56"></script>
+<script defer src="js/post-editor-reset-controller.js?v=1.1.56"></script>
+<script defer src="js/post-restore-controller.js?v=1.1.56"></script>
 <script defer src="js/post-editor-launch-controller.js?v=1.0.101"></script>
 <script defer src="js/post-close-controller.js?v=1.0.102"></script>
 <script defer src="js/post-advance-controller.js?v=1.0.103"></script>
 <script defer src="js/post-basics-controller.js?v=1.0.104"></script>
 <script defer src="js/post-category-controller.js?v=1.1.55"></script>
-<script defer src="js/post-tags-controller.js?v=1.0.108"></script>
+<script defer src="js/post-tags-controller.js?v=1.1.56"></script>
 <script defer src="js/identity-workspace-controller.js?v=1.0.109"></script>
 <script defer src="js/post-validation-flow-controller.js?v=1.1.55"></script>
 <script defer src="js/site-ui-controller.js?v=1.1.34"></script>
-<script defer src="app.js?v=1.1.55"></script>
+<script defer src="app.js?v=1.1.56"></script>
 <script defer src="js/browse-cards.js?v=1.1.04"></script>
-<script defer src="js/community-browse.js?v=1.1.55"></script>
+<script defer src="js/community-browse.js?v=1.1.56"></script>
 <script defer src="js/public-alpha.js?v=1.0.99"></script>
 </head>
 <body id="top">
@@ -189,10 +189,10 @@
 <span><strong>鏡屈折鉄道</strong><small>鉄道イベントの攻略を探す</small></span>
 <em>投稿を見る →</em>
 </button>
-<button aria-disabled="true" class="category-card category-projection is-planned" data-browse-category="projection_combat" type="button">
+<button class="category-card category-projection" data-browse-category="projection_combat" type="button">
 <span aria-hidden="true" class="category-icon"><img src="assets/category-icons/projection-combat.png" alt=""></span>
-<span><strong>射影戦闘</strong><small>射影戦闘の攻略や編成例を探す</small><i>※実装予定</i></span>
-<em>準備中</em>
+<span><strong>射影戦闘</strong><small>射影戦闘の攻略や編成例を探す</small></span>
+<em>投稿を見る →</em>
 </button>
 <button aria-disabled="true" class="category-card category-luxcavation is-planned" data-browse-category="luxcavation" type="button">
 <span aria-hidden="true" class="category-icon">☀</span>
@@ -303,7 +303,7 @@
 </div>
 <div class="footer-meta">
 <span>© 非公式ファンサイト</span>
-<span>Version 1.1.55 α</span>
+<span>Version 1.1.56 α</span>
 <time datetime="2026-08-16">Last Updated: 2026.08.16</time>
 </div>
 </footer>
@@ -368,7 +368,7 @@
 <button aria-label="閉じる" class="modal-close" data-close-category-picker="" type="button">×</button>
 </header>
 <div class="category-picker-grid" data-category-picker-list=""></div>
-<p class="category-picker-note">※射影戦闘・採光・ストーリー・おすすめ編成は今後のアップデートで実装予定です。</p>
+<p class="category-picker-note">※採光・ストーリー・おすすめ編成は今後のアップデートで実装予定です。</p>
 <footer class="category-picker-actions">
 <span data-category-picker-status="">カテゴリを選択してください</span>
 <div class="category-picker-action-buttons">
@@ -438,12 +438,14 @@
 <small class="difficulty-error" data-difficulty-error="" hidden="">次へ進むには、ノーマルまたはハードを選択してください。</small>
 </fieldset>
 <fieldset class="difficulty-selector railway-stage-selector" data-railway-stage-selector hidden>
-<legend>鏡屈折鉄道のステージ <span>必須</span></legend>
+<legend><b data-stage-selector-title>鏡屈折鉄道のステージ</b> <span>必須</span></legend>
 <p>攻略対象の路線を選択してください。</p>
 <div class="difficulty-options railway-stage-options">
-<button class="difficulty-option railway-stage-option" data-railway-stage="6号線" type="button"><span class="difficulty-option-mark">6</span><div><strong>6号線</strong><small>第6回 鏡屈折鉄道</small></div></button>
-<button class="difficulty-option railway-stage-option" data-railway-stage="2号線" type="button"><span class="difficulty-option-mark">2</span><div><strong>2号線</strong><small>第2回 鏡屈折鉄道</small></div></button>
-<button class="difficulty-option railway-stage-option" data-railway-stage="1号線" type="button"><span class="difficulty-option-mark">1</span><div><strong>1号線</strong><small>第1回 鏡屈折鉄道</small></div></button>
+<button class="difficulty-option railway-stage-option" data-stage-category="mirror_railway" data-railway-stage="6号線" type="button"><span class="difficulty-option-mark">6</span><div><strong>6号線</strong><small>第6回 鏡屈折鉄道</small></div></button>
+<button class="difficulty-option railway-stage-option" data-stage-category="mirror_railway" data-railway-stage="2号線" type="button"><span class="difficulty-option-mark">2</span><div><strong>2号線</strong><small>第2回 鏡屈折鉄道</small></div></button>
+<button class="difficulty-option railway-stage-option" data-stage-category="mirror_railway" data-railway-stage="1号線" type="button"><span class="difficulty-option-mark">1</span><div><strong>1号線</strong><small>第1回 鏡屈折鉄道</small></div></button>
+<button class="difficulty-option projection-stage-option" data-railway-stage="VS 中指 末兄 リカルド" data-stage-category="projection_combat" type="button" hidden><span class="difficulty-option-mark">R</span><div><strong>VS 中指 末兄 リカルド</strong><small>射影戦闘ステージ</small></div></button>
+<button class="difficulty-option projection-stage-option" data-railway-stage="VS 挿翅虎 レイホン" data-stage-category="projection_combat" type="button" hidden><span class="difficulty-option-mark">L</span><div><strong>VS 挿翅虎 レイホン</strong><small>射影戦闘ステージ</small></div></button>
 </div>
 <small class="difficulty-error" data-railway-stage-error hidden>次へ進むにはステージを選択してください。</small>
 </fieldset>
@@ -561,9 +563,9 @@
 <label class="post-summary-field"><span>一言紹介 <em>（必須・一覧表示用・60文字まで）</em></span><textarea data-post-summary="" maxlength="60" placeholder="この編成の強みや魅力を一言で紹介してください" rows="2"></textarea><small class="post-summary-counter"><b data-post-summary-count="">0</b> / 60</small></label>
 </div>
 <div class="detail-column">
-<div class="tag-field keyword-tag-field">
-<div class="tag-field-heading"><span>キーワードタグ <em>（自動付与）</em></span><small>編成人格から判定</small></div>
-<p>同じ主要キーワードを持つ人格が5人以上いる場合に自動で付きます。</p>
+<div class="tag-field keyword-tag-field" data-keyword-tag-field>
+<div class="tag-field-heading"><span>キーワードタグ <em data-keyword-mode-label>（自動付与）</em></span><small data-keyword-mode-status>編成人格から判定</small></div>
+<p data-keyword-mode-copy>同じ主要キーワードを持つ人格が5人以上いる場合に自動で付きます。</p>
 <div class="automatic-keyword-tags" data-automatic-keyword-tags=""><span class="tag-empty">該当するキーワードはありません。</span></div>
 <p class="ammo-keyword-note" data-ammo-keyword-note="" hidden="">※ 弾丸キーワードを持つ人格が1人以上編成されている場合に選択できます。</p>
 </div>
@@ -572,7 +574,7 @@
 <p>編成のテーマや所属などを選択してください。</p>
 <div class="selectable-tag-grid affiliation-tag-grid" data-affiliation-tag-grid=""></div>
 </div>
-<div aria-disabled="true" class="tag-field required-gift-field">
+<div aria-disabled="true" class="tag-field required-gift-field" data-required-gift-field>
 <div class="tag-field-heading"><span>必須ギフト <em>（実装予定）</em></span><small>現在は設定できません</small></div>
 <p>この攻略に必要なE.G.Oギフトを設定する欄です。</p>
 <div class="required-gift-placeholder">
