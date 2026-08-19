@@ -30,7 +30,7 @@
         const groups=document.createElement('div');groups.className='news-change-groups';
         const groupedChanges=Array.isArray(entry.groups)?entry.groups.reduce((acc,group)=>{const key=group?.tag;const items=Array.isArray(group?.items)?group.items:[];if(key&&items.length)(acc[key]??=[]).push(...items);return acc;},{}):{};
         const normalizedChanges=Array.isArray(entry.changes)
-          ? entry.changes.reduce((acc,item)=>{const key=item?.type,text=item?.text;if(key&&text)(acc[key]??=[]).push(text);return acc;},{})
+          ? entry.changes.reduce((acc,item)=>{const key=item?.type;const texts=Array.isArray(item?.items)?item.items:(item?.text?[item.text]:[]);if(key&&texts.length)(acc[key]??=[]).push(...texts);return acc;},{})
           : (entry.changes&&Object.keys(entry.changes).length?entry.changes:groupedChanges);
         const categorized=Object.fromEntries(categoryOrder.map(category=>[category,[]]));
         Object.entries(normalizedChanges).forEach(([category,values])=>(Array.isArray(values)?values:[]).forEach(text=>{if(!String(text).trim())return;categorized[classify(category,text)].push(String(text))}));

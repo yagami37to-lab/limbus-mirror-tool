@@ -6,8 +6,8 @@
 
   const banner = document.createElement('aside');
   banner.className = 'alpha-test-banner';
-  banner.setAttribute('aria-label', '限定アルファテストのお知らせ');
-  banner.innerHTML = '<strong>限定αテスト中</strong><span>表示・投稿データは正式公開前に変更または削除される場合があります。</span>';
+  banner.setAttribute('aria-label', '限定ベータテストのお知らせ');
+  banner.innerHTML = '<strong>限定βテスト中</strong><span>表示・投稿データは正式公開前に変更または削除される場合があります。</span>';
   body.prepend(banner);
 
   const syncBannerHeight = () => {

@@ -24,6 +24,22 @@
     ]);
     return{following:following||0,followers:followers||0};
   }
+  async function renderFollows(){
+    const followingList=qs('[data-following-list]'),followerList=qs('[data-follower-list]');
+    if(!followingList||!followerList)return;
+    const {data:rows,error}=await client.from('follows').select('follower_id,followed_id').or(`follower_id.eq.${user.id},followed_id.eq.${user.id}`);
+    if(error){notice('フォロー一覧を読み込めませんでした。','error');return;}
+    const followingIds=(rows||[]).filter(row=>row.follower_id===user.id).map(row=>row.followed_id);
+    const followerIds=(rows||[]).filter(row=>row.followed_id===user.id).map(row=>row.follower_id);
+    const ids=[...new Set([...followingIds,...followerIds])];let profiles=[];
+    if(ids.length){const result=await client.from('profiles').select('id,display_name,avatar_url,bio').in('id',ids);if(result.error){notice('プロフィールを読み込めませんでした。','error');return;}profiles=result.data||[];}
+    const byId=new Map(profiles.map(item=>[item.id,item]));
+    const markup=(id,following)=>{const item=byId.get(id)||{id,display_name:'ユーザー',avatar_url:'logo-mark.svg',bio:''};return `<article class="follow-list-card"><img src="${esc(item.avatar_url||'logo-mark.svg')}" alt=""><div><strong>${esc(item.display_name||'ユーザー')}</strong><p>${esc(item.bio||'自己紹介はまだ設定されていません。')}</p></div><div class="follow-list-actions"><a class="account-secondary" href="profile.html?id=${encodeURIComponent(id)}">プロフィール</a>${following?`<button class="account-secondary account-danger" type="button" data-unfollow="${esc(id)}">解除</button>`:''}</div></article>`};
+    followingList.innerHTML=followingIds.length?followingIds.map(id=>markup(id,true)).join(''):'<p class="account-empty">フォロー中のユーザーはいません。</p>';
+    followerList.innerHTML=followerIds.length?followerIds.map(id=>markup(id,false)).join(''):'<p class="account-empty">フォロワーはまだいません。</p>';
+    qs('[data-following-total]').textContent=followingIds.length;qs('[data-follower-total]').textContent=followerIds.length;
+    qsa('[data-unfollow]',followingList).forEach(button=>button.onclick=async()=>{button.disabled=true;try{await api.setFollow(button.dataset.unfollow,false);notice('フォローを解除しました。','success');await renderFollows();}catch(error){notice(error.message||'フォローを解除できませんでした。','error');button.disabled=false;}});
+  }
   async function renderAdminSiteStats(){
     const panel=qs('[data-admin-site-panel]');
     if(!panel||profile?.role!=='admin')return;
@@ -94,6 +110,6 @@
     qsa('[data-delete-local-draft]',list).forEach(btn=>btn.onclick=()=>{if(!confirm('このセーブデータを削除しますか？この操作は元に戻せません。'))return;writeLocalDrafts(readLocalDrafts().filter(x=>String(x.id)!==String(btn.dataset.deleteLocalDraft)));renderDrafts();notice('セーブデータを削除しました。','success');});
   }
   function wireSettings(){const select=qs('[data-theme-select]');if(select){select.value=document.documentElement.dataset.theme||'light';select.onchange=()=>applyTheme(select.value)}qs('[data-clear-bookmarks]')?.addEventListener('click',async()=>{if(!confirm('クラウド上のブックマークをすべて解除しますか？'))return;await client.from('bookmarks').delete().eq('user_id',user.id);Object.keys(localStorage).filter(k=>k.startsWith('limbus-bookmark:')).forEach(k=>localStorage.removeItem(k));notice('ブックマークをすべて解除しました。','success');fillIdentity({bookmarkCount:0,postCount:cloudPosts.length,likeCount:cloudPosts.reduce((sum,p)=>sum+Number(p.likes||0),0)})});qs('[data-account-logout-page]')?.addEventListener('click',async()=>{await client.auth.signOut();location.href='index.html'});}
-  async function init(){applyTheme(localStorage.getItem('limbus-theme')||'light');qsa('[data-account-theme-toggle]').forEach(btn=>btn.addEventListener('click',()=>applyTheme(document.documentElement.dataset.theme==='dark'?'light':'dark')));if(!client){show('[data-account-login-required]',true);notice('Supabase接続設定を読み込めませんでした。','error');return}const {data:{session}}=await client.auth.getSession();user=session?.user||null;if(!user){show('[data-account-login-required]',true);show('[data-account-content]',false);return}show('[data-account-login-required]',false);show('[data-account-content]',true);await api.migrateLocalBookmarks();await Promise.all([loadProfile(),loadPosts()]);const [keys,follows]=await Promise.all([bookmarkKeys(),followCounts()]);fillIdentity({bookmarkCount:keys.length,postCount:cloudPosts.length,likeCount:cloudPosts.reduce((sum,p)=>sum+Number(p.likes||0),0),followingCount:follows.following,followerCount:follows.followers});if(page==='dashboard'&&profile?.role==='admin'){await renderAdminSiteStats();qs('[data-admin-stats-refresh]')?.addEventListener('click',renderAdminSiteStats);}if(page==='bookmarks')await renderBookmarks();if(page==='posts')renderMyPosts();if(page==='drafts')renderDrafts();if(page==='settings')wireSettings();}
+  async function init(){applyTheme(localStorage.getItem('limbus-theme')||'light');qsa('[data-account-theme-toggle]').forEach(btn=>btn.addEventListener('click',()=>applyTheme(document.documentElement.dataset.theme==='dark'?'light':'dark')));if(!client){show('[data-account-login-required]',true);notice('Supabase接続設定を読み込めませんでした。','error');return}const {data:{session}}=await client.auth.getSession();user=session?.user||null;if(!user){show('[data-account-login-required]',true);show('[data-account-content]',false);return}show('[data-account-login-required]',false);show('[data-account-content]',true);await api.migrateLocalBookmarks();await Promise.all([loadProfile(),loadPosts()]);const [keys,follows]=await Promise.all([bookmarkKeys(),followCounts()]);fillIdentity({bookmarkCount:keys.length,postCount:cloudPosts.length,likeCount:cloudPosts.reduce((sum,p)=>sum+Number(p.likes||0),0),followingCount:follows.following,followerCount:follows.followers});if(page==='dashboard'&&profile?.role==='admin'){await renderAdminSiteStats();qs('[data-admin-stats-refresh]')?.addEventListener('click',renderAdminSiteStats);}if(page==='bookmarks')await renderBookmarks();if(page==='follows')await renderFollows();if(page==='posts')renderMyPosts();if(page==='drafts')renderDrafts();if(page==='settings')wireSettings();}
   init();
 })();

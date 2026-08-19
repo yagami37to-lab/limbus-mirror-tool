@@ -157,7 +157,7 @@
   qsa('[data-account-action]').forEach(button=>button.addEventListener('click',()=>{
     const action=button.dataset.accountAction;
     closeAccountMenus();
-    const routes={account:'account.html',profile:'profile.html',posts:'my-posts.html',bookmarks:'bookmarks.html',owned:'owned-identities.html',settings:'settings.html'};
+    const routes={account:'account.html',profile:'profile.html',posts:'my-posts.html',bookmarks:'bookmarks.html',follows:'follows.html',owned:'owned-identities.html',settings:'settings.html'};
     if(routes[action]) window.location.href=routes[action];
   }));
 
