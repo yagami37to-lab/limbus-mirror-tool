@@ -543,6 +543,9 @@ html[data-theme="dark"] .post-stat.view-stat::before{color:#f2eadc}
 .type-option[data-post-type="縛り・テーマ攻略"]{--type-color:#9a5a35;--type-soft:#faf0ea}
 .type-option[data-post-type="ネタ・ロマン"]{--type-color:#4a4a4a;--type-soft:#f1f1f1}
 .type-option[data-post-type="ソロ"]{--type-color:#138f76;--type-soft:#eaf9f5}
+.type-option[data-post-type="安定攻略"]{--type-color:#d89413;--type-soft:#fff7e6}
+.type-option[data-post-type="速攻攻略"]{--type-color:#4f9f3a;--type-soft:#eff9eb}
+.type-option[data-post-type="低レア攻略"]{--type-color:#397fc2;--type-soft:#edf6ff}
 .type-option[data-post-type]{border-left:3px solid var(--type-color)}
 .type-option[data-post-type]>span{color:var(--type-color);border-color:var(--type-color)}
 .type-option[data-post-type].active{border-color:var(--type-color);background:var(--type-soft);box-shadow:inset 3px 0 0 var(--type-color)}
@@ -702,7 +705,7 @@ html[data-theme="dark"] .type-option[data-post-type].active{border-color:var(--t
 :is(.selectable-tag[data-tag="憂鬱"],.review-tag[data-strategy-tag="憂鬱"],.detail-tag-row [data-strategy-tag="憂鬱"]){--sin-color:#159ac4}
 :is(.selectable-tag[data-tag="傲慢"],.review-tag[data-strategy-tag="傲慢"],.detail-tag-row [data-strategy-tag="傲慢"]){--sin-color:#3158a7}
 :is(.selectable-tag[data-tag="嫉妬"],.review-tag[data-strategy-tag="嫉妬"],.detail-tag-row [data-strategy-tag="嫉妬"]){--sin-color:#8c2ba8}
-:is(.selectable-tag[data-tag="全属性"],.selectable-tag[data-tag="憤怒"],.selectable-tag[data-tag="色欲"],.selectable-tag[data-tag="怠惰"],.selectable-tag[data-tag="暴食"],.selectable-tag[data-tag="憂鬱"],.selectable-tag[data-tag="傲慢"],.selectable-tag[data-tag="嫉妬"],.review-tag[data-strategy-tag="全属性"],.review-tag[data-strategy-tag="憤怒"],.review-tag[data-strategy-tag="色欲"],.review-tag[data-strategy-tag="怠惰"],.review-tag[data-strategy-tag="暴食"],.review-tag[data-strategy-tag="憂鬱"],.review-tag[data-strategy-tag="傲慢"],.review-tag[data-strategy-tag="嫉妬"],.detail-tag-row [data-strategy-tag]){border-color:var(--sin-color)!important;background:var(--sin-bg)!important;color:var(--sin-text)!important}
+:is(.review-tag[data-strategy-tag="全属性"],.review-tag[data-strategy-tag="憤怒"],.review-tag[data-strategy-tag="色欲"],.review-tag[data-strategy-tag="怠惰"],.review-tag[data-strategy-tag="暴食"],.review-tag[data-strategy-tag="憂鬱"],.review-tag[data-strategy-tag="傲慢"],.review-tag[data-strategy-tag="嫉妬"],.detail-tag-row [data-strategy-tag]){border-color:var(--sin-color)!important;background:var(--sin-bg)!important;color:var(--sin-text)!important}
 :is(.selectable-tag[data-tag="全属性"],.selectable-tag[data-tag="憤怒"],.selectable-tag[data-tag="色欲"],.selectable-tag[data-tag="怠惰"],.selectable-tag[data-tag="暴食"],.selectable-tag[data-tag="憂鬱"],.selectable-tag[data-tag="傲慢"],.selectable-tag[data-tag="嫉妬"]).selected{background:var(--sin-color)!important;color:#fff!important;box-shadow:0 0 0 1px var(--sin-color),0 0 13px color-mix(in srgb,var(--sin-color) 55%,transparent)!important}
 
 /* カテゴリタブ：未選択は中立色、選択時のみカテゴリ固有色で発光 */
