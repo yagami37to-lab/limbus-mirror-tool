@@ -25,19 +25,17 @@
     return{following:following||0,followers:followers||0};
   }
   async function renderFollows(){
-    const followingList=qs('[data-following-list]'),followerList=qs('[data-follower-list]');
-    if(!followingList||!followerList)return;
-    const {data:rows,error}=await client.from('follows').select('follower_id,followed_id').or(`follower_id.eq.${user.id},followed_id.eq.${user.id}`);
+    const followingList=qs('[data-following-list]');
+    if(!followingList)return;
+    const {data:rows,error}=await client.from('follows').select('followed_id').eq('follower_id',user.id);
     if(error){notice('フォロー一覧を読み込めませんでした。','error');return;}
-    const followingIds=(rows||[]).filter(row=>row.follower_id===user.id).map(row=>row.followed_id);
-    const followerIds=(rows||[]).filter(row=>row.followed_id===user.id).map(row=>row.follower_id);
-    const ids=[...new Set([...followingIds,...followerIds])];let profiles=[];
+    const followingIds=(rows||[]).map(row=>row.followed_id);
+    const ids=[...new Set(followingIds)];let profiles=[];
     if(ids.length){const result=await client.from('profiles').select('id,display_name,avatar_url,bio').in('id',ids);if(result.error){notice('プロフィールを読み込めませんでした。','error');return;}profiles=result.data||[];}
     const byId=new Map(profiles.map(item=>[item.id,item]));
     const markup=(id,following)=>{const item=byId.get(id)||{id,display_name:'ユーザー',avatar_url:'logo-mark.svg',bio:''};const name=item.display_name||'ユーザー';return `<article class="follow-list-card"><img src="${esc(item.avatar_url||'logo-mark.svg')}" alt=""><div><strong>${esc(name)}</strong><p>${esc(item.bio||'自己紹介はまだ設定されていません。')}</p></div><div class="follow-list-actions"><a class="account-secondary" href="profile.html?id=${encodeURIComponent(id)}">プロフィール</a>${following?`<a class="account-primary" href="index.html?author=${encodeURIComponent(id)}&authorName=${encodeURIComponent(name)}#community">投稿を見る</a><button class="account-secondary account-danger" type="button" data-unfollow="${esc(id)}">解除</button>`:''}</div></article>`};
     followingList.innerHTML=followingIds.length?followingIds.map(id=>markup(id,true)).join(''):'<p class="account-empty">フォロー中のユーザーはいません。</p>';
-    followerList.innerHTML=followerIds.length?followerIds.map(id=>markup(id,false)).join(''):'<p class="account-empty">フォロワーはまだいません。</p>';
-    qs('[data-following-total]').textContent=followingIds.length;qs('[data-follower-total]').textContent=followerIds.length;
+    qs('[data-following-total]').textContent=followingIds.length;
     qsa('[data-unfollow]',followingList).forEach(button=>button.onclick=async()=>{button.disabled=true;try{await api.setFollow(button.dataset.unfollow,false);notice('フォローを解除しました。','success');await renderFollows();}catch(error){notice(error.message||'フォローを解除できませんでした。','error');button.disabled=false;}});
   }
   async function renderAdminSiteStats(){
