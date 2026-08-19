@@ -29,6 +29,7 @@
       const card=document.createElement('article');
       card.className='post-card post-card-rich cloud-post-card';
       card.dataset.postId=p.id;
+      card.dataset.authorId=p.author_id||'';
       card.dataset.category=p.category||'mirror_dungeon';
       card.dataset.title=p.title||'';
       card.dataset.published=p.published_at||p.created_at||'';

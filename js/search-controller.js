@@ -16,7 +16,10 @@ function createSearchController({
   const selected={category:new Set(),identity:new Set(),keyword:new Set(),type:new Set(),strategy:new Set(),difficulty:new Set(),affiliation:new Set()};
   let activeSelector='identity',activeTag='';
   const RETURN_PAGE_KEY='limbus-community-return-page';
-  const returningPost=new URLSearchParams(location.search).get('returnPost');
+  const pageParams=new URLSearchParams(location.search);
+  const returningPost=pageParams.get('returnPost');
+  let authorFilter=pageParams.get('author')||'';
+  const authorFilterName=pageParams.get('authorName')||'';
   let resultPage=returningPost?Math.max(1,Number(sessionStorage.getItem(RETURN_PAGE_KEY))||1):1;
   const RESULT_PAGE_SIZE=6;
   const selectorModal=$('[data-selector-modal]'),selectionGrid=$('[data-selection-grid]');
@@ -92,8 +95,8 @@ renderSearchCategories();
 addChipGroup('[data-search-keywords]','keyword',searchOptions.keyword);
 renderCategoryFilters('',{reset:false});
 addChipGroup('[data-search-affiliations]','affiliation',searchOptions.affiliation);
-function getFilterItems(){const labels={category:'攻略カテゴリ',identity:'人格',keyword:'キーワード',type:'攻略タイプ',strategy:'攻略タグ',difficulty:difficultyLabel?.textContent||'難易度',affiliation:'所属'};const items=[];Object.entries(selected).forEach(([key,set])=>set.forEach(value=>{const displayValue=key==='category'?categoryById(value).label:value;items.push({key,value,label:`${labels[key]}：${displayValue}`})}));if(keywordInput.value.trim())items.push({key:'freeword',value:keywordInput.value.trim(),label:`フリー：${keywordInput.value.trim()}`});const dateRange=$('[data-date-range]');if(dateRange&&dateRange.value!=='all')items.push({key:'date',value:dateRange.value,label:`${$('[data-date-kind]').value==='posted'?'投稿日':'更新日'}：${dateRange.options[dateRange.selectedIndex].text}`});return items}
-function renderFilterTarget(target,items,emptyText){if(!target)return;target.innerHTML='';if(!items.length){target.innerHTML=`<span class="filter-empty">${emptyText}</span>`;return}items.forEach(item=>{const chip=document.createElement('span');chip.className='filter-chip';chip.append(document.createTextNode(item.label));const remove=document.createElement('button');remove.type='button';remove.textContent='×';remove.setAttribute('aria-label',`${item.label}を解除`);remove.onclick=()=>{if(item.key==='freeword')keywordInput.value='';else if(item.key==='date')$('[data-date-range]').value='all';else if(item.key==='popular')activeTag='';else selected[item.key].delete(item.value);if(item.key==='category')renderCategoryFilters('',{reset:true});syncSearchControls();renderActiveFilters();runSearch(false)};chip.appendChild(remove);target.appendChild(chip)})}
+function getFilterItems(){const labels={category:'攻略カテゴリ',identity:'人格',keyword:'キーワード',type:'攻略タイプ',strategy:'攻略タグ',difficulty:difficultyLabel?.textContent||'難易度',affiliation:'所属'};const items=[];Object.entries(selected).forEach(([key,set])=>set.forEach(value=>{const displayValue=key==='category'?categoryById(value).label:value;items.push({key,value,label:`${labels[key]}：${displayValue}`})}));if(authorFilter)items.push({key:'author',value:authorFilter,label:`投稿者：${authorFilterName||'フォロー中のユーザー'}`});if(keywordInput.value.trim())items.push({key:'freeword',value:keywordInput.value.trim(),label:`フリー：${keywordInput.value.trim()}`});const dateRange=$('[data-date-range]');if(dateRange&&dateRange.value!=='all')items.push({key:'date',value:dateRange.value,label:`${$('[data-date-kind]').value==='posted'?'投稿日':'更新日'}：${dateRange.options[dateRange.selectedIndex].text}`});return items}
+function renderFilterTarget(target,items,emptyText){if(!target)return;target.innerHTML='';if(!items.length){target.innerHTML=`<span class="filter-empty">${emptyText}</span>`;return}items.forEach(item=>{const chip=document.createElement('span');chip.className='filter-chip';chip.append(document.createTextNode(item.label));const remove=document.createElement('button');remove.type='button';remove.textContent='×';remove.setAttribute('aria-label',`${item.label}を解除`);remove.onclick=()=>{if(item.key==='freeword')keywordInput.value='';else if(item.key==='date')$('[data-date-range]').value='all';else if(item.key==='popular')activeTag='';else if(item.key==='author')authorFilter='';else selected[item.key].delete(item.value);if(item.key==='category')renderCategoryFilters('',{reset:true});syncSearchControls();renderActiveFilters();runSearch(false)};chip.appendChild(remove);target.appendChild(chip)})}
 function updateSearchToggleSummary(items=getFilterItems()){
   if(!searchToggleSummary)return;
   const count=items.length+(activeTag?1:0)+(keywordInput?.value?.trim()?1:0);
@@ -111,7 +114,7 @@ function setSearchPanelOpen(open,{scroll=false}={}){
 }
 function renderActiveFilters(){const items=getFilterItems();if(activeTag)items.push({key:'popular',value:activeTag,label:`人気検索：${activeTag}`});renderFilterTarget(activeFilters,items,'現在、検索条件は指定されていません。');renderFilterTarget(resultActiveFilters,items,'すべての攻略を表示しています。');updateSearchToggleSummary(items)}
 function syncSearchControls(){$$('.search-filter-chip').forEach(button=>{const key=button.closest('[data-search-keywords]')?'keyword':button.closest('[data-search-types]')?'type':button.closest('[data-search-strategy-tags]')?'strategy':button.closest('[data-search-difficulties]')?'difficulty':'affiliation';button.classList.toggle('active',selected[key].has(button.textContent))});$$('.search-category-option').forEach(button=>button.classList.toggle('active',selected.category.has(button.dataset.categoryId)));updateSelectionLabels()}
-function clearSearch(){Object.values(selected).forEach(set=>set.clear());renderCategoryFilters('',{reset:false});keywordInput.value='';$('[data-date-kind]').value='posted';$('[data-date-range]').value='all';sortSelect.value='recommended';if(resultSort)resultSort.value='recommended';if(sortDirection)sortDirection.value='desc';if(resultDirection)resultDirection.value='desc';syncSearchControls();renderActiveFilters()}
+function clearSearch(){Object.values(selected).forEach(set=>set.clear());authorFilter='';renderCategoryFilters('',{reset:false});keywordInput.value='';$('[data-date-kind]').value='posted';$('[data-date-range]').value='all';sortSelect.value='recommended';if(resultSort)resultSort.value='recommended';if(sortDirection)sortDirection.value='desc';if(resultDirection)resultDirection.value='desc';syncSearchControls();renderActiveFilters()}
 function recommendedScore(card){return (Number(card.dataset.popular)||0)*5+(Number(card.dataset.views)||0)*0.2+(Number(card.dataset.bookmarks)||0)*15}
 function cardDate(card,key){const value=card.dataset[key]||'';const time=Date.parse(value);return Number.isFinite(time)?time:0}
 function renderResultPagination(totalItems){
@@ -135,7 +138,8 @@ function runSearch(scrollToResults=true,{resetPage=true}={}){
     const categoryMatches=!selectedCategory||c.dataset.category===selectedCategory;
     const identityHaystack=(c.dataset.identityDetails||'').toLowerCase();
     const identityMatches=identityTerms.every(term=>identityHaystack?identityHaystack.includes(term):term.split('｜').every(part=>h.includes(part)));
-    const matches=categoryMatches&&identityMatches&&terms.every(t=>h.includes(t));
+    const authorMatches=!authorFilter||c.dataset.authorId===authorFilter;
+    const matches=categoryMatches&&authorMatches&&identityMatches&&terms.every(t=>h.includes(t));
     c.dataset.filterMatch=matches?'true':'false';
     c.hidden=true;
     if(matches)matched.push(c);
