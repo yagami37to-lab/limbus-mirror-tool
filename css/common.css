@@ -499,8 +499,9 @@ html[data-theme="dark"] .browse-strategy-tag{background:#25221d;color:#edcf8e;bo
 html[data-theme="dark"] .browse-strategy-tag{background:#251d36;color:#cbb1ff;border-color:#8459d1}
 html[data-theme="dark"] .post-stat.like-stat{color:#f2eadc}
 html[data-theme="dark"] .post-stat.view-stat::before{color:#f2eadc}
-.post-stat.bookmark-stat{color:var(--muted);white-space:nowrap}
-.post-stat.bookmark-stat>span[aria-hidden]{font-size:12px;filter:grayscale(1)}
+.post-stat.bookmark-stat{color:#e1a51f;white-space:nowrap}
+.post-stat.bookmark-stat>span[aria-hidden]{color:#e1a51f;font-size:12px;filter:sepia(1) saturate(7) hue-rotate(350deg) brightness(1.05)}
+.post-save-button>span:first-child{color:#e1a51f;filter:sepia(1) saturate(7) hue-rotate(350deg) brightness(1.05)}
 
 /* denser browse cards and reliable like feedback */
 .post-grid{gap:18px}
