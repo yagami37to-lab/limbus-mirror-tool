@@ -1,14 +1,16 @@
 (()=>{
   'use strict';
-  const IDENTITY_STORAGE_KEY='limbus-owned-identities-v1',EGO_STORAGE_KEY='limbus-owned-egos-v1';
+  const IDENTITY_STORAGE_KEY='limbus-owned-identities-v1',EGO_STORAGE_KEY='limbus-owned-egos-v1',LEGACY_OWNER_KEY='limbus-owned-legacy-owner-v1';
   const SINNER_IDS={'イサン':'01','ファウスト':'02','ドンキホーテ':'03','良秀':'04','ムルソー':'05','ホンル':'06','ヒースクリフ':'07','イシュメール':'08','ロージャ':'09','シンクレア':'11','ウーティス':'12','グレゴール':'13'};
   const INITIAL_EGOS=new Map([['イサン','烏瞰刀'],['ファウスト','表象放出機'],['ドンキホーテ','ラ・サングレ・デ・サンチョ'],['良秀','森羅炎象'],['ムルソー','他人の鎖'],['ホンル','虚幻境'],['ヒースクリフ','死体袋'],['イシュメール','銛穿ち'],['ロージャ','投げられたもの'],['シンクレア','知識の木の枝'],['ウーティス','ト・パソス・マソス'],['グレゴール','ある日突然']]);
   const esc=value=>String(value??'').replace(/[&<>'"]/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[char]));
   const normalize=value=>window.LimbusIdentityImages?.normalize?.(String(value??''))||String(value??'').trim();
   const key=(sinner,identity)=>`${String(sinner??'').trim()}｜${normalize(identity)}`;
   const egoKey=(sinnerId,rank,name)=>`${String(sinnerId).padStart(2,'0')}｜${String(rank).toUpperCase()}｜${String(name).trim()}`;
-  function readStore(storageKey){try{const value=JSON.parse(localStorage.getItem(storageKey)||'[]');return new Set(Array.isArray(value)?value:[])}catch{return new Set()}}
-  function writeStore(storageKey,values){localStorage.setItem(storageKey,JSON.stringify([...values].sort()));window.dispatchEvent(new CustomEvent('limbus-owned-identities-changed'));}
+  const ownerId=()=>localStorage.getItem('limbus-auth-user-id')||'guest';
+  const scopedKey=storageKey=>`${storageKey}:${ownerId()}`;
+  function readStore(storageKey){try{const target=scopedKey(storageKey),stored=localStorage.getItem(target);if(stored!==null){const value=JSON.parse(stored||'[]');return new Set(Array.isArray(value)?value:[])}const currentOwner=ownerId(),legacyOwner=localStorage.getItem(LEGACY_OWNER_KEY);if(currentOwner!=='guest'&&(!legacyOwner||legacyOwner===currentOwner)){const legacy=localStorage.getItem(storageKey);localStorage.setItem(LEGACY_OWNER_KEY,currentOwner);if(legacy!==null){localStorage.setItem(target,legacy);const value=JSON.parse(legacy||'[]');return new Set(Array.isArray(value)?value:[])}}return new Set()}catch{return new Set()}}
+  function writeStore(storageKey,values){localStorage.setItem(scopedKey(storageKey),JSON.stringify([...values].sort()));window.dispatchEvent(new CustomEvent('limbus-owned-identities-changed',{detail:{ownerId:ownerId()}}));}
   const read=()=>readStore(IDENTITY_STORAGE_KEY),write=values=>writeStore(IDENTITY_STORAGE_KEY,values),readEgos=()=>readStore(EGO_STORAGE_KEY),writeEgos=values=>writeStore(EGO_STORAGE_KEY,values);
   const isInitialEgo=(sinner,name)=>INITIAL_EGOS.get(String(sinner||'').trim())===String(name||'').trim();
   function rateForParty(party,egos=[]){
@@ -20,12 +22,15 @@
     const egoCount=requiredEgos.filter(item=>isInitialEgo(item.sinner,item.name)||ownedEgos.has(egoKey(SINNER_IDS[item.sinner]||'',item.rank,item.name))).length;
     return Math.round((identityCount+egoCount)/total*100);
   }
+  const cardOwnershipData=new Map();
   function applyCard(card,party,egos=[]){
+    cardOwnershipData.set(card,{party,egos});
     const rate=rateForParty(party,egos);card.dataset.ownedRate=String(rate);
     const label=[...card.querySelectorAll('.post-card-label')].find(node=>node.textContent.includes('使用人格'));if(!label)return;
     let badge=label.querySelector('.post-owned-rate');if(!badge){badge=document.createElement('span');badge.className='post-owned-rate';label.appendChild(badge)}
     badge.textContent=`所持率 ${rate}%`;badge.dataset.rate=String(rate);badge.dataset.level=rate>=80?'high':rate>=50?'mid':'low';
   }
+  function refreshCards(){cardOwnershipData.forEach((data,card)=>{if(!card.isConnected){cardOwnershipData.delete(card);return}applyCard(card,data.party,data.egos)})}
   async function setupSettings(){
     const root=document.querySelector('[data-owned-identity-settings]');if(!root)return;
     const grid=root.querySelector('[data-owned-identity-grid]'),search=root.querySelector('[data-owned-identity-search]'),summary=root.querySelector('[data-owned-identity-summary]');
@@ -43,8 +48,10 @@
     const render=()=>{const term=search.value.trim().toLowerCase(),set=currentOwned(),items=currentItems().filter(item=>item.sinnerId===activeSinner&&`${item.sinner} ${item.name}`.toLowerCase().includes(term));grid.innerHTML=items.map(item=>`<label class="owned-identity-item owned-${item.type}-item${set.has(item.key)?' is-owned':''}" data-rank="${esc(item.meta)}">${item.image?`<img class="owned-identity-image" src="${esc(item.image)}" alt="" loading="lazy">`:''}<span class="owned-identity-overlay" aria-hidden="true"></span><input type="checkbox" value="${esc(item.key)}" ${set.has(item.key)?'checked':''}><span class="owned-identity-copy"><small>${esc(item.meta)}</small><b>${esc(item.name)}</b></span></label>`).join('')||'<p class="owned-empty">該当する項目はありません。</p>';grid.querySelectorAll('input').forEach(input=>input.addEventListener('change',()=>{if(input.checked)set.add(input.value);else set.delete(input.value);save();input.closest('.owned-identity-item').classList.toggle('is-owned',input.checked);updateSummary()}));updateSummary()};
     modeTabs.querySelectorAll('button').forEach(button=>button.onclick=()=>{mode=button.dataset.ownedMode;modeTabs.querySelectorAll('button').forEach(tab=>tab.classList.toggle('active',tab===button));search.placeholder=mode==='identity'?'人格名で絞り込み':'E.G.O名で絞り込み';render()});
     search.addEventListener('input',render);root.querySelector('[data-owned-all]').addEventListener('click',()=>{const set=currentOwned();currentItems().filter(item=>item.sinnerId===activeSinner).forEach(item=>set.add(item.key));save();render()});root.querySelector('[data-owned-clear]').addEventListener('click',()=>{const label=mode==='identity'?'人格':'E.G.O';if(!confirm(`表示中の囚人の所持${label}をすべて解除しますか？`))return;const set=currentOwned();currentItems().filter(item=>item.sinnerId===activeSinner).forEach(item=>set.delete(item.key));save();render()});
+    window.addEventListener('limbus-auth-changed',()=>{owned=read();ownedEgos=readEgos();renderSinners();render()});
     renderSinners();render();
   }
   window.LimbusOwnedIdentities={read,write,readEgos,writeEgos,key,egoKey,isInitialEgo,rateForParty,applyCard};
+  window.addEventListener('limbus-auth-changed',refreshCards);window.addEventListener('limbus-owned-identities-changed',refreshCards);
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',setupSettings);else setupSettings();
 })();

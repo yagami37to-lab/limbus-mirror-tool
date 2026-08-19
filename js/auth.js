@@ -58,6 +58,7 @@
     currentUser=user||null;
     if(!user)currentProfile=null;
     localStorage.setItem('limbus-auth', user ? 'logged-in' : 'logged-out');
+    if(user?.id)localStorage.setItem('limbus-auth-user-id',String(user.id));else localStorage.removeItem('limbus-auth-user-id');
     qsa('[data-auth-guest]').forEach(n=>n.hidden=!!user);
     qsa('[data-auth-user]').forEach(n=>n.hidden=!user);
     qsa('[data-auth-user-name]').forEach(n=>n.textContent=user?displayName(user):'');
