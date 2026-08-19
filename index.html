@@ -7,7 +7,7 @@
 <meta content="Limbus Companyの鏡ダンジョン・鏡屈折鉄道などの攻略を投稿・共有できる非公式攻略サイトです。" name="description"/>
 <title>Limbus Company 攻略投稿サイト（非公式）</title>
 <link href="logo-mark.svg" rel="icon" type="image/svg+xml"/>
-<link href="styles.css?v=1.1.65" rel="stylesheet"/>
+<link href="styles.css?v=1.1.66" rel="stylesheet"/>
 <link href="css/browse-cards.css?v=1.1.44" rel="stylesheet"/>
 
 <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -32,23 +32,23 @@
 <script defer src="js/identity-view-controller.js?v=1.0.99"></script>
 <script defer src="js/identity-card-controller.js?v=1.0.99"></script>
 <script defer src="js/formation-controller.js?v=1.0.102"></script>
-<script defer src="js/post-payload-controller.js?v=1.1.65"></script>
+<script defer src="js/post-payload-controller.js?v=1.1.66"></script>
 <script defer src="js/post-persistence-controller.js?v=1.1.07"></script>
-<script defer src="js/post-review-controller.js?v=1.1.65"></script>
-<script defer src="js/post-validation-controller.js?v=1.1.65"></script>
-<script defer src="js/post-step-controller.js?v=1.1.65"></script>
-<script defer src="js/post-editor-reset-controller.js?v=1.1.65"></script>
-<script defer src="js/post-restore-controller.js?v=1.1.65"></script>
+<script defer src="js/post-review-controller.js?v=1.1.66"></script>
+<script defer src="js/post-validation-controller.js?v=1.1.66"></script>
+<script defer src="js/post-step-controller.js?v=1.1.66"></script>
+<script defer src="js/post-editor-reset-controller.js?v=1.1.66"></script>
+<script defer src="js/post-restore-controller.js?v=1.1.66"></script>
 <script defer src="js/post-editor-launch-controller.js?v=1.0.101"></script>
 <script defer src="js/post-close-controller.js?v=1.0.102"></script>
-<script defer src="js/post-advance-controller.js?v=1.0.103"></script>
+<script defer src="js/post-advance-controller.js?v=1.1.66"></script>
 <script defer src="js/post-basics-controller.js?v=1.0.104"></script>
 <script defer src="js/post-category-controller.js?v=1.1.55"></script>
 <script defer src="js/post-tags-controller.js?v=1.1.65"></script>
 <script defer src="js/identity-workspace-controller.js?v=1.0.109"></script>
 <script defer src="js/post-validation-flow-controller.js?v=1.1.55"></script>
 <script defer src="js/site-ui-controller.js?v=1.1.34"></script>
-<script defer src="app.js?v=1.1.65"></script>
+<script defer src="app.js?v=1.1.66"></script>
 <script defer src="js/browse-cards.js?v=1.1.04"></script>
 <script defer src="js/community-browse.js?v=1.1.65"></script>
 <script defer src="js/public-alpha.js?v=1.0.99"></script>
@@ -265,7 +265,7 @@
 </div>
 <div class="footer-meta">
 <span>© 非公式ファンサイト</span>
-<span>Version 1.1.65 α</span>
+<span>Version 1.1.66 α</span>
 <time datetime="2026-08-19" data-site-last-updated>Last Updated: 2026.08.19</time>
 </div>
 </footer>
@@ -373,9 +373,12 @@
 <button class="step-link" data-step-link="2" type="button"><span>02</span><div><strong>使用人格</strong><small>編成に入れる人格を選択</small></div></button>
 <button class="step-link" data-step-link="3" type="button"><span>03</span><div><strong>編成順</strong><small>出撃する順番を選択</small></div></button>
 <button class="step-link" data-step-link="4" type="button"><span>04</span><div><strong>使用E.G.O</strong><small>任意・使用するE.G.Oを選択</small></div></button>
+<button class="step-link projection-secondary-step" data-step-link="5" type="button" hidden><span>05</span><div><strong>後半使用人格</strong><small>任意・後半パーティを選択</small></div></button>
+<button class="step-link projection-secondary-step" data-step-link="6" type="button" hidden><span>06</span><div><strong>後半編成順</strong><small>任意・後半の出撃順を選択</small></div></button>
+<button class="step-link projection-secondary-step" data-step-link="7" type="button" hidden><span>07</span><div><strong>後半使用E.G.O</strong><small>任意・後半のE.G.Oを選択</small></div></button>
 <button class="step-link" data-step-link="5" data-theme-pack-step-link type="button"><span>05</span><div><strong>進行テーマパック</strong><small>任意・階層ごとに選択</small></div></button>
-<button class="step-link" data-step-link="6" type="button"><span>06</span><div><strong>詳細情報</strong><small>タグ・解説を入力</small></div></button>
-<button class="step-link" data-step-link="7" type="button"><span>07</span><div><strong>確認して投稿</strong><small>入力内容を最終確認</small></div></button>
+<button class="step-link" data-step-link="6" data-detail-step-link type="button"><span>06</span><div><strong>詳細情報</strong><small>タグ・解説を入力</small></div></button>
+<button class="step-link" data-step-link="7" data-review-step-link type="button"><span>07</span><div><strong>確認して投稿</strong><small>入力内容を最終確認</small></div></button>
 <div class="post-guide-note"><strong>投稿ガイド</strong><p>公式画像は使用せず、現在は文字と仮カードで構成しています。</p></div>
 </aside>
 <main class="post-stage">
@@ -559,6 +562,10 @@
 <section class="review-section">
 <div class="review-section-heading"><div><small>PARTY</small><h4>編成内容・使用E.G.O</h4></div><span>編成順</span></div>
 <div class="review-party-grid" data-review-party=""><p class="review-empty">人格が選択されていません。</p></div>
+</section>
+<section class="review-section" data-review-secondary-section hidden>
+<div class="review-section-heading"><div><small>SECOND PARTY</small><h4>後半編成・使用E.G.O</h4></div><span>任意</span></div>
+<div class="review-party-grid" data-review-secondary-party><p class="review-empty">後半パーティは設定されていません。</p></div>
 </section>
 <section class="review-section review-theme-pack-section" data-review-theme-pack-section>
 <div class="review-section-heading"><div><small>THEME PACK ROUTE</small><h4>進行テーマパック</h4></div><span>任意</span></div>
