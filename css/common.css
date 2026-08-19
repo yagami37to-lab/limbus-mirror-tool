@@ -691,6 +691,30 @@ html[data-theme="dark"] .type-option[data-post-type].active{border-color:var(--t
 .category-card.is-planned{cursor:not-allowed;opacity:.68}
 .category-card.is-planned:hover{transform:none;box-shadow:none}
 .railway-stage-options{grid-template-columns:repeat(3,minmax(0,1fr))}.railway-stage-selector.is-compact .railway-stage-options{grid-template-columns:repeat(2,minmax(0,1fr))}.railway-stage-option[data-railway-stage="6号線"] .difficulty-option-mark{background:#a85a16;color:#fff}.railway-stage-option[data-railway-stage="2号線"] .difficulty-option-mark{background:#16933f;color:#fff}.railway-stage-option[data-railway-stage="1号線"] .difficulty-option-mark{background:#2f66db;color:#fff}.projection-stage-option .difficulty-option-mark{background:#a51f2d;color:#fff}.luxcavation-stage-option .difficulty-option-mark{background:#d49419;color:#fff;font-size:10px}.railway-type-option .type-option-logo{display:grid;place-items:center;font-weight:800;color:var(--gold)}.type-list{padding-left:4px;overflow:visible}
+
+/* 採光属性タグ：ゲーム内の罪悪属性に合わせた識別色 */
+:is(.selectable-tag[data-tag],.review-tag[data-strategy-tag],.detail-tag-row [data-strategy-tag]){--sin-color:#b68a2d;--sin-bg:color-mix(in srgb,var(--sin-color) 15%,transparent);--sin-text:var(--sin-color)}
+:is(.selectable-tag[data-tag="全属性"],.review-tag[data-strategy-tag="全属性"],.detail-tag-row [data-strategy-tag="全属性"]){--sin-color:#d8b659}
+:is(.selectable-tag[data-tag="憤怒"],.review-tag[data-strategy-tag="憤怒"],.detail-tag-row [data-strategy-tag="憤怒"]){--sin-color:#d62924}
+:is(.selectable-tag[data-tag="色欲"],.review-tag[data-strategy-tag="色欲"],.detail-tag-row [data-strategy-tag="色欲"]){--sin-color:#ef5b20}
+:is(.selectable-tag[data-tag="怠惰"],.review-tag[data-strategy-tag="怠惰"],.detail-tag-row [data-strategy-tag="怠惰"]){--sin-color:#e4a719}
+:is(.selectable-tag[data-tag="暴食"],.review-tag[data-strategy-tag="暴食"],.detail-tag-row [data-strategy-tag="暴食"]){--sin-color:#52aa38}
+:is(.selectable-tag[data-tag="憂鬱"],.review-tag[data-strategy-tag="憂鬱"],.detail-tag-row [data-strategy-tag="憂鬱"]){--sin-color:#159ac4}
+:is(.selectable-tag[data-tag="傲慢"],.review-tag[data-strategy-tag="傲慢"],.detail-tag-row [data-strategy-tag="傲慢"]){--sin-color:#3158a7}
+:is(.selectable-tag[data-tag="嫉妬"],.review-tag[data-strategy-tag="嫉妬"],.detail-tag-row [data-strategy-tag="嫉妬"]){--sin-color:#8c2ba8}
+:is(.selectable-tag[data-tag="全属性"],.selectable-tag[data-tag="憤怒"],.selectable-tag[data-tag="色欲"],.selectable-tag[data-tag="怠惰"],.selectable-tag[data-tag="暴食"],.selectable-tag[data-tag="憂鬱"],.selectable-tag[data-tag="傲慢"],.selectable-tag[data-tag="嫉妬"],.review-tag[data-strategy-tag="全属性"],.review-tag[data-strategy-tag="憤怒"],.review-tag[data-strategy-tag="色欲"],.review-tag[data-strategy-tag="怠惰"],.review-tag[data-strategy-tag="暴食"],.review-tag[data-strategy-tag="憂鬱"],.review-tag[data-strategy-tag="傲慢"],.review-tag[data-strategy-tag="嫉妬"],.detail-tag-row [data-strategy-tag]){border-color:var(--sin-color)!important;background:var(--sin-bg)!important;color:var(--sin-text)!important}
+:is(.selectable-tag[data-tag="全属性"],.selectable-tag[data-tag="憤怒"],.selectable-tag[data-tag="色欲"],.selectable-tag[data-tag="怠惰"],.selectable-tag[data-tag="暴食"],.selectable-tag[data-tag="憂鬱"],.selectable-tag[data-tag="傲慢"],.selectable-tag[data-tag="嫉妬"]).selected{background:var(--sin-color)!important;color:#fff!important;box-shadow:0 0 0 1px var(--sin-color),0 0 13px color-mix(in srgb,var(--sin-color) 55%,transparent)!important}
+
+/* カテゴリタブ：未選択は中立色、選択時のみカテゴリ固有色で発光 */
+:is(.browse-category-tab,.search-category-option,.category-picker-option)[data-category-id="mirror_dungeon"]{--category-accent:#26b7ae;--category-rgb:38,183,174}
+:is(.browse-category-tab,.search-category-option,.category-picker-option)[data-category-id="mirror_railway"]{--category-accent:#d3a45e;--category-rgb:211,164,94}
+:is(.browse-category-tab,.search-category-option,.category-picker-option)[data-category-id="projection_combat"]{--category-accent:#d83a38;--category-rgb:216,58,56}
+:is(.browse-category-tab,.search-category-option,.category-picker-option)[data-category-id="luxcavation"]{--category-accent:#e3ad2d;--category-rgb:227,173,45}
+:is(.browse-category-tab,.search-category-option,.category-picker-option)[data-category-id="story"]{--category-accent:#9b75d4;--category-rgb:155,117,212}
+:is(.browse-category-tab,.search-category-option,.category-picker-option)[data-category-id="recommended_formation"]{--category-accent:#d85b79;--category-rgb:216,91,121}
+:is(.browse-category-tab,.search-category-option,.category-picker-option).active{border-color:var(--category-accent)!important;background:rgba(var(--category-rgb),.13)!important;color:var(--category-accent)!important;box-shadow:inset 3px 0 var(--category-accent),0 0 12px rgba(var(--category-rgb),.28)!important}
+html[data-theme="dark"] .browse-category-tab:not(.active){background:#20252c!important;border-color:#4b5561!important;color:#c8ced5!important}
+html[data-theme="dark"] :is(.browse-category-tab,.search-category-option,.category-picker-option).active{background:rgba(var(--category-rgb),.2)!important;color:color-mix(in srgb,var(--category-accent) 72%,white)!important;box-shadow:inset 3px 0 var(--category-accent),0 0 16px rgba(var(--category-rgb),.42)!important}
 .category-card i{display:block;margin-top:5px;color:#a86500;font-size:11px;font-style:normal;font-weight:700}
 .search-category-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
 .search-category-option{display:flex;align-items:center;gap:12px;min-width:0;padding:14px;border:1px solid var(--line,#dfcfb8);background:var(--panel,#fff);color:inherit;text-align:left;cursor:pointer}
