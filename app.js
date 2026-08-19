@@ -210,7 +210,14 @@ const stepValidation=step=>postValidationController.check(step);
 const validationFlowController=window.LimbusPostValidationFlowController.create({state:postState,validationController:postValidationController,identityData:sinnerIdentityData,titleInput:postTitle,summaryInput:postSummary,formationGrid:formationChoiceGrid,renderIdentityRoster:renderIdentitySinnerRoster,openIdentity:openIdentitySelect,setStep:step=>setStep(step),showToast});
 function validateRequiredStep(step,options){return validationFlowController.validateStep(step,options);}
 function validateAllRequiredSteps(){return validationFlowController.validateAll();}
-function navigateToStep(target){if(postState.category==='projection_combat'&&target>7){setStep(target);return true;}return validationFlowController.navigate(target);}
+function navigateToStep(target){
+  if(postState.category!=='projection_combat')return validationFlowController.navigate(target);
+  const max=postState.secondaryPartyEnabled?9:6;target=Math.max(1,Math.min(max,target));if(target<=postState.step){setStep(target);return true;}
+  const required=[];if(postState.step<2&&target>=2)required.push([1,1]);if(postState.step<3&&target>=3)required.push([2,2]);if(postState.step<4&&target>=4)required.push([3,3]);
+  for(const [logical,physical] of required){if(!validateRequiredStep(physical)){setStep(logical);return false;}}
+  if(target===(postState.secondaryPartyEnabled?9:6)&&!stepValidation(6).valid){setStep(postState.secondaryPartyEnabled?8:5);window.alert('一言紹介が入力されていません。');requestAnimationFrame(()=>postSummary?.focus());return false;}
+  setStep(target);return true;
+}
 let postStepController;
 let formationCodeController;
 function setStep(step){postStepController.set(step);}
@@ -218,7 +225,7 @@ const blankPartyState=()=>({identities:new Map(),identityAlternatives:new Map(),
 let frontParty=null;
 function captureActiveParty(){return {identities:postState.identities,identityAlternatives:postState.identityAlternatives,identityOrder:postState.identityOrder,egos:postState.egos,freeSlotEgoEnabled:postState.freeSlotEgoEnabled,activeSinner:postState.activeSinner,activeEgoSinner:postState.activeEgoSinner,alternativeSelectionMode:postState.alternativeSelectionMode};}
 function loadParty(party,phase){postState.identities=party.identities;postState.identityAlternatives=party.identityAlternatives;postState.identityOrder=party.identityOrder;postState.egos=party.egos;postState.freeSlotEgoEnabled=party.freeSlotEgoEnabled;postState.activeSinner=party.activeSinner;postState.activeEgoSinner=party.activeEgoSinner;postState.alternativeSelectionMode=party.alternativeSelectionMode;postState.activePartyPhase=phase;}
-function switchPartyForStep(next){if(postState.category!=='projection_combat')return;const target=postState.secondaryPartyEnabled&&next>=5&&next<=7?'rear':'front';if(postState.activePartyPhase===target)return;if(postState.activePartyPhase==='rear')postState.rearParty=captureActiveParty();else postState.frontParty=frontParty=captureActiveParty();loadParty(target==='rear'?(postState.rearParty||(postState.rearParty=blankPartyState())):(postState.frontParty||frontParty||captureActiveParty()),target);}
+function switchPartyForStep(next){if(postState.category!=='projection_combat')return;const target=postState.secondaryPartyEnabled&&next>=5&&next<=7?'rear':'front';if(postState.activePartyPhase===target)return;if(postState.activePartyPhase==='rear')postState.rearParty=captureActiveParty();else postState.frontParty=frontParty=captureActiveParty();loadParty(target==='rear'?(postState.rearParty||(postState.rearParty=blankPartyState())):(postState.frontParty||frontParty||captureActiveParty()),target);requestAnimationFrame(updatePartyKeywordSummary);}
 function syncTitle(){const raw=postTitle?.value??'';const t=raw.trim()||'攻略タイトルを入力してください';$$('[data-title-preview],[data-workspace-title-live]').forEach(x=>{x.textContent=t;x.classList.toggle('is-placeholder',!raw.trim());});}
 function renderFormationOrder(){formationController.render();}
 const themePackController=window.LimbusThemePackController.create({data:themePackData,state:postState,escapeHtml:reviewEscape,showToast,scrollToElement:smoothScrollToElement,queueScroll:queueIdentityScroll});
@@ -271,6 +278,7 @@ function applyCategoryEditorMode(){
   const projection=postState.category==='projection_combat',projectionTotal=postState.secondaryPartyEnabled?9:6;const step1=$('[data-step-link="1"]'),step6=$('[data-detail-step-link]'),step7=$('[data-review-step-link]');if(step1){step1.querySelector('strong').textContent=lux?'採光種類・攻略タイプ':eventMode?'ステージ・攻略タイプ':'攻略タイプ';step1.querySelector('small').textContent=projection?'ステージ・難易度・攻略方針':lux?'種類と攻略方針を選択':eventMode?'ステージと攻略方針を選択':'投稿の目的を選択';}$$('.projection-secondary-step').forEach(node=>node.hidden=!projection||!postState.secondaryPartyEnabled);$$('[data-step-link="2"] strong').forEach(node=>node.textContent=projection?'前半使用人格':'使用人格');$$('[data-step-link="3"] strong').forEach(node=>node.textContent=projection?'前半編成順':'編成順');$$('[data-step-link="4"] strong').forEach(node=>node.textContent=projection?'前半使用E.G.O':'使用E.G.O');if(step6){step6.dataset.stepLink=projection?(postState.secondaryPartyEnabled?'8':'5'):'6';step6.querySelector('span').textContent=projection?(postState.secondaryPartyEnabled?'08':'05'):eventMode?'05':'06';}if(step7){step7.dataset.stepLink=projection?(postState.secondaryPartyEnabled?'9':'6'):'7';step7.querySelector('span').textContent=projection?(postState.secondaryPartyEnabled?'09':'06'):eventMode?'06':'07';}
   const guide=$('[data-editor-step-guide]');if(guide)guide.textContent=`必須項目を満たしながら、${projection?projectionTotal:eventMode?6:7}つの手順で攻略情報をまとめます。`;
   const stageTitle=$('[data-stage-selector-title]'),stageCopy=$('[data-stage-selector-copy]');if(stageTitle)stageTitle.textContent=lux?'採光種類を選択':postState.category==='projection_combat'?'射影戦闘のステージ':'鏡屈折鉄道のステージ';if(stageCopy)stageCopy.textContent=lux?'攻略する採光の種類を選択してください。':'攻略対象のステージを選択してください。';
+  const difficultyOptions=$$('[data-post-difficulty]');if(difficultyOptions.length){const normalCopy=difficultyOptions[0].querySelector('small'),hardCopy=difficultyOptions[1]?.querySelector('small');if(normalCopy)normalCopy.textContent=projection?'射影戦闘の通常難易度':'初心者・育成途中の編成向け';if(hardCopy)hardCopy.textContent=projection?'射影戦闘の高難度モード':'高難度の鏡ダンジョン向け';}
   const manualLabel=$('[data-keyword-mode-label]'),manualStatus=$('[data-keyword-mode-status]'),manualCopy=$('[data-keyword-mode-copy]'),gift=$('[data-required-gift-field]');if(manualLabel)manualLabel.textContent=eventMode?'（手動選択・最大5個まで）':'（自動付与）';if(manualStatus)manualStatus.textContent=eventMode?'攻略内容に合わせて選択':'編成人格から判定';if(manualCopy)manualCopy.textContent=eventMode?'攻略で扱うキーワードを選択してください。':'同じ主要キーワードを持つ人格が5人以上いる場合に自動で付きます。';if(gift)gift.hidden=eventMode;
   if(!postState.type){$$('[data-type-badge]').forEach(node=>{node.textContent='攻略タイプ未選択';node.classList.add('is-unset');});$('[data-type-preview]').textContent='攻略タイプ未選択';$('[data-type-copy]').textContent='攻略タイプを選択してください。';const icon=$('[data-type-preview-icon]');if(icon){icon.classList.remove('has-type-logo');icon.replaceChildren();icon.textContent='◇';}}
   updateRailwayStageDisplay();
@@ -294,11 +302,12 @@ const postPersistenceController=window.LimbusPostPersistenceController.create({b
 const savePostToSupabase=status=>postPersistenceController.save(status);
 
 function serializeDraftState(){
+  const draftParty=postState.activePartyPhase==='rear'&&postState.frontParty?postState.frontParty:postState;
   return {version:1,step:postState.step,editingPostId:postModal.dataset.editingPostId||'',payload:buildPostPayload(),
-    identityAlternatives:[...postState.identityAlternatives.entries()].map(([id,items])=>[id,(items||[]).map(item=>({name:item?.name||'',rarity:item?.rarity||'',keywords:item?.keywords||[]}))]),
-    identities:[...postState.identities.entries()].map(([id,item])=>[id,{name:item?.name||'',rarity:item?.rarity||'',keywords:item?.keywords||[],isFreeSlot:!!item?.isFreeSlot}]),
-    identityOrder:[...postState.identityOrder],egos:[...postState.egos.entries()].map(([id,map])=>[id,[...map.entries()]]),
-    freeSlotEgoEnabled:[...postState.freeSlotEgoEnabled],ammoKeywordSelected:!!postState.ammoKeywordSelected};
+    identityAlternatives:[...draftParty.identityAlternatives.entries()].map(([id,items])=>[id,(items||[]).map(item=>({name:item?.name||'',rarity:item?.rarity||'',keywords:item?.keywords||[]}))]),
+    identities:[...draftParty.identities.entries()].map(([id,item])=>[id,{name:item?.name||'',rarity:item?.rarity||'',keywords:item?.keywords||[],isFreeSlot:!!item?.isFreeSlot}]),
+    identityOrder:[...draftParty.identityOrder],egos:[...draftParty.egos.entries()].map(([id,map])=>[id,[...map.entries()]]),
+    freeSlotEgoEnabled:[...draftParty.freeSlotEgoEnabled],ammoKeywordSelected:!!postState.ammoKeywordSelected};
 }
 const refreshRestoredEditor=step=>{applyCategoryEditorMode();updatePostCategoryDisplays();updateDifficultyDisplay();updateRailwayStageDisplay();syncTitle();updatePostSummaryCount();renderIdentitySinnerRoster();renderFormationOrder();renderEgoSinners();renderThemeFloorCards();renderDetailTags();setStep(step);};
 const postRestoreController=window.LimbusPostRestoreController.create({state:postState,identityData:sinnerIdentityData,postModal,normalizeThemePacks:normalizeThemePackEntries,onRefresh:refreshRestoredEditor});
