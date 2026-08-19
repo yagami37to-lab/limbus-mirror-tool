@@ -1310,6 +1310,7 @@
 }
 @media(max-width:760px){.post-card-detail-actions{align-items:stretch}.post-save-button,.post-detail-link{flex:1}.post-save-label{display:none}.post-detail-main{width:min(calc(100% - 24px),1120px);margin-top:24px}.post-detail-hero,.detail-section{padding:18px;border-radius:12px}.detail-title-row{display:grid}.detail-save-button{width:100%;justify-content:center}.detail-party-grid{grid-template-columns:repeat(2,1fr)}.detail-ego-grid{grid-template-columns:1fr}.detail-footer{display:grid}.detail-header-actions .button{display:none}}
 @media(max-width:760px){.detail-pack-list{grid-template-columns:repeat(2,minmax(0,1fr))}.detail-formation-code-actions{align-items:stretch;flex-direction:column}.detail-formation-code-actions .button{width:100%}}
+@media(max-width:760px){.formation-guide-steps ol,.formation-guide-features ul{grid-template-columns:1fr}.formation-guide-steps li:first-child{grid-column:auto}.formation-guide-steps img,.formation-guide-steps li:not(:first-child) img{aspect-ratio:16/9}.formation-guide-steps span{padding:11px 12px}.formation-code-guide h3{font-size:18px}}
 
 @media(max-width:760px){
   .post-card-info-row{align-items:flex-end;gap:10px}
