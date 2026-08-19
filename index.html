@@ -4,10 +4,10 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<meta content="Limbus Companyの鏡ダンジョン・採光・ストーリー・おすすめ編成などの攻略を投稿・共有できる非公式攻略サイトです。" name="description"/>
+<meta content="Limbus Companyの鏡ダンジョン・鏡屈折鉄道などの攻略を投稿・共有できる非公式攻略サイトです。" name="description"/>
 <title>Limbus Company 攻略投稿サイト（非公式）</title>
 <link href="logo-mark.svg" rel="icon" type="image/svg+xml"/>
-<link href="styles.css?v=1.1.54" rel="stylesheet"/>
+<link href="styles.css?v=1.1.55" rel="stylesheet"/>
 <link href="css/browse-cards.css?v=1.1.44" rel="stylesheet"/>
 
 <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -17,7 +17,7 @@
 <script defer src="js/theme-pack-images.js?v=1.1.37"></script>
 <script defer src="js/formation-code-controller.js?v=1.1.50"></script>
 <script defer src="js/community-data.js?v=1.1.37"></script>
-<script defer src="js/categories.js?v=1.1.54"></script>
+<script defer src="js/categories.js?v=1.1.55"></script>
 <script defer src="js/identity-images.js?v=1.1.23"></script>
 <script defer src="js/owned-identities.js?v=1.1.48"></script>
 <script defer src="js/ego-images.js?v=1.1.47"></script>
@@ -32,25 +32,25 @@
 <script defer src="js/identity-view-controller.js?v=1.0.99"></script>
 <script defer src="js/identity-card-controller.js?v=1.0.99"></script>
 <script defer src="js/formation-controller.js?v=1.0.102"></script>
-<script defer src="js/post-payload-controller.js?v=1.1.41"></script>
+<script defer src="js/post-payload-controller.js?v=1.1.55"></script>
 <script defer src="js/post-persistence-controller.js?v=1.1.07"></script>
-<script defer src="js/post-review-controller.js?v=1.1.30"></script>
-<script defer src="js/post-validation-controller.js?v=1.0.99"></script>
-<script defer src="js/post-step-controller.js?v=1.1.27"></script>
-<script defer src="js/post-editor-reset-controller.js?v=1.0.99"></script>
-<script defer src="js/post-restore-controller.js?v=1.1.23"></script>
+<script defer src="js/post-review-controller.js?v=1.1.55"></script>
+<script defer src="js/post-validation-controller.js?v=1.1.55"></script>
+<script defer src="js/post-step-controller.js?v=1.1.55"></script>
+<script defer src="js/post-editor-reset-controller.js?v=1.1.55"></script>
+<script defer src="js/post-restore-controller.js?v=1.1.55"></script>
 <script defer src="js/post-editor-launch-controller.js?v=1.0.101"></script>
 <script defer src="js/post-close-controller.js?v=1.0.102"></script>
 <script defer src="js/post-advance-controller.js?v=1.0.103"></script>
 <script defer src="js/post-basics-controller.js?v=1.0.104"></script>
-<script defer src="js/post-category-controller.js?v=1.0.107"></script>
+<script defer src="js/post-category-controller.js?v=1.1.55"></script>
 <script defer src="js/post-tags-controller.js?v=1.0.108"></script>
 <script defer src="js/identity-workspace-controller.js?v=1.0.109"></script>
-<script defer src="js/post-validation-flow-controller.js?v=1.0.110"></script>
+<script defer src="js/post-validation-flow-controller.js?v=1.1.55"></script>
 <script defer src="js/site-ui-controller.js?v=1.1.34"></script>
-<script defer src="app.js?v=1.1.41"></script>
+<script defer src="app.js?v=1.1.55"></script>
 <script defer src="js/browse-cards.js?v=1.1.04"></script>
-<script defer src="js/community-browse.js?v=1.1.53"></script>
+<script defer src="js/community-browse.js?v=1.1.55"></script>
 <script defer src="js/public-alpha.js?v=1.0.99"></script>
 </head>
 <body id="top">
@@ -184,10 +184,10 @@
 <span><strong>鏡ダンジョン</strong><small>各階層の攻略や編成例を探す</small></span>
 <em>投稿を見る →</em>
 </button>
-<button aria-disabled="true" class="category-card category-railway is-planned" data-browse-category="mirror_railway" type="button">
+<button class="category-card category-railway" data-browse-category="mirror_railway" type="button">
 <span aria-hidden="true" class="category-icon"><img src="assets/category-icons/mirror-railway.png" alt=""></span>
-<span><strong>鏡屈折鉄道</strong><small>鉄道イベントの攻略を探す</small><i>※実装予定</i></span>
-<em>準備中</em>
+<span><strong>鏡屈折鉄道</strong><small>鉄道イベントの攻略を探す</small></span>
+<em>投稿を見る →</em>
 </button>
 <button aria-disabled="true" class="category-card category-projection is-planned" data-browse-category="projection_combat" type="button">
 <span aria-hidden="true" class="category-icon"><img src="assets/category-icons/projection-combat.png" alt=""></span>
@@ -303,7 +303,7 @@
 </div>
 <div class="footer-meta">
 <span>© 非公式ファンサイト</span>
-<span>Version 1.1.54 α</span>
+<span>Version 1.1.55 α</span>
 <time datetime="2026-08-16">Last Updated: 2026.08.16</time>
 </div>
 </footer>
@@ -368,7 +368,7 @@
 <button aria-label="閉じる" class="modal-close" data-close-category-picker="" type="button">×</button>
 </header>
 <div class="category-picker-grid" data-category-picker-list=""></div>
-<p class="category-picker-note">※鏡屈折鉄道・射影戦闘・採光・ストーリー・おすすめ編成は今後のアップデートで実装予定です。</p>
+<p class="category-picker-note">※射影戦闘・採光・ストーリー・おすすめ編成は今後のアップデートで実装予定です。</p>
 <footer class="category-picker-actions">
 <span data-category-picker-status="">カテゴリを選択してください</span>
 <div class="category-picker-action-buttons">
@@ -406,12 +406,12 @@
 </div>
 <div class="workspace-body">
 <aside aria-label="投稿手順" class="post-steps">
-<div class="step-intro"><small>POST GUIDE</small><strong>攻略を投稿する</strong><p>必須項目を満たしながら、7つの手順で攻略情報をまとめます。</p></div>
+<div class="step-intro"><small>POST GUIDE</small><strong>攻略を投稿する</strong><p data-editor-step-guide>必須項目を満たしながら、7つの手順で攻略情報をまとめます。</p></div>
 <button class="step-link active" data-step-link="1" type="button"><span>01</span><div><strong>攻略タイプ</strong><small>投稿の目的を選択</small></div></button>
 <button class="step-link" data-step-link="2" type="button"><span>02</span><div><strong>使用人格</strong><small>編成に入れる人格を選択</small></div></button>
 <button class="step-link" data-step-link="3" type="button"><span>03</span><div><strong>編成順</strong><small>出撃する順番を選択</small></div></button>
 <button class="step-link" data-step-link="4" type="button"><span>04</span><div><strong>使用E.G.O</strong><small>任意・使用するE.G.Oを選択</small></div></button>
-<button class="step-link" data-step-link="5" type="button"><span>05</span><div><strong>進行テーマパック</strong><small>任意・階層ごとに選択</small></div></button>
+<button class="step-link" data-step-link="5" data-theme-pack-step-link type="button"><span>05</span><div><strong>進行テーマパック</strong><small>任意・階層ごとに選択</small></div></button>
 <button class="step-link" data-step-link="6" type="button"><span>06</span><div><strong>詳細情報</strong><small>タグ・解説を入力</small></div></button>
 <button class="step-link" data-step-link="7" type="button"><span>07</span><div><strong>確認して投稿</strong><small>入力内容を最終確認</small></div></button>
 <div class="post-guide-note"><strong>投稿ガイド</strong><p>公式画像は使用せず、現在は文字と仮カードで構成しています。</p></div>
@@ -422,7 +422,7 @@
 <div class="selection-counter"><span>進行状況</span><strong data-step-counter="">1 / 7</strong></div>
 </div>
 <section class="post-step active" data-post-step="1">
-<fieldset class="difficulty-selector" data-difficulty-selector="">
+<fieldset class="difficulty-selector" data-difficulty-selector="" data-difficulty-mode>
 <legend>鏡ダンジョンの難易度 <span>必須</span></legend>
 <p>この攻略が対象とするモードを選択してください。</p>
 <div class="difficulty-options">
@@ -437,6 +437,16 @@
 </div>
 <small class="difficulty-error" data-difficulty-error="" hidden="">次へ進むには、ノーマルまたはハードを選択してください。</small>
 </fieldset>
+<fieldset class="difficulty-selector railway-stage-selector" data-railway-stage-selector hidden>
+<legend>鏡屈折鉄道のステージ <span>必須</span></legend>
+<p>攻略対象の路線を選択してください。</p>
+<div class="difficulty-options railway-stage-options">
+<button class="difficulty-option railway-stage-option" data-railway-stage="6号線" type="button"><span class="difficulty-option-mark">6</span><div><strong>6号線</strong><small>第6回 鏡屈折鉄道</small></div></button>
+<button class="difficulty-option railway-stage-option" data-railway-stage="2号線" type="button"><span class="difficulty-option-mark">2</span><div><strong>2号線</strong><small>第2回 鏡屈折鉄道</small></div></button>
+<button class="difficulty-option railway-stage-option" data-railway-stage="1号線" type="button"><span class="difficulty-option-mark">1</span><div><strong>1号線</strong><small>第1回 鏡屈折鉄道</small></div></button>
+</div>
+<small class="difficulty-error" data-railway-stage-error hidden>次へ進むにはステージを選択してください。</small>
+</fieldset>
 <div class="type-layout">
 <nav aria-label="攻略タイプ" class="type-list">
 <button class="type-option" data-post-type="安定周回" type="button"><span class="type-option-logo"><img src="assets/strategy-type-icons/stable.png?v=1.0.99" alt="" aria-hidden="true" width="46" height="46"></span><div><strong>安定周回</strong><small>安定してクリアを目指す</small></div></button>
@@ -444,6 +454,9 @@
 <button class="type-option" data-post-type="高難易度向け" type="button"><span class="type-option-logo"><img src="assets/strategy-type-icons/high-difficulty.png?v=1.0.99" alt="" aria-hidden="true" width="46" height="46"></span><div><strong>高難易度向け</strong><small>強敵や深層を想定した構成</small></div></button>
 <button class="type-option" data-post-type="縛り・テーマ攻略" type="button"><span class="type-option-logo"><img src="assets/strategy-type-icons/theme-restriction.png?v=1.0.99" alt="" aria-hidden="true" width="46" height="46"></span><div><strong>縛り・テーマ攻略</strong><small>特定条件やテーマで挑戦</small></div></button>
 <button class="type-option" data-post-type="ネタ・ロマン" type="button"><span class="type-option-logo"><img src="assets/strategy-type-icons/fun-romance.png?v=1.0.99" alt="" aria-hidden="true" width="46" height="46"></span><div><strong>ネタ・ロマン</strong><small>個性的な編成や遊び方</small></div></button>
+<button class="type-option railway-type-option" data-post-type="安定攻略" type="button" hidden><span class="type-option-logo">安</span><div><strong>安定攻略</strong><small>安定した突破を目指す編成</small></div></button>
+<button class="type-option railway-type-option" data-post-type="速攻攻略" type="button" hidden><span class="type-option-logo">速</span><div><strong>速攻攻略</strong><small>短いターンでの突破を目指す編成</small></div></button>
+<button class="type-option railway-type-option" data-post-type="低レア攻略" type="button" hidden><span class="type-option-logo">低</span><div><strong>低レア攻略</strong><small>入手しやすい人格・E.G.O中心の編成</small></div></button>
 <button class="type-option" data-post-type="ソロ" type="button"><span>◆</span><div><strong>ソロ</strong><small>1人格だけで挑む攻略</small></div></button>
 </nav>
 <div class="type-preview"><small>SELECTED TYPE</small><div aria-hidden="true" class="type-preview-icon" data-type-preview-icon="">◇</div><h3 data-type-preview="">攻略タイプ未選択</h3><p data-type-copy="">攻略タイプを選択してください。</p><span class="type-preview-difficulty" data-type-preview-difficulty="">難易度を選択してください</span></div>
@@ -581,7 +594,7 @@
 <div class="review-section-heading"><div><small>PARTY</small><h4>編成内容・使用E.G.O</h4></div><span>編成順</span></div>
 <div class="review-party-grid" data-review-party=""><p class="review-empty">人格が選択されていません。</p></div>
 </section>
-<section class="review-section review-theme-pack-section">
+<section class="review-section review-theme-pack-section" data-review-theme-pack-section>
 <div class="review-section-heading"><div><small>THEME PACK ROUTE</small><h4>進行テーマパック</h4></div><span>任意</span></div>
 <div class="review-theme-pack-list" data-review-theme-packs=""><span class="tag-empty">未選択</span></div>
 </section>

@@ -15,9 +15,9 @@ window.STRATEGY_CATEGORIES = Object.freeze([
     shortLabel: '鏡屈折鉄道',
     icon: '▣',
     iconImage: 'assets/category-icons/mirror-railway.png',
-    available: false,
+    available: true,
     description: '鉄道イベントの攻略を投稿します。',
-    searchCopy: '※実装予定'
+    searchCopy: '鏡屈折鉄道攻略を検索'
   }),
   Object.freeze({
     id: 'projection_combat',

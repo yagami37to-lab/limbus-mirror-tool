@@ -690,6 +690,7 @@ html[data-theme="dark"] .type-option[data-post-type].active{border-color:var(--t
 .category-card{font:inherit;text-align:left;width:100%;cursor:pointer;background:var(--panel,#fff)}
 .category-card.is-planned{cursor:not-allowed;opacity:.68}
 .category-card.is-planned:hover{transform:none;box-shadow:none}
+.railway-stage-options{grid-template-columns:repeat(3,minmax(0,1fr))}.railway-stage-option[data-railway-stage="6号線"] .difficulty-option-mark{background:#a85a16;color:#fff}.railway-stage-option[data-railway-stage="2号線"] .difficulty-option-mark{background:#16933f;color:#fff}.railway-stage-option[data-railway-stage="1号線"] .difficulty-option-mark{background:#2f66db;color:#fff}.railway-type-option .type-option-logo{display:grid;place-items:center;font-weight:800;color:var(--gold)}
 .category-card i{display:block;margin-top:5px;color:#a86500;font-size:11px;font-style:normal;font-weight:700}
 .search-category-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
 .search-category-option{display:flex;align-items:center;gap:12px;min-width:0;padding:14px;border:1px solid var(--line,#dfcfb8);background:var(--panel,#fff);color:inherit;text-align:left;cursor:pointer}
