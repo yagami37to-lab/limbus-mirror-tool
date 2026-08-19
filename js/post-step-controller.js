@@ -3,7 +3,7 @@
 function createPostStepController({state,stepInfo,identityData,onCloseEgo,onCloseTheme,onRenderIdentities,onOpenIdentity,onRenderFormation,onRenderEgos,onRenderThemes,onRenderDetails,onRenderReview,onEnterIdentity,onIdentityFooterUpdate,onEgoFooterUpdate,onResetScroll,onBeforeStep}){
   const $=selector=>document.querySelector(selector);const all=selector=>document.querySelectorAll(selector);
   function set(step){
-    const previous=state.step;const projection=state.category==='projection_combat';const secondary=projection&&state.secondaryPartyEnabled;const railway=['mirror_railway','luxcavation'].includes(state.category);let max=projection?(secondary?9:6):7;let requested=Math.max(1,Math.min(max,Number(step)||1));if(railway&&requested===5)requested=previous>=6?4:6;onBeforeStep?.(requested,previous);state.step=requested;
+    const previous=state.step;const projection=state.category==='projection_combat';const secondary=projection&&state.secondaryPartyEnabled;const railway=['mirror_railway','luxcavation','story'].includes(state.category);let max=projection?(secondary?9:6):7;let requested=Math.max(1,Math.min(max,Number(step)||1));if(railway&&requested===5)requested=previous>=6?4:6;onBeforeStep?.(requested,previous);state.step=requested;
     const physical=projection?(secondary?(requested<=4?requested:requested<=7?requested-3:requested-2):(requested<=4?requested:requested+1)):requested;
     if(physical===2&&!state.activeSinner)state.activeSinner=identityData[0]?.id||null;
     if(physical!==4&&state.activeEgoSinner)onCloseEgo({scroll:false});if(physical!==5)onCloseTheme({scroll:false});

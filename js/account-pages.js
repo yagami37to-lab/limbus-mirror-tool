@@ -6,7 +6,7 @@
   const esc=v=>String(v??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
   const fallbackName=u=>u?.user_metadata?.full_name||u?.user_metadata?.name||u?.email?.split('@')[0]||'ユーザー';
   const fallbackAvatar=u=>u?.user_metadata?.avatar_url||u?.user_metadata?.picture||'logo-mark.svg';
-  const categoryLabel=id=>({mirror_dungeon:'鏡ダンジョン',mirror_railway:'鏡屈折鉄道',projection_combat:'射影戦闘',luxcavation:'採光',story:'ストーリー',recommended_formation:'おすすめ編成'})[id]||id||'未設定';
+  const categoryLabel=id=>({mirror_dungeon:'鏡ダンジョン',mirror_railway:'鏡屈折鉄道',projection_combat:'射影戦闘',luxcavation:'採光',story:'ストーリー'})[id]||id||'未設定';
   const show=(s,v=true)=>qsa(s).forEach(el=>el.hidden=!v);
   function notice(text,state='info'){const el=qs('[data-account-notice]');if(!el)return;el.textContent=text;el.dataset.state=state;el.hidden=!text;}
   function applyTheme(v){document.documentElement.dataset.theme=v;localStorage.setItem('limbus-theme',v);const sel=qs('[data-theme-select]');if(sel)sel.value=v;qsa('[data-account-theme-toggle]').forEach(btn=>{const dark=v==='dark';btn.setAttribute('aria-pressed',String(dark));btn.setAttribute('aria-label',dark?'ライトモードに切り替える':'ダークモードに切り替える');});}

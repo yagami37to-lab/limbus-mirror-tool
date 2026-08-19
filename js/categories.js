@@ -35,12 +35,8 @@ window.STRATEGY_CATEGORIES = Object.freeze([
   }),
   Object.freeze({
     id: 'story', label: 'ストーリー', shortLabel: 'ストーリー', icon: '▤',
-    iconImage: 'assets/category-icons/story.png', available: false,
-    description: 'メインストーリーや各章の攻略を投稿します。', searchCopy: '※実装予定'
-  }),
-  Object.freeze({
-    id: 'recommended_formation', label: 'おすすめ編成', shortLabel: 'おすすめ編成', icon: '★', available: false,
-    description: '目的別のおすすめ編成や組み合わせを投稿します。', searchCopy: '※実装予定'
+    iconImage: 'assets/category-icons/story.png', available: true,
+    description: 'メインストーリーや各章の攻略を投稿します。', searchCopy: 'ストーリー攻略を検索'
   })
 ]);
 
