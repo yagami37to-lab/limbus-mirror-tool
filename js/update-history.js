@@ -4,6 +4,16 @@
   if(!root)return;
   const categoryOrder=['新機能','画像追加','改善','修正','確認','将来対応'];
   const categoryClass={'新機能':'is-feature','画像追加':'is-image','改善':'is-improvement','修正':'is-fix','確認':'is-check','将来対応':'is-future'};
+  function classify(category,text){
+    if(categoryOrder.includes(category))return category;
+    const value=`${category||''} ${text||''}`;
+    if(/将来対応|実装予定|今後対応|継続仕様|準備/.test(value))return '将来対応';
+    if(/画像|アセット|サムネイル/.test(value))return '画像追加';
+    if(category==='修正'||/修正|問題|バグ|誤字|脱字|名称|重複|復元|補正|互換|正しく|表示されない|反映されない|解消|防止/.test(value))return '修正';
+    if(/新機能|追加|実装|新規登録|読み込み|作成|出力|入力|検索|ブックマーク|通報|共有/.test(value))return '新機能';
+    if(/確認|検証/.test(value))return '確認';
+    return '改善';
+  }
   async function render(){
     try{
       const response=await fetch('data/update-history.json',{cache:'no-cache'});
@@ -21,13 +31,13 @@
         const normalizedChanges=Array.isArray(entry.changes)
           ? entry.changes.reduce((acc,item)=>{const key=item?.type,text=item?.text;if(key&&text)(acc[key]??=[]).push(text);return acc;},{})
           : (entry.changes||{});
-        const categories=[...categoryOrder,...Object.keys(normalizedChanges).filter(category=>!categoryOrder.includes(category))];
-        categories.forEach(category=>{
-          const values=normalizedChanges[category];
-          const items=Array.isArray(values)?values.filter(text=>String(text).trim()):[];
+        const categorized=Object.fromEntries(categoryOrder.map(category=>[category,[]]));
+        Object.entries(normalizedChanges).forEach(([category,values])=>(Array.isArray(values)?values:[]).forEach(text=>{if(!String(text).trim())return;categorized[classify(category,text)].push(String(text))}));
+        categoryOrder.forEach(category=>{
+          const items=[...new Set(categorized[category])];
           if(!items.length)return;
           const group=document.createElement('section');group.className='news-change-group';
-          const label=document.createElement('span');label.className='news-change-label is-improvement';label.textContent='改善';label.title=category;label.setAttribute('aria-label',`${category}の改善`);
+          const label=document.createElement('span');label.className=`news-change-label ${categoryClass[category]||'is-improvement'}`;label.textContent=category;label.title=category;label.setAttribute('aria-label',category);
           const list=document.createElement('ul');items.forEach(text=>{const item=document.createElement('li');item.textContent=text;list.appendChild(item)});
           group.append(label,list);groups.appendChild(group);
         });
