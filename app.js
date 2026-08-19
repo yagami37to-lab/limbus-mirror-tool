@@ -22,6 +22,9 @@ const searchOptions={
 };
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 
+async function syncLatestUpdateDate(){const target=$('[data-site-last-updated]');if(!target)return;try{const response=await fetch('data/update-history.json',{cache:'no-cache'});if(!response.ok)return;const [latest]=await response.json();const raw=String(latest?.date||'').trim();if(!raw)return;const display=raw.replaceAll('-','.');target.dateTime=raw.replaceAll('.','-');target.textContent=`Last Updated: ${display}`;}catch{}}
+syncLatestUpdateDate();
+
 // 訪問数の集計はトップページで継続し、表示は管理者アカウント側で確認する。
 async function trackSiteVisit(){
   try{await window.LimbusCommunity?.registerVisit();}

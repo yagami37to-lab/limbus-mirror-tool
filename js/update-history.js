@@ -24,13 +24,14 @@
         const article=document.createElement('article');article.className='news-entry';
         const header=document.createElement('header');header.className='news-entry-header';
         const version=document.createElement('strong');version.textContent=`v${entry.version}`;
-        const date=document.createElement('time');date.dateTime=entry.date||'';date.textContent=(entry.date||'').replaceAll('-','.');
+        const date=document.createElement('time');date.dateTime=(entry.date||'').replaceAll('.','-');date.textContent=(entry.date||'').replaceAll('-','.');
         header.append(version,date);
         const summary=document.createElement('p');summary.className='news-entry-summary';summary.textContent=entry.summary||entry.title||'';
         const groups=document.createElement('div');groups.className='news-change-groups';
+        const groupedChanges=Array.isArray(entry.groups)?entry.groups.reduce((acc,group)=>{const key=group?.tag;const items=Array.isArray(group?.items)?group.items:[];if(key&&items.length)(acc[key]??=[]).push(...items);return acc;},{}):{};
         const normalizedChanges=Array.isArray(entry.changes)
           ? entry.changes.reduce((acc,item)=>{const key=item?.type,text=item?.text;if(key&&text)(acc[key]??=[]).push(text);return acc;},{})
-          : (entry.changes||{});
+          : (entry.changes&&Object.keys(entry.changes).length?entry.changes:groupedChanges);
         const categorized=Object.fromEntries(categoryOrder.map(category=>[category,[]]));
         Object.entries(normalizedChanges).forEach(([category,values])=>(Array.isArray(values)?values:[]).forEach(text=>{if(!String(text).trim())return;categorized[classify(category,text)].push(String(text))}));
         categoryOrder.forEach(category=>{
