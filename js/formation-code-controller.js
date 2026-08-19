@@ -7,6 +7,8 @@ const bytesToBase64=bytes=>{let value='';for(let i=0;i<bytes.length;i+=0x8000)va
 const base64ToBytes=value=>{const clean=String(value||'').trim().replace(/\s+/g,'');if(!clean||!/^[A-Za-z0-9+/]*={0,2}$/.test(clean)||clean.length%4)throw new Error('invalid_base64');const raw=atob(clean);return Uint8Array.from(raw,char=>char.charCodeAt(0));};
 async function gzip(bytes){if(typeof CompressionStream==='undefined')throw new Error('gzip_unsupported');const stream=new Blob([bytes]).stream().pipeThrough(new CompressionStream('gzip'));return new Uint8Array(await new Response(stream).arrayBuffer());}
 async function gunzip(bytes){if(typeof DecompressionStream==='undefined')throw new Error('gzip_unsupported');const stream=new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'));return new Uint8Array(await new Response(stream).arrayBuffer());}
+function crc32(bytes){let crc=0xffffffff;for(const byte of bytes){crc^=byte;for(let bit=0;bit<8;bit++)crc=(crc>>>1)^((crc&1)?0xedb88320:0);}return(crc^0xffffffff)>>>0;}
+function gzipStored(bytes){const length=bytes.length;if(length>65535)throw new Error('payload_too_large');const output=new Uint8Array(10+5+length+8),view=new DataView(output.buffer);output.set([0x1f,0x8b,0x08,0x00,0,0,0,0,0x00,0xff],0);output[10]=0x01;view.setUint16(11,length,true);view.setUint16(13,(~length)&0xffff,true);output.set(bytes,15);view.setUint32(15+length,crc32(bytes),true);view.setUint32(19+length,length,true);return output;}
 function slotsToBytes(slots){
   if(!Array.isArray(slots)||slots.length!==12)throw new Error('invalid_slot_count');
   const body=slots.map(slot=>[slot.identityModifier,slot.slotType,...RANKS.map(rank=>slot.egos?.[rank]||0)].map((value,index)=>toBits(value,WIDTHS[index])).join('')).join('');
@@ -19,7 +21,7 @@ function bytesToSlots(bytes){
   for(let slot=0;slot<12;slot++){const chunk=body.slice(slot*46,(slot+1)*46);let offset=0;const values=WIDTHS.map(width=>{const value=parseInt(chunk.slice(offset,offset+width),2);offset+=width;return value;});slots.push({gameSinnerId:slot+1,identityModifier:values[0],slotType:values[1],egos:Object.fromEntries(RANKS.map((rank,index)=>[rank,values[index+2]]))});}
   return slots;
 }
-async function encode(slots){const inner=new TextEncoder().encode(bytesToBase64(slotsToBytes(slots)));return bytesToBase64(await gzip(inner));}
+async function encode(slots){const inner=new TextEncoder().encode(bytesToBase64(slotsToBytes(slots)));return bytesToBase64(gzipStored(inner));}
 async function decode(code){const inner=await gunzip(base64ToBytes(code));const encoded=new TextDecoder('ascii',{fatal:true}).decode(inner).trim();return bytesToSlots(base64ToBytes(encoded));}
 const contentNameKey=value=>String(value??'').normalize('NFKC').replace(/[\s:：\[\]【】・･]/g,'').toLowerCase();
 function slotsFromContent(content,map){
