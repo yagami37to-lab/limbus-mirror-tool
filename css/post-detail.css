@@ -68,6 +68,8 @@ html[data-theme="dark"] .detail-form-tags input{
 .detail-title-row h1{margin:6px 0 0;font:500 clamp(32px,5vw,52px) Georgia,"Yu Mincho",serif}
 .post-detail-summary{font-size:16px;line-height:1.9;color:var(--muted);margin:24px 0}
 .detail-meta{padding-top:18px;border-top:1px solid var(--line);color:var(--muted);font-size:13px}
+.detail-owned-rate{margin-left:auto;padding:4px 9px;border:1px solid #8d98a5;border-radius:999px;background:#eef1f4;color:#4d5965;font-size:11px;font-weight:900;white-space:nowrap}.detail-owned-rate[data-level="high"]{border-color:#3a9860;background:#e9f8ef;color:#17683a}.detail-owned-rate[data-level="mid"]{border-color:#c8982f;background:#fff6da;color:#79570c}.detail-owned-rate[data-level="low"]{border-color:#be6464;background:#fff0f0;color:#8d3030}
+.detail-ownership-notice{display:flex;align-items:center;justify-content:space-between;gap:22px;margin-bottom:24px;padding:18px 20px;border:1px solid #d39b2f;border-left:5px solid #d39b2f;border-radius:12px;background:#fff8e7;box-shadow:var(--shadow)}.detail-ownership-notice div{min-width:0}.detail-ownership-notice strong{display:block;color:#6f4a05;font-size:16px}.detail-ownership-notice p{margin:6px 0 0;color:#705f46;font-size:13px;line-height:1.7}.detail-ownership-notice .button{flex:0 0 auto;text-align:center}
 .detail-tag-row{margin-top:16px}
 .detail-section-title{display:flex;justify-content:space-between;align-items:end;gap:12px;margin-bottom:20px}
 .detail-section-title small{display:block;color:var(--gold);letter-spacing:.18em;font-weight:800}
@@ -85,6 +87,8 @@ html[data-theme="dark"] .detail-form-tags input{
 .detail-footer{display:flex;justify-content:space-between;gap:12px}
 .detail-save-footer.is-saved{background:var(--gold2)}
 html[data-theme="dark"] .post-detail-hero,html[data-theme="dark"] .detail-section{background:#171c23}
+html[data-theme="dark"] .detail-owned-rate{background:#252c34}html[data-theme="dark"] .detail-owned-rate[data-level="high"]{background:#173626;color:#8de0ad}html[data-theme="dark"] .detail-owned-rate[data-level="mid"]{background:#3b3118;color:#efd27d}html[data-theme="dark"] .detail-owned-rate[data-level="low"]{background:#3d2225;color:#f0a1a6}
+html[data-theme="dark"] .detail-ownership-notice{background:#292315;border-color:#d3a43d;color:#f2eee6}html[data-theme="dark"] .detail-ownership-notice strong{color:#f1ca70}html[data-theme="dark"] .detail-ownership-notice p{color:#d2c6b0}
 html[data-theme="dark"] .post-save-button,html[data-theme="dark"] .detail-save-button,html[data-theme="dark"] .detail-party-card,html[data-theme="dark"] .detail-ego-card,html[data-theme="dark"] .detail-pack-option,html[data-theme="dark"] .detail-badges span,html[data-theme="dark"] .detail-tag-row span{background:#20262f}
 .detail-badges .detail-season-badge{border-color:#b88522;background:#fff7df;color:#805809;font-weight:900;letter-spacing:.08em}html[data-theme="dark"] .detail-badges .detail-season-badge{border-color:#d3a43d;background:#3c321d;color:#f1ca70}
 html[data-theme="dark"] .detail-formation-code textarea{background:#15191e;border-color:#454b54;color:#f2eee6}
@@ -131,6 +135,7 @@ html[data-theme="dark"] .detail-substitute-card,html[data-theme="dark"] .detail-
 .detail-substitute-card{min-height:76px;padding:10px;border:1px solid #705321;background:linear-gradient(145deg,#3b3024,#111);color:#fff;display:flex;align-items:flex-end;font-size:12px;font-weight:800;line-height:1.4;background-size:cover;background-position:center;text-shadow:0 1px 3px #000}
 html[data-theme="dark"] .detail-substitute-group{background:#20262f}
 @media(max-width:760px){.detail-substitute-grid{grid-template-columns:1fr}.detail-substitute-cards{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:760px){.detail-ownership-notice{display:grid;gap:14px;padding:16px}.detail-ownership-notice .button{width:100%}.detail-owned-rate{margin-left:0}}
 @media(max-width:420px){.detail-substitute-cards{grid-template-columns:1fr 1fr}.detail-substitute-card{min-height:68px;padding:8px;font-size:11px}}
 
 
