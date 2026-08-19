@@ -28,5 +28,24 @@ window.STRATEGY_CATEGORIES = Object.freeze([
     available: false,
     description: '射影戦闘の攻略や編成例を投稿します。',
     searchCopy: '※実装予定'
+  }),
+  Object.freeze({
+    id: 'luxcavation', label: '採光', shortLabel: '採光', icon: '☀', available: true,
+    description: '経験値・紐採光の攻略や編成例を投稿します。', searchCopy: '採光攻略を検索'
+  }),
+  Object.freeze({
+    id: 'story', label: 'ストーリー', shortLabel: 'ストーリー', icon: '▤',
+    iconImage: 'assets/category-icons/mirror-railway.png', available: true,
+    description: 'メインストーリーや各章の攻略を投稿します。', searchCopy: 'ストーリー攻略を検索'
+  }),
+  Object.freeze({
+    id: 'recommended_formation', label: 'おすすめ編成', shortLabel: 'おすすめ編成', icon: '★', available: true,
+    description: '目的別のおすすめ編成や組み合わせを投稿します。', searchCopy: 'おすすめ編成を検索'
   })
 ]);
+
+window.LimbusCategories = Object.freeze({
+  all: window.STRATEGY_CATEGORIES,
+  byId(id) { return window.STRATEGY_CATEGORIES.find(category => category.id === id) || null; },
+  label(id) { return this.byId(id)?.label || id || '未設定'; }
+});
