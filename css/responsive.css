@@ -1184,12 +1184,10 @@
     min-width:0;
   }
   .result-sort select{max-width:100%;min-width:0}
+  .community-result-tools .current-browse-category{display:none}
+  .community-result-tools .mobile-result-category{display:block;grid-column:1/-1;width:100%;min-width:0}
   .browse-category-tabs{
-    display:grid;
-    grid-template-columns:1fr;
-    gap:8px;
-    overflow:visible;
-    width:100%;
+    display:none;
   }
   .browse-category-tab{
     width:100%;
