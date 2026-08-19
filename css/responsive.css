@@ -2219,6 +2219,70 @@
   .news-page-list .news-entry{grid-template-columns:1fr;gap:12px;padding:20px 16px}.news-page-list .news-entry-header{flex-direction:row;justify-content:space-between;align-items:center}.news-page-list .news-change-group{grid-template-columns:70px 1fr}
   .account-admin-site-heading{align-items:flex-start}.account-admin-stat-grid{grid-template-columns:1fr 1fr}.account-admin-stat{padding:14px 12px}.account-admin-stat strong{font-size:27px}
 }
+
+/* v1.1.70: stable phone layout for every E.G.O selection footer. */
+@media(max-width:720px){
+  .workspace-footer.ego-mode,
+  .workspace-footer.ego-detail-mode{
+    display:grid!important;
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    gap:8px!important;
+    padding:10px 12px max(12px,env(safe-area-inset-bottom))!important;
+    align-items:stretch!important;
+  }
+  .workspace-footer.ego-mode .footer-back-button{
+    display:none!important;
+  }
+  .workspace-footer.ego-mode .ego-footer-actions{
+    grid-column:1 / -1!important;
+    grid-row:1!important;
+    display:grid!important;
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    gap:8px!important;
+    width:100%!important;
+  }
+  .workspace-footer.ego-mode:not(.ego-detail-mode) .ego-footer-actions{
+    grid-template-columns:minmax(0,1fr)!important;
+  }
+  .workspace-footer.ego-mode:not(.ego-detail-mode) [data-clear-all-egos]{
+    grid-column:1!important;
+    width:100%!important;
+  }
+  .workspace-footer.ego-mode .workspace-main-actions{
+    grid-column:1 / -1!important;
+    grid-row:2!important;
+    display:grid!important;
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    gap:8px!important;
+    width:100%!important;
+  }
+  .workspace-footer.ego-detail-mode .ego-confirm-button{
+    grid-column:1 / -1!important;
+    grid-row:2!important;
+    width:100%!important;
+  }
+  .workspace-footer.ego-detail-mode .workspace-main-actions{
+    grid-row:3!important;
+  }
+  .workspace-footer.ego-mode .button{
+    width:100%!important;
+    min-width:0!important;
+    min-height:46px!important;
+    padding:10px 8px!important;
+    font-size:13px!important;
+    line-height:1.35!important;
+    writing-mode:horizontal-tb!important;
+    white-space:normal!important;
+    word-break:keep-all!important;
+    overflow-wrap:anywhere!important;
+  }
+  .post-workspace:has(.workspace-footer.ego-mode) .post-stage{
+    padding-bottom:150px!important;
+  }
+  .post-workspace:has(.workspace-footer.ego-detail-mode) .post-stage{
+    padding-bottom:210px!important;
+  }
+}
 @media(max-width:420px){.account-admin-stat-grid{grid-template-columns:1fr}.account-admin-stat{border-right:0!important;border-bottom:1px solid var(--line)}.account-admin-stat:last-child{border-bottom:0}}
 /* v1.0.37 hotfix: keep recommendation cards readable on phones */
 @media(max-width:720px){
