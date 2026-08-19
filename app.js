@@ -16,7 +16,7 @@ const categoryIconMarkup=(category,className='category-image-icon')=>category?.i
 const searchOptions={
   keyword:keywordDefinitions.filter(item=>item.name!=='ソロ').map(item=>item.name),
   type:['安定周回','速攻周回','高難易度向け','縛り・テーマ攻略','ネタ・ロマン','ソロ','安定攻略','速攻攻略','低レア攻略'],
-  strategy:['オート対応','半オート','手動推奨','初心者向け','中級者向け','上級者向け','安定重視','高速周回','自由枠あり','人格固定','運要素あり','E.G.O依存','ギフト依存'],
+  strategy:['斬撃','貫通','打撃','憤怒','色欲','怠惰','暴食','憂鬱','傲慢','嫉妬','オート対応','半オート','手動推奨','初心者向け','中級者向け','上級者向け','安定重視','高速周回','自由枠あり','人格固定','運要素あり','E.G.O依存','ギフト依存'],
   difficulty:['ノーマル','ハード'],
   affiliation:['リンバス・カンパニー','ロボトミー本社','H社','N社','R社','T社','W社','ツヴァイ','シ','センク','リウ','セブン','チェーヴィチ','ディエーチ','ウーフィ','剣契','黒雲会','技術解放連合','ワザリング・ハイツ','ピークォド号','血鬼','黒獣','指','親指','人差し指','中指','薬指','小指','蜘蛛の巣','LCE','E.G.O装備','捨てる']
 };
@@ -217,7 +217,7 @@ const themePackController=window.LimbusThemePackController.create({data:themePac
 const closeThemePackSelect=options=>themePackController.close(options);
 const renderThemeFloorCards=()=>themePackController.renderFloors();
 postStepController=window.LimbusPostStepController.create({state:postState,stepInfo,identityData:sinnerIdentityData,onCloseEgo:closeEgoSelect,onCloseTheme:closeThemePackSelect,onRenderIdentities:renderIdentitySinnerRoster,onOpenIdentity:openIdentitySelect,onRenderFormation:renderFormationOrder,onRenderEgos:renderEgoSinners,onRenderThemes:renderThemeFloorCards,onRenderDetails:renderDetailTags,onRenderReview:updateReview,onEnterIdentity:()=>formationCodeController?.offer(),onIdentityFooterUpdate:updateIdentityFooterState,onEgoFooterUpdate:updateEgoConfirmState,onResetScroll:resetStageScroll});
-const postTagsController=window.LimbusPostTagsController.create({state:postState,strategyOptions:strategyTagOptions,affiliationOptions:affiliationTagOptions,automaticOptions:automaticKeywordOptions,manualOptions:manualKeywordOptions,strategyGrid:strategyTagGrid,affiliationGrid:affiliationTagGrid,automaticTags:automaticKeywordTags,ammoNote:ammoKeywordNote,strategyCount:strategyTagCount,affiliationCount:affiliationTagCount,getOrderedSinners:orderedSelectedSinners,getFormationPosition:formationPosition,isSolo:isSoloPost,showToast});
+const postTagsController=window.LimbusPostTagsController.create({state:postState,strategyOptions:strategyTagOptions,getStrategyOptions:()=>{const extras=postState.category==='luxcavation'?(postState.stage==='経験値'?['斬撃','貫通','打撃']:postState.stage==='紐'?['憤怒','色欲','怠惰','暴食','憂鬱','傲慢','嫉妬']:[]):[];return [...extras,...strategyTagOptions.filter(tag=>!extras.includes(tag))];},affiliationOptions:affiliationTagOptions,automaticOptions:automaticKeywordOptions,manualOptions:manualKeywordOptions,strategyGrid:strategyTagGrid,affiliationGrid:affiliationTagGrid,automaticTags:automaticKeywordTags,ammoNote:ammoKeywordNote,strategyCount:strategyTagCount,affiliationCount:affiliationTagCount,getOrderedSinners:orderedSelectedSinners,getFormationPosition:formationPosition,isSolo:isSoloPost,showToast});
 function automaticPostKeywords(){return postTagsController.automaticKeywords();}
 function renderDetailTags(){postTagsController.render();}
 function reviewEscape(value){return String(value??'').replace(/[&<>'"]/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[char]));}
@@ -248,21 +248,21 @@ function updateIdentitySearchButtonState(){identityWorkspaceController.updateSea
 
 const railwayTypes=new Set(['安定攻略','速攻攻略','低レア攻略']);
 function updateRailwayStageDisplay(){
-  const eventMode=['mirror_railway','projection_combat'].includes(postState.category),label=postState.stage||'ステージ未選択';
+  const eventMode=['mirror_railway','projection_combat','luxcavation'].includes(postState.category),label=postState.stage||(postState.category==='luxcavation'?'採光種類未選択':'ステージ未選択');
   $$('[data-railway-stage]').forEach(button=>{button.hidden=eventMode?button.dataset.stageCategory!==postState.category:false;button.classList.toggle('active',button.dataset.railwayStage===postState.stage);});
   const error=$('[data-railway-stage-error]');if(error)error.hidden=Boolean(postState.stage);
-  if(eventMode){$$('[data-difficulty-badge]').forEach(node=>{node.textContent=label;node.classList.toggle('is-unset',!postState.stage);node.dataset.difficulty='';});const preview=$('[data-type-preview-difficulty]');if(preview){preview.textContent=postState.stage?`${postState.stage}攻略`:'ステージを選択してください';preview.dataset.difficulty='';}}
+  if(eventMode){$$('[data-difficulty-badge]').forEach(node=>{node.textContent=label;node.classList.toggle('is-unset',!postState.stage);node.dataset.difficulty='';});const preview=$('[data-type-preview-difficulty]');if(preview){preview.textContent=postState.stage?`${postState.stage}攻略`:(postState.category==='luxcavation'?'採光種類を選択してください':'ステージを選択してください');preview.dataset.difficulty='';}}
 }
 function applyCategoryEditorMode(){
-  const eventMode=['mirror_railway','projection_combat'].includes(postState.category);
+  const eventMode=['mirror_railway','projection_combat','luxcavation'].includes(postState.category);
   const difficulty=$('[data-difficulty-mode]'),stage=$('[data-railway-stage-selector]'),themeLink=$('[data-theme-pack-step-link]'),themeReview=$('[data-review-theme-pack-section]');
-  if(difficulty)difficulty.hidden=eventMode;if(stage){stage.hidden=!eventMode;stage.classList.toggle('is-projection',postState.category==='projection_combat');}if(themeLink)themeLink.hidden=eventMode;if(themeReview)themeReview.hidden=eventMode;
+  if(difficulty)difficulty.hidden=eventMode;if(stage){stage.hidden=!eventMode;stage.classList.toggle('is-compact',eventMode&&postState.category!=='mirror_railway');}if(themeLink)themeLink.hidden=eventMode;if(themeReview)themeReview.hidden=eventMode;
   $$('[data-post-type]').forEach(button=>{button.hidden=eventMode?!railwayTypes.has(button.dataset.postType):railwayTypes.has(button.dataset.postType);});
   if(eventMode){postState.difficulty=null;postState.themePacks.clear();if(postState.type&&!railwayTypes.has(postState.type))postState.type=null;}else{postState.stage=null;if(railwayTypes.has(postState.type))postState.type=null;}
-  stepInfo[1][1]=eventMode?'ステージと攻略タイプを選択':'攻略タイプを選択';stepInfo[1][2]=eventMode?'攻略するステージと攻略方針を選んでください。':'この攻略がどんなプレイヤー向けか選んでください。';
-  const step1=$('[data-step-link="1"]'),step6=$('[data-step-link="6"]'),step7=$('[data-step-link="7"]');if(step1){step1.querySelector('strong').textContent=eventMode?'ステージ・攻略タイプ':'攻略タイプ';step1.querySelector('small').textContent=eventMode?'ステージと攻略方針を選択':'投稿の目的を選択';}if(step6)step6.querySelector('span').textContent=eventMode?'05':'06';if(step7)step7.querySelector('span').textContent=eventMode?'06':'07';
+  const lux=postState.category==='luxcavation';stepInfo[1][1]=lux?'採光種類と攻略タイプを選択':eventMode?'ステージと攻略タイプを選択':'攻略タイプを選択';stepInfo[1][2]=lux?'採光の種類と攻略方針を選んでください。':eventMode?'攻略するステージと攻略方針を選んでください。':'この攻略がどんなプレイヤー向けか選んでください。';
+  const step1=$('[data-step-link="1"]'),step6=$('[data-step-link="6"]'),step7=$('[data-step-link="7"]');if(step1){step1.querySelector('strong').textContent=lux?'採光種類・攻略タイプ':eventMode?'ステージ・攻略タイプ':'攻略タイプ';step1.querySelector('small').textContent=lux?'種類と攻略方針を選択':eventMode?'ステージと攻略方針を選択':'投稿の目的を選択';}if(step6)step6.querySelector('span').textContent=eventMode?'05':'06';if(step7)step7.querySelector('span').textContent=eventMode?'06':'07';
   const guide=$('[data-editor-step-guide]');if(guide)guide.textContent=`必須項目を満たしながら、${eventMode?6:7}つの手順で攻略情報をまとめます。`;
-  const stageTitle=$('[data-stage-selector-title]');if(stageTitle)stageTitle.textContent=postState.category==='projection_combat'?'射影戦闘のステージ':'鏡屈折鉄道のステージ';
+  const stageTitle=$('[data-stage-selector-title]'),stageCopy=$('[data-stage-selector-copy]');if(stageTitle)stageTitle.textContent=lux?'採光種類を選択':postState.category==='projection_combat'?'射影戦闘のステージ':'鏡屈折鉄道のステージ';if(stageCopy)stageCopy.textContent=lux?'攻略する採光の種類を選択してください。':'攻略対象のステージを選択してください。';
   const manualLabel=$('[data-keyword-mode-label]'),manualStatus=$('[data-keyword-mode-status]'),manualCopy=$('[data-keyword-mode-copy]'),gift=$('[data-required-gift-field]');if(manualLabel)manualLabel.textContent=eventMode?'（手動選択・最大5個まで）':'（自動付与）';if(manualStatus)manualStatus.textContent=eventMode?'攻略内容に合わせて選択':'編成人格から判定';if(manualCopy)manualCopy.textContent=eventMode?'攻略で扱うキーワードを選択してください。':'同じ主要キーワードを持つ人格が5人以上いる場合に自動で付きます。';if(gift)gift.hidden=eventMode;
   if(!postState.type){$$('[data-type-badge]').forEach(node=>{node.textContent='攻略タイプ未選択';node.classList.add('is-unset');});$('[data-type-preview]').textContent='攻略タイプ未選択';$('[data-type-copy]').textContent='攻略タイプを選択してください。';const icon=$('[data-type-preview-icon]');if(icon){icon.classList.remove('has-type-logo');icon.replaceChildren();icon.textContent='◇';}}
   updateRailwayStageDisplay();
@@ -274,7 +274,7 @@ const updatePostCategoryDisplays=()=>postCategoryController.updateDisplays();
 $$('[data-step-link]').forEach(b=>b.onclick=()=>navigateToStep(+b.dataset.stepLink));
 const postBasicsController=window.LimbusPostBasicsController.create({state:postState,titleInput:postTitle,typeButtons:$$('[data-post-type]'),difficultyButtons:$$('[data-post-difficulty]'),typePreview:$('[data-type-preview]'),typeCopy:$('[data-type-copy]'),typePreviewIcon:$('[data-type-preview-icon]'),typePreviewDifficulty:$('[data-type-preview-difficulty]'),difficultyError:$('[data-difficulty-error]'),difficultyBadges:$$('[data-difficulty-badge]'),typeBadges:$$('[data-type-badge]'),workspaceTitlebar:$('[data-workspace-titlebar]'),syncTitle,validateBasics:()=>stepValidation(1),clearValidation:clearStepValidation,isSolo:isSoloPost,onDifficultyChanged:()=>closeThemePackSelect({scroll:false}),onTypeChanged:()=>{renderFormationOrder();renderEgoSinners();renderDetailTags();}});
 postBasicsController.bind();
-$$('[data-railway-stage]').forEach(button=>button.addEventListener('click',()=>{postState.stage=button.dataset.railwayStage;clearStepValidation(1);updateRailwayStageDisplay();}));
+$$('[data-railway-stage]').forEach(button=>button.addEventListener('click',()=>{if(postState.category==='luxcavation'&&postState.stage!==button.dataset.railwayStage){['斬撃','貫通','打撃','憤怒','色欲','怠惰','暴食','憂鬱','傲慢','嫉妬'].forEach(tag=>postState.strategyTags.delete(tag));}postState.stage=button.dataset.railwayStage;clearStepValidation(1);updateRailwayStageDisplay();renderDetailTags();}));
 const updateDifficultyDisplay=()=>postBasicsController.updateDifficulty();
 function updatePostSummaryCount(){if(postSummaryCount)postSummaryCount.textContent=String(postSummary?.value.length||0);}
 if(postSummary){postSummary.addEventListener('input',()=>{updatePostSummaryCount();if(postSummary.value.trim())clearStepValidation(6);});updatePostSummaryCount();}

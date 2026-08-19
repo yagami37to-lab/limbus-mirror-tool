@@ -30,8 +30,8 @@ window.STRATEGY_CATEGORIES = Object.freeze([
     searchCopy: '射影戦闘攻略を検索'
   }),
   Object.freeze({
-    id: 'luxcavation', label: '採光', shortLabel: '採光', icon: '☀', available: false,
-    description: '経験値・紐採光の攻略や編成例を投稿します。', searchCopy: '※実装予定'
+    id: 'luxcavation', label: '採光', shortLabel: '採光', icon: '☀', available: true,
+    description: '経験値・紐採光の攻略や編成例を投稿します。', searchCopy: '採光攻略を検索'
   }),
   Object.freeze({
     id: 'story', label: 'ストーリー', shortLabel: 'ストーリー', icon: '▤',
