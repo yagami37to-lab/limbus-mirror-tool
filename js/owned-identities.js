@@ -1,13 +1,15 @@
 (()=>{
   'use strict';
-  const STORAGE_KEY='limbus-owned-identities-v1';
+  const IDENTITY_STORAGE_KEY='limbus-owned-identities-v1',EGO_STORAGE_KEY='limbus-owned-egos-v1';
   const esc=value=>String(value??'').replace(/[&<>'"]/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[char]));
   const normalize=value=>window.LimbusIdentityImages?.normalize?.(String(value??''))||String(value??'').trim();
   const key=(sinner,identity)=>`${String(sinner??'').trim()}｜${normalize(identity)}`;
-  function read(){try{const value=JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]');return new Set(Array.isArray(value)?value:[])}catch{return new Set()}}
-  function write(values){localStorage.setItem(STORAGE_KEY,JSON.stringify([...values].sort()));window.dispatchEvent(new CustomEvent('limbus-owned-identities-changed'));}
+  const egoKey=(sinnerId,rank,name)=>`${String(sinnerId).padStart(2,'0')}｜${String(rank).toUpperCase()}｜${String(name).trim()}`;
+  function readStore(storageKey){try{const value=JSON.parse(localStorage.getItem(storageKey)||'[]');return new Set(Array.isArray(value)?value:[])}catch{return new Set()}}
+  function writeStore(storageKey,values){localStorage.setItem(storageKey,JSON.stringify([...values].sort()));window.dispatchEvent(new CustomEvent('limbus-owned-identities-changed'));}
+  const read=()=>readStore(IDENTITY_STORAGE_KEY),write=values=>writeStore(IDENTITY_STORAGE_KEY,values),readEgos=()=>readStore(EGO_STORAGE_KEY),writeEgos=values=>writeStore(EGO_STORAGE_KEY,values);
   function rateForParty(party){
-    const required=(Array.isArray(party)?party:[]).filter(item=>!item?.is_free&&!item?.isFreeSlot&&normalize(item?.identity)&&normalize(item?.identity)!=='自由枠（誰でも可）');
+    const required=(Array.isArray(party)?party:[]).filter(item=>!item?.is_free&&!item?.isFreeSlot&&normalize(item?.identity)&&normalize(item?.identity)!=='自由枠（誰でも可）'&&normalize(item?.identity)!=='LCB囚人');
     if(!required.length)return 100;
     const owned=read();return Math.round(required.filter(item=>owned.has(key(item.sinner,item.identity))).length/required.length*100);
   }
@@ -17,21 +19,24 @@
     let badge=label.querySelector('.post-owned-rate');if(!badge){badge=document.createElement('span');badge.className='post-owned-rate';label.appendChild(badge)}
     badge.textContent=`所持率 ${rate}%`;badge.dataset.rate=String(rate);badge.dataset.level=rate>=80?'high':rate>=50?'mid':'low';
   }
-  function createSettingsRoot(){
-    if(document.body.dataset.accountPage!=='settings')return null;
-    const root=document.createElement('section');root.className='account-card owned-identity-settings';root.dataset.accountContent='';root.dataset.ownedIdentitySettings='';root.hidden=true;
-    root.innerHTML='<div class="owned-identity-heading"><div><p class="account-kicker">OWNED IDENTITIES</p><h2 class="account-section-title">所持人格設定</h2><p>所持している人格を登録すると、攻略投稿に編成の所持率を表示できます。</p></div><strong data-owned-identity-summary>0人格を所持</strong></div><div class="owned-identity-tools"><input type="search" data-owned-identity-search placeholder="囚人名・人格名で絞り込み"><button class="account-secondary" type="button" data-owned-all>すべて所持</button><button class="account-secondary account-danger" type="button" data-owned-clear>すべて解除</button></div><div class="owned-identity-grid" data-owned-identity-grid></div>';
-    document.querySelector('.account-main')?.appendChild(root);return root;
-  }
   async function setupSettings(){
-    const root=document.querySelector('[data-owned-identity-settings]')||createSettingsRoot();if(!root)return;
-    const grid=root.querySelector('[data-owned-identity-grid]'),search=root.querySelector('[data-owned-identity-search]'),summary=root.querySelector('[data-owned-identity-summary]');let data=[];
-    try{const response=await fetch('data/identities.json?v=1.1.44');if(!response.ok)throw new Error('identities');data=await response.json()}catch{root.innerHTML='<p class="account-notice" data-state="error">人格データを読み込めませんでした。</p>';return}
-    const all=data.flatMap(sinner=>sinner.identities.map(identity=>({sinner:sinner.name,name:identity.name,image:window.LimbusIdentityImages?.forIdentity?.(sinner.name,identity.name)||'',key:key(sinner.name,identity.name)})));
-    let owned=read();const updateSummary=()=>{summary.textContent=`${owned.size} / ${all.length} 人格を所持`};
-    const render=()=>{const term=search.value.trim().toLowerCase();grid.innerHTML=all.filter(item=>`${item.sinner} ${item.name}`.toLowerCase().includes(term)).map(item=>`<label class="owned-identity-item${owned.has(item.key)?' is-owned':''}">${item.image?`<img class="owned-identity-image" src="${esc(item.image)}" alt="" loading="lazy">`:''}<span class="owned-identity-overlay" aria-hidden="true"></span><input type="checkbox" value="${esc(item.key)}" ${owned.has(item.key)?'checked':''}><span class="owned-identity-copy"><small>${esc(item.sinner)}</small><b>${esc(item.name)}</b></span></label>`).join('');grid.querySelectorAll('input').forEach(input=>input.addEventListener('change',()=>{if(input.checked)owned.add(input.value);else owned.delete(input.value);write(owned);input.closest('.owned-identity-item').classList.toggle('is-owned',input.checked);updateSummary()}));updateSummary()};
-    search.addEventListener('input',render);root.querySelector('[data-owned-all]').addEventListener('click',()=>{owned=new Set(all.map(item=>item.key));write(owned);render()});root.querySelector('[data-owned-clear]').addEventListener('click',()=>{if(!confirm('所持人格の設定をすべて解除しますか？'))return;owned=new Set();write(owned);render()});render();
+    const root=document.querySelector('[data-owned-identity-settings]');if(!root)return;
+    const grid=root.querySelector('[data-owned-identity-grid]'),search=root.querySelector('[data-owned-identity-search]'),summary=root.querySelector('[data-owned-identity-summary]');
+    let identityData=[],egoData={};
+    try{const responses=await Promise.all([fetch('data/identities.json?v=1.1.47'),fetch('data/egos.json?v=1.1.47')]);if(responses.some(response=>!response.ok))throw new Error('owned-data');[identityData,egoData]=await Promise.all(responses.map(response=>response.json()));}catch{root.innerHTML='<p class="account-notice" data-state="error">人格・E.G.Oデータを読み込めませんでした。</p>';return}
+    const identities=identityData.flatMap(sinner=>sinner.identities.filter(identity=>normalize(identity.name)!=='LCB囚人').map(identity=>({type:'identity',sinnerId:sinner.id,sinner:sinner.name,name:identity.name,meta:identity.rarity||'人格',image:window.LimbusIdentityImages?.forIdentity?.(sinner.name,identity.name)||'',key:key(sinner.name,identity.name)})));
+    const egos=identityData.flatMap(sinner=>(egoData[String(Number(sinner.id))]||egoData[sinner.id]||[]).map(([name,rank])=>({type:'ego',sinnerId:sinner.id,sinner:sinner.name,name,meta:String(rank).toUpperCase(),image:window.LimbusEgoImages?.forEgo?.(sinner.id,name,egoData)||'',key:egoKey(sinner.id,rank,name)})));
+    let mode='identity',activeSinner=identityData[0]?.id||'',owned=read(),ownedEgos=readEgos();
+    const legacyLcbKeys=[...owned].filter(value=>String(value).endsWith('｜LCB囚人'));if(legacyLcbKeys.length){legacyLcbKeys.forEach(value=>owned.delete(value));write(owned)}
+    const modeTabs=root.querySelector('[data-owned-mode-tabs]'),sinnerTabs=root.querySelector('[data-owned-sinner-tabs]');
+    const currentItems=()=>mode==='identity'?identities:egos,currentOwned=()=>mode==='identity'?owned:ownedEgos,save=()=>mode==='identity'?write(owned):writeEgos(ownedEgos);
+    const updateSummary=()=>{summary.textContent=`人格 ${owned.size} / ${identities.length}・E.G.O ${ownedEgos.size} / ${egos.length}`};
+    const renderSinners=()=>{sinnerTabs.innerHTML=identityData.map(sinner=>`<button type="button" class="owned-sinner-tab${sinner.id===activeSinner?' active':''}" data-sinner-id="${esc(sinner.id)}"><small>${esc(sinner.id)}</small><strong>${esc(sinner.name)}</strong></button>`).join('');sinnerTabs.querySelectorAll('button').forEach(button=>button.onclick=()=>{activeSinner=button.dataset.sinnerId;renderSinners();render()})};
+    const render=()=>{const term=search.value.trim().toLowerCase(),set=currentOwned(),items=currentItems().filter(item=>item.sinnerId===activeSinner&&`${item.sinner} ${item.name}`.toLowerCase().includes(term));grid.innerHTML=items.map(item=>`<label class="owned-identity-item owned-${item.type}-item${set.has(item.key)?' is-owned':''}" data-rank="${esc(item.meta)}">${item.image?`<img class="owned-identity-image" src="${esc(item.image)}" alt="" loading="lazy">`:''}<span class="owned-identity-overlay" aria-hidden="true"></span><input type="checkbox" value="${esc(item.key)}" ${set.has(item.key)?'checked':''}><span class="owned-identity-copy"><small>${esc(item.meta)}</small><b>${esc(item.name)}</b></span></label>`).join('')||'<p class="owned-empty">該当する項目はありません。</p>';grid.querySelectorAll('input').forEach(input=>input.addEventListener('change',()=>{if(input.checked)set.add(input.value);else set.delete(input.value);save();input.closest('.owned-identity-item').classList.toggle('is-owned',input.checked);updateSummary()}));updateSummary()};
+    modeTabs.querySelectorAll('button').forEach(button=>button.onclick=()=>{mode=button.dataset.ownedMode;modeTabs.querySelectorAll('button').forEach(tab=>tab.classList.toggle('active',tab===button));search.placeholder=mode==='identity'?'人格名で絞り込み':'E.G.O名で絞り込み';render()});
+    search.addEventListener('input',render);root.querySelector('[data-owned-all]').addEventListener('click',()=>{const set=currentOwned();currentItems().filter(item=>item.sinnerId===activeSinner).forEach(item=>set.add(item.key));save();render()});root.querySelector('[data-owned-clear]').addEventListener('click',()=>{const label=mode==='identity'?'人格':'E.G.O';if(!confirm(`表示中の囚人の所持${label}をすべて解除しますか？`))return;const set=currentOwned();currentItems().filter(item=>item.sinnerId===activeSinner).forEach(item=>set.delete(item.key));save();render()});
+    renderSinners();render();
   }
-  window.LimbusOwnedIdentities={read,write,key,rateForParty,applyCard};
+  window.LimbusOwnedIdentities={read,write,readEgos,writeEgos,key,egoKey,rateForParty,applyCard};
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',setupSettings);else setupSettings();
 })();
