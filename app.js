@@ -210,12 +210,14 @@ const stepValidation=step=>postValidationController.check(step);
 const validationFlowController=window.LimbusPostValidationFlowController.create({state:postState,validationController:postValidationController,identityData:sinnerIdentityData,titleInput:postTitle,summaryInput:postSummary,formationGrid:formationChoiceGrid,renderIdentityRoster:renderIdentitySinnerRoster,openIdentity:openIdentitySelect,setStep:step=>setStep(step),showToast});
 function validateRequiredStep(step,options){return validationFlowController.validateStep(step,options);}
 function validateAllRequiredSteps(){return validationFlowController.validateAll();}
+function clearDetailValidation(){document.querySelector('[data-detail-step-link]')?.classList.remove('validation-error');document.querySelector('[data-post-step="6"]')?.classList.remove('validation-error');}
+function validateProjectionDetails(){const valid=Boolean(postSummary?.value.trim());document.querySelector('[data-detail-step-link]')?.classList.toggle('validation-error',!valid);document.querySelector('[data-post-step="6"]')?.classList.toggle('validation-error',!valid);if(!valid){window.alert('一言紹介が入力されていません。');requestAnimationFrame(()=>postSummary?.focus());}return valid;}
 function navigateToStep(target){
   if(postState.category!=='projection_combat')return validationFlowController.navigate(target);
   const max=postState.secondaryPartyEnabled?9:6;target=Math.max(1,Math.min(max,target));if(target<=postState.step){setStep(target);return true;}
   const required=[];if(postState.step<2&&target>=2)required.push([1,1]);if(postState.step<3&&target>=3)required.push([2,2]);if(postState.step<4&&target>=4)required.push([3,3]);
   for(const [logical,physical] of required){if(!validateRequiredStep(physical)){setStep(logical);return false;}}
-  if(target===(postState.secondaryPartyEnabled?9:6)&&!stepValidation(6).valid){setStep(postState.secondaryPartyEnabled?8:5);window.alert('一言紹介が入力されていません。');requestAnimationFrame(()=>postSummary?.focus());return false;}
+  if(target===(postState.secondaryPartyEnabled?9:6)&&!validateProjectionDetails()){setStep(postState.secondaryPartyEnabled?8:5);return false;}
   setStep(target);return true;
 }
 let postStepController;
@@ -293,7 +295,7 @@ postBasicsController.bind();
 $$('[data-railway-stage]').forEach(button=>button.addEventListener('click',()=>{if(postState.category==='luxcavation'&&postState.stage!==button.dataset.railwayStage){['斬撃','貫通','打撃','全属性','憤怒','色欲','怠惰','暴食','憂鬱','傲慢','嫉妬'].forEach(tag=>postState.strategyTags.delete(tag));}postState.stage=button.dataset.railwayStage;clearStepValidation(1);updateRailwayStageDisplay();renderDetailTags();}));
 const updateDifficultyDisplay=()=>postBasicsController.updateDifficulty();
 function updatePostSummaryCount(){if(postSummaryCount)postSummaryCount.textContent=String(postSummary?.value.length||0);}
-if(postSummary){postSummary.addEventListener('input',()=>{updatePostSummaryCount();if(postSummary.value.trim())clearStepValidation(6);});updatePostSummaryCount();}
+if(postSummary){postSummary.addEventListener('input',()=>{updatePostSummaryCount();if(postSummary.value.trim()){clearStepValidation(6);clearDetailValidation();}});updatePostSummaryCount();}
 const goBackInWorkspace=()=>{const physical=postState.category==='projection_combat'&&postState.secondaryPartyEnabled&&postState.step>=5&&postState.step<=7?postState.step-3:postState.step;if(physical===4&&postState.activeEgoSinner)return closeEgoSelect();if(physical===5&&postState.activeThemePackFloor)return closeThemePackSelect();setStep(postState.step-1);};$('[data-prev-step]').onclick=goBackInWorkspace;if(mobilePrevStep)mobilePrevStep.onclick=goBackInWorkspace;
 const postPayloadController=window.LimbusPostPayloadController.create({state:postState,identityData:sinnerIdentityData,getAlternativeNames:alternativeNamesFor,getOrderedSinners:orderedSelectedSinners,getFormationPosition:formationPosition,getAutomaticKeywords:automaticPostKeywords,getSeason:()=>Number(siteConfig.currentSeason)||7});
 const buildPostPayload=()=>postPayloadController.build();
@@ -329,7 +331,7 @@ const postEditorResetController=window.LimbusPostEditorResetController.create({s
 const resetPostEditorState=()=>postEditorResetController.reset();
 window.LimbusPostCloseController.create({confirmDialog:postCloseConfirm,editorDialog:postModal,closeButtons:$$('[data-close-post]'),cancelButton:$('[data-cancel-close-post]'),discardButton:$('[data-discard-and-close-post]'),saveButton:$('[data-save-and-close-post]'),openDialog,closeDialog,unlockPageScroll,saveDraft:()=>draftController.createDraft(),resetEditor:resetPostEditorState,showToast});
 
-const postAdvanceController=window.LimbusPostAdvanceController.create({state:postState,identityCount:sinnerIdentityData.length,closeEgoSelect,closeThemePackSelect,publish:()=>savePostToSupabase('published'),confirmFillEmpty:missingCount=>window.confirm(`未設定の人格枠が${missingCount}件あります。空いている枠を自由枠に設定して次へ進みますか？`),fillEmpty:()=>identitySelectionController.fillEmpty(),afterFillEmpty:missingCount=>{clearStepValidation(2);renderIdentitySinnerRoster();renderIdentityOptions();updatePostIdentityCount();showToast(`空いている${missingCount}枠を自由枠に設定しました。`);},validateStep:validateRequiredStep,setStep,confirmSecondary:()=>window.confirm('後半パーティの設定をしますか？'),onSecondaryChanged:()=>applyCategoryEditorMode()});
+const postAdvanceController=window.LimbusPostAdvanceController.create({state:postState,identityCount:sinnerIdentityData.length,closeEgoSelect,closeThemePackSelect,publish:()=>savePostToSupabase('published'),confirmFillEmpty:missingCount=>window.confirm(`未設定の人格枠が${missingCount}件あります。空いている枠を自由枠に設定して次へ進みますか？`),fillEmpty:()=>identitySelectionController.fillEmpty(),afterFillEmpty:missingCount=>{clearStepValidation(2);renderIdentitySinnerRoster();renderIdentityOptions();updatePostIdentityCount();showToast(`空いている${missingCount}枠を自由枠に設定しました。`);},validateStep:validateRequiredStep,validateDetails:validateProjectionDetails,setStep,confirmSecondary:()=>window.confirm('後半パーティの設定をしますか？'),onSecondaryChanged:()=>applyCategoryEditorMode()});
 $('[data-next-step]').onclick=()=>postAdvanceController.advance();
 
 postState.activeSinner=sinnerIdentityData[0]?.id||null;updatePostCategoryDisplays();searchController.renderActiveFilters();renderIdentitySinnerRoster();updatePartyKeywordSummary();setStep(1);
