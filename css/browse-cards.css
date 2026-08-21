@@ -611,8 +611,15 @@ html[data-theme="dark"] .community-browser .like-stat::before {
 .browse-card-head-actions{display:flex;align-items:center;gap:8px;flex:0 0 auto}
 .post-owned-rate{margin-left:auto;padding:3px 7px;border:1px solid #8d98a5;border-radius:999px;background:#eef1f4;color:#4d5965;font-size:9px;font-weight:900;white-space:nowrap}.post-owned-rate[data-level="high"]{border-color:#3a9860;background:#e9f8ef;color:#17683a}.post-owned-rate[data-level="mid"]{border-color:#c8982f;background:#fff6da;color:#79570c}.post-owned-rate[data-level="low"]{border-color:#be6464;background:#fff0f0;color:#8d3030}html[data-theme="dark"] .post-owned-rate{background:#252c34}html[data-theme="dark"] .post-owned-rate[data-level="high"]{background:#173626;color:#8de0ad}html[data-theme="dark"] .post-owned-rate[data-level="mid"]{background:#3b3118;color:#efd27d}html[data-theme="dark"] .post-owned-rate[data-level="low"]{background:#3d2225;color:#f0a1a6}
 .browse-category-badge{display:inline-flex;align-items:center;min-height:25px;padding:4px 9px;border:1px solid #208c87;background:rgba(32,140,135,.10);color:#167570;font-size:11px;font-weight:800;white-space:nowrap}
+.browse-category-badge[data-category-id="mirror_dungeon"]{--card-category:#26b7ae;--card-category-rgb:38,183,174}
+.browse-category-badge[data-category-id="mirror_railway"]{--card-category:#3f8fe6;--card-category-rgb:63,143,230}
+.browse-category-badge[data-category-id="projection_combat"]{--card-category:#d83a38;--card-category-rgb:216,58,56}
+.browse-category-badge[data-category-id="luxcavation"]{--card-category:#e3ad2d;--card-category-rgb:227,173,45}
+.browse-category-badge[data-category-id="story"]{--card-category:#9b75d4;--card-category-rgb:155,117,212}
+.browse-category-badge[data-category-id]{border-color:var(--card-category);background:rgba(var(--card-category-rgb),.12);color:var(--card-category)}
 .post-season-badge{display:inline-flex;align-items:center;min-height:25px;padding:4px 8px;border:1px solid #a97818;background:#fff7df;color:#865c09;font-size:10px;font-weight:900;letter-spacing:.08em;white-space:nowrap}[data-theme="dark"] .post-season-badge{border-color:#d3a43d;background:#3c321d;color:#f1ca70}
 [data-theme="dark"] .browse-category-badge,[data-theme="dark"] .post-category-badge,[data-theme="dark"] .review-category{border-color:#42b8b2;background:rgba(20,137,130,.22);color:#73d4cf}
+[data-theme="dark"] .browse-category-badge[data-category-id]{border-color:var(--card-category);background:rgba(var(--card-category-rgb),.22);color:color-mix(in srgb,var(--card-category) 72%,white)}
 @media(max-width:520px){.browse-card-head-actions{gap:5px}.browse-category-badge{padding:3px 6px;font-size:9px}.post-card-rich .bookmark-button{flex:0 0 auto}}
 
 /* v0.9.01 閲覧画面の人格名ツールチップ・詳細モーダル */

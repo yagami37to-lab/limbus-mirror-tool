@@ -171,6 +171,7 @@ html[data-theme="dark"] .moderation-card,html[data-theme="dark"] .moderation-sum
 .legal-shell-header .legal-home-link{display:inline-flex;align-items:center;justify-content:center;white-space:nowrap}
 @media(max-width:760px){
   .legal-shell-header .account-header-actions .account-back-link{font-size:10px!important;overflow:visible!important}
+  .legal-shell-header .account-header-actions .account-back-link::after{content:none!important}
   .legal-shell-header .account-header-actions .page-back-button::after{content:none!important}
   .legal-shell-header .account-header-actions .page-back-button,
   .legal-shell-header .account-header-actions .legal-home-link{flex:0 1 auto;min-width:0;padding:7px 9px}

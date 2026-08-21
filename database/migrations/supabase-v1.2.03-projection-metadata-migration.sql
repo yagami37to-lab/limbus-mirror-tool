@@ -7,5 +7,5 @@ where category = 'projection_combat'
 update public.posts
 set content = jsonb_set(coalesce(content, '{}'::jsonb), '{achievementTurns}', '12'::jsonb, true)
 where category = 'projection_combat'
-  and title = '中指＋薬指ファウスト'
+  and title in ('中指＋薬指ファウスト', '中指+薬指ファウスト')
   and not (coalesce(content, '{}'::jsonb) ? 'achievementTurns');
