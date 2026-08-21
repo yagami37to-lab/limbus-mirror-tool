@@ -1032,6 +1032,11 @@ html[data-theme="dark"] .identity-alternative-chip.has-identity-image{
 .projection-achievement-input b{color:var(--gold)}
 html[data-theme="dark"] .projection-achievement-field,html[data-theme="dark"] .projection-achievement-input input{background:#15191e;border-color:#454b54;color:#f2eee6}
 .formation-import-open{flex:0 0 auto;min-height:42px;white-space:nowrap}
+.formation-import-inline{margin:0 0 24px;padding:18px;border:1px solid #d9b86f;border-left:5px solid #d59a1f;background:linear-gradient(135deg,rgba(213,154,31,.1),rgba(255,255,255,.72));box-shadow:0 8px 22px rgba(83,57,12,.07)}
+.formation-import-inline-copy{display:grid;grid-template-columns:auto 1fr;align-items:baseline;gap:5px 16px;margin-bottom:12px}.formation-import-inline-copy small{color:#b87900;font-weight:800;letter-spacing:.16em}.formation-import-inline-copy h3{margin:0;font-size:20px}.formation-import-inline-copy p{grid-column:1/-1;margin:0;color:var(--muted);font-size:13px;line-height:1.65}
+.formation-import-inline-controls{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:stretch}.formation-import-inline textarea{width:100%;min-height:74px;padding:11px 13px;resize:vertical;border:1px solid var(--line);background:var(--paper);color:var(--ink);font:13px/1.55 Consolas,"SFMono-Regular",monospace;word-break:break-all}.formation-import-inline .button{min-width:116px}
+html[data-theme="dark"] .formation-import-inline{border-color:#725c2c;border-left-color:#e0aa35;background:linear-gradient(135deg,rgba(224,170,53,.12),rgba(24,28,34,.82))}html[data-theme="dark"] .formation-import-inline textarea{background:#12161b;border-color:#4b515a;color:#f3efe8}
+@media(max-width:620px){.formation-import-inline{padding:14px}.formation-import-inline-copy{display:block}.formation-import-inline-copy h3{margin:4px 0}.formation-import-inline-controls{grid-template-columns:1fr}.formation-import-inline .button{min-height:46px}}
 .identity-select-header.game-style-header{grid-template-columns:minmax(0,1fr) auto minmax(220px,auto)}
 .formation-code-section{display:grid;gap:14px}
 .formation-code-section textarea,.formation-import-shell textarea{width:100%;max-width:100%;resize:vertical;border:1px solid var(--line);background:var(--paper2);color:var(--ink);font:12px/1.65 Consolas,"SFMono-Regular",monospace;overflow-wrap:anywhere;word-break:break-all}

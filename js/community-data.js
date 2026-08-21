@@ -44,11 +44,11 @@
     return await Promise.all((data || []).map(normalizePostThemePacks));
   }
 
-  function authorMarkup(profile, compact=false){
-    const name=profile?.display_name||'投稿者';
-    const avatar=profile?.avatar_url||'logo-mark.svg';
+  function authorMarkup(profile, compact=false, anonymous=false){
+    const name=anonymous?'匿名投稿者':(profile?.display_name||'投稿者');
+    const avatar=anonymous?'logo-mark.svg':(profile?.avatar_url||'logo-mark.svg');
     const href=profile?.id ? `profile.html?id=${encodeURIComponent(profile.id)}` : '#';
-    const adminBadge=profile?.role==='admin'?'<span class="admin-badge" title="サイト管理者">🛡️ 管理者</span>':'';
+    const adminBadge=!anonymous&&profile?.role==='admin'?'<span class="admin-badge" title="サイト管理者">🛡️ 管理者</span>':'';
     return `<a class="post-author${compact?' is-compact':''}" href="${href}" ${href==='#'?'aria-disabled="true"':''}><img src="${esc(avatar)}" alt="" referrerpolicy="no-referrer"><span><small>投稿者</small><span class="post-author-name-row"><strong>${esc(name)}</strong>${adminBadge}</span></span></a>`;
   }
 

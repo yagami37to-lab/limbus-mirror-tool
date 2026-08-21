@@ -18,7 +18,8 @@
     grid.innerHTML='';
     for(const p of posts){
       const c=p.content||{};
-      const profile=await api.getProfile(p.author_id);
+      const actualProfile=await api.getProfile(p.author_id);
+      const profile=c.anonymousPosting?{...actualProfile,display_name:'匿名投稿者',avatar_url:'logo-mark.svg',role:'user'}:actualProfile;
       const keywords=Array.isArray(c.keywords)?c.keywords:[];
       const tags=Array.isArray(c.tags)?c.tags:[];
       const affiliations=Array.isArray(c.affiliations)?c.affiliations:[];

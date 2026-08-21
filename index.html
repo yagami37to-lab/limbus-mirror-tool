@@ -7,7 +7,7 @@
 <meta content="Limbus Companyの鏡ダンジョン・鏡屈折鉄道などの攻略を投稿・共有できる非公式攻略サイトです。" name="description"/>
 <title>Limbus Company 攻略投稿サイト（非公式）</title>
 <link href="logo-mark.svg" rel="icon" type="image/svg+xml"/>
-<link href="styles.css?v=1.2.04" rel="stylesheet"/>
+<link href="styles.css?v=1.2.05" rel="stylesheet"/>
 <link href="css/browse-cards.css?v=1.2.04" rel="stylesheet"/>
 
 <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -16,7 +16,7 @@
 <script defer src="js/theme-pack-names.js?v=1.1.37"></script>
 <script defer src="js/theme-pack-images.js?v=1.1.37"></script>
 <script defer src="js/formation-code-controller.js?v=1.1.50"></script>
-<script defer src="js/community-data.js?v=1.1.37"></script>
+<script defer src="js/community-data.js?v=1.2.05"></script>
 <script defer src="js/categories.js?v=1.1.69"></script>
 <script defer src="js/identity-images.js?v=1.1.23"></script>
 <script defer src="js/owned-identities.js?v=1.1.65"></script>
@@ -32,7 +32,7 @@
 <script defer src="js/identity-view-controller.js?v=1.0.99"></script>
 <script defer src="js/identity-card-controller.js?v=1.0.99"></script>
 <script defer src="js/formation-controller.js?v=1.0.102"></script>
-<script defer src="js/post-payload-controller.js?v=1.2.03"></script>
+<script defer src="js/post-payload-controller.js?v=1.2.05"></script>
 <script defer src="js/post-persistence-controller.js?v=1.1.07"></script>
 <script defer src="js/post-review-controller.js?v=1.2.03"></script>
 <script defer src="js/post-validation-controller.js?v=1.1.66"></script>
@@ -48,9 +48,9 @@
 <script defer src="js/identity-workspace-controller.js?v=1.1.67"></script>
 <script defer src="js/post-validation-flow-controller.js?v=1.1.55"></script>
 <script defer src="js/site-ui-controller.js?v=1.1.34"></script>
-<script defer src="app.js?v=1.2.03"></script>
+<script defer src="app.js?v=1.2.05"></script>
 <script defer src="js/browse-cards.js?v=1.1.04"></script>
-<script defer src="js/community-browse.js?v=1.2.04"></script>
+<script defer src="js/community-browse.js?v=1.2.05"></script>
 <script defer src="js/public-alpha.js?v=1.2.02"></script>
 </head>
 <body id="top">
@@ -268,7 +268,7 @@
 </div>
 <div class="footer-meta">
 <span>© 非公式ファンサイト</span>
-<span>Version 1.2.04 β</span>
+<span>Version 1.2.05 β</span>
 <time datetime="2026-08-19" data-site-last-updated>Last Updated: 2026.08.19</time>
 </div>
 </footer>
@@ -435,6 +435,11 @@
 </section>
 <section class="post-step" data-post-step="2">
 <div class="identity-select-view game-style-identity-select" data-identity-select-view="">
+<section class="formation-import-inline" aria-labelledby="formation-import-inline-title">
+<div class="formation-import-inline-copy"><small>FORMATION CODE IMPORT</small><h3 id="formation-import-inline-title">編成コードから読み込む</h3><p>ゲームで発行したコードを貼り付けると、人格・E.G.O・編成順をまとめて反映できます。</p></div>
+<div class="formation-import-inline-controls"><textarea data-formation-code-input rows="3" spellcheck="false" autocomplete="off" placeholder="H4sIAAAAA..." aria-label="編成コード"></textarea><button class="button button-primary" data-import-formation-code type="button">読み込む</button></div>
+<p class="formation-code-error" data-formation-code-error role="alert" hidden></p>
+</section>
 <div class="identity-roster-heading">
 <div>
 <small>SELECT SINNER</small>
@@ -445,7 +450,7 @@
 </div>
 <div aria-label="人格を選択する囚人" class="identity-sinner-roster" data-identity-sinner-roster=""></div>
 <div class="identity-select-header game-style-header">
-<div><small>IDENTITY SELECT</small><h3>人格：<span data-current-sinner-name=""></span></h3></div><button class="button button-secondary formation-import-open" data-open-formation-import type="button">編成コードを読み込む</button>
+<div><small>IDENTITY SELECT</small><h3>人格：<span data-current-sinner-name=""></span></h3></div>
 <div class="current-selection"><small>現在選択中</small><strong data-current-identity-name="">未選択</strong></div>
 </div>
 <div aria-label="人格の絞り込み" class="identity-filter-panel" data-identity-filter-panel="" hidden="">
@@ -635,15 +640,6 @@
       <button class="button button-secondary post-close-discard" type="button" data-discard-and-close-post>保存せず閉じる</button>
       <button class="button button-secondary" type="button" data-cancel-close-post>編集を続ける</button>
     </div>
-  </div>
-</dialog>
-<dialog class="modal formation-import-dialog" data-formation-import-dialog>
-  <div class="modal-shell formation-import-shell">
-    <div class="modal-header"><div><small>FORMATION CODE IMPORT</small><h2>編成コードを入力して投稿しますか？</h2></div></div>
-    <p>ゲームで作成した編成コードから、人格・E.G.O・編成順を読み込めます。<strong class="formation-import-cancel-guide">キャンセル</strong>すると通常どおり手動で選択できます。</p>
-    <textarea data-formation-code-input rows="5" spellcheck="false" autocomplete="off" placeholder="H4sIAAAAA..."></textarea>
-    <p class="formation-code-error" data-formation-code-error role="alert" hidden></p>
-    <div class="formation-import-actions"><button class="button button-primary" data-import-formation-code type="button">読み込む</button><button class="button button-secondary" data-cancel-formation-import type="button">キャンセル</button></div>
   </div>
 </dialog>
 <dialog class="modal draft-manager-dialog" data-draft-manager>
