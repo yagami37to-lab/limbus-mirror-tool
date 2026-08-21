@@ -52,7 +52,7 @@ const searchController=window.LimbusSearchController.create({
 });
 
 // 投稿ワークスペース
-const postState={step:1,category:'mirror_dungeon',type:null,difficulty:null,stage:null,identities:new Map(),identityAlternatives:new Map(),identityOrder:[],egos:new Map(),freeSlotEgoEnabled:new Set(),themePacks:new Map(),activeThemePackFloor:null,strategyTags:new Set(),affiliationTags:new Set(),manualKeywords:new Set(),ammoKeywordSelected:false,activeSinner:null,activeEgoSinner:null,alternativeSelectionMode:false,secondaryPartyEnabled:false,rearParty:null,activePartyPhase:'front'};
+const postState={step:1,category:'mirror_dungeon',type:null,difficulty:null,stage:null,achievementTurns:null,identities:new Map(),identityAlternatives:new Map(),identityOrder:[],egos:new Map(),freeSlotEgoEnabled:new Set(),themePacks:new Map(),activeThemePackFloor:null,strategyTags:new Set(),affiliationTags:new Set(),manualKeywords:new Set(),ammoKeywordSelected:false,activeSinner:null,activeEgoSinner:null,alternativeSelectionMode:false,secondaryPartyEnabled:false,rearParty:null,activePartyPhase:'front'};
 const stepInfo={1:['STEP 1','攻略タイプを選択','この攻略がどんなプレイヤー向けか選んでください。'],2:['STEP 2','使用人格を選択','囚人を選び、それぞれ使用する人格を1つずつ選択してください。'],3:['STEP 3','編成順を選択','使用人格を、実際に出撃させる順番で選択してください。'],4:['STEP 4','使用E.G.Oを選択','※任意のステップです。使用するE.G.Oがある場合のみ設定してください。'],5:['STEP 5','進行テーマパックを選択','※任意のステップです。階層ごとに通過したテーマパックを選択してください。'],6:['STEP 6','詳細情報を入力','攻略タグや説明、所属・特殊タグを入力してください。'],7:['STEP 7','確認して投稿','入力内容を確認して投稿へ進みます。']};
 const postTitle=$('[data-post-title]');
 const postSummary=$('[data-post-summary]');
@@ -212,7 +212,7 @@ const validationFlowController=window.LimbusPostValidationFlowController.create(
 function validateRequiredStep(step,options){return validationFlowController.validateStep(step,options);}
 function validateAllRequiredSteps(){return validationFlowController.validateAll();}
 function clearDetailValidation(){document.querySelector('[data-detail-step-link]')?.classList.remove('validation-error');document.querySelector('[data-post-step="6"]')?.classList.remove('validation-error');}
-function validateProjectionDetails(){const valid=Boolean(postSummary?.value.trim());document.querySelector('[data-detail-step-link]')?.classList.toggle('validation-error',!valid);document.querySelector('[data-post-step="6"]')?.classList.toggle('validation-error',!valid);if(!valid){window.alert('一言紹介が入力されていません。');requestAnimationFrame(()=>postSummary?.focus());}return valid;}
+function validateProjectionDetails(){const turns=document.querySelector('[data-achievement-turns]'),summaryValid=Boolean(postSummary?.value.trim()),turnsValid=Number.isInteger(Number(turns?.value))&&Number(turns.value)>0,valid=summaryValid&&turnsValid;document.querySelector('[data-detail-step-link]')?.classList.toggle('validation-error',!valid);document.querySelector('[data-post-step="6"]')?.classList.toggle('validation-error',!valid);turns?.classList.toggle('validation-error',!turnsValid);if(!summaryValid){window.alert('一言紹介が入力されていません。');requestAnimationFrame(()=>postSummary?.focus());}else if(!turnsValid){window.alert('達成ターンを入力してください。');requestAnimationFrame(()=>turns?.focus());}return valid;}
 function navigateToStep(target){
   if(postState.category!=='projection_combat')return validationFlowController.navigate(target);
   const max=postState.secondaryPartyEnabled?9:6;target=Math.max(1,Math.min(max,target));if(target<=postState.step){setStep(target);return true;}
@@ -273,6 +273,7 @@ function updateRailwayStageDisplay(){
 }
 function applyCategoryEditorMode(){
   if(postState.category!=='mirror_dungeon')postState.strategyTags.delete('ギフト依存');
+  const achievementField=$('[data-projection-achievement-field]');if(achievementField)achievementField.hidden=postState.category!=='projection_combat';
   const eventMode=['mirror_railway','projection_combat','luxcavation','story'].includes(postState.category),stageMode=['mirror_railway','projection_combat','luxcavation'].includes(postState.category),story=postState.category==='story';
   const difficulty=$('[data-difficulty-mode]'),stage=$('[data-railway-stage-selector]'),themeLink=$('[data-theme-pack-step-link]'),themeReview=$('[data-review-theme-pack-section]');
   if(difficulty){difficulty.hidden=stageMode&&postState.category!=='projection_combat';const legend=difficulty.querySelector('legend');if(legend)legend.firstChild.textContent=postState.category==='projection_combat'?'射影戦闘の難易度 ':story?'ストーリーの難易度 ':'鏡ダンジョンの難易度 ';}if(stage){stage.hidden=!stageMode;stage.classList.toggle('is-compact',stageMode&&postState.category!=='mirror_railway');}if(themeLink)themeLink.hidden=eventMode;if(themeReview)themeReview.hidden=eventMode;
@@ -298,6 +299,7 @@ $$('[data-railway-stage]').forEach(button=>button.addEventListener('click',()=>{
 const updateDifficultyDisplay=()=>postBasicsController.updateDifficulty();
 function updatePostSummaryCount(){if(postSummaryCount)postSummaryCount.textContent=String(postSummary?.value.length||0);}
 if(postSummary){postSummary.addEventListener('input',()=>{updatePostSummaryCount();if(postSummary.value.trim()){clearStepValidation(6);clearDetailValidation();}});updatePostSummaryCount();}
+document.querySelector('[data-achievement-turns]')?.addEventListener('input',event=>{event.currentTarget.classList.remove('validation-error');postState.achievementTurns=Number(event.currentTarget.value)||null;});
 const goBackInWorkspace=()=>{const physical=postState.category==='projection_combat'&&postState.secondaryPartyEnabled&&postState.step>=5&&postState.step<=7?postState.step-3:postState.step;if(physical===4&&postState.activeEgoSinner)return closeEgoSelect();if(physical===5&&postState.activeThemePackFloor)return closeThemePackSelect();setStep(postState.step-1);};$('[data-prev-step]').onclick=goBackInWorkspace;if(mobilePrevStep)mobilePrevStep.onclick=goBackInWorkspace;
 const postPayloadController=window.LimbusPostPayloadController.create({state:postState,identityData:sinnerIdentityData,getAlternativeNames:alternativeNamesFor,getOrderedSinners:orderedSelectedSinners,getFormationPosition:formationPosition,getAutomaticKeywords:automaticPostKeywords,getSeason:()=>Number(siteConfig.currentSeason)||7});
 const buildPostPayload=()=>postPayloadController.build();

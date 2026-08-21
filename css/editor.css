@@ -1026,6 +1026,11 @@ html[data-theme="dark"] .identity-alternative-chip.has-identity-image{
   background-color:#111!important;
 }
 /* 編成コード Import / Export */
+.projection-achievement-field{display:grid;gap:9px;padding:16px;border:1px solid var(--line);background:var(--paper2)}
+.projection-achievement-field>span:first-child{font-weight:900}.projection-achievement-field em{color:#b83227;font-style:normal;font-size:11px}.projection-achievement-field>small{color:var(--muted);font-size:11px}
+.projection-achievement-input{display:flex;align-items:center;gap:10px}.projection-achievement-input input{width:min(220px,100%);padding:12px 14px;border:1px solid var(--line);background:var(--paper);color:var(--ink);font:700 18px/1.2 inherit}.projection-achievement-input input.validation-error{border-color:#c43224;box-shadow:0 0 0 2px rgba(196,50,36,.12)}
+.projection-achievement-input b{color:var(--gold)}
+html[data-theme="dark"] .projection-achievement-field,html[data-theme="dark"] .projection-achievement-input input{background:#15191e;border-color:#454b54;color:#f2eee6}
 .formation-import-open{flex:0 0 auto;min-height:42px;white-space:nowrap}
 .identity-select-header.game-style-header{grid-template-columns:minmax(0,1fr) auto minmax(220px,auto)}
 .formation-code-section{display:grid;gap:14px}
