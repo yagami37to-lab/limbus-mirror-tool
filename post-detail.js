@@ -24,6 +24,7 @@ try{
  const sinnerRank=new Map(sinnerDisplayOrder.map((name,index)=>[name,index]));
  const selectedSource=(post.selectedIdentities||[]).length?post.selectedIdentities:(post.party||[]);
  const selectedParty=[...selectedSource].sort((a,b)=>(sinnerRank.get(a.sinner)??99)-(sinnerRank.get(b.sinner)??99));
+ window.LimbusDetailShareData={post,profile,party:(post.party||[]).length?post.party:selectedParty};window.dispatchEvent(new CustomEvent('limbus-detail-ready',{detail:window.LimbusDetailShareData}));
  const isFreeIdentity=x=>!!x?.is_free||String(x?.identity||'').includes('自由枠');
  const sinnerNumber=x=>String(x?.sinner_id||({'イサン':'01','ファウスト':'02','ドンキホーテ':'03','良秀':'04','ムルソー':'05','ホンル':'06','ヒースクリフ':'07','イシュメール':'08','ロージャ':'09','シンクレア':'11','ウーティス':'12','グレゴール':'13'}[x?.sinner]||'--')).padStart(2,'0');
  const identityLookupKey=value=>normalizeLegacyIdentityName(value).replace(/[：:]/g,':').replace(/\s+/g,'').toLowerCase();

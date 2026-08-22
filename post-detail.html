@@ -6,8 +6,8 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>攻略詳細｜Limbus Company 攻略投稿サイト</title>
   <link rel="icon" href="logo-mark.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="styles.css?v=1.2.05">
-  <link rel="stylesheet" href="css/browse-cards.css?v=1.2.04">
+  <link rel="stylesheet" href="styles.css?v=1.2.07">
+  <link rel="stylesheet" href="css/browse-cards.css?v=1.2.07">
 
 <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script defer src="js/supabase-config.js?v=1.0.99"></script>
@@ -19,7 +19,9 @@
 <script defer src="js/categories.js?v=1.1.65"></script>
 <script defer src="js/identity-images.js?v=1.1.23"></script>
 <script defer src="js/owned-identities.js?v=1.1.65"></script>
-<script defer src="post-detail.js?v=1.2.05"></script>
+<script defer src="js/share-card.js?v=1.2.07"></script>
+<script defer src="post-detail.js?v=1.2.07"></script>
+<script defer src="js/share-enhanced.js?v=1.2.07"></script>
 <script defer src="js/public-alpha.js?v=1.2.00"></script>
 </head>
 <body class="post-detail-page">
@@ -90,6 +92,9 @@
     <section class="share-dialog" role="dialog" aria-modal="true" aria-labelledby="share-dialog-title">
       <div class="share-dialog-header"><h2 id="share-dialog-title">この攻略を共有</h2><button type="button" class="share-dialog-close" data-close-share aria-label="共有メニューを閉じる">×</button></div>
       <div class="share-dialog-options">
+        <img class="share-card-preview" data-share-card-preview alt="SNS共有用の編成カードプレビュー" hidden>
+        <button type="button" class="share-option share-option-featured" data-share-image>▣<span><strong>編成画像を生成・保存</strong><small>12人格が主役の横長PNGを作成します</small></span></button>
+        <button type="button" class="share-option" data-share-native>↗<span><strong>端末の共有機能</strong><small>対応端末では画像・文章・URLをまとめて共有します</small></span></button>
         <button type="button" class="share-option" data-share-copy>🔗<span><strong>URLをコピー</strong><small>この詳細画面のURLをコピーします</small></span></button>
         <button type="button" class="share-option" data-share-x>𝕏<span><strong>Xでツイート</strong><small>投稿タイトルとURLを共有します</small></span></button>
         <button type="button" class="share-option" data-share-bluesky>🦋<span><strong>Blueskyで投稿</strong><small>投稿タイトルとURLを共有します</small></span></button>
