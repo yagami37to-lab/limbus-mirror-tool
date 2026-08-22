@@ -25,7 +25,15 @@ function createPostPersistenceController({buildPayload,getEditingId,setEditingId
     const query=editingId?client.from('posts').update(row).eq('id',editingId).eq('author_id',user.id).select('id').single():client.from('posts').insert(row).select('id').single();
     const {data,error}=await query;
     if(error){console.error(error);showToast(`保存できませんでした：${error.message}`);return false;}
-    setEditingId(data.id);showToast(status==='published'?'攻略を公開しました。':'下書きを保存しました。');
+    setEditingId(data.id);
+    if(status==='published'){
+      showToast('攻略を公開しました。共有画像を準備しています…');
+      try{
+        const ogUrl=new URL(`/og/${encodeURIComponent(data.id)}`,location.origin);ogUrl.searchParams.set('v',now);
+        await Promise.race([fetch(ogUrl,{cache:'reload',credentials:'omit'}),new Promise(resolve=>setTimeout(resolve,18000))]);
+      }catch(error){console.warn('共有画像の事前生成を完了できませんでした。',error);}
+    }
+    showToast(status==='published'?'攻略を公開しました。':'下書きを保存しました。');
     if(status==='published')onPublished(data.id);
     return true;
   }

@@ -9,6 +9,14 @@ Cloudflare Dashboardの対象Pagesプロジェクトで、ProductionとPreview�
 - `CF_ACCOUNT_ID`: CloudflareのAccount ID
 - `CF_BROWSER_RENDERING_TOKEN`: `Browser Rendering - Edit` 権限を持つAPI Token
 
+さらにR2バケットを1つ作成し、Pages Functionへ次のBinding名で接続します。
+
+- `OG_IMAGES`: 投稿別OG画像を永続保存するR2 bucket binding
+
+設定場所: Workers & Pages → 対象プロジェクト → Settings → Bindings → R2 bucket bindings
+
+R2設定後は投稿の公開・更新時に画像を先に生成し、`posts/<投稿ID>/<更新日時>.png` として保存します。XやDiscordからの取得時は完成済み画像を即時返します。R2未設定時も従来のCloudflare Cache方式で動作します。
+
 設定場所: Workers & Pages → 対象プロジェクト → Settings → Variables and Secrets
 
 保存後、Git連携による再デプロイを行ってください。Pages FunctionsはDashboardのDirect Uploadでは利用できません。

@@ -1186,7 +1186,7 @@ html:not([data-theme="dark"]) .featured-editor-note p{color:#f1ede4!important}
   background:#fff5f3;
   box-shadow:inset 3px 0 #a9342b;
 }
-.share-dialog-backdrop{position:fixed;inset:0;z-index:80;display:grid;place-items:center;padding:20px;background:rgba(15,12,9,.58);opacity:0;transition:opacity .18s ease}
+.share-dialog-backdrop{position:fixed;inset:0;z-index:10000;isolation:isolate;display:grid;place-items:center;padding:20px;background:rgba(15,12,9,.58);opacity:0;transition:opacity .18s ease}
 .share-dialog-backdrop.is-open{opacity:1}
 .share-dialog{width:min(100%,460px);background:var(--paper);border:1px solid var(--line);border-radius:16px;box-shadow:0 24px 70px rgba(0,0,0,.3);padding:20px;transform:translateY(10px) scale(.98);transition:transform .18s ease}
 .share-dialog-backdrop.is-open .share-dialog{transform:none}
