@@ -10,3 +10,21 @@ html[data-theme="dark"] .request-card,html[data-theme="dark"] .request-featured,
 @media(max-width:600px){.request-main>.site-disclosure{margin-inline:0}.request-hero{min-height:auto;padding-top:46px}.request-hero-copy h1{font-size:clamp(30px,9vw,42px)}.request-hero-copy h1 span{white-space:normal}.request-hero-actions .button{min-width:0;padding:12px 8px;font-size:12px}}
 .request-list-section.community-browser{max-width:1180px;margin:0 auto;padding:70px 24px 0}.request-list-section .post-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.request-post-card .post-card-detail-actions{grid-template-columns:minmax(0,1.35fr) minmax(0,1fr)}.request-post-card .request-answer-link{min-height:42px;text-align:center}.request-featured .request-post-card{padding:14px}.request-featured .request-post-card .browse-identity-scroll,.request-featured .request-post-card .post-bottom{display:none}.request-featured .request-post-card .post-card-detail-actions{grid-template-columns:1fr}.request-featured .request-post-card .post-detail-link{display:none}.request-detail-answer .button{margin-top:18px}.request-detail-page .detail-persistent-actions{grid-template-columns:1fr 1fr}@media(max-width:900px){.request-list-section .post-grid{grid-template-columns:1fr}}
 .request-hero{grid-template-columns:1.25fr .8fr}.request-featured.home-featured-carousel{align-self:center;min-height:0;padding:22px}.request-featured .request-card-featured{min-height:315px;max-height:390px;overflow:hidden}.request-featured .request-card-featured h3{font-size:19px}.request-featured .request-card-featured .post-card-summary{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}.request-featured .request-card-featured .post-card-label{margin:7px 0 4px}.request-featured .request-card-featured .post-card-detail-actions{margin-top:10px;padding-top:10px}.request-detail-answer{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:10px 28px;border-left:5px solid var(--gold);background:linear-gradient(100deg,color-mix(in srgb,var(--gold) 9%,var(--paper)),var(--paper) 58%)}.request-detail-answer .detail-section-title{grid-column:1/-1;display:block}.request-detail-answer .detail-section-title h2{margin-top:5px;text-align:left}.request-detail-answer p{max-width:760px;margin:0;line-height:1.8}.request-detail-answer .button{min-width:220px;margin:0;text-align:center}@media(max-width:900px){.request-hero{grid-template-columns:1fr}.request-featured .request-card-featured{max-height:none}.request-detail-answer{grid-template-columns:1fr}.request-detail-answer .button{width:100%;min-width:0}}
+
+/* 攻略投稿トップの「管理者おすすめ」と同じヒーロー外寸・パネル基準を使う。 */
+.request-hero{width:100%;max-width:none;min-height:620px;margin:0;padding:0;grid-template-columns:1.25fr .8fr;gap:70px;align-items:center}
+.request-featured.hero-panel.home-featured-carousel{align-self:center;min-width:0;min-height:0;padding:22px 22px 18px}
+.request-featured .request-card-featured{min-height:0;max-height:none;overflow:hidden}
+.request-featured .request-post-card .post-bottom{display:flex}
+.request-post-card .browse-difficulty[data-luxcavation="thread"]{border-color:#6941a5!important;background:#6941a5!important;color:#fff!important;opacity:1!important;text-shadow:0 1px 1px rgba(0,0,0,.35)}
+.request-interest-stat{display:inline-flex;align-items:center;gap:4px;color:#cf3f55;font-weight:800}
+.request-interest-button{width:25px;height:25px;padding:2px;color:#cf3f55}
+.request-interest-button svg{width:100%;height:100%;fill:transparent;stroke:currentColor;stroke-width:1.8}
+.request-interest-button.is-liked svg{fill:currentColor}
+.request-interest-label{font-size:11px;white-space:nowrap}
+html[data-theme="dark"] .request-post-card .browse-difficulty[data-luxcavation="thread"]{border-color:#ad8ae5!important;background:#7650b5!important;color:#fff!important}
+@media(max-width:900px){.request-hero{grid-template-columns:1fr;gap:42px;min-height:auto;padding:50px 22px}.request-featured.hero-panel.home-featured-carousel{padding:22px}.request-interest-label{font-size:10px}}
+@media(min-width:1001px){
+  .request-hero{grid-template-columns:minmax(0,.92fr) minmax(560px,1.08fr);gap:34px;min-height:799px}
+  .request-featured.hero-panel.home-featured-carousel{min-height:701px;padding:18px 20px 14px}
+}

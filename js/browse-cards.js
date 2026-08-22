@@ -100,7 +100,8 @@
       button.dataset.likeReady='true';
       button.classList.toggle('is-liked',!!liked);
       button.setAttribute('aria-pressed',String(!!liked));
-      button.setAttribute('aria-label',liked?'いいねを取り消す':'この攻略にいいねする');
+      const requestCard=card.classList.contains('request-post-card');
+      button.setAttribute('aria-label',requestCard?(liked?'気になるを解除':'この依頼を気になるに追加'):(liked?'いいねを取り消す':'この攻略にいいねする'));
     });
   };
 
