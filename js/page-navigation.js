@@ -1,5 +1,8 @@
 (()=>{
 'use strict';
+const pageParams=new URLSearchParams(location.search);
+const legalHome=pageParams.get('from')==='requests'?'requests.html':'index.html';
+document.querySelectorAll('[data-legal-home-link]').forEach(link=>link.setAttribute('href',legalHome));
 document.querySelectorAll('[data-page-back]').forEach(button=>button.addEventListener('click',()=>{
   const fallback=button.dataset.fallback||'index.html';
   let canReturn=false;
