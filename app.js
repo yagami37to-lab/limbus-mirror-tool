@@ -1,5 +1,5 @@
 (async()=>{
-const pageParams=new URLSearchParams(location.search),entryMode=pageParams.get('mode')==='request'?'request':'strategy',isRequestMode=()=>entryMode==='request';
+const pageParams=new URLSearchParams(location.search),entryMode=pageParams.get('mode')==='request'?'request':'strategy',isRequestMode=()=>entryMode==='request',isEmbeddedEditor=pageParams.get('embed')==='1';
 const [sinnerIdentityData,sinnerEgoData,keywordDefinitions,themePackData,siteConfig]=await Promise.all([
   fetch('data/identities.json').then(r=>{if(!r.ok)throw new Error('identities.json');return r.json()}),
   fetch('data/egos.json').then(r=>{if(!r.ok)throw new Error('egos.json');return r.json()}),
@@ -333,7 +333,7 @@ const goBackInWorkspace=()=>{const physical=postState.category==='projection_com
 const postPayloadController=window.LimbusPostPayloadController.create({state:postState,identityData:sinnerIdentityData,getAlternativeNames:alternativeNamesFor,getOrderedSinners:orderedSelectedSinners,getFormationPosition:formationPosition,getAutomaticKeywords:automaticPostKeywords,getSeason:()=>Number(siteConfig.currentSeason)||7,getEntryKind:()=>entryMode});
 const buildPostPayload=()=>postPayloadController.build();
 let draftController;
-const postPersistenceController=window.LimbusPostPersistenceController.create({buildPayload:buildPostPayload,getEditingId:()=>postModal.dataset.editingPostId||'',setEditingId:id=>{postModal.dataset.editingPostId=id;},validatePublished:validateAllRequiredSteps,onTitleMissing:()=>{window.alert(isRequestMode()?'一言紹介を入力してください':'攻略タイトルを設定していません');setStep(isRequestMode()?6:1);},onAuthRequired:()=>window.LimbusAuth?.open(),onPublished:id=>{draftController.removeAfterPublish();setTimeout(()=>{location.href=isRequestMode()?'requests.html':`post-detail.html?id=${encodeURIComponent(id)}`;},700);},showToast,isRequest:isRequestMode});
+const postPersistenceController=window.LimbusPostPersistenceController.create({buildPayload:buildPostPayload,getEditingId:()=>postModal.dataset.editingPostId||'',setEditingId:id=>{postModal.dataset.editingPostId=id;},validatePublished:validateAllRequiredSteps,onTitleMissing:()=>{window.alert(isRequestMode()?'一言紹介を入力してください':'攻略タイトルを設定していません');setStep(isRequestMode()?6:1);},onAuthRequired:()=>window.LimbusAuth?.open(),onPublished:id=>{draftController.removeAfterPublish();if(isRequestMode()&&isEmbeddedEditor){window.parent.postMessage({type:'limbus-request-published',id},location.origin);return;}setTimeout(()=>{location.href=isRequestMode()?'requests.html':`post-detail.html?id=${encodeURIComponent(id)}`;},700);},showToast,isRequest:isRequestMode});
 const savePostToSupabase=status=>postPersistenceController.save(status);
 
 function serializeDraftState(){
@@ -379,6 +379,7 @@ if(isRequestMode()){
   document.querySelector('[data-post-summary]')?.setAttribute('placeholder','知りたい攻略や困っている内容を簡潔に入力してください');
   document.querySelector('[data-next-step]')?.setAttribute('data-request-publish','');
 }
+if(isEmbeddedEditor)document.body.classList.add('embedded-editor-mode');
 if(pageParams.get('open')==='1')setTimeout(()=>postCategoryController.openPicker(),250);
 
 const postEditorLaunchController=window.LimbusPostEditorLaunchController.create({openDraftFromQuery:()=>draftController.openFromQuery(),restorePost:post=>postRestoreController.restorePost(post),openEditor:()=>openDialog(postModal),showToast});

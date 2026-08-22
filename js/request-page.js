@@ -6,6 +6,11 @@ const categoryLabel=id=>window.LimbusCategories?.label?.(id)||'カテゴリ未�
 const difficultyLabel=value=>value==='HARD'?'ハード':value==='NORMAL'?'ノーマル':value||'';
 const savedTheme=localStorage.getItem('limbus-theme')||'light';document.documentElement.dataset.theme=savedTheme;
 document.querySelector('[data-request-theme]')?.addEventListener('click',()=>{const next=document.documentElement.dataset.theme==='dark'?'light':'dark';document.documentElement.dataset.theme=next;localStorage.setItem('limbus-theme',next);});
+const editorOverlay=document.querySelector('[data-request-editor-overlay]'),editorFrame=document.querySelector('[data-request-editor-frame]');
+function openRequestEditor(event){event?.preventDefault();if(!editorOverlay||!editorFrame)return;if(!editorFrame.src)editorFrame.src='index.html?mode=request&open=1&embed=1';editorOverlay.hidden=false;document.body.classList.add('request-editor-open');}
+function closeRequestEditor(){if(!editorOverlay)return;editorOverlay.hidden=true;document.body.classList.remove('request-editor-open');}
+document.querySelectorAll('[data-open-request-editor]').forEach(button=>button.addEventListener('click',openRequestEditor));document.querySelector('[data-close-request-editor]')?.addEventListener('click',closeRequestEditor);
+window.addEventListener('message',event=>{if(event.origin!==location.origin||event.data?.type!=='limbus-request-published')return;closeRequestEditor();render();});
 let allPosts=[];
 const matches=post=>{const query=String(searchInput?.value||'').normalize('NFKC').toLowerCase().trim(),category=categorySelect?.value||'',haystack=[post.title,post.summary,post.content?.description,post.content?.stage,post.strategy_type].join(' ').normalize('NFKC').toLowerCase();return (!category||post.category===category)&&(!query||haystack.includes(query));};
 async function cardFor(post){
