@@ -1,7 +1,7 @@
 (async()=>{
 const pageParams=new URLSearchParams(location.search),entryMode=pageParams.get('mode')==='request'?'request':'strategy',isRequestMode=()=>entryMode==='request',isEmbeddedEditor=pageParams.get('embed')==='1';
 const [sinnerIdentityData,sinnerEgoData,keywordDefinitions,themePackData,siteConfig]=await Promise.all([
-  fetch('data/identities.json').then(r=>{if(!r.ok)throw new Error('identities.json');return r.json()}),
+  fetch('data/identities.json?v=1.2.19').then(r=>{if(!r.ok)throw new Error('identities.json');return r.json()}),
   fetch('data/egos.json').then(r=>{if(!r.ok)throw new Error('egos.json');return r.json()}),
   fetch('data/keywords.json').then(r=>{if(!r.ok)throw new Error('keywords.json');return r.json()}),
   fetch('data/packs.json?v=1.1.30').then(r=>{if(!r.ok)throw new Error('packs.json');return r.json()}),

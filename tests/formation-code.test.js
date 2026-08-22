@@ -16,7 +16,8 @@ const KNOWN_COMPARISON='H4sIAAAAAAAAE3MMdEx3BAI/R2cQ5ejq6AmmocJOFAk72toCAP6mFx9g
   assert.equal(comparison.filter((slot,index)=>slot.identityModifier!==empty[index].identityModifier).length,1);
   assert.deepEqual(await codec.decode(await codec.encode(comparison)),comparison);
   const map=JSON.parse(fs.readFileSync('data/game-id-map.json','utf8'));
-  assert.equal(map.identities.length,184);assert.equal(new Set(map.identities.map(item=>item.gameId)).size,184);
+  assert.equal(map.identities.length,185);assert.equal(new Set(map.identities.map(item=>item.gameId)).size,185);
+  const newHongLu=map.identities.find(item=>item.siteId==='06-16');assert.equal(newHongLu.gameId,10654);assert.equal(newHongLu.identityModifier,54);
   assert.equal(map.egos.length,111);assert.equal(new Set(map.egos.map(item=>item.gameId)).size,111);
   for(const item of [...map.identities,...map.egos]){assert.ok(item.gameId%100<=127);assert.equal(Math.floor(item.gameId/100)%100,item.gameSinnerId);}
   const sampleContent={selectedIdentities:[{sinner:'イサン',sinner_id:'01',identity:'LCB囚人'}],party:[{order:1,sinner:'イサン',sinner_id:'01',identity:'LCB囚人'}],egos:[{sinner:'イサン',items:['ZAYIN: 烏瞰刀','TETH: 4本目のマッチの火']}]};

@@ -1790,6 +1790,24 @@
             "note": "交換後は出血人格として数えません。"
           }
         ]
+      },
+      {
+        "name": "東部センク協会3課",
+        "rarity": "000",
+        "id": "06-16",
+        "sinnerId": "06",
+        "sinner": "ホンル",
+        "keywords": [
+          "火傷",
+          "呼吸"
+        ],
+        "keywordCount": 2,
+        "isMultiKeyword": true,
+        "keywordConfidence": "user-reviewed",
+        "keywordSource": "ユーザー提供情報（2026-08-22）",
+        "notes": [],
+        "conditionalKeywords": [],
+        "keywordLossConditions": []
       }
     ]
   },

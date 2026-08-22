@@ -14,7 +14,7 @@ try{
  let identityCatalog=[];
  let siteConfig={legacyPostSeason:7};
  try{const siteConfigResponse=await fetch('data/site-config.json?v=1.1.39',{cache:'no-cache'});if(siteConfigResponse.ok)siteConfig=await siteConfigResponse.json();}catch(configError){console.warn('サイト設定を読み込めませんでした。',configError);}
- try{const identityResponse=await fetch('data/identities.json?v=1.1.23',{cache:'no-cache'});if(identityResponse.ok){const identityData=await identityResponse.json();identityCatalog=(Array.isArray(identityData)?identityData:[]).flatMap(group=>(group.identities||[]));}}catch(identityError){console.warn('人格条件データを読み込めませんでした。',identityError);}
+ try{const identityResponse=await fetch('data/identities.json?v=1.2.19',{cache:'no-cache'});if(identityResponse.ok){const identityData=await identityResponse.json();identityCatalog=(Array.isArray(identityData)?identityData:[]).flatMap(group=>(group.identities||[]));}}catch(identityError){console.warn('人格条件データを読み込めませんでした。',identityError);}
  let post,profile;
  if(!id)throw new Error('not-found');
  const cloud=await api?.getCloudPost(id);

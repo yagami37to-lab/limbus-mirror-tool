@@ -934,6 +934,16 @@
       "status": "verified_game_code"
     },
     {
+      "siteId": "06-16",
+      "sinnerId": "06",
+      "sinner": "ホンル",
+      "name": "東部センク協会3課",
+      "gameSinnerId": 6,
+      "gameId": 10654,
+      "identityModifier": 54,
+      "status": "verified_game_code"
+    },
+    {
       "siteId": "07-09",
       "sinnerId": "07",
       "sinner": "ヒースクリフ",
