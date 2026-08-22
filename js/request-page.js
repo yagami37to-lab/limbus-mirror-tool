@@ -11,7 +11,7 @@ async function hydrateSharedHeader(){
     const imported=document.importNode(header,true),current=document.querySelector('.request-header');
     imported.classList.add('request-header');
     imported.querySelector('.brand')?.setAttribute('href','index.html');
-    imported.querySelectorAll('.header-nav a').forEach(link=>{const href=link.getAttribute('href')||'';if(href.startsWith('#'))link.setAttribute('href',`index.html${href}`);if(href==='requests.html')link.classList.add('is-current');});
+    imported.querySelectorAll('.header-nav a').forEach(link=>{const href=link.getAttribute('href')||'';if(href.startsWith('#'))link.setAttribute('href',`index.html${href}`);if(href==='requests.html'){link.setAttribute('href','index.html');link.textContent='攻略投稿';link.classList.add('is-current');}});
     imported.querySelectorAll('[data-open-post],.mobile-header-post').forEach(button=>{button.removeAttribute('data-open-post');button.setAttribute('data-open-request-editor','');button.textContent=button.classList.contains('mobile-header-post')?'＋ 攻略依頼':'＋ 攻略を依頼';});
     current?.replaceWith(imported);
     ['[data-auth-dialog]','[data-legal-preview-dialog]'].forEach(selector=>{const node=source.querySelector(selector);if(node)document.body.appendChild(document.importNode(node,true));});
@@ -26,8 +26,8 @@ function bindSharedHeader(){
 
 async function boot(){
 await hydrateSharedHeader();bindSharedHeader();
-await loadScript('js/auth.js?v=1.2.15').catch(console.error);
-await loadScript('js/community-data.js?v=1.2.15');
+await loadScript('js/auth.js?v=1.2.16').catch(console.error);
+await loadScript('js/community-data.js?v=1.2.16');
 const api=window.LimbusCommunity,grid=document.querySelector('[data-request-grid]'),empty=document.querySelector('[data-request-empty]'),count=document.querySelector('[data-request-count]'),featured=document.querySelector('[data-request-featured]'),searchInput=document.querySelector('[data-request-search]'),categorySelect=document.querySelector('[data-request-category]');
 const esc=value=>api?.esc?.(value)||String(value??'');
 const categoryLabel=id=>window.LimbusCategories?.label?.(id)||'カテゴリ未設定';
