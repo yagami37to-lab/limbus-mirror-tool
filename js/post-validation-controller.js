@@ -6,6 +6,7 @@ function createPostValidationController({state,requiredIdentityCount,isRequest=(
   function mark(step,invalid=true){document.querySelector(`[data-step-link="${step}"]`)?.classList.toggle('validation-error',invalid);document.querySelector(`[data-post-step="${step}"]`)?.classList.toggle('validation-error',invalid);}
   function check(step){
     if(isRequest()){
+      if(step===1&&!value('[data-post-title]'))return {valid:false,message:'攻略依頼のタイトルが入力されていません。',field:'title',popup:true};
       if(step===6&&!value('[data-post-summary]'))return {valid:false,message:'一言紹介が入力されていません。',popup:true};
       return {valid:true,message:''};
     }
@@ -15,7 +16,7 @@ function createPostValidationController({state,requiredIdentityCount,isRequest=(
     if(step===6&&!value('[data-post-summary]'))return {valid:false,message:'一言紹介が入力されていません。',popup:true};
     return {valid:true,message:''};
   }
-  return {clear,mark,check,get requiredSteps(){return isRequest()?[6]:[1,2,3,6];}};
+  return {clear,mark,check,get requiredSteps(){return isRequest()?[1,6]:[1,2,3,6];}};
 }
 window.LimbusPostValidationController={create:createPostValidationController};
 })();

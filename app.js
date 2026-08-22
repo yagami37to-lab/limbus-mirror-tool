@@ -319,6 +319,8 @@ function applyCategoryEditorMode(){
 }
 
 const postCategoryController=window.LimbusPostCategoryController.create({state:postState,categories:categoryDefinitions,getCategory:categoryById,iconMarkup:categoryIconMarkup,dialog:categoryPicker,editorDialog:postModal,list:$('[data-category-picker-list]'),status:$('[data-category-picker-status]'),startButton:$('[data-start-category-post]'),openDraftButton:$('[data-open-draft-from-category]'),openButtons:$$('[data-open-post]'),closeButton:$('[data-close-category-picker]'),categoryBadges:$$('[data-post-category-badge]'),reviewCategory:$('[data-review-category]'),isAuthenticated:()=>localStorage.getItem('limbus-auth')==='logged-in',openAuth:()=>window.LimbusAuth?.open(),openDialog,closeDialog,openDrafts:()=>draftController.openManager(),resetEditor:()=>resetPostEditorState(),getInitialSinnerId:()=>sinnerIdentityData[0]?.id||null,setStep,onCategoryChanged:applyCategoryEditorMode});
+if(isRequestMode()&&isEmbeddedEditor)$('[data-close-category-picker]')?.addEventListener('click',()=>window.parent.postMessage({type:'limbus-request-editor-closed'},location.origin));
+if(isRequestMode()&&isEmbeddedEditor)window.addEventListener('message',event=>{if(event.origin===location.origin&&event.data?.type==='limbus-request-editor-open')postCategoryController.openPicker();});
 postCategoryController.bind();
 const updatePostCategoryDisplays=()=>postCategoryController.updateDisplays();
 $$('[data-step-link]').forEach(b=>b.onclick=()=>navigateToStep(+b.dataset.stepLink));
@@ -333,7 +335,7 @@ const goBackInWorkspace=()=>{const physical=postState.category==='projection_com
 const postPayloadController=window.LimbusPostPayloadController.create({state:postState,identityData:sinnerIdentityData,getAlternativeNames:alternativeNamesFor,getOrderedSinners:orderedSelectedSinners,getFormationPosition:formationPosition,getAutomaticKeywords:automaticPostKeywords,getSeason:()=>Number(siteConfig.currentSeason)||7,getEntryKind:()=>entryMode});
 const buildPostPayload=()=>postPayloadController.build();
 let draftController;
-const postPersistenceController=window.LimbusPostPersistenceController.create({buildPayload:buildPostPayload,getEditingId:()=>postModal.dataset.editingPostId||'',setEditingId:id=>{postModal.dataset.editingPostId=id;},validatePublished:validateAllRequiredSteps,onTitleMissing:()=>{window.alert(isRequestMode()?'一言紹介を入力してください':'攻略タイトルを設定していません');setStep(isRequestMode()?6:1);},onAuthRequired:()=>window.LimbusAuth?.open(),onPublished:id=>{draftController.removeAfterPublish();if(isRequestMode()&&isEmbeddedEditor){window.parent.postMessage({type:'limbus-request-published',id},location.origin);return;}setTimeout(()=>{location.href=isRequestMode()?'requests.html':`post-detail.html?id=${encodeURIComponent(id)}`;},700);},showToast,isRequest:isRequestMode});
+const postPersistenceController=window.LimbusPostPersistenceController.create({buildPayload:buildPostPayload,getEditingId:()=>postModal.dataset.editingPostId||'',setEditingId:id=>{postModal.dataset.editingPostId=id;},validatePublished:validateAllRequiredSteps,onTitleMissing:()=>{window.alert(isRequestMode()?'攻略依頼のタイトルを入力してください':'攻略タイトルを設定していません');setStep(1);},onAuthRequired:()=>window.LimbusAuth?.open(),onPublished:id=>{draftController.removeAfterPublish();if(isRequestMode()&&isEmbeddedEditor){window.parent.postMessage({type:'limbus-request-published',id},location.origin);return;}setTimeout(()=>{location.href=isRequestMode()?'requests.html':`post-detail.html?id=${encodeURIComponent(id)}`;},700);},showToast,isRequest:isRequestMode});
 const savePostToSupabase=status=>postPersistenceController.save(status);
 
 function serializeDraftState(){
@@ -374,8 +376,10 @@ if(isRequestMode()){
   document.querySelector('[data-category-picker] h2').textContent='依頼する攻略カテゴリを選択';
   document.querySelector('[data-category-picker] .category-picker-header p:last-of-type').textContent='分かる範囲でカテゴリを選び、攻略依頼を作成します。';
   document.querySelector('[data-start-category-post]').textContent='依頼を始める';
-  document.querySelector('[data-editor-step-guide]').textContent='一言紹介だけで依頼できます。ほかの項目は分かる範囲で入力してください。';
+  document.querySelector('[data-editor-step-guide]').textContent='依頼タイトルと一言紹介は必須です。ほかの項目は分かる範囲で入力してください。';
   document.querySelector('.step-intro strong').textContent='攻略を依頼する';
+  document.querySelector('.workspace-title-field>span:first-child').textContent='依頼タイトル';
+  document.querySelector('[data-post-title]')?.setAttribute('placeholder','攻略依頼のタイトルを入力してください');
   document.querySelector('[data-post-summary]')?.setAttribute('placeholder','知りたい攻略や困っている内容を簡潔に入力してください');
   document.querySelector('[data-next-step]')?.setAttribute('data-request-publish','');
 }
