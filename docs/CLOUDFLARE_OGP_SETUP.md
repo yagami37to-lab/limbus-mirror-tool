@@ -17,7 +17,7 @@ Secrets未設定または画像生成に失敗した場合、OG画像は `assets
 
 ## 確認URL
 
-- 詳細ページ: `https://<domain>/post-detail.html?id=<post-id>`
+- 詳細ページ: `https://<domain>/post-detail?id=<post-id>`
 - OG画像: `https://<domain>/og/<post-id>`
 
 DiscordはURLを再投稿して確認します。XはCard Validatorまたは実際の投稿下書きで確認してください。SNS側に古いキャッシュが残る場合は投稿を更新するか、OG画像URLの `v` パラメータが変わった後に再取得します。

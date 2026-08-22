@@ -1,5 +1,5 @@
 {
   "version": 1,
-  "include": ["/post-detail.html", "/og/*"],
+  "include": ["/post-detail", "/post-detail.html", "/og/*"],
   "exclude": []
 }

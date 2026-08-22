@@ -4,12 +4,12 @@ class HeadAppender{constructor(markup){this.markup=markup}element(element){eleme
 
 export async function onRequest(context){
   const url=new URL(context.request.url);
-  if(url.pathname!=='/post-detail.html'||context.request.method!=='GET')return context.next();
+  if(!['/post-detail','/post-detail.html'].includes(url.pathname)||context.request.method!=='GET')return context.next();
   const id=url.searchParams.get('id');if(!id)return context.next();
   try{
     const post=await fetchPost(id);if(!post)return context.next();
     const profile=await fetchProfile(post.author_id),meta=postMeta(post,profile),origin=url.origin;
-    const canonical=`${origin}/post-detail.html?id=${encodeURIComponent(post.id)}`;
+    const canonical=`${origin}/post-detail?id=${encodeURIComponent(post.id)}`;
     const ogImage=`${origin}/og/${encodeURIComponent(post.id)}?v=${encodeURIComponent(meta.updated)}`;
     const title=`${meta.title}｜Limbus Company 攻略`;
     const description=`【${meta.category}${meta.difficulty?`｜${meta.difficulty}`:''}】${meta.summary}`.slice(0,180);
