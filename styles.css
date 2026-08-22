@@ -45,3 +45,14 @@ html[data-theme="dark"] body.request-editor-mode .category-picker-actions .butto
 .railway-party-count-shell label{display:grid;gap:8px;margin:20px 0}.railway-party-count-shell input{min-height:52px;padding:12px 16px;border:1px solid #c98d19;background:var(--paper,#fff);font:700 1.1rem inherit}
 .railway-party-step-links{display:grid;gap:8px}.railway-party-step-group{display:grid;gap:4px;padding:8px 0;border-top:1px solid rgba(201,141,25,.25)}.railway-party-step-group>small{padding-left:12px;color:#c98d19;letter-spacing:.14em}.railway-party-step-group .step-link{width:100%}
 html[data-theme="dark"] .railway-party-count-shell{background:#171b21;color:#f5eee0}
+
+/* スマホのヒーロー操作と下部CTAを、投稿・依頼ページで同じ整列にする。 */
+@media(max-width:600px){
+  .hero-actions{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;gap:10px!important}
+  .hero-actions .button{width:100%!important;min-width:0!important;margin:0!important;padding:12px 7px!important;text-align:center!important;font-size:11px!important;white-space:nowrap!important}
+  .submit-banner{display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:18px!important;margin:36px auto 52px!important;padding:24px 20px!important;align-items:start!important}
+  .submit-banner>div{min-width:0!important}
+  .submit-banner h2{font-size:clamp(26px,8vw,34px)!important;line-height:1.45!important;overflow-wrap:anywhere!important}
+  .submit-banner p:not(.section-kicker){margin-bottom:0!important;line-height:1.65!important}
+  .submit-banner .button{display:flex!important;align-items:center!important;justify-content:center!important;width:100%!important;min-height:48px!important;margin:0!important;padding:12px 14px!important;text-align:center!important}
+}

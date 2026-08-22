@@ -101,3 +101,9 @@ html[data-theme="dark"] .request-page .request-footer{border-top-color:#285b5a;b
 .request-page .request-header .button.button-primary,
 .request-page .request-header .mobile-header-post,
 .request-page .request-hero-actions .button.button-primary{border-color:var(--request-accent);background:linear-gradient(135deg,#198f88,var(--request-accent-strong));color:#fff}
+
+/* iframe が全面を覆うため、親ページのスクロールバーは消さず横揺れを防ぐ。 */
+body.request-editor-open{overflow:visible}
+@media(min-width:761px) and (max-width:980px){
+  .request-header .header-nav .button[data-open-request-editor]{display:none!important}
+}
