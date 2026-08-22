@@ -6,6 +6,11 @@
 @import url("css/account.css?v=1.2.11");
 @import url("css/responsive.css?v=1.2.11");
 
+/* 攻略投稿側の案内CTAには、攻略依頼ページから移した青緑パレットを使う。 */
+.home-request-banner{background:linear-gradient(135deg,#083f43,#126c69);box-shadow:0 20px 45px rgba(8,63,67,.18)}
+.home-request-banner .section-kicker{color:#20a59c}
+.home-request-banner .button.button-primary{border-color:#137d78;background:linear-gradient(135deg,#198f88,#095e61);color:#fff}
+
 /* v1.0.47 人格詳細・投稿詳細でのイサン画像 */
 .detail-identity-card.has-identity-image,.detail-party-card.has-identity-image{background-size:cover!important;background-position:center!important;color:#fff!important}
 .detail-identity-card.has-identity-image>*,.detail-party-card.has-identity-image>*{position:relative;z-index:1;color:#fff!important;text-shadow:0 1px 3px #000}

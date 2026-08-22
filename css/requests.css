@@ -37,7 +37,7 @@ html[data-theme="dark"] .request-post-card .browse-difficulty[data-luxcavation="
   --request-line:#9fcfc9;
   background:#edf7f5;
 }
-.request-page .request-site-shell{background:linear-gradient(180deg,#edf7f5 0,#f7fbfa 48%,#e8f3f1 100%)}
+.request-page .request-site-shell{background:radial-gradient(circle at 18% 31%,rgba(19,125,120,.12),transparent 34%),linear-gradient(180deg,#edf7f5 0,#f7fbfa 48%,#e8f3f1 100%)}
 .request-page .request-header{border-bottom-color:var(--request-line);background:rgba(236,248,246,.94);box-shadow:0 8px 24px rgba(9,94,97,.08)}
 .request-page .request-header .brand-copy em,
 .request-page .request-header .brand-copy small,
@@ -49,7 +49,7 @@ html[data-theme="dark"] .request-post-card .browse-difficulty[data-luxcavation="
 .request-page .request-main>.site-disclosure .site-disclosure-mark{border-color:var(--request-accent);color:var(--request-accent)}
 .request-page .request-main>.site-disclosure .site-disclosure-links{border-color:var(--request-line)}
 .request-page .request-main>.site-disclosure a{border-color:var(--request-line);color:var(--request-accent);background:#f7fcfb}
-.request-page .request-hero{background:radial-gradient(circle at 14% 35%,rgba(19,125,120,.12),transparent 34%)}
+.request-page .request-hero{background:none}
 .request-page .request-hero-copy h1 span:first-child,
 .request-page .request-featured>a{color:var(--request-accent-strong)}
 .request-page .request-hero-lead{color:#3f7773}
@@ -73,13 +73,14 @@ html[data-theme="dark"] .request-post-card .browse-difficulty[data-luxcavation="
 .request-page .request-header .button-primary,
 .request-page .request-header .mobile-header-post,
 .request-page .request-main .button-primary:not(.request-post-card *),
-.request-page .request-submit-banner .button{border-color:var(--request-accent);background:linear-gradient(135deg,#198f88,var(--request-accent-strong));color:#fff}
+.request-page .request-submit-banner .button{border-color:var(--gold);background:linear-gradient(135deg,var(--gold2),var(--gold));color:#fff}
 .request-page .request-hero-actions .button-secondary{border-color:var(--request-accent);color:var(--request-accent-strong);background:#f5fbfa}
-.request-page .request-submit-banner{background:linear-gradient(135deg,#083f43,#126c69);box-shadow:0 20px 45px rgba(8,63,67,.18)}
+.request-page .request-submit-banner{background:var(--dark);box-shadow:none}
+.request-page .request-submit-banner .section-kicker{color:var(--gold)}
 .request-page .request-footer{border-top-color:var(--request-line);background:#e1f0ed}
 
 html[data-theme="dark"] .request-page{background:#0c2022}
-html[data-theme="dark"] .request-page .request-site-shell{background:linear-gradient(180deg,#0c2022,#111d20 50%,#0b1b1d)}
+html[data-theme="dark"] .request-page .request-site-shell{background:radial-gradient(circle at 18% 31%,rgba(77,184,174,.11),transparent 34%),linear-gradient(180deg,#0c2022,#111d20 50%,#0b1b1d)}
 html[data-theme="dark"] .request-page .request-header{border-bottom-color:#285b5a;background:rgba(10,31,33,.95);box-shadow:0 8px 24px rgba(0,0,0,.24)}
 html[data-theme="dark"] .request-page .request-main>.site-disclosure{border-color:#285b5a;border-left-color:#4db8ae;background:linear-gradient(110deg,#123536,#132426)}
 html[data-theme="dark"] .request-page .request-main>.site-disclosure .site-disclosure-mark,
