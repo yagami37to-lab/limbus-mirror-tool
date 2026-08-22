@@ -10,6 +10,33 @@
 .home-request-banner{background:linear-gradient(135deg,#083f43,#126c69);box-shadow:0 20px 45px rgba(8,63,67,.18)}
 .home-request-banner .section-kicker{color:#20a59c}
 .home-request-banner .button.button-primary{border-color:#137d78;background:linear-gradient(135deg,#198f88,#095e61);color:#fff}
+html{scrollbar-gutter:stable}
+body.dialog-open{width:auto}
+
+/* ヘッダーの相互導線は、投稿＝金、依頼＝青緑で識別する。 */
+.site-header .header-nav a[href="requests.html"]{color:#137d78}
+
+/* 攻略依頼用カテゴリ選択は、ページと同じ青緑パレットへ統一する。 */
+body.request-editor-mode .category-picker{--request-picker-accent:#137d78;--request-picker-rgb:19,125,120;--request-picker-line:#9fcfc9}
+body.request-editor-mode .category-picker-shell{border-color:var(--request-picker-line);background:#f7fcfb}
+body.request-editor-mode .category-picker-header{border-color:var(--request-picker-line);background:linear-gradient(120deg,#e1f4f1,#f8fcfb)}
+body.request-editor-mode .category-picker-header .section-kicker{color:var(--request-picker-accent)}
+body.request-editor-mode .category-picker-header .modal-close{border-color:var(--request-picker-accent)!important;color:var(--request-picker-accent)!important;background:#f7fcfb!important}
+body.request-editor-mode .category-picker-grid{background:#f0f8f6!important}
+body.request-editor-mode .category-picker-option{--category-accent:var(--request-picker-accent);--category-rgb:var(--request-picker-rgb);border-color:#b7d8d3!important;background:#f8fcfb!important}
+body.request-editor-mode .category-picker-option:hover:not(:disabled){border-color:var(--request-picker-accent);box-shadow:inset 4px 0 var(--request-picker-accent)}
+body.request-editor-mode .category-picker-icon{color:var(--request-picker-accent);border-color:var(--request-picker-accent)}
+body.request-editor-mode .category-picker-actions{border-color:var(--request-picker-line)!important;background:#e8f5f2!important}
+body.request-editor-mode .category-picker-actions .button{border-color:var(--request-picker-accent);color:var(--request-picker-accent);background:#f8fcfb}
+body.request-editor-mode .category-picker-actions .button-primary{background:linear-gradient(135deg,#198f88,#095e61);color:#fff}
+html[data-theme="dark"] body.request-editor-mode .category-picker-shell{border-color:#285b5a;background:#102426}
+html[data-theme="dark"] body.request-editor-mode .category-picker-header{border-color:#285b5a;background:linear-gradient(120deg,#123536,#132426)}
+html[data-theme="dark"] body.request-editor-mode .category-picker-header .modal-close{border-color:#4db8ae!important;color:#8cddd5!important;background:#102729!important}
+html[data-theme="dark"] body.request-editor-mode .category-picker-grid{background:#0f2022!important}
+html[data-theme="dark"] body.request-editor-mode .category-picker-option{border-color:#285b5a!important;background:#142a2c!important}
+html[data-theme="dark"] body.request-editor-mode .category-picker-actions{border-color:#285b5a!important;background:#102426!important}
+html[data-theme="dark"] body.request-editor-mode .category-picker-actions .button{border-color:#4db8ae;color:#8cddd5;background:#102729}
+html[data-theme="dark"] body.request-editor-mode .category-picker-actions .button-primary{background:linear-gradient(135deg,#198f88,#095e61);color:#fff}
 
 /* v1.0.47 人格詳細・投稿詳細でのイサン画像 */
 .detail-identity-card.has-identity-image,.detail-party-card.has-identity-image{background-size:cover!important;background-position:center!important;color:#fff!important}

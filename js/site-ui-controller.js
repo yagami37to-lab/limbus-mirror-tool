@@ -1,12 +1,12 @@
 (()=>{
 'use strict';
 function createSiteUiController({toast,managedDialogs,themeToggles,mobileMenuButton,headerNav}){
-  const themeRoot=document.documentElement;let lockedScrollY=0,openDialogCount=0,toastTimer=null;
+  const themeRoot=document.documentElement;let lockedScrollY=0,openDialogCount=0,toastTimer=null,lockedBodyPaddingRight='';
   function applyTheme(theme){themeRoot.dataset.theme=theme;const dark=theme==='dark';themeToggles.forEach(toggle=>{toggle.setAttribute('aria-pressed',String(dark));toggle.setAttribute('aria-label',dark?'ライトモードに切り替える':'ダークモードに切り替える');});}
   function toggleTheme(){const next=themeRoot.dataset.theme==='dark'?'light':'dark';applyTheme(next);localStorage.setItem('limbus-theme',next);}
-  function lockPageScroll(){openDialogCount+=1;if(openDialogCount>1)return;lockedScrollY=window.scrollY;document.body.classList.add('dialog-open');document.body.style.top=`-${lockedScrollY}px`;}
-  function restorePageScroll(){openDialogCount=0;document.body.classList.remove('dialog-open');document.body.style.removeProperty('top');document.documentElement.style.removeProperty('overflow');document.body.style.removeProperty('overflow');window.scrollTo(0,lockedScrollY);}
-  function clearStaleScrollLock(){document.body.classList.remove('dialog-open');document.body.style.removeProperty('top');document.documentElement.style.removeProperty('overflow');document.body.style.removeProperty('overflow');}
+  function lockPageScroll(){openDialogCount+=1;if(openDialogCount>1)return;lockedScrollY=window.scrollY;lockedBodyPaddingRight=document.body.style.paddingRight;const scrollbarGap=Math.max(0,window.innerWidth-document.documentElement.clientWidth);if(scrollbarGap)document.body.style.paddingRight=`${scrollbarGap}px`;document.body.classList.add('dialog-open');document.body.style.top=`-${lockedScrollY}px`;}
+  function restorePageScroll(){openDialogCount=0;document.body.classList.remove('dialog-open');document.body.style.removeProperty('top');document.documentElement.style.removeProperty('overflow');document.body.style.removeProperty('overflow');if(lockedBodyPaddingRight)document.body.style.paddingRight=lockedBodyPaddingRight;else document.body.style.removeProperty('padding-right');window.scrollTo(0,lockedScrollY);}
+  function clearStaleScrollLock(){document.body.classList.remove('dialog-open');document.body.style.removeProperty('top');document.documentElement.style.removeProperty('overflow');document.body.style.removeProperty('overflow');if(lockedBodyPaddingRight)document.body.style.paddingRight=lockedBodyPaddingRight;else document.body.style.removeProperty('padding-right');openDialogCount=0;}
   function reconcilePageScrollLock(){const anyOpen=[...document.querySelectorAll('dialog')].some(dialog=>dialog.open);if(anyOpen)return;if(openDialogCount>0||document.body.classList.contains('dialog-open'))restorePageScroll();else clearStaleScrollLock();}
   function unlockPageScroll(){openDialogCount=Math.max(0,openDialogCount-1);if(openDialogCount===0)restorePageScroll();}
   function openDialog(dialog){if(!dialog||dialog.open)return;lockPageScroll();dialog.showModal();}
@@ -15,7 +15,7 @@ function createSiteUiController({toast,managedDialogs,themeToggles,mobileMenuBut
   function closeMobileMenu(){if(!mobileMenuButton||!headerNav)return;headerNav.classList.remove('mobile-open');mobileMenuButton.setAttribute('aria-expanded','false');mobileMenuButton.textContent='☰';}
   function bind(){
     applyTheme(localStorage.getItem('limbus-theme')||'light');themeToggles.forEach(toggle=>toggle.addEventListener('click',toggleTheme));
-    managedDialogs.filter(Boolean).forEach(dialog=>{dialog.addEventListener('close',unlockPageScroll);dialog.addEventListener('cancel',event=>{event.preventDefault();closeDialog(dialog);});});
+    managedDialogs.filter(Boolean).forEach(dialog=>{dialog.addEventListener('close',()=>{unlockPageScroll();queueMicrotask(reconcilePageScrollLock);});dialog.addEventListener('cancel',event=>{event.preventDefault();closeDialog(dialog);});});
     if(mobileMenuButton&&headerNav){mobileMenuButton.addEventListener('click',()=>{const open=headerNav.classList.toggle('mobile-open');mobileMenuButton.setAttribute('aria-expanded',String(open));mobileMenuButton.textContent=open?'×':'☰';});headerNav.addEventListener('click',event=>{if(window.innerWidth<=720&&(event.target.closest('a')||event.target.closest('button')))closeMobileMenu();});window.addEventListener('resize',()=>{if(window.innerWidth>720)closeMobileMenu();});}
     window.addEventListener('pageshow',reconcilePageScrollLock);window.addEventListener('focus',()=>queueMicrotask(reconcilePageScrollLock));
   }

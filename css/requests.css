@@ -45,6 +45,7 @@ html[data-theme="dark"] .request-post-card .browse-difficulty[data-luxcavation="
 .request-page .request-home-link.is-current,
 .request-page .request-main .section-kicker{color:var(--request-accent)}
 .request-page .request-home-link.is-current{border-bottom:2px solid var(--request-accent);padding-bottom:5px}
+.request-page .request-header .header-nav a.is-current{color:var(--gold)}
 .request-page .request-main>.site-disclosure{border-color:var(--request-line);border-left-color:var(--request-accent);background:linear-gradient(110deg,#dff3f0,#f5fbfa)}
 .request-page .request-main>.site-disclosure .site-disclosure-mark{border-color:var(--request-accent);color:var(--request-accent)}
 .request-page .request-main>.site-disclosure .site-disclosure-links{border-color:var(--request-line)}
@@ -72,6 +73,7 @@ html[data-theme="dark"] .request-post-card .browse-difficulty[data-luxcavation="
 .request-page .request-header .mobile-login-button{border-color:var(--request-accent);color:var(--request-accent-strong);background:#f5fbfa}
 .request-page .request-header .button-primary,
 .request-page .request-header .mobile-header-post,
+.request-page .request-hero-actions .button-primary,
 .request-page .request-main .button-primary:not(.request-post-card *),
 .request-page .request-submit-banner .button{border-color:var(--gold);background:linear-gradient(135deg,var(--gold2),var(--gold));color:#fff}
 .request-page .request-hero-actions .button-secondary{border-color:var(--request-accent);color:var(--request-accent-strong);background:#f5fbfa}
@@ -94,3 +96,8 @@ html[data-theme="dark"] .request-page .request-header .header-login-button,
 html[data-theme="dark"] .request-page .request-header .mobile-login-button{border-color:#4db8ae;color:#8cddd5;background:#102426}
 html[data-theme="dark"] .request-page .request-hero-actions .button-secondary{border-color:#4db8ae;color:#8cddd5;background:#102426}
 html[data-theme="dark"] .request-page .request-footer{border-top-color:#285b5a;background:#0a1b1d}
+
+/* 依頼を作成する主要ボタンは、カード外に限って青緑へ統一する。 */
+.request-page .request-header .button.button-primary,
+.request-page .request-header .mobile-header-post,
+.request-page .request-hero-actions .button.button-primary{border-color:var(--request-accent);background:linear-gradient(135deg,#198f88,var(--request-accent-strong));color:#fff}
