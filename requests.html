@@ -7,14 +7,14 @@
   <title>攻略依頼 | Limbus Company 攻略投稿サイト（非公式）</title>
   <link rel="icon" href="logo-mark.svg" type="image/svg+xml">
   <link rel="stylesheet" href="styles.css?v=1.2.12">
-  <link rel="stylesheet" href="css/requests.css?v=1.2.12">
+  <link rel="stylesheet" href="css/requests.css?v=1.2.13">
   <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script defer src="js/supabase-config.js?v=1.0.99"></script>
   <script defer src="js/theme-pack-names.js?v=1.1.37"></script>
   <script defer src="js/community-data.js?v=1.2.12"></script>
   <script defer src="js/categories.js?v=1.1.69"></script>
   <script defer src="js/identity-images.js?v=1.1.23"></script>
-  <script defer src="js/request-page.js?v=1.2.12"></script>
+  <script defer src="js/request-page.js?v=1.2.13"></script>
   <script defer src="js/public-alpha.js?v=1.2.02"></script>
 </head>
 <body id="top">
@@ -22,25 +22,28 @@
   <header class="site-header request-header">
     <a class="brand" href="index.html"><span class="brand-mark"><img class="logo-light" src="logo-mark.svg" alt=""><img class="logo-dark" src="logo-mark-dark.svg" alt=""></span><span class="brand-copy"><strong>Limbus Company</strong><small>攻略投稿サイト <em>非公式</em></small></span></a>
     <nav class="request-header-actions" aria-label="攻略依頼ページ">
-      <a class="request-home-link" href="index.html">トップへ戻る</a>
+      <a class="request-home-link" href="index.html">攻略投稿</a>
+      <a class="request-home-link is-current" href="#request-list">攻略依頼</a>
+      <a class="request-home-link" href="news.html">お知らせ</a>
       <button class="theme-toggle" data-request-theme type="button" aria-label="表示テーマを切り替える"><span class="theme-toggle-sun">☼</span><span class="theme-toggle-track"><span class="theme-toggle-knob"></span></span><span class="theme-toggle-moon">☾</span></button>
       <a class="button button-primary button-compact" href="index.html?mode=request&amp;open=1">＋ 攻略を依頼</a>
     </nav>
   </header>
   <main class="request-main">
+    <aside class="site-disclosure" aria-label="非公式ファンサイトとしてのご案内"><span class="site-disclosure-mark" aria-hidden="true">i</span><div><strong>非公式ファンサイトとしてのご案内</strong><p>本サイトはファンが運営する非公式攻略サイトであり、Project MoonおよびLimbus Company公式とは関係ありません。<br>掲載素材の権利は各権利者に帰属します。</p></div><nav class="site-disclosure-links" aria-label="サイト規約"><a href="terms.html">利用規約</a><a href="privacy.html">プライバシーポリシー</a></nav></aside>
     <section class="request-hero">
-      <p class="section-kicker">STRATEGY REQUESTS</p>
-      <h1>攻略を依頼する</h1>
-      <p>知りたい攻略や編成を依頼し、回答につながる情報を共有するページです。分かる項目だけ入力でき、一言紹介のみ必須です。</p>
-      <a class="button button-primary" href="index.html?mode=request&amp;open=1">✎ 攻略を依頼する</a>
+      <div class="request-hero-copy"><p class="section-kicker">LIMBUS COMPANY STRATEGY REQUESTS</p><p class="request-hero-lead">あなたの疑問が、誰かの次の攻略になる。</p><h1><span>知りたい攻略を、</span><span>みんなに依頼しよう</span></h1><p>攻略に詰まったステージや、組んでほしい編成を依頼できます。<br>分かる条件だけを選び、困っていることを一言で伝えてください。</p><div class="request-hero-actions"><a class="button button-secondary" href="index.html?open=1">✎ 攻略を投稿する</a><a class="button button-primary" href="index.html?mode=request&amp;open=1">⌕ 攻略を依頼する</a></div></div>
+      <aside class="request-featured"><p class="section-kicker">REQUEST PICKUP</p><h2>新しい攻略依頼</h2><div data-request-featured><p class="community-loading">最新の依頼を読み込んでいます…</p></div><a href="#request-list">依頼一覧を見る →</a></aside>
     </section>
-    <section class="request-list-section" aria-labelledby="request-list-title">
-      <div class="section-heading"><div><p class="section-kicker">REQUEST LIST</p><h2 id="request-list-title">みんなの攻略依頼</h2></div><p><strong data-request-count>0</strong> 件の依頼</p></div>
+    <section class="request-search-section" aria-labelledby="request-search-title"><div class="section-heading"><div><p class="section-kicker">SEARCH REQUESTS</p><h2 id="request-search-title">攻略依頼を探す</h2></div><p>カテゴリや言葉から、応えられる依頼を探せます。</p></div><div class="request-search-panel"><label><span>フリーワード</span><input type="search" data-request-search placeholder="依頼内容・タイトルから検索"></label><label><span>攻略カテゴリ</span><select data-request-category><option value="">すべて</option></select></label><button class="button button-secondary" type="button" data-request-clear>条件をクリア</button></div></section>
+    <section class="request-list-section" id="request-list" aria-labelledby="request-list-title">
+      <div class="section-heading"><div><p class="section-kicker">REQUEST RESULTS</p><h2 id="request-list-title">みんなの攻略依頼</h2></div><p><strong data-request-count>0</strong> 件を表示</p></div>
       <div class="request-grid" data-request-grid><p class="community-loading">攻略依頼を読み込んでいます…</p></div>
       <div class="empty-state" data-request-empty hidden><strong>まだ攻略依頼はありません。</strong><p>最初の攻略依頼を投稿してみましょう。</p></div>
     </section>
+    <section class="submit-banner request-submit-banner"><div><p class="section-kicker">ASK THE COMMUNITY</p><h2>迷っている攻略を、みんなに相談しよう。</h2><p>タイトルや編成が決まっていなくても、一言紹介だけで依頼できます。</p></div><a class="button button-primary" href="index.html?mode=request&amp;open=1">攻略を依頼する</a></section>
   </main>
-  <footer class="request-footer"><span>© 非公式ファンサイト</span><span>Version 1.2.12 β</span><time datetime="2026-08-22">Last Updated: 2026.08.22</time></footer>
+  <footer class="site-footer request-footer"><div class="footer-main"><nav class="footer-official-links" aria-label="Limbus Company公式リンク"><strong>LIMBUS COMPANY</strong><p><b>『Limbus Company』</b>は、Project Moonが開発・運営する罪悪共鳴残酷RPGです。攻略投稿ページと攻略依頼ページを切り替えながら、必要な攻略情報を共有できます。</p><a href="index.html">攻略投稿ページ</a><a href="https://limbuscompany.jp/" rel="noopener noreferrer" target="_blank">公式サイト</a><a href="news.html">お知らせ</a></nav></div><div class="footer-meta"><span>© 非公式ファンサイト</span><span>Version 1.2.13 β</span><time datetime="2026-08-22">Last Updated: 2026.08.22</time></div></footer>
 </div>
 <div class="toast" data-request-toast role="status" aria-live="polite"></div>
 </body>
