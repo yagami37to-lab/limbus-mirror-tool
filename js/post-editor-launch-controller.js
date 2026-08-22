@@ -1,10 +1,16 @@
 (()=>{
 'use strict';
-function createPostEditorLaunchController({openDraftFromQuery,restorePost,openEditor,showToast}){
+function createPostEditorLaunchController({openDraftFromQuery,restorePost,restoreRequest,openEditor,showToast}){
   async function openFromQuery(){
     if(openDraftFromQuery())return {source:'draft'};
-    const editId=new URLSearchParams(location.search).get('edit');
+    const params=new URLSearchParams(location.search),requestId=params.get('request'),editId=params.get('edit');
     const client=window.limbusSupabase;
+    if(requestId&&client){
+      const {data:request,error}=await client.from('posts').select('*').eq('id',requestId).eq('status','published').maybeSingle();
+      if(error||!request||request.content?.entryKind!=='request'){showToast('攻略依頼を読み込めませんでした。');return null;}
+      restoreRequest(request);openEditor();showToast('依頼条件を反映しました。タイトルと一言紹介を入力してください。');
+      return {source:'request',id:request.id};
+    }
     if(!editId||!client)return null;
     const {data:{session}}=await client.auth.getSession();
     if(!session?.user)return null;

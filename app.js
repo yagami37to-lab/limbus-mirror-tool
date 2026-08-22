@@ -386,6 +386,6 @@ if(isRequestMode()){
 if(isEmbeddedEditor)document.body.classList.add('embedded-editor-mode');
 if(pageParams.get('open')==='1')setTimeout(()=>postCategoryController.openPicker(),250);
 
-const postEditorLaunchController=window.LimbusPostEditorLaunchController.create({openDraftFromQuery:()=>draftController.openFromQuery(),restorePost:post=>postRestoreController.restorePost(post),openEditor:()=>openDialog(postModal),showToast});
+const postEditorLaunchController=window.LimbusPostEditorLaunchController.create({openDraftFromQuery:()=>draftController.openFromQuery(),restorePost:post=>postRestoreController.restorePost(post),restoreRequest:post=>{postRestoreController.restorePost(post);postModal.dataset.editingPostId='';if(postTitle)postTitle.value='';if(postSummary)postSummary.value='';},openEditor:()=>openDialog(postModal),showToast});
 postEditorLaunchController.openFromQuery();
 })().catch(error=>{console.error(error);document.body.insertAdjacentHTML('afterbegin','<div class="data-load-error">データの読み込みに失敗しました。Live Serverで開いてください。</div>')});
