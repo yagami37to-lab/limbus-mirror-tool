@@ -621,6 +621,9 @@ html[data-theme="dark"] .community-browser .like-stat::before {
 [data-theme="dark"] .browse-category-badge,[data-theme="dark"] .post-category-badge,[data-theme="dark"] .review-category{border-color:#42b8b2;background:rgba(20,137,130,.22);color:#73d4cf}
 [data-theme="dark"] .browse-category-badge[data-category-id]{border-color:var(--card-category);background:rgba(var(--card-category-rgb),.22);color:color-mix(in srgb,var(--card-category) 72%,white)}
 @media(max-width:520px){.browse-card-head-actions{gap:5px}.browse-category-badge{padding:3px 6px;font-size:9px}.post-card-rich .bookmark-button{flex:0 0 auto}}
+@media(max-width:620px){.post-card-rich .post-card-head{display:flex;flex-wrap:nowrap;align-items:center;gap:7px;overflow-x:auto;overflow-y:hidden;scrollbar-width:none}.post-card-rich .post-card-head::-webkit-scrollbar{display:none}.post-card-rich .browse-primary-badges{display:flex;flex:0 0 auto;flex-wrap:nowrap;gap:5px}.post-card-rich .browse-card-head-actions{flex:0 0 auto;margin-left:auto}.post-card-rich .post-card-head :is(.post-season-badge,.difficulty-badge,.strategy-type-badge,.browse-category-badge){white-space:nowrap}}
+.projection-turn-by-rate{margin-left:auto;margin-right:6px;border-color:#b97800;background:#fff3cf;color:#704200;font-family:"Yu Gothic",Meiryo,sans-serif;font-weight:900}.post-card-label:has(.projection-turn-by-rate){flex-wrap:wrap}.post-card-label .projection-turn-by-rate+.post-owned-rate{margin-left:0}
+html[data-theme="dark"] .projection-turn-by-rate{border-color:#d5a12c;background:#332a16;color:#ffd977}
 
 /* v0.9.01 閲覧画面の人格名ツールチップ・詳細モーダル */
 .community-browser .browse-identity-card {
