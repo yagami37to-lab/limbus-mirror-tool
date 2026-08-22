@@ -1,4 +1,5 @@
 (async()=>{
+const pageParams=new URLSearchParams(location.search),entryMode=pageParams.get('mode')==='request'?'request':'strategy',isRequestMode=()=>entryMode==='request';
 const [sinnerIdentityData,sinnerEgoData,keywordDefinitions,themePackData,siteConfig]=await Promise.all([
   fetch('data/identities.json').then(r=>{if(!r.ok)throw new Error('identities.json');return r.json()}),
   fetch('data/egos.json').then(r=>{if(!r.ok)throw new Error('egos.json');return r.json()}),
@@ -205,7 +206,7 @@ const egoController=window.LimbusEgoController.create({state:postState,identityD
 const renderEgoSinners=()=>egoController.renderSinners();
 const closeEgoSelect=options=>egoController.close(options);
 const updateEgoConfirmState=()=>egoController.updateControls();
-const postValidationController=window.LimbusPostValidationController.create({state:postState,requiredIdentityCount:sinnerIdentityData.length});
+const postValidationController=window.LimbusPostValidationController.create({state:postState,requiredIdentityCount:sinnerIdentityData.length,isRequest:isRequestMode});
 const clearStepValidation=step=>postValidationController.clear(step);
 const stepValidation=step=>postValidationController.check(step);
 const validationFlowController=window.LimbusPostValidationFlowController.create({state:postState,validationController:postValidationController,identityData:sinnerIdentityData,titleInput:postTitle,summaryInput:postSummary,formationGrid:formationChoiceGrid,renderIdentityRoster:renderIdentitySinnerRoster,openIdentity:openIdentitySelect,setStep:step=>setStep(step),showToast});
@@ -329,10 +330,10 @@ function updatePostSummaryCount(){if(postSummaryCount)postSummaryCount.textConte
 if(postSummary){postSummary.addEventListener('input',()=>{updatePostSummaryCount();if(postSummary.value.trim()){clearStepValidation(6);clearDetailValidation();}});updatePostSummaryCount();}
 document.querySelector('[data-achievement-turns]')?.addEventListener('input',event=>{event.currentTarget.classList.remove('validation-error');postState.achievementTurns=Number(event.currentTarget.value)||null;});
 const goBackInWorkspace=()=>{const physical=postState.category==='projection_combat'&&postState.secondaryPartyEnabled&&postState.step>=5&&postState.step<=7?postState.step-3:postState.step;if(physical===4&&postState.activeEgoSinner)return closeEgoSelect();if(physical===5&&postState.activeThemePackFloor)return closeThemePackSelect();setStep(postState.step-1);};$('[data-prev-step]').onclick=goBackInWorkspace;if(mobilePrevStep)mobilePrevStep.onclick=goBackInWorkspace;
-const postPayloadController=window.LimbusPostPayloadController.create({state:postState,identityData:sinnerIdentityData,getAlternativeNames:alternativeNamesFor,getOrderedSinners:orderedSelectedSinners,getFormationPosition:formationPosition,getAutomaticKeywords:automaticPostKeywords,getSeason:()=>Number(siteConfig.currentSeason)||7});
+const postPayloadController=window.LimbusPostPayloadController.create({state:postState,identityData:sinnerIdentityData,getAlternativeNames:alternativeNamesFor,getOrderedSinners:orderedSelectedSinners,getFormationPosition:formationPosition,getAutomaticKeywords:automaticPostKeywords,getSeason:()=>Number(siteConfig.currentSeason)||7,getEntryKind:()=>entryMode});
 const buildPostPayload=()=>postPayloadController.build();
 let draftController;
-const postPersistenceController=window.LimbusPostPersistenceController.create({buildPayload:buildPostPayload,getEditingId:()=>postModal.dataset.editingPostId||'',setEditingId:id=>{postModal.dataset.editingPostId=id;},validatePublished:validateAllRequiredSteps,onTitleMissing:()=>{window.alert('攻略タイトルを設定していません');setStep(1);},onAuthRequired:()=>window.LimbusAuth?.open(),onPublished:id=>{draftController.removeAfterPublish();setTimeout(()=>{location.href=`post-detail.html?id=${encodeURIComponent(id)}`;},700);},showToast});
+const postPersistenceController=window.LimbusPostPersistenceController.create({buildPayload:buildPostPayload,getEditingId:()=>postModal.dataset.editingPostId||'',setEditingId:id=>{postModal.dataset.editingPostId=id;},validatePublished:validateAllRequiredSteps,onTitleMissing:()=>{window.alert(isRequestMode()?'一言紹介を入力してください':'攻略タイトルを設定していません');setStep(isRequestMode()?6:1);},onAuthRequired:()=>window.LimbusAuth?.open(),onPublished:id=>{draftController.removeAfterPublish();setTimeout(()=>{location.href=isRequestMode()?'requests.html':`post-detail.html?id=${encodeURIComponent(id)}`;},700);},showToast,isRequest:isRequestMode});
 const savePostToSupabase=status=>postPersistenceController.save(status);
 
 function serializeDraftState(){
@@ -363,10 +364,22 @@ const postEditorResetController=window.LimbusPostEditorResetController.create({s
 const resetPostEditorState=()=>postEditorResetController.reset();
 window.LimbusPostCloseController.create({confirmDialog:postCloseConfirm,editorDialog:postModal,closeButtons:$$('[data-close-post]'),cancelButton:$('[data-cancel-close-post]'),discardButton:$('[data-discard-and-close-post]'),saveButton:$('[data-save-and-close-post]'),openDialog,closeDialog,unlockPageScroll,saveDraft:()=>draftController.createDraft(),resetEditor:resetPostEditorState,showToast});
 
-const postAdvanceController=window.LimbusPostAdvanceController.create({state:postState,identityCount:sinnerIdentityData.length,requestRailwayParties:openRailwayPartyCountDialog,closeEgoSelect,closeThemePackSelect,publish:()=>savePostToSupabase('published'),confirmFillEmpty:missingCount=>window.confirm(`未設定の人格枠が${missingCount}件あります。空いている枠を自由枠に設定して次へ進みますか？`),fillEmpty:()=>identitySelectionController.fillEmpty(),afterFillEmpty:missingCount=>{clearStepValidation(2);renderIdentitySinnerRoster();renderIdentityOptions();updatePostIdentityCount();showToast(`空いている${missingCount}枠を自由枠に設定しました。`);},validateStep:validateRequiredStep,validateDetails:validateProjectionDetails,setStep,confirmSecondary:()=>window.confirm('後半パーティの設定をしますか？'),onSecondaryChanged:()=>applyCategoryEditorMode()});
+const postAdvanceController=window.LimbusPostAdvanceController.create({state:postState,identityCount:sinnerIdentityData.length,requestRailwayParties:openRailwayPartyCountDialog,closeEgoSelect,closeThemePackSelect,publish:()=>savePostToSupabase('published'),confirmFillEmpty:missingCount=>window.confirm(`未設定の人格枠が${missingCount}件あります。空いている枠を自由枠に設定して次へ進みますか？`),fillEmpty:()=>identitySelectionController.fillEmpty(),afterFillEmpty:missingCount=>{clearStepValidation(2);renderIdentitySinnerRoster();renderIdentityOptions();updatePostIdentityCount();showToast(`空いている${missingCount}枠を自由枠に設定しました。`);},validateStep:validateRequiredStep,validateDetails:validateProjectionDetails,setStep,confirmSecondary:()=>window.confirm('後半パーティの設定をしますか？'),onSecondaryChanged:()=>applyCategoryEditorMode(),isRequest:isRequestMode});
 $('[data-next-step]').onclick=()=>postAdvanceController.advance();
 
 postState.activeSinner=sinnerIdentityData[0]?.id||null;updatePostCategoryDisplays();searchController.renderActiveFilters();renderIdentitySinnerRoster();updatePartyKeywordSummary();setStep(1);
+
+if(isRequestMode()){
+  document.body.classList.add('request-editor-mode');
+  document.querySelector('[data-category-picker] h2').textContent='依頼する攻略カテゴリを選択';
+  document.querySelector('[data-category-picker] .category-picker-header p:last-of-type').textContent='分かる範囲でカテゴリを選び、攻略依頼を作成します。';
+  document.querySelector('[data-start-category-post]').textContent='依頼を始める';
+  document.querySelector('[data-editor-step-guide]').textContent='一言紹介だけで依頼できます。ほかの項目は分かる範囲で入力してください。';
+  document.querySelector('.step-intro strong').textContent='攻略を依頼する';
+  document.querySelector('[data-post-summary]')?.setAttribute('placeholder','知りたい攻略や困っている内容を簡潔に入力してください');
+  document.querySelector('[data-next-step]')?.setAttribute('data-request-publish','');
+}
+if(pageParams.get('open')==='1')setTimeout(()=>postCategoryController.openPicker(),250);
 
 const postEditorLaunchController=window.LimbusPostEditorLaunchController.create({openDraftFromQuery:()=>draftController.openFromQuery(),restorePost:post=>postRestoreController.restorePost(post),openEditor:()=>openDialog(postModal),showToast});
 postEditorLaunchController.openFromQuery();

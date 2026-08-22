@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="ja" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Limbus Companyの攻略依頼を投稿・確認できる非公式攻略サイトです。">
+  <title>攻略依頼 | Limbus Company 攻略投稿サイト（非公式）</title>
+  <link rel="icon" href="logo-mark.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css?v=1.2.12">
+  <link rel="stylesheet" href="css/requests.css?v=1.2.12">
+  <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script defer src="js/supabase-config.js?v=1.0.99"></script>
+  <script defer src="js/theme-pack-names.js?v=1.1.37"></script>
+  <script defer src="js/community-data.js?v=1.2.12"></script>
+  <script defer src="js/categories.js?v=1.1.69"></script>
+  <script defer src="js/identity-images.js?v=1.1.23"></script>
+  <script defer src="js/request-page.js?v=1.2.12"></script>
+  <script defer src="js/public-alpha.js?v=1.2.02"></script>
+</head>
+<body id="top">
+<div class="site-shell request-site-shell">
+  <header class="site-header request-header">
+    <a class="brand" href="index.html"><span class="brand-mark"><img class="logo-light" src="logo-mark.svg" alt=""><img class="logo-dark" src="logo-mark-dark.svg" alt=""></span><span class="brand-copy"><strong>Limbus Company</strong><small>攻略投稿サイト <em>非公式</em></small></span></a>
+    <nav class="request-header-actions" aria-label="攻略依頼ページ">
+      <a class="request-home-link" href="index.html">トップへ戻る</a>
+      <button class="theme-toggle" data-request-theme type="button" aria-label="表示テーマを切り替える"><span class="theme-toggle-sun">☼</span><span class="theme-toggle-track"><span class="theme-toggle-knob"></span></span><span class="theme-toggle-moon">☾</span></button>
+      <a class="button button-primary button-compact" href="index.html?mode=request&amp;open=1">＋ 攻略を依頼</a>
+    </nav>
+  </header>
+  <main class="request-main">
+    <section class="request-hero">
+      <p class="section-kicker">STRATEGY REQUESTS</p>
+      <h1>攻略を依頼する</h1>
+      <p>知りたい攻略や編成を依頼し、回答につながる情報を共有するページです。分かる項目だけ入力でき、一言紹介のみ必須です。</p>
+      <a class="button button-primary" href="index.html?mode=request&amp;open=1">✎ 攻略を依頼する</a>
+    </section>
+    <section class="request-list-section" aria-labelledby="request-list-title">
+      <div class="section-heading"><div><p class="section-kicker">REQUEST LIST</p><h2 id="request-list-title">みんなの攻略依頼</h2></div><p><strong data-request-count>0</strong> 件の依頼</p></div>
+      <div class="request-grid" data-request-grid><p class="community-loading">攻略依頼を読み込んでいます…</p></div>
+      <div class="empty-state" data-request-empty hidden><strong>まだ攻略依頼はありません。</strong><p>最初の攻略依頼を投稿してみましょう。</p></div>
+    </section>
+  </main>
+  <footer class="request-footer"><span>© 非公式ファンサイト</span><span>Version 1.2.12 β</span><time datetime="2026-08-22">Last Updated: 2026.08.22</time></footer>
+</div>
+<div class="toast" data-request-toast role="status" aria-live="polite"></div>
+</body>
+</html>

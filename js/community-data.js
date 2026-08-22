@@ -32,7 +32,7 @@
     return data ? await normalizePostThemePacks(data) : null;
   }
 
-  async function getPublishedPosts({limit=50}={}){
+  async function getPublishedPosts({limit=50,entryKind='strategy'}={}){
     if(!client) throw new Error('Supabase接続設定を読み込めませんでした。');
     const safeLimit=Math.min(Math.max(Number(limit)||50,1),100);
     const {data,error}=await client.from('posts')
@@ -41,7 +41,8 @@
       .order('published_at',{ascending:false})
       .limit(safeLimit);
     if(error) throw error;
-    return await Promise.all((data || []).map(normalizePostThemePacks));
+    const filtered=(data||[]).filter(post=>entryKind==='request'?post.content?.entryKind==='request':post.content?.entryKind!=='request');
+    return await Promise.all(filtered.map(normalizePostThemePacks));
   }
 
   function authorMarkup(profile, compact=false, anonymous=false){

@@ -1,6 +1,6 @@
 (()=>{
 'use strict';
-function createPostPersistenceController({buildPayload,getEditingId,setEditingId,validatePublished,onTitleMissing,onAuthRequired,onPublished,showToast}){
+function createPostPersistenceController({buildPayload,getEditingId,setEditingId,validatePublished,onTitleMissing,onAuthRequired,onPublished,showToast,isRequest=()=>false}){
   async function save(status){
     const client=window.limbusSupabase;if(!client){showToast('Supabase接続設定を読み込めませんでした。');return false;}
     const {data:{session}}=await client.auth.getSession();const user=session?.user;
@@ -8,6 +8,12 @@ function createPostPersistenceController({buildPayload,getEditingId,setEditingId
     if(status==='published'&&!validatePublished())return false;
     const payload=buildPayload();if(!payload.title){onTitleMissing();return false;}
     const editingId=getEditingId();
+    if(status==='published'&&payload.content?.entryKind==='request'){
+      const key=payload.content.requestDuplicateKey;
+      const {data:duplicates,error:duplicateError}=await client.from('posts').select('id,content').eq('status','published').contains('content',{entryKind:'request'}).limit(100);
+      if(duplicateError){showToast(`重複確認に失敗しました：${duplicateError.message}`);return false;}
+      if((duplicates||[]).some(post=>post.id!==editingId&&post.content?.requestDuplicateKey===key)){showToast('同じ内容の攻略依頼はすでに投稿されています。');return false;}
+    }
     const now=new Date().toISOString();
     const row={author_id:user.id,...payload,status,updated_at:now};
     if(!editingId)row.published_at=status==='published'?now:null;
@@ -24,16 +30,17 @@ function createPostPersistenceController({buildPayload,getEditingId,setEditingId
     }
     const query=editingId?client.from('posts').update(row).eq('id',editingId).eq('author_id',user.id).select('id').single():client.from('posts').insert(row).select('id').single();
     const {data,error}=await query;
-    if(error){console.error(error);showToast(`保存できませんでした：${error.message}`);return false;}
+    if(error){console.error(error);showToast(error.code==='23505'&&isRequest()?'同じ内容の攻略依頼はすでに投稿されています。':`保存できませんでした：${error.message}`);return false;}
     setEditingId(data.id);
     if(status==='published'){
-      showToast('攻略を公開しました。共有画像を準備しています…');
+      showToast(isRequest()?'攻略依頼を公開しました。':'攻略を公開しました。共有画像を準備しています…');
+      if(isRequest()){onPublished(data.id);return true;}
       try{
         const ogUrl=new URL(`/og/${encodeURIComponent(data.id)}`,location.origin);ogUrl.searchParams.set('v',now);
         await Promise.race([fetch(ogUrl,{cache:'reload',credentials:'omit'}),new Promise(resolve=>setTimeout(resolve,18000))]);
       }catch(error){console.warn('共有画像の事前生成を完了できませんでした。',error);}
     }
-    showToast(status==='published'?'攻略を公開しました。':'下書きを保存しました。');
+    showToast(status==='published'?(isRequest()?'攻略依頼を公開しました。':'攻略を公開しました。'):'下書きを保存しました。');
     if(status==='published')onPublished(data.id);
     return true;
   }
