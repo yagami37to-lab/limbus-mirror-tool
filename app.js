@@ -23,8 +23,8 @@ const searchOptions={
 };
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 
-async function syncLatestUpdateDate(){const target=$('[data-site-last-updated]');if(!target)return;try{const response=await fetch('data/update-history.json',{cache:'no-cache'});if(!response.ok)return;const [latest]=await response.json();const raw=String(latest?.date||'').trim();if(!raw)return;const display=raw.replaceAll('-','.');target.dateTime=raw.replaceAll('.','-');target.textContent=`Last Updated: ${display}`;}catch{}}
-syncLatestUpdateDate();
+async function syncLatestUpdateMeta(){const versionTarget=$('[data-site-version]'),dateTarget=$('[data-site-last-updated]');if(!versionTarget&&!dateTarget)return;try{const response=await fetch('data/update-history.json',{cache:'no-cache'});if(!response.ok)return;const [latest]=await response.json();const version=String(latest?.version||'').trim(),raw=String(latest?.date||'').trim();if(version&&versionTarget)versionTarget.textContent=`Version ${version} β`;if(raw&&dateTarget){dateTarget.dateTime=raw.replaceAll('.','-');dateTarget.textContent=`Last Updated: ${raw.replaceAll('-','.')}`;}}catch{}}
+syncLatestUpdateMeta();
 
 // 訪問数の集計はトップページで継続し、表示は管理者アカウント側で確認する。
 async function trackSiteVisit(){
