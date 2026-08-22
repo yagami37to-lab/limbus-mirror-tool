@@ -72,7 +72,7 @@ function createEgoController({state,identityData,egoData,orderedSinners,formatio
     if(currentSummary)currentSummary.innerHTML=summaryMarkup(picks,{emptyLabel:'未選択'});
   }
   function updateControls(){
-    const onStep=state.step===4||(state.category==='projection_combat'&&state.secondaryPartyEnabled&&state.step===7);const inDetail=onStep&&Boolean(state.activeEgoSinner);
+    const railwayEgo=state.category==='mirror_railway'&&state.step>=4&&state.step<=1+3*(Number(state.railwayPartyCount)||1)&&(state.step-4)%3===0;const onStep=state.step===4||(state.category==='projection_combat'&&state.secondaryPartyEnabled&&state.step===7)||railwayEgo;const inDetail=onStep&&Boolean(state.activeEgoSinner);
     if(confirmButton)confirmButton.hidden=!inDetail;if(footerActions)footerActions.hidden=!onStep;
     workspaceFooter?.classList.toggle('ego-mode',onStep);workspaceFooter?.classList.toggle('ego-detail-mode',inDetail);
     if(clearCurrent){const picks=inDetail?picksFor(state.activeEgoSinner):null;clearCurrent.hidden=!inDetail;clearCurrent.disabled=!picks?.size;clearCurrent.textContent=picks?.size?'選択解除':'未選択';}

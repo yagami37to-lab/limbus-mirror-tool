@@ -457,6 +457,8 @@ html[data-theme="dark"] .post-search-panel,html[data-theme="dark"] .search-condi
 .post-stat{font-weight:800;color:var(--ink)}
 html[data-theme="dark"] .browse-difficulty[data-difficulty="NORMAL"]{color:#c7e6ff;background:rgba(46,115,177,.27);border-color:#5d9bd0}
 html[data-theme="dark"] .browse-difficulty[data-difficulty="HARD"]{color:#ffd5cf;background:rgba(174,45,37,.29);border-color:#c85b52}
+.projection-difficulty-badge[data-difficulty="HARD"]{border-color:#bd4138!important;background:#fff0ee!important;color:#98251f!important;opacity:1!important}
+html[data-theme="dark"] .projection-difficulty-badge[data-difficulty="HARD"]{border-color:#d6655c!important;background:#4a2424!important;color:#ffd7d2!important}
 html[data-theme="dark"] .browse-strategy-tag{background:#25221d;color:#edcf8e;border-color:#806329}
 
 
