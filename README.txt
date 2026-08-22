@@ -1,8 +1,8 @@
 Limbus Company 攻略投稿サイト（非公式）
 
-現在のサイトバージョン: v1.2.05
+現在のサイトバージョン: v1.2.09
 
-このフォルダは Cloudflare Pages で公開する静的サイトの正本です。
+このフォルダは Cloudflare Pages で公開するサイトの正本です。投稿別OGPのみPages Functionsを使用します。
 投稿・認証・プロフィールなどのオンラインデータには Supabase を使用します。
 
 【主要ファイル】
